@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DESCUBRIR · Lules — Diario digital</title>
+<meta name="description" content="Descubrir Lules: diario digital interactivo con noticias, historia, guía de interés general y comercial y el Camino de la Fe.">
+<meta property="og:title" content="DESCUBRIR · Lules">
+<meta property="og:description" content="Diario interactivo: presiona cada titular en relieve 3D para desplegar la información.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#eeeae1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23191613'/><text x='32' y='46' font-family='Georgia,serif' font-size='38' font-weight='bold' text-anchor='middle' fill='%23eeeae1'>D</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fondo:#eeeae1; --tinta:#191613; --tinta-2:#5b5449;
+  --accento:#d94f2b; --oro:#7d5c12;
+  --borde-btn:#d8cfba; --canto:#c9bfa8;
+  --sombra:rgba(25,22,19,.30);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter",system-ui,sans-serif;
+  background-color:var(--fondo);
+  background-image:radial-gradient(rgba(25,22,19,.06) 1px, transparent 1.5px);
+  background-size:24px 24px;
+  color:var(--tinta);min-height:100vh;display:flex;flex-direction:column;
+}
+
+/* ---------- ENCABEZADO EDITORIAL ---------- */
+.cabecera{text-align:center;padding:3rem 1rem 1.6rem}
+.overline{font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accento)}
+.logo{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(3rem,10vw,5.8rem);letter-spacing:-.02em;line-height:.95;margin-top:.4rem}
+.lules{display:inline-block;margin-top:.6rem;padding:.32rem 1.2rem;border:1.5px solid var(--tinta);border-radius:999px;
+  font-weight:600;font-size:.78rem;letter-spacing:.55em;text-indent:.55em;text-transform:uppercase}
+.fecha{margin-top:.8rem;color:var(--tinta-2);font-size:.85rem;text-transform:capitalize;letter-spacing:.06em}
+
+/* ---------- NAVEGACIÓN FIJA ---------- */
+.nav{position:sticky;top:0;z-index:40;display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;
+  padding:.8rem 1rem;background:rgba(238,234,225,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(25,22,19,.08)}
+
+/* ---------- BOTONES 3D TIPO TECLA ---------- */
+.btn3d{
+  cursor:pointer;color:var(--tinta);border:1px solid var(--borde-btn);border-radius:18px;
+  background:linear-gradient(180deg,#fffdf8 0%,#eae4d4 100%);
+  box-shadow:
+    0 7px 0 -1px var(--canto),                 /* canto sólido = grosor de la tecla */
+    0 18px 30px -8px var(--sombra),            /* sombra profunda */
+    0 3px 6px rgba(25,22,19,.14),
+    inset 0 2px 0 rgba(255,255,255,.95),       /* luz superior */
+    inset 0 -2px 0 rgba(0,0,0,.05);
+  transition:transform .14s ease, box-shadow .14s ease, color .14s ease, background .14s ease;
+}
+.btn3d:hover{transform:translateY(-3px);
+  box-shadow:0 10px 0 -1px var(--canto),0 24px 36px -8px var(--sombra),0 4px 8px rgba(25,22,19,.16),
+    inset 0 2px 0 rgba(255,255,255,.95),inset 0 -2px 0 rgba(0,0,0,.05);}
+.btn3d:active{transform:translateY(4px);
+  box-shadow:0 2px 0 -1px var(--canto),0 8px 14px -8px var(--sombra),inset 0 3px 6px rgba(25,22,19,.14);}
+.btn3d:focus-visible{outline:3px solid var(--accento);outline-offset:3px}
+
+.btn-nav{font-family:"Inter",sans-serif;font-weight:600;font-size:.92rem;padding:.55rem 1.15rem;border-radius:999px}
+.btn-nav.activo{color:#fff;border-color:#b93e1f;background:linear-gradient(180deg,var(--accento),#b93e1f);
+  box-shadow:0 5px 0 -1px #8a2d15,0 14px 24px -8px rgba(185,62,31,.5),inset 0 2px 0 rgba(255,255,255,.35);}
+
+/* ---------- TITULARES DESPLEGABLES ---------- */
+.btn-relieve{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:1.05rem 1.3rem;font-family:"Fraunces",serif;font-weight:600;font-size:1.12rem;text-align:left}
+.pieza.abierta .btn-relieve{transform:translateY(4px);color:var(--accento);
+  box-shadow:0 2px 0 -1px var(--canto),0 8px 14px -8px var(--sombra),inset 0 3px 6px rgba(25,22,19,.14);}
+.mas{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(217,79,43,.12);color:var(--accento);font-family:"Inter",sans-serif;font-weight:700;font-size:1.15rem;
+  transition:transform .25s ease, background .25s ease, color .25s ease}
+.pieza.abierta .mas{transform:rotate(45deg);background:var(--accento);color:#fff}
+
+.contenido{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.tarjeta{background:#fbf9f3;border:1px solid #e2dac6;border-radius:16px;padding:1.1rem 1.3rem;margin:.9rem .3rem 0;
+  box-shadow:0 10px 22px -14px var(--sombra)}
+.tarjeta p{line-height:1.65;margin-bottom:.5rem;font-size:.98rem}
+.tarjeta .meta{font-size:.78rem;color:var(--tinta-2);font-style:italic;margin-bottom:0}
+
+/* ---------- SECCIONES ---------- */
+main{max-width:880px;margin:0 auto;padding:2.4rem 1.2rem 4rem;width:100%}
+.seccion{display:none;animation:aparece .4s ease}
+.seccion.visible{display:block}
+@keyframes aparece{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.titulo{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(1.9rem,5vw,2.7rem);letter-spacing:-.01em;margin:.2rem 0 1.5rem}
+h3.sub{display:inline-flex;margin:1.6rem 0 1rem;padding:.4rem 1rem;border-radius:999px;
+  background:rgba(185,138,46,.16);color:var(--oro);font-family:"Inter",sans-serif;font-weight:700;
+  font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}
+.pieza{margin-bottom:1.2rem}
+
+/* ---------- PORTADA ---------- */
+.hero{text-align:center;margin-bottom:2.4rem}
+.hero h2{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(1.7rem,4.5vw,2.8rem);letter-spacing:-.01em}
+.hero p{color:var(--tinta-2);margin-top:.6rem}
+.sectores{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem}
+.sector{display:flex;flex-direction:column;align-items:center;gap:.45rem;padding:1.7rem 1.2rem;border-radius:22px}
+.sector .ico{font-size:2.2rem}
+.sector-t{font-family:"Fraunces",serif;font-weight:900;font-size:1.22rem}
+.sector .desc{font-size:.82rem;color:var(--tinta-2)}
+
+.pie{margin-top:auto;text-align:center;padding:1.6rem;font-size:.78rem;color:var(--tinta-2);
+  border-top:1px solid rgba(25,22,19,.1);background:rgba(255,255,255,.4)}
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <p class="overline">Edición digital interactiva</p>
+  <h1 class="logo">DESCUBRIR</h1>
+  <p class="lules">Lules</p>
+  <p class="fecha" id="fecha"></p>
+</header>
+
+<nav class="nav" aria-label="Secciones">
+  <button class="btn3d btn-nav activo" data-seccion="portada">Portada</button>
+  <button class="btn3d btn-nav" data-seccion="noticias">Noticias</button>
+  <button class="btn3d btn-nav" data-seccion="historia">Historia</button>
+  <button class="btn3d btn-nav" data-seccion="guia">Guía de interés</button>
+  <button class="btn3d btn-nav" data-seccion="fe">Camino de la Fe</button>
+</nav>
+
+<main>
+  <section id="portada" class="seccion visible">
+    <div class="hero">
+      <h2>El diario de Lules, hecho para recorrer</h2>
+      <p>Presioná cada titular en relieve: la información se despliega al tocarlo.</p>
+    </div>
+    <div class="sectores">
+      <button class="btn3d sector" data-seccion="noticias"><span class="ico">📰</span><span class="sector-t">Noticias</span><span class="desc">La actualidad del día</span></button>
+      <button class="btn3d sector" data-seccion="historia"><span class="ico">🏛️</span><span class="sector-t">Historia</span><span class="desc">Memoria y patrimonio</span></button>
+      <button class="btn3d sector" data-seccion="guia"><span class="ico">🧭</span><span class="sector-t">Guía de interés</span><span class="desc">General y comercial</span></button>
+      <button class="btn3d sector" data-seccion="fe"><span class="ico">⛪</span><span class="sector-t">Camino de la Fe</span><span class="desc">Iglesias, capillas y rutas</span></button>
+    </div>
+  </section>
+
+  <section id="noticias" class="seccion"><p class="overline">Sección</p><h2 class="titulo">Noticias</h2><div class="contenedor-seccion"></div></section>
+  <section id="historia" class="seccion"><p class="overline">Sección</p><h2 class="titulo">Historia</h2><div class="contenedor-seccion"></div></section>
+  <section id="guia" class="seccion"><p class="overline">Sección</p><h2 class="titulo">Guía de interés general y comercial</h2><div class="contenedor-seccion"></div></section>
+  <section id="fe" class="seccion"><p class="overline">Sección</p><h2 class="titulo">Camino de la Fe</h2><div class="contenedor-seccion"></div></section>
+</main>
+
+<footer class="pie">© <span id="anio"></span> DESCUBRIR · Lules — Diario digital interactivo</footer>
+
+<script>
+/* ✏️✏️✏️ EDITÁ AQUÍ TUS CONTENIDOS ✏️✏️✏️
+   Copiá un bloque { t:, c:, m: } y pegalo para agregar entradas.
+   t = título del botón · c = cuerpo desplegable · m = firma/meta */
+const CONTENIDO = {
+  noticias: [
+    { nombre:"", items:[
+      { t:"Nueva edición del festival cultural de Lules", c:"Escribe aquí el cuerpo completo de la noticia. Este texto aparece solo al oprimir el titular en relieve.", m:"Redacción · Hoy" },
+      { t:"Hallazgo histórico en el centro de la ciudad", c:"Segundo cuerpo de noticia de ejemplo, con todos los detalles que quieras publicar.", m:"Redacción · Hoy" },
+      { t:"El mercado municipal estrena horario y feria de productores", c:"Tercer ejemplo: copiá este bloque para añadir todas las noticias que necesites.", m:"Redacción · Ayer" }
+    ]}
+  ],
+  historia: [
+    { nombre:"", items:[
+      { t:"Los orígenes de Lules", c:"Relato histórico desplegable: fundación del pueblo, sus primeros caminos y sus campanas.", m:"Archivo histórico" },
+      { t:"Crónica de las grandes inundaciones", c:"Memoria de aquel año en que el río subió y el pueblo entero se volvió refugio.", m:"Archivo histórico" },
+      { t:"El viejo ingenio y las vías del tren", c:"La época en que el silbato de la locomotora marcaba la hora de todo el pueblo.", m:"Archivo histórico" }
+    ]}
+  ],
+  guia: [
+    { nombre:"Interés general", items:[
+      { t:"Farmacias de turno esta semana", c:"Listado rotativo de farmacias con servicio nocturno en Lules y alrededores. Se actualiza cada lunes.", m:"Guía · Salud" },
+      { t:"Teléfonos útiles del municipio", c:"Municipalidad, comisaría, centro de salud, bomberos voluntarios y defensa civil en un solo lugar.", m:"Guía · Servicios" },
+      { t:"Feriados y recolección de residuos", c:"Calendario de feriados nacionales y provinciales con el cronograma de recolección diferenciada.", m:"Guía · Calendario" }
+    ]},
+    { nombre:"Comercial", items:[
+      { t:"Comercios adheridos a la cámara local", c:"Directorio de almacenes, ferreterías, panaderías y servicios profesionales de Lules con contacto y horarios.", m:"Guía · Comercial" },
+      { t:"Ofertas de la semana", c:"Promociones publicadas por los comercios del pueblo para este fin de semana.", m:"Guía · Ofertas" },
+      { t:"Clasificados de la comunidad", c:"Avisos de vecinos: venta de herramientas, alquileres, clases particulares y trueques.", m:"Guía · Clasificados" }
+    ]}
+  ],
+  fe: [
+    { nombre:"Iglesias y capillas", items:[
+      { t:"Parroquia San Miguel Arcángel", c:"Construida en el siglo XVII, conserva frescos originales y un retablo barroco tallado en madera dorada.", m:"Camino de la Fe · Parada 1" },
+      { t:"Capilla del Rosario", c:"Pequeña joya colonial conocida por sus vitrales y su patio de naranjos.", m:"Camino de la Fe · Parada 2" }
+    ]},
+    { nombre:"Rutas y peregrinaciones", items:[
+      { t:"Ruta de las ermitas", c:"Sendero peregrino que conecta siete ermitas entre montañas y viñedos.", m:"Ruta completa" },
+      { t:"Procesión de las antorchas", c:"Cada septiembre el pueblo camina de noche con antorchas hasta la ermita mayor.", m:"Tradición · Septiembre" }
+    ]}
+  ]
+};
+
+/* ---------- Renderizado automático ---------- */
+function crearPieza(it){
+  const art=document.createElement('article'); art.className='pieza';
+  const btn=document.createElement('button'); btn.className='btn3d btn-relieve'; btn.setAttribute('aria-expanded','false');
+  const span=document.createElement('span'); span.textContent=it.t;
+  const mas=document.createElement('span'); mas.className='mas'; mas.textContent='+'; mas.setAttribute('aria-hidden','true');
+  btn.append(span,mas);
+  const cont=document.createElement('div'); cont.className='contenido';
+  const tar=document.createElement('div'); tar.className='tarjeta';
+  const p=document.createElement('p'); p.textContent=it.c;
+  const meta=document.createElement('p'); meta.className='meta'; meta.textContent=it.m||'';
+  tar.append(p,meta); cont.appendChild(tar); art.append(btn,cont);
+  return art;
+}
+for (const [id, grupos] of Object.entries(CONTENIDO)){
+  const cont=document.querySelector('#'+id+' .contenedor-seccion');
+  grupos.forEach(g=>{
+    if(g.nombre){ const h=document.createElement('h3'); h.className='sub'; h.textContent=g.nombre; cont.appendChild(h); }
+    g.items.forEach(it=>cont.appendChild(crearPieza(it)));
+  });
+}
+
+/* ---------- Fecha y año ---------- */
+const f=new Date();
+document.getElementById('fecha').textContent=f.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+document.getElementById('anio').textContent=f.getFullYear();
+
+/* ---------- Navegación entre secciones ---------- */
+document.querySelectorAll('[data-seccion]').forEach(b=>b.addEventListener('click',()=>{
+  const id=b.dataset.seccion;
+  document.querySelectorAll('.seccion').forEach(s=>s.classList.toggle('visible',s.id===id));
+  document.querySelectorAll('.btn-nav').forEach(n=>n.classList.toggle('activo',n.dataset.seccion===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+/* ---------- Acordeón 3D (una abierta a la vez por sección) ---------- */
+function abrir(p){p.classList.add('abierta');const c=p.querySelector('.contenido');c.style.maxHeight=c.scrollHeight+'px';p.querySelector('.btn-relieve').setAttribute('aria-expanded','true');}
+function cerrar(p){p.classList.remove('abierta');const c=p.querySelector('.contenido');c.style.maxHeight='0px';p.querySelector('.btn-relieve').setAttribute('aria-expanded','false');}
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.btn-relieve'); if(!btn) return;
+  const pieza=btn.closest('.pieza');
+  const estabaAbierta=pieza.classList.contains('abierta');
+  pieza.parentElement.querySelectorAll('.pieza.abierta').forEach(cerrar);
+  if(!estabaAbierta) abrir(pieza);
+});
+</script>
+</body>
+</html>
