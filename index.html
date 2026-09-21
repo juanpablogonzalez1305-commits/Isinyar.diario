@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- DESCUBRIR v25 · reconstrucción limpia, Paradas 1 a 15 -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#15110d">
+<title>DESCUBRIR · Lules</title>
+<meta name="description" content="Diario digital interactivo de Lules: noticias, historia, camino de la fe y guía de interés general y comercial.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4EFE6;--ink:#171310;--mut:#6E6559;--acc:#D4502B;--oro:#B98A2E;--oro-osc:#8a6a1a;--line:#d9ceb7;--somb:93,78,52}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:"Manrope",system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+button,label{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;clip:rect(0 0 0 0);overflow:hidden}
+.tic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tic.big{width:27px;height:27px}
+.marco{margin:10px;border:4px double #c9a243;border-radius:24px;box-shadow:0 0 0 1px rgba(122,90,20,.35),inset 0 0 0 1px rgba(255,240,190,.55)}
+.topbar{display:grid;grid-template-columns:1fr 1fr auto 1fr 1fr;align-items:center;gap:.2rem;padding:.55rem .6rem;background:linear-gradient(180deg,#241c12,#15110d);border-bottom:1px solid rgba(217,176,76,.35)}
+.fija{position:sticky;top:0;z-index:30;border-radius:16px 16px 0 0}
+.inline{display:none;position:static;border:1px solid rgba(217,176,76,.4);border-radius:20px;margin:0 0 1.8rem;box-shadow:0 12px 24px -12px rgba(0,0,0,.65)}
+#s-portada:checked ~ .marco .fija{display:none}
+#s-portada:checked ~ .marco .inline{display:grid}
+.home{width:44px;height:44px;margin:0 .3rem;border-radius:999px;display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:900;font-size:1.3rem;color:#241c12;background:linear-gradient(145deg,#e8c26a,#a8781f);box-shadow:0 6px 14px -4px rgba(122,90,20,.8),inset 0 2px 2px rgba(255,240,190,.7),inset 0 -3px 6px rgba(60,40,0,.4)}
+.home:active{transform:scale(.92)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.5rem 0;border-radius:14px;font-size:.62rem;font-weight:800;color:#8a7a5f;transition:color .2s,background .2s}
+#s-noticias:checked ~ .marco .tab[for="s-noticias"],#s-historia:checked ~ .marco .tab[for="s-historia"],#s-fe:checked ~ .marco .tab[for="s-fe"],#s-guia:checked ~ .marco .tab[for="s-guia"]{color:#e6c069;background:rgba(217,176,76,.14)}
+main{max-width:860px;margin:0 auto;padding:1.6rem 1.3rem 2rem}
+.sec{display:none}
+#s-portada:checked ~ .marco #portada,#s-noticias:checked ~ .marco #noticias,#s-historia:checked ~ .marco #historia,#s-fe:checked ~ .marco #fe,#s-guia:checked ~ .marco #guia{display:block;animation:rise .35s ease}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.masthead{text-align:center;padding:1.7rem 1rem 1.4rem;margin:.3rem 0 1.8rem;border-top:4px solid var(--ink);border-bottom:3px double var(--ink)}
+.masthead h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(3rem,13vw,5.6rem);line-height:.95;letter-spacing:-.02em;color:#0c0a08;text-shadow:1px 0 0 #c9a243,-1px 0 0 #c9a243,0 1px 0 #c9a243,0 -1px 0 #c9a243,1px 1px 0 #c9a243,-1px -1px 0 #c9a243,1px -1px 0 #c9a243,-1px 1px 0 #c9a243,0 0 16px rgba(217,176,76,.6)}
+.place{font-family:"Fraunces",serif;font-style:italic;font-weight:700;font-size:clamp(1.4rem,5vw,2.1rem);margin-top:.3rem;color:#d9b04c;text-shadow:1px 0 0 #2a1c08,-1px 0 0 #2a1c08,0 1px 0 #2a1c08,0 -1px 0 #2a1c08,1px 1px 0 #2a1c08,-1px -1px 0 #2a1c08,1px -1px 0 #2a1c08,-1px 1px 0 #2a1c08,0 2px 6px rgba(42,28,8,.5)}
+.tag{color:var(--mut);margin-top:.8rem;font-size:.95rem}
+.auspicios{margin-top:1.1rem;text-align:center}
+.ausp-tit{font-size:.7rem;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--oro)}
+.ausp-linea{display:grid;grid-template-columns:auto auto;justify-content:center;column-gap:.55rem;row-gap:.45rem;margin:.55rem auto 0;text-align:left;width:max-content}
+.ausp-nom{font-size:.86rem;color:var(--mut);font-weight:600}
+.punto{width:9px;height:9px;border-radius:50%;align-self:center;background:radial-gradient(circle at 35% 30%,#f6dfa4,#b98a2e);box-shadow:0 1px 3px rgba(122,90,20,.65)}
+.pieza{margin-top:1.2rem}
+summary.rel{list-style:none;display:flex;align-items:center;gap:.8rem;padding:1.15rem 1.2rem;font-weight:800;font-size:1.05rem;text-align:left}
+summary.rel::-webkit-details-marker{display:none}
+.deep{border-radius:22px;border:2px solid #6e5327;background:linear-gradient(145deg,#fffdf6,#e6ddc8);box-shadow:0 0 0 1px rgba(46,32,12,.35),0 7px 0 0 #bfae8a,0 18px 26px -12px rgba(var(--somb),.5),inset 0 2px 2px rgba(255,255,255,.95),inset 0 -4px 8px rgba(120,100,70,.22);transition:box-shadow .12s,transform .09s}
+summary.deep:active{transform:translateY(6px);box-shadow:0 0 0 1px rgba(46,32,12,.35),0 1px 0 0 #bfae8a,0 6px 12px -8px rgba(var(--somb),.5),inset 0 6px 16px rgba(var(--somb),.4)}
+details[open]>.deep{box-shadow:0 0 0 1px rgba(46,32,12,.35),0 2px 0 0 #bfae8a,inset 0 6px 14px rgba(var(--somb),.35)}
+.chev{margin-left:auto;color:var(--oro);font-size:.95rem;transition:transform .3s}
+details[open]>.rel .chev,details[open]>.iglesia .chev{transform:rotate(180deg)}
+.cuerpo-in{padding:1rem 1.2rem 1.15rem;line-height:1.65;font-size:.95rem;animation:rise .3s ease}
+.cuerpo-in p{margin-bottom:.5rem}
+.cuerpo-in h4{font-family:"Fraunces",serif;font-weight:700;color:var(--oro-osc);margin:.9rem 0 .4rem;font-size:1.08rem}
+.cuerpo-in ul{margin:0 0 .7rem 1.15rem}
+.cuerpo-in li{margin:.3rem 0}
+.caja-edu{border-left:4px solid var(--oro);background:rgba(185,138,46,.10);border-radius:12px;padding:.8rem 1rem;margin:.8rem 0}
+.caja-edu ul{margin:.3rem 0 0 1.1rem}
+.cita{border-left:4px solid var(--acc);background:rgba(212,80,43,.08);border-radius:12px;padding:.9rem 1.1rem;margin:.9rem 0;font-family:"Fraunces",serif;font-style:italic;font-size:1.05rem;line-height:1.6;color:#5a2b1c}
+.tel b{color:var(--acc);font-size:1.05rem;margin-right:.4rem}
+.meta{color:var(--mut);font-size:.78rem;font-style:italic;margin-top:.4rem}
+.keys{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+.key{display:block;width:100%;border-radius:26px}
+.cara{display:flex;flex-direction:column;align-items:flex-start;gap:.75rem;padding:1.6rem 1.3rem;text-align:left;border-radius:26px;border:2px solid #6e5327;background:linear-gradient(145deg,#fbf3dc,#e6cd96);box-shadow:0 0 0 1.5px rgba(46,32,12,.45),0 10px 0 0 #b08c46,0 26px 40px -12px rgba(var(--somb),.55),inset 0 2px 3px rgba(255,255,255,.9),inset 0 -5px 10px rgba(122,90,20,.28);transition:transform .09s ease,box-shadow .09s ease}
+.key:active .cara{transform:translateY(10px);box-shadow:0 0 0 1.5px rgba(46,32,12,.45),0 0 0 0 #b08c46,0 3px 8px -4px rgba(var(--somb),.5),inset 0 6px 18px rgba(122,90,20,.5),inset 0 -2px 4px rgba(255,255,255,.55)}
+.chip{width:56px;height:56px;border-radius:17px;display:grid;place-items:center;color:#5f4708;border:2px solid #6e5327;background:linear-gradient(145deg,#f6dfa4,#cfa143);box-shadow:0 0 0 1px rgba(46,32,12,.4),inset 0 2px 3px rgba(255,246,214,.9),inset 0 -3px 7px rgba(95,71,8,.45),4px 5px 10px rgba(var(--somb),.35)}
+.key b{font-size:1.25rem;font-weight:800;letter-spacing:-.01em}
+.key small{color:#7a6a4f;font-size:.84rem;line-height:1.4}
+h2.tit{font-family:"Fraunces",serif;font-weight:900;font-size:1.9rem;margin-bottom:.2rem}
+.over{font-size:.68rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--acc);margin-bottom:.35rem}
+summary.iglesia{border-radius:24px;padding:1.2rem;width:100%;display:flex;align-items:center;gap:.9rem;color:#FFF6E0;background:linear-gradient(145deg,#e8c26a,#9a6d1c);border:2px solid #4a3410;font-weight:800;font-size:1.1rem;text-align:left;text-shadow:0 2px 2px rgba(70,45,0,.6);box-shadow:0 0 0 1px rgba(46,32,12,.4),0 8px 0 0 #7a5c14,0 22px 34px -12px rgba(122,90,20,.6),inset 0 2px 2px rgba(255,240,190,.65),inset 0 -4px 8px rgba(60,40,0,.35);transition:box-shadow .12s,transform .09s}
+summary.iglesia.terracota{background:linear-gradient(145deg,#d06a4c,#8e2f1c);border-color:#3a1207;box-shadow:0 0 0 1px rgba(46,32,12,.4),0 8px 0 0 #6e2413,0 22px 34px -12px rgba(142,47,28,.6),inset 0 2px 2px rgba(255,220,200,.5),inset 0 -4px 8px rgba(60,20,10,.4)}
+summary.iglesia:active{transform:translateY(6px);box-shadow:0 0 0 1px rgba(46,32,12,.4),0 2px 0 0 #7a5c14,0 10px 18px -8px rgba(122,90,20,.5),inset 0 6px 16px rgba(60,40,0,.5)}
+details[open]>summary.iglesia{box-shadow:0 0 0 1px rgba(46,32,12,.4),0 2px 0 0 #7a5c14,inset 0 6px 14px rgba(60,40,0,.45)}
+summary.iglesia .chev{color:#fff0c8}
+.ficha{border-radius:18px;background:#FFFDF8;border:1px solid var(--line);padding:1rem 1.1rem;box-shadow:inset 0 2px 8px rgba(var(--somb),.15)}
+.retablo{height:110px;display:grid;place-items:center;font-size:3rem;margin-top:.8rem;border-radius:14px;background:radial-gradient(circle at 50% 70%,#F4C96B,#8A5A1A 80%);box-shadow:inset 0 0 22px rgba(60,30,0,.6)}
+.sub{font-family:"Fraunces",serif;font-weight:700;color:var(--oro);font-size:1.15rem;margin:1.6rem 0 .1rem}
+.scroll{overflow-x:auto;scroll-snap-type:x proximity;padding:8px 2px 16px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;min-width:740px}
+.dia{text-align:center;font-weight:800;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:.5rem 0;border-radius:999px;background:var(--ink);color:var(--bg);box-shadow:3px 4px 8px rgba(var(--somb),.4)}
+.cel{scroll-snap-align:start;border-radius:16px;padding:.7rem .75rem;min-height:90px;display:flex;flex-direction:column;gap:.25rem;background:linear-gradient(145deg,#fffdf6,#e6ddc8);border:1px solid var(--line);box-shadow:6px 7px 14px rgba(var(--somb),.35),-4px -4px 10px rgba(255,255,255,.85),inset 0 1px 1px rgba(255,255,255,.9)}
+.cel .n{font-size:.7rem;font-weight:800;color:var(--mut)}
+.cel .f{font-family:"Fraunces",serif;font-weight:700;font-size:.95rem;line-height:1.25}
+.cel.v{background:none;box-shadow:none;border:1px dashed var(--line)}
+footer{text-align:center;padding:1.8rem 1rem 1.2rem;color:var(--mut);font-size:.75rem;letter-spacing:.08em}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+</style>
+</head>
+<body>
+<input class="sr" type="radio" name="sec" id="s-portada" checked>
+<input class="sr" type="radio" name="sec" id="s-noticias">
+<input class="sr" type="radio" name="sec" id="s-historia">
+<input class="sr" type="radio" name="sec" id="s-fe">
+<input class="sr" type="radio" name="sec" id="s-guia">
+<svg style="display:none" aria-hidden="true">
+<symbol id="i-not" viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2V5z"/><path d="M17 8h3v9a2 2 0 0 1-2 2h-2"/><path d="M7 9h7M7 12h7M7 15h5"/></symbol>
+<symbol id="i-his" viewBox="0 0 24 24"><path d="M4 9l8-5 8 5"/><path d="M5 9v9M9.5 9v9M14.5 9v9M19 9v9"/><path d="M3 20h18"/></symbol>
+<symbol id="i-fe" viewBox="0 0 24 24"><path d="M12 3v5M10 5h4"/><path d="M12 8l6 5v8H6v-8l6-5z"/><path d="M10 21v-4a2 2 0 0 1 4 0v4"/></symbol>
+<symbol id="i-gui" viewBox="0 0 24 24"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2z"/><path d="M12 6v14"/></symbol>
+</svg>
+<div class="marco">
+<nav class="topbar fija" aria-label="Navegación principal">
+  <label class="tab" for="s-noticias"><svg class="tic"><use href="#i-not"/></svg>Noticias</label>
+  <label class="tab" for="s-historia"><svg class="tic"><use href="#i-his"/></svg>Historia</label>
+  <label class="home" for="s-portada" aria-label="Volver a la portada">D</label>
+  <label class="tab" for="s-fe"><svg class="tic"><use href="#i-fe"/></svg>Fe</label>
+  <label class="tab" for="s-guia"><svg class="tic"><use href="#i-gui"/></svg>Guía</label>
+</nav>
+<main>
+  <section id="portada" class="sec">
+    <header class="masthead">
+      <h1>DESCUBRIR</h1>
+      <div class="place">Lules</div>
+      <p class="tag">Diario digital de Lules: tocá, abrí, para recorrer.</p>
+      <div class="auspicios">
+        <p class="ausp-tit">Auspician</p>
+        <p class="ausp-linea">
+          <span class="punto"></span><span class="ausp-nom">Marta Albarracín · Intendenta</span>
+          <span class="punto"></span><span class="ausp-nom">Carlos Gallia · Legislador</span>
+        </p>
+      </div>
+    </header>
+    <nav class="topbar inline" aria-label="Navegación principal">
+      <label class="tab" for="s-noticias"><svg class="tic"><use href="#i-not"/></svg>Noticias</label>
+      <label class="tab" for="s-historia"><svg class="tic"><use href="#i-his"/></svg>Historia</label>
+      <label class="home" for="s-portada" aria-label="Portada">D</label>
+      <label class="tab" for="s-fe"><svg class="tic"><use href="#i-fe"/></svg>Fe</label>
+      <label class="tab" for="s-guia"><svg class="tic"><use href="#i-gui"/></svg>Guía</label>
+    </nav>
+    <div class="keys">
+      <label class="key" for="s-noticias"><span class="cara"><span class="chip"><svg class="tic big"><use href="#i-not"/></svg></span><b>Noticias</b><small>La actualidad del día, titular por titular.</small></span></label>
+      <label class="key" for="s-historia"><span class="cara"><span class="chip"><svg class="tic big"><use href="#i-his"/></svg></span><b>Historia</b><small>Memoria y patrimonio de Lules.</small></span></label>
+      <label class="key" for="s-fe"><span class="cara"><span class="chip"><svg class="tic big"><use href="#i-fe"/></svg></span><b>Camino de la Fe</b><small>Iglesias, capillas y rutas peregrinas.</small></span></label>
+      <label class="key" for="s-guia"><span class="cara"><span class="chip"><svg class="tic big"><use href="#i-gui"/></svg></span><b>Guía</b><small>Farmacias, teléfonos, comercios y más.</small></span></label>
+    </div>
+  </section>
+
+  <section id="noticias" class="sec">
+    <p class="over">Sección</p><h2 class="tit">Noticias</h2>
+    <details class="pieza"><summary class="rel deep">Nueva edición del festival cultural<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">Escribí aquí el cuerpo de la noticia. Aparece solo al presionar el titular.<p class="meta">Redacción</p></div></details>
+    <details class="pieza"><summary class="rel deep">Hallazgo histórico en el centro de la ciudad<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">Segundo cuerpo de noticia de ejemplo, con todos los detalles.<p class="meta">Redacción</p></div></details>
+  </section>
+<!-- ==== PEGÁ LA PARTE 2 DEBAJO DE ESTA LÍNEA ==== --><section id="historia" class="sec">
+    <p class="over">Sección</p><h2 class="tit">Historia</h2>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 1: Época prehispánica<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Hoy relanzamos un material pedagógico muy especial en Lules Noticias. ¿Se acuerdan del gran lienzo vinílico de 3×1 metros con el que Alicia y Soledad recorrían las escuelas del municipio dando charlas? ¡Hoy comenzamos a digitalizarlo para que quede al alcance de todos! 🎒</p>
+        <p>Viajamos al siglo XV para descubrir quiénes habitaban nuestro suelo antes de las fronteras actuales:</p>
+        <h4>Año 1475 · El mapa de los pueblos originarios</h4>
+        <p>El territorio tucumano estaba habitado y distribuido de una manera muy clara:</p>
+        <ul>
+          <li><b>Al Oeste (zonas montañosas):</b> los Diaguitas habitaban lo que hoy es Colalao del Valle, Quilmes, Amaicha y el Valle de Tafí.</li>
+          <li><b>En la Llanura (nuestro hogar):</b> los Lule dominaban la mayor parte del territorio provincial.</li>
+          <li><b>Al Este:</b> los Tonocotés, justo en el límite con Santiago del Estero.</li>
+        </ul>
+        <h4>Año 1480 · La resistencia de los Lule frente al Imperio Inca</h4>
+        <p>El área diaguita fue ocupada por el avance del Tahuantinsuyo (el Imperio Inca) en su desplazamiento hacia el sur del continente. Sin embargo, los Incas intentaron avanzar hacia la llanura ingresando por el Valle de Tafí y por la Quebrada del Portugués.</p>
+        <p>¿El resultado? Fueron rechazados por los Juríes; es decir, por nuestro pueblo Lule, los valientes habitantes de la llanura que defendieron con éxito su territorio. 🏹️</p>
+        <p>Conocer este pasado nos ayuda a entender el carácter fuerte y resiliente que siempre caracterizó a nuestra comunidad.</p>
+        <div class="caja-edu">
+          <p><b>💬 Espacio educativo</b></p>
+          <ul>
+            <li>¿Te acuerdas de haber visto este vinilo histórico en tu escuela durante el año 2012?</li>
+            <li>Docentes de Lules: ¡siéntanse libres de guardar este material y usarlo en sus clases de historia local!</li>
+          </ul>
+        </div>
+        <p>¡Compartimos esta primera parte para que todo el municipio redescubra sus verdaderas raíces! 👇</p>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 2: La identidad de nuestro pueblo<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <h4>Línea de tiempo · ¿Quiénes eran los Juríes?</h4>
+        <p>Continuamos digitalizando el esquema histórico de nuestro gran vinilo escolar en Lules Noticias. Avanzamos en el tiempo hasta los primeros registros escritos sobre los antiguos habitantes de nuestra llanura. 📜</p>
+        <h4>Año 1535 · El enigma de los nombres</h4>
+        <p>El cronista español Gonzalo Fernández de Oviedo, en su célebre obra “Historia general y natural de las Indias”, al describir el territorio del Tucumán, no utiliza la palabra “Lule”. En su lugar, los llama Juríes. Sin embargo, la historia demostró que ambos nombres designaban exactamente a la misma nación indígena.</p>
+        <h4>¿Cómo eran los antiguos Lule/Juríes?</h4>
+        <p>Las crónicas coloniales los describían como guerreros imponentes y sumamente ágiles:</p>
+        <ul>
+          <li><b>🏹 Guerreros diestros:</b> eran muy altos, osados y temibles flecheros.</li>
+          <li><b>🏃‍️ Ligeros como el viento:</b> eran tan rápidos para correr en la llanura que los comparaban con los avestruces americanos o suris.</li>
+          <li><b>🌾 Origen del nombre:</b> precisamente de la palabra “suri” derivó el término Juríes, que era la forma en que los indios Diaguitas de los valles llamaban a los habitantes de la llanura. Vivían en grupos nómadas de diez en diez o de veinte en veinte, adaptándose perfectamente a la geografía tucumana.</li>
+        </ul>
+        <p>Este documento nos muestra que el nombre de nuestra ciudad carga con una herencia de fuerza, velocidad y profunda adaptación al territorio.</p>
+        <div class="caja-edu">
+          <p><b>💬 Espacio de debate y educación</b></p>
+          <ul>
+            <li>¿Sabías que el término “Juríes” venía de la comparación con la velocidad de los suris (avestruces)?</li>
+            <li>¡Invitamos a los estudiantes y vecinos a seguir esta cronología para conocer el origen exacto del suelo que pisamos!</li>
+          </ul>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 3: El coraje de Kanamico<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Esta tercera parada es crucial: marca el primer choque y contacto directo entre el mundo europeo y el pueblo Lule, y le da nombre propio a la resistencia local: el cacique Kanamico. También introduce la fundación de la primera ciudad del Tucumán.</p>
+        <h4>⏳ Línea de tiempo</h4>
+        <p>Seguimos rescatando el gran esquema histórico de nuestro vinilo escolar en Lules Noticias. Llegamos a mediados del siglo XVI, el momento exacto en que los primeros conquistadores españoles pisaron suelo tucumano y se encontraron con la firme resistencia de nuestros ancestros. 📜️</p>
+        <h4>Año 1543 · Diego de Rojas y el valiente cacique Kanamico</h4>
+        <p>Diego de Rojas se convirtió en el primer conquistador en ingresar a la actual provincia de Tucumán. Su expedición partió desde Cuzco (Perú), descendió por los Valles Calchaquíes pasando por Amaicha del Valle hasta Tafí del Valle, y bajó a través de la Quebrada del Portugués hacia la llanura.</p>
+        <p>Fue allí, en nuestra llanura, donde se topó con el cacique Kanamico, jefe del pueblo Lule. Lejos de amedrentarse ante los caballos y las armaduras, Kanamico se plantó con firmeza y le prohibió formalmente el avance sobre sus tierras, defendiendo con un enorme coraje la soberanía de su pueblo. 🏹️</p>
+        <h4>Año 1550 · Juan Núñez del Prado y la Ciudad del Barco</h4>
+        <p>Unos años más tarde, a Juan Núñez del Prado se le concedió la conquista de Tucumán y parte de Perú. Siguiendo una ruta similar por los Valles Calchaquíes, cruzó hacia el actual territorio de Santiago del Estero. Allí, el 24 de junio de 1550, fundó la Ciudad del Barco a orillas del Río Dulce. Este hecho histórico constituyó el primer asentamiento oficial en todo el territorio del Tucumán.</p>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 4: Las pruebas de nuestro arraigo<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Este cuarto capítulo está referido a un documento geográfico e histórico fundamental: aporta las pruebas definitivas de que la región que hoy ocupa el municipio de Lules estuvo habitada por el pueblo originario homónimo desde tiempos ancestrales, incluso delimitando lo que los españoles llamaron la “provincia de los Lule”.</p>
+        <h4>⏳ Línea de tiempo · La provincia de los Lule</h4>
+        <p>Avanzamos con el rescate del gran esquema histórico de nuestro vinilo escolar en Lules Noticias. Llegamos a la segunda mitad del siglo XVI, donde los registros oficiales coloniales comienzan a delimitar geográficamente el territorio de nuestros ancestros. 📜️</p>
+        <h4>Año 1566 · El paraje histórico de los Lules</h4>
+        <p>El célebre historiador tucumano Doctor Manuel Lizondo Borda, basándose en documentos antiguos, rescata los escritos del oidor Juan de Matienzo. En ellos se citaba formalmente el “paraje de los Lule”, ubicado sobre el río Grande o Salí, al sur de San Miguel de Tucumán.</p>
+        <p>Hacia fines del siglo XVI, en dicha jurisdicción ya existían pueblos de Lule reducidos. De hecho, la administración colonial reconocía la existencia de una “provincia de los Lule” (que previamente se denominaba provincia del Salí).</p>
+        <h4>El mapa ancestral de nuestra ciudad</h4>
+        <p>Los estudios indican que el centro neurálgico de esta provincia indígena parece haber sido, precisamente, la región que atraviesa el río Lules actual: desde la zona de la montaña hasta su desembocadura en el río Grande o Salí. ⛰️</p>
+        <p>Estos datos históricos son de un valor incalculable: establecen de forma científica e indiscutible la existencia y el arraigo de los Indios Lule en la actual jurisdicción del municipio de nuestra ciudad desde épocas remotas.</p>
+        <div class="cita">“Cada vez que cruzamos el río Lules, estamos pasando por el centro de lo que hace 450 años los mapas llamaban ‘La provincia de los Lule’”.</div>
+        <p>Esto nos genera un enorme sentido de pertenencia.</p>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+<!-- ==== PEGÁ LA PARTE 3 DEBAJO DE ESTA LÍNEA ==== --><details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 5: La llegada de los Jesuitas y las tierras de Lules<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Esta quinta parada es un pilar fundamental de la línea de tiempo: introduce dos acontecimientos clave de fines del siglo XVI: la gestión para traer a los Jesuitas a la región y el primer reparto de tierras coloniales que daría forma al actual territorio de nuestra ciudad.</p>
+        <h4>⏳ Línea de tiempo · La llegada de los Jesuitas y las tierras de Lules</h4>
+        <p>Continuamos digitalizando el esquema histórico de nuestro gran vinilo escolar en Lules Noticias. Llegamos a los últimos años del siglo XVI, una época de profundas transformaciones institucionales y territoriales para nuestra región. 📜</p>
+        <h4>Año 1585 · Las gestiones para traer a los Jesuitas</h4>
+        <p>En 1585, Francisco de Salcedo, tesorero de la Catedral de Santiago del Estero, fue comisionado por Monseñor Francisco de Victoria. Su misión fue viajar a Brasil en busca de religiosos de la Compañía de Jesús (los Jesuitas). El objetivo era claro y ambicioso: lograr que fundaran escuelas y colegios en esta provincia, sembrando las bases de la educación y la cultura regional. 🎓🎒</p>
+        <h4>Año 1592 · El primer reparto de tierras coloniales en nuestro suelo</h4>
+        <p>El 23 de noviembre de 1592, el Gobernador Juan Ramírez de Velasco otorgó en merced al Capitán Meliam de Leguizamo (esposo de Alfonsa de Guevara) las tierras pertenecientes a gran parte de lo que hoy constituye el actual Municipio de Lules. 🗺️</p>
+        <p>Este reparto de tierras marcó el inicio de la estructuración administrativa colonial sobre el territorio ancestral de la llanura.</p>
+        <div class="caja-edu">
+          <p><b>💭 Para la reflexión</b></p>
+          <p>“Estas tierras entregadas al Capitán Leguizamo cambiarían de manos muy pronto para dar origen a un lugar emblemático de nuestra ciudad… ¿Se imaginan cuál?”</p>
+          <p class="meta">Lo vemos en la Parada 6.</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 6: El mapa del sur tucumano<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>La sexta parada es un documento histórico clave que explica la inmensa expansión territorial de la Orden Jesuita en el sur tucumano. Las donaciones de Francisco de Salcedo sentaron las bases económicas y productivas de la región, abarcando lo que hoy son los departamentos de Monteros y Famaillá.</p>
+        <h4>⏳ Línea de tiempo · Las grandes donaciones jesuitas</h4>
+        <p>Continuamos digitalizando el valioso esquema histórico de nuestro vinilo escolar en Lules Noticias. Entramos de lleno en el siglo XVII, una época marcada por el nacimiento de los grandes centros productivos y religiosos de la provincia. 📜</p>
+        <h4>Año 1613 · La Estancia de San Pedro Mártir (Monteros)</h4>
+        <p>El 17 de mayo de 1613, Francisco de Salcedo realizó una monumental donación a los Padres Jesuitas. Les entregó una inmensa propiedad conocida como la estancia de San Pedro Mártir. Pero no donó solo la tierra; la entrega incluyó una verdadera potencia productiva para la época:</p>
+        <ul>
+          <li><b>🐄 1.500 cabezas de vacas.</b></li>
+          <li><b>🐑 3.500 ovejas.</b></li>
+          <li><b>👞 Una curtiembre de suelas.</b></li>
+          <li><b>✨ Alhajas, pertrechos, además de la Iglesia y su altar.</b></li>
+        </ul>
+        <p>Geográficamente, esta estancia comprendía una franja a lo largo del río Salí, entre los ríos Seco y Balderrama. Es decir, ocupaba gran parte del actual Departamento Monteros.</p>
+        <h4>Año 1619 · La expansión hacia Famaillá</h4>
+        <p>Unos años más tarde, el mismo Francisco de Salcedo donó a los Jesuitas otra importante estancia ubicada entre los ríos Balderrama y Colorado. Con esta nueva entrega, las donaciones jesuitas abarcaron la casi totalidad del actual Departamento Famaillá.</p>
+        <p>Los sacerdotes de la Compañía de Jesús tomaron posesión formal de ambas donaciones en el año 1619, consolidando su presencia e influencia en todo el sur de la provincia.</p>
+        <div class="caja-edu">
+          <p><b>💭 Nos quedamos con la siguiente pregunta</b></p>
+          <p>¿Cuándo los Jesuitas toman posesión definitiva de las tierras, para fundar lo que hoy conocemos como las Ruinas de San José del Monte de los Lule?</p>
+          <p class="meta">¡Esto lo descubrimos en la Parada 7!</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 7: El nacimiento de la Estancia de San José<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Esta séptima parada es, sin duda, el acta de nacimiento de nuestro monumento más sagrado: explica el momento exacto en que la Compañía de Jesús adquiere las tierras de nuestro departamento y funda la histórica Estancia de San José de los Lule, convirtiéndose en el corazón productivo y espiritual de la zona.</p>
+        <h4>⏳ Línea de tiempo · El nacimiento de la Estancia de San José</h4>
+        <p>Continuamos con la digitalización de nuestra gran línea de tiempo escolar en Lules Noticias. Llegamos a un año clave en el siglo XVII, el momento en que se sientan las bases del patrimonio histórico y religioso más importante de nuestra comunidad. 📜️</p>
+        <h4>Año 1670 · Los Jesuitas compran las tierras de Lules</h4>
+        <p>El 1° de diciembre de 1670, se llevó a cabo una transacción que cambiaría el destino de nuestra región para siempre. Jordana de Trejo (hija del Capitán Melián de Leguizamo y viuda de Gines Alvarado de Toro) junto a su hijo, Antonio de Toro Leguizamo, vendieron formalmente las tierras en las que hoy se encuentra el actual Departamento de Lules a los Padres Jesuitas.</p>
+        <p>Esta estratégica compra, sumada a las inmensas donaciones que ya les había hecho el Deán Salcedo (que vimos en la parada anterior) y otras adquisiciones menores, convirtieron a la Compañía de Jesús en los mayores terratenientes y productores de toda la zona tucumana.</p>
+        <h4>El origen de nuestro monumento histórico</h4>
+        <p>Fue precisamente a partir de esta adquisición que, a orillas de nuestro río Lules, los sacerdotes edificaron la emblemática Estancia San José de los Lule. Desde allí coordinaron la agricultura, la ganadería y la evangelización, dejando una huella arquitectónica y cultural que desafió los siglos y que hoy nos enorgullece a todos. 🏛️</p>
+        <div class="cita">“¿Quién no visitó alguna vez las Ruinas de San José? Hoy sabemos la fecha exacta en que comenzó ese sueño: el 1° de diciembre de 1670. ¡Hace más de 355 años!”</div>
+        <div class="caja-edu">
+          <p>En la próxima entrega (Parada 8) nos metemos de lleno en los secretos de La Reducción y el trabajo de los Padres Castells y Artigas. ¡No se lo pierdan!</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+<!-- ==== PEGÁ LA PARTE 4 DEBAJO DE ESTA LÍNEA ==== --><details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 8: El motor productivo y el origen de La Reducción<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Esta parada describe el verdadero motor industrial y artesanal de la Estancia. Además, explica el origen exacto y fundacional de la zona que hoy conocemos como La Reducción, dándole nombre y apellido a los sacerdotes que lideraron esa hazaña.</p>
+        <h4>⏳ Línea de tiempo · El motor productivo y el origen de La Reducción</h4>
+        <p>Continuamos digitalizando nuestro gran vinilo escolar en Lules Noticias. Hoy nos metemos en el corazón del siglo XVII y XVIII para descubrir cómo funcionaba la economía de nuestros antepasados y cómo nació una de las zonas más emblemáticas de nuestro departamento. 🛠️</p>
+        <h4>Año 1680 · La Estancia Jesuita como escuela de trabajo</h4>
+        <p>La Estancia San José de los Lules no era solo un centro religioso; era una verdadera colmena de capacitación, producción y administración de talleres. ¡Prácticamente fabricaban todo lo que necesitaban!</p>
+        <ul>
+          <li><b>🌾 Molino y Cañaveral:</b> contaban con un trapiche para moler caña y fabricaban el famoso azúcar en pan.</li>
+          <li><b>🧼 Almona:</b> tenían una fábrica para producir jabón.</li>
+          <li><b>🪵 Carpintería y herrería:</b> fabricaban carretas, carretones, frenos y espuelas.</li>
+          <li><b>🐴 Lomillería y curtiembre:</b> hacían aperos, sillas de montar, riendas y cueros procesados.</li>
+        </ul>
+        <h4>Año 1737 · El nacimiento de “La Reducción”</h4>
+        <p>Entre los años 1737 y 1742, a orillas del río Colorado, se desarrolló la reducción de los Lules en la zona que hoy lleva justamente ese nombre: La Reducción.</p>
+        <p>Esta comunidad organizada estuvo bajo la dirección del Padre Castell y contó con la valiosa ayuda del Padre Juan Andreu. Más tarde, en 1740, se sumó el Padre Artigas para potenciar el proyecto. En esta reducción el trabajo no se detenía: tenían sementeras de trigo, su propio molino, curtiembre, telares para confeccionar ropa y talleres de carpintería. 🌾</p>
+        <div class="caja-edu">
+          <p><b>💭 Orgullo de La Reducción</b></p>
+          <p>“¡Atención vecinos de La Reducción! Acá está el documento que explica cómo los Padres Castell, Andreu y Artigas fundaron los cimientos de su pueblo hace casi 290 años”.</p>
+          <p>Lules estuvo ligada a la industria azucarera desde el año 1680, es decir, mucho antes de la llegada de la industria moderna.</p>
+          <p class="meta">En la próxima entrega (Parada 9): uno de los momentos de mayor quiebre en la historia colonial: la expulsión de los Jesuitas y el posterior remate de sus tierras.</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 9: La expulsión y el gran remate de las tierras<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>La parada 9 relata uno de los momentos de mayor quiebre en la historia colonial y explica cómo las tierras pasaron a las familias tradicionales de la zona: la expulsión de los Jesuitas y el posterior remate dividieron el territorio, marcando el origen de los apellidos que le dieron identidad a la ciudad.</p>
+        <h4>⏳ Línea de tiempo · La expulsión y el gran remate de las tierras</h4>
+        <p>Continuamos digitalizando el valioso esquema histórico de nuestro vinilo escolar en Lules Noticias. Llegamos a fines del siglo XVIII, un período de drásticos cambios políticos que reconfiguraron la propiedad de nuestro suelo y dieron origen a los nombres de nuestras calles y barrios actuales. 📜⚖️</p>
+        <h4>Año 1767 · El decreto del Rey Carlos III</h4>
+        <p>Un golpe inesperado sacudió a toda la región. El rey Carlos III de España decretó la expulsión de los Jesuitas de todos los dominios de la corona española. Junto con la orden de destierro, se dictó la incautación inmediata de todo su inmenso patrimonio productivo, incluyendo la Estancia San José.</p>
+        <h4>Año 1774 · El nacimiento del mapa familiar de Lules</h4>
+        <p>Tras la salida de la orden religiosa, el enorme territorio jesuita fue dividido en 30 parcelas. La Junta de Temporalidades se encargó de rematarlas al mejor postor en el año 1774. Fue en ese histórico remate donde aparecieron los pioneros civiles de nuestra comunidad:</p>
+        <ul>
+          <li><b>👤 Francisco Márquez:</b> compró las tierras específicas donde se encuentra emplazada hoy la ciudad de San Isidro de Lules.</li>
+          <li><b>👥 Otros grandes compradores:</b> María Araoz, Juan Rodríguez, Alejandro Ríos, José Ferreira, Norberto Orellana, Juan López Ríos, José Dehesa, Juan José Cevallos, García Cárdenas y Juan Quinteros, entre otros.</li>
+        </ul>
+        <p>Por su parte, la zona histórica que rodeaba a la Capilla jesuítica le fue entregada a la orden de los Dominicos.</p>
+        <div class="caja-edu">
+          <p>“¿Reconocés tu apellido en esta lista? ¡Tu familia podría estar ligada a estas tierras desde hace más de 250 años! Etiquetá a tus parientes”.</p>
+          <p class="meta">Entramos al siglo XIX: las tierras ya están en manos de las familias luleñas… ¿Cómo se transformaron estas parcelas en el Municipio que hoy conocemos? ¡Lo descubrimos en la Parada 10!</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 10: El ferrocarril y la era dorada del azúcar<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>La parada 10 es un salto hacia la modernidad y la era dorada de la industria tucumana: la combinación del ferrocarril con las grandes fábricas de azúcar, marcando el origen de dos gigantes de nuestra historia local: el Ingenio Mercedes y el Ingenio Lules.</p>
+        <h4>⏳ Línea de tiempo · El ferrocarril y la era dorada del azúcar</h4>
+        <p>Continuamos digitalizando nuestro gran vinilo escolar en Lules Noticias. Damos un salto hacia la segunda mitad del siglo XIX, una época de chimeneas, rieles y vapor que transformó para siempre el paisaje y el trabajo de nuestro pueblo. 🚂🍬</p>
+        <h4>Año 1868 · Los primeros pasos de la industria azucarera</h4>
+        <p>Antes de las grandes maquinarias, nació la visión de los pioneros. En 1868 se conformó la primera sociedad comercial Padilla Hermanos, siendo sus máximos responsables José e Isaías Padilla. Este acuerdo sentaría las bases para que unos años más tarde, en 1876, se fundara oficialmente el emblemático Ingenio Mercedes, llenando de vida y trabajo a toda la zona.</p>
+        <h4>Año 1876 · La revolución del Ferrocarril y el vapor</h4>
+        <p>El 30 de octubre de 1876 cambió la historia de Tucumán para siempre. El ferrocarril llegó a San Miguel de Tucumán, en un acto inaugural que contó con la presencia del mismísimo Presidente de la Nación, Nicolás Avellaneda.</p>
+        <p>Este hito generó una revolución absoluta en la industria azucarera:</p>
+        <ul>
+          <li><b>⚙️ Modernización:</b> permitió a las fábricas equiparse con pesadas maquinarias a vapor importadas, mejorando notablemente la producción.</li>
+          <li><b>🛤️ Logística:</b> se construyeron ramales ferroviarios directos que ingresaban a las fábricas para cargar el azúcar.</li>
+        </ul>
+        <h4>Año 1879 · Nace el Ingenio Lules</h4>
+        <p>Impulsado por esta gran ola de progreso y conectividad, apenas tres años después de la llegada del tren, se funda en 1879 el Ingenio Lules, consolidando a nuestro departamento como uno de los corazones azucareros indiscutibles de la provincia.</p>
+        <div class="caja-edu">
+          <p><b>💭 Nostalgia ferroviaria y obrera</b></p>
+          <p>El Ingenio Mercedes y el Ingenio Lules forman parte de la memoria viva y el orgullo de miles de familias luleñas. “¿Tuviste abuelos o familiares que trabajaron en los ingenios o en los ramales del tren? ¡Contanos su historia!”</p>
+          <p>Con los ingenios marchando a pleno y el tren conectándonos con el país, Lules empezó a crecer a pasos agigantados… ¿Qué grandes instituciones nacieron después? ¡Lo descubrimos en la Parada 11!</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+<!-- ==== PEGÁ LA PARTE 5 DEBAJO DE ESTA LÍNEA ==== --><details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 11: El nacimiento del Lules moderno (1909-1915)<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>La Parada 11 es una de las más ricas del esquema porque marca el verdadero nacimiento del Lules urbano y moderno de principios del siglo XX: la infraestructura del agua y la electricidad (la emblemática Usina), la llegada definitiva de las vías del tren al casco urbano y la creación de las primeras instituciones sociales y sanitarias moldearon la vida cotidiana de nuestros abuelos.</p>
+        <h4>⏳ Línea de tiempo · El nacimiento del Lules moderno (1909-1915)</h4>
+        <p>Continuamos abriendo el archivo de nuestro gran vinilo histórico en Lules Noticias. Entramos de lleno en las primeras décadas del siglo XX, una época de oro donde nuestra ciudad consolidó su infraestructura, su cultura y su perfil solidario. 🚂💡️</p>
+        <h4>Año 1909 · El agua y el sueño de la Usina</h4>
+        <p>Durante la gobernación del Ingeniero Luis F. Nougués, se inició una obra clave para el desarrollo regional: se abrió una gran red de canales y se proyectó la instalación de una central hidroeléctrica en un lugar que todos conocemos y amamos: la Quebrada de Lules. Esta histórica Usina comenzó a funcionar oficialmente en 1912, trayendo luz y progreso.</p>
+        <h4>Año 1911 · Las vías del tren llegan a casa</h4>
+        <p>Si bien el ferrocarril ya cruzaba la provincia, en 1911 el tren llegó directamente a Lules. Este hito transformó todo a su paso: trajo una enorme ola de inmigración, introdujo nueva tecnología para potenciar los Ingenios, facilitó la llegada de materia prima y abrió las puertas para llevar nuestros productos locales a los grandes mercados del país.</p>
+        <h4>Año 1911 · El corazón social de la ciudad</h4>
+        <p>El 15 de julio de 1911 se fundó una institución fundamental para nuestra identidad: la Biblioteca Dr. Nicolás Avellaneda. Más allá de los libros, este espacio se convirtió en el gran centro cultural del pueblo, el escenario donde se realizaban las fiestas sociales, los eventos culturales y las reuniones familiares más importantes de la época. 📖✨</p>
+        <h4>Año 1915 · Pioneros en el cuidado de la niñez</h4>
+        <p>El 1 de febrero de 1915 se inauguró la “Gota de Leche”, convirtiéndose en la primera institución de atención sanitaria para niños en Lules. En este espacio de puro amor y asistencia comunitaria, se entregaban diariamente 80 litros de leche para asegurar la nutrición de los más pequeños del pueblo.</p>
+        <div class="caja-edu">
+          <p><b>💭 Activación de la memoria colectiva</b></p>
+          <p>“¿Quién no fue a un evento o a estudiar a la Biblioteca Avellaneda? ¿O quién no visitó las estructuras de la vieja Usina? ¡Contanos tu recuerdo en los comentarios!”</p>
+          <p>El valor de la “Gota de Leche”: su inauguración el 1° de febrero de 1915 refuerza el perfil social que siempre tuvo Lules.</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 12: Los verdaderos pioneros del azúcar (etapa artesanal)<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>La Parada 12 es un hallazgo histórico espectacular porque rompe la cronología de las anteriores para hacer un viaje al verdadero origen de la industria que marcó el destino de Tucumán: la etapa artesanal del azúcar, cuando los pioneros civiles retomaron la siembra jesuita mucho antes de que el ferrocarril trajera la maquinaria a vapor.</p>
+        <h4>⏳ Línea de tiempo · Los verdaderos pioneros del azúcar (la etapa artesanal)</h4>
+        <p>Hacemos un viaje al pasado en nuestro archivo de Lules Noticias. Volvemos al gran vinilo histórico para entender cómo nació la industria madre de nuestra tierra, mucho antes de las grandes chimeneas modernas. ¡Hoy descubrimos la etapa artesanal de Lules! 🌾</p>
+        <h4>Año 1820 · El renacer de la caña tras los Jesuitas</h4>
+        <p>Luego de la expulsión de los Jesuitas, los cañaverales habían quedado en el olvido. Sin embargo, en 1820, Miguel Pérez de Padilla y Pedro Márquez tomaron una decisión que cambiaría el destino de la provincia: se dedicaron al cultivo de la caña de azúcar, reiniciando la experiencia interrumpida de los sacerdotes y convirtiéndose en los verdaderos pioneros civiles de la industria azucarera.</p>
+        <h4>Año 1830 · El primer trapiche de los Padillas</h4>
+        <p>La tradición familiar y los documentos históricos fijan a 1830 como el año en que se instaló el trapiche del Ingenio de los Padillas, también conocido en la zona como “El Establecimiento”.</p>
+        <p>Esta rudimentaria explotación, que funcionaba a tracción animal o fuerza hidráulica, daría origen décadas más tarde al gigante Ingenio Mercedes que todos conocimos. A esta primera época de puro esfuerzo manual se la conoce en nuestra historia como la Etapa Artesanal. ⚙️</p>
+        <div class="caja-edu">
+          <p><b>🎨 Aclaración cronológica</b></p>
+          <p>“¡Hacemos un pequeño paréntesis en los años 1900 para viajar a los verdaderos cimientos del azúcar!”</p>
+          <p>El valor de los apellidos Márquez y Padilla: estos dos apellidos son fundacionales en Lules.</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+<!-- ==== PEGÁ LA PARTE 6 DEBAJO DE ESTA LÍNEA ==== --><details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 13: Las primeras casonas y grandes haciendas<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>La parada 13 explica el origen de las grandes casonas y familias que poblaron el suelo luleño a finales del siglo XVIII y principios del XIX, aportando un dato bellísimo sobre el origen de los árboles históricos.</p>
+        <h4>⏳ Línea de tiempo · Las primeras casonas y grandes haciendas</h4>
+        <p>Continuamos abriendo el valioso archivo de nuestro vinilo escolar en Lules Noticias. Seguimos en este viaje al pasado colonial y de principios del siglo XIX para descubrir cómo se fue poblando el mapa civil de nuestra ciudad y de dónde surgieron sus paisajes más tradicionales. 🏡</p>
+        <h4>Año 1780 · Don Pedro Márquez se asienta en Lules</h4>
+        <p>Hacia fines del siglo XVIII, Don Pedro Márquez construyó su vivienda en tierras luleñas y se volcó de lleno a los emprendimientos agrícolas. Gracias a su enorme esfuerzo y visión, para los últimos años de ese siglo ya se había convertido en uno de los pobladores más destacados, respetados e influyentes de toda la zona.</p>
+        <h4>Año 1801 · La unión de dos grandes patrimonios</h4>
+        <p>El 29 de noviembre de 1801, se celebró un matrimonio clave para la historia de la región: Miguel Pérez de Padilla se casó con Joquina García Cárdenas (hija de Juan García Cárdenas).</p>
+        <p>La unión de los bienes heredados por ella, las tierras y ganados que su suegro les regaló como dote, sumado a lo heredado de su propia madre, convirtieron rápidamente a Pérez de Padilla en un importantísimo hacendado de la zona, lugar donde tam<section id="guia" class="sec">
+    <p class="over">Sección</p><h2 class="tit">Guía de interés general y comercial</h2>
+    <p class="sub">Interés general</p>
+    <details class="pieza"><summary class="rel deep">Farmacias de turno · Septiembre 2026<span class="chev">▼</span></summary>
+      <div class="cuerpo-in"><div class="scroll"><div class="cal">
+        <div class="dia">Lunes</div><div class="dia">Martes</div><div class="dia">Miércoles</div><div class="dia">Jueves</div><div class="dia">Viernes</div><div class="dia">Sábado</div><div class="dia">Domingo</div>
+        <div class="cel v"></div><div class="cel"><span class="n">1</span><span class="f">Cóndor</span></div><div class="cel"><span class="n">2</span><span class="f">Pilar</span></div><div class="cel"><span class="n">3</span><span class="f">Geder</span></div><div class="cel"><span class="n">4</span><span class="f">Brahim</span></div><div class="cel"><span class="n">5</span><span class="f">San Isidro</span></div><div class="cel"><span class="n">6</span><span class="f">Santa Rita</span></div>
+        <div class="cel"><span class="n">7</span><span class="f">9 de Julio</span></div><div class="cel"><span class="n">8</span><span class="f">Nobel y María Auxiliadora</span></div><div class="cel"><span class="n">9</span><span class="f">Libertad</span></div><div class="cel"><span class="n">10</span><span class="f">San José y Ybril</span></div><div class="cel"><span class="n">11</span><span class="f">Central</span></div><div class="cel"><span class="n">12</span><span class="f">Martínez</span></div><div class="cel"><span class="n">13</span><span class="f">Hygueia</span></div>
+        <div class="cel"><span class="n">14</span><span class="f">Turi</span></div><div class="cel"><span class="n">15</span><span class="f">San Martín</span></div><div class="cel"><span class="n">16</span><span class="f">Cóndor</span></div><div class="cel"><span class="n">17</span><span class="f">Pilar</span></div><div class="cel"><span class="n">18</span><span class="f">Geder</span></div><div class="cel"><span class="n">19</span><span class="f">Brahim</span></div><div class="cel"><span class="n">20</span><span class="f">San Isidro</span></div>
+        <div class="cel"><span class="n">21</span><span class="f">Santa Rita</span></div><div class="cel"><span class="n">22</span><span class="f">9 de Julio</span></div><div class="cel"><span class="n">23</span><span class="f">Nobel y María Auxiliadora</span></div><div class="cel"><span class="n">24</span><span class="f">Libertad</span></div><div class="cel"><span class="n">25</span><span class="f">San José y Ybril</span></div><div class="cel"><span class="n">26</span><span class="f">Central</span></div><div class="cel"><span class="n">27</span><span class="f">Martínez</span></div>
+        <div class="cel"><span class="n">28</span><span class="f">Hygueia</span></div><div class="cel"><span class="n">29</span><span class="f">Turi</span></div><div class="cel"><span class="n">30</span><span class="f">San Martín</span></div><div class="cel v"></div><div class="cel v"></div><div class="cel v"></div><div class="cel v"></div>
+      </div></div><p class="meta">Ciclo rotativo de 15 días. Deslizá el calendario hacia los costados.</p></div></details>
+    <details class="pieza"><summary class="rel deep">Teléfonos útiles y emergencias<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p><b>Emergencias nacionales, gratuitas y 24 h:</b></p>
+        <p class="tel"><b>911</b> Policía y emergencias</p>
+        <p class="tel"><b>107</b> Ambulancia / SAME</p>
+        <p class="tel"><b>100</b> Bomberos</p>
+        <p class="tel"><b>103</b> Defensa Civil</p>
+        <p class="tel"><b>102</b> Niñez y Adolescencia</p>
+        <p class="tel"><b>144</b> Violencia de género</p>
+        <p><b>Lules:</b> Municipalidad 0381 494-0000 · Centro de Salud 0381 494-0001 · Comisaría 0381 494-0002 · Bomberos Voluntarios 0381 494-0003</p>
+        <p class="meta">La redacción confirmará los fijos municipales en la próxima edición.</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Feriados y recolección de residuos<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p><b>Próximos feriados:</b> 12 de octubre (Día del Respeto a la Diversidad Cultural) · 8 de diciembre (Inmaculada Concepción) · 25 de diciembre (Navidad).</p>
+        <p><b>Recolección:</b> húmedos lunes, miércoles y viernes · secos martes y jueves · poda y especiales los sábados.</p>
+        <p class="meta">Cronograma sujeto a difusión municipal.</p>
+      </div></details>
+    <p class="sub">Comercial</p>
+    <details class="pieza"><summary class="rel deep">Comercios adheridos<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Almacén Doña Rosa · San Martín 123 · Lules<br>Ferretería El Tornillo · Av. Belgrano 456 · Lules<br>Panadería La Espiga · Mitre 78 · Lules<br>Remisería Lules Viajes · 0381 494-0000</p>
+        <p class="meta">Directorio de la edición piloto: ¿tenés un comercio? Sumate a la cámara y aparecé acá.</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Ofertas de la semana<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Almacén Doña Rosa: 2×1 en aceites hasta el domingo.<br>Panadería La Espiga: 10% de descuento con jubilados los martes.<br>Ferretería El Tornillo: 15% en pinturas toda la semana.</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Clasificados de la comunidad<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>Vendo: bicicleta rodado 29, poco uso. · Se alquila: pieza con baño privado en el centro. · Se ofrece: clases de guitarra criolla a domicilio. · Se busca: ayudante de albañil, media jornada.</p>
+      </div></details>
+  </section>
+  <footer>DESCUBRIR · Diario digital de Lules</footer>
+</main>
+</div>
+<script>
+try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener('change',()=>window.scrollTo(0,0)))}catch(e){}
+</script>
+</body>
+</html>bién construyó su residencia familiar.</p>
+        <h4>Año 1805 · La casona de los Márquez y el misterio de sus palmeras</h4>
+        <p>En 1805, Pedro Márquez levantó una nueva y definitiva vivienda familiar justo al frente de la antigua. Un detalle bellísimo que guarda la historia de esta propiedad es que las imponentes palmeras y casuarinas que la adornaron fueron un obsequio del célebre gobernador Lucas Córdoba durante sus años de mandato, uniendo el legado de los pioneros de 1800 con el progreso de finales del siglo XIX. 🌴✨</p>
+        <div class="caja-edu">
+          <p>“¿Alguien sabe si todavía queda en pie parte de esta histórica vivienda de la familia Márquez o recuerda dónde estaba ubicada exactamente? ¡Los leemos en los comentarios!”</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+<!-- ==== PEGÁ LA PARTE 7 DEBAJO DE ESTA LÍNEA ==== --><details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 14: Lules en la gesta de la Independencia (1812-1816)<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <h4>⏳ Línea de tiempo · Lules en la gesta de la Independencia (1812-1816)</h4>
+        <p>Hoy abrimos una de las páginas más gloriosas de nuestro gran vinilo escolar en Lules Noticias. Viajamos a la década de 1810 para descubrir cómo nuestro suelo y nuestros pioneros fueron claves en las guerras por la libertad de la Patria. 🇦🇷️</p>
+        <h4>Año 1812 · El aporte de sangre luleña al Ejército del Norte</h4>
+        <p>En pleno año de la decisiva Batalla de Tucumán, el General Manuel Belgrano agradeció formalmente a la familia Padilla el envío de un contingente de 25 hombres a caballo armados con arma blanca. Vecinos de nuestro suelo que se sumaron a las filas patriotas para defender la libertad.</p>
+        <h4>Año 1816 · Miguel Pérez de Padilla, Comisario de Guerra</h4>
+        <p>Por sus valiosos e incansables servicios prestados a la causa nacional, el General Belgrano solicitó formalmente que Miguel Pérez de Padilla fuera designado con el cargo de Comisario de Guerra, una petición a la que el Director Supremo de las Provincias Unidas accedió de inmediato en el año de nuestra Independencia.</p>
+        <h4>El Cuartel en el Convento y el abastecimiento de las tropas</h4>
+        <p>El célebre General José María Paz relata en sus memorias un dato espectacular: al haber sido destinado a armar un cuartel militar en el antiguo convento de los Lules, el hacendado Padilla tomó bajo su total y absoluto cargo el abastecimiento de insumos y alimentos para las tropas patriotas, convirtiendo a la zona en un pilar logístico del ejército.</p>
+        <h4>Visitas ilustres en “El Oratorio”</h4>
+        <p>La historia grande pasó por casa. El General Manuel Belgrano visitó en reiteradas oportunidades la histórica vivienda de los Padillas, conocida popularmente como “El Oratorio” en Lules. En esas galerías también estuvo presente otro gigante de nuestra historia tucumana y nacional: el general Gregorio Aráoz de Lamadrid.</p>
+        <div class="caja-edu">
+          <p><b>💭 Orgullo escolar y local</b></p>
+          <p>“¡Qué orgullo saber que los héroes de la Patria caminaron por Lules y descansaron en El Oratorio! ¿Quién conoce o sabe dónde quedaba exactamente la zona de El Oratorio? ¡Contanos en los comentarios!”</p>
+          <p class="meta">La Patria ya es libre y nos acercamos a la mitad del siglo XIX… ¿Qué gran motor industrial nació en 1852 para cambiar nuevamente el rumbo de nuestro pueblo? ¡Lo descubrimos en la Parada 15!</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+    <details class="pieza"><summary class="rel deep">Nuestra tierra · Parada 15: El nacimiento oficial de nuestra ciudad<span class="chev">▼</span></summary>
+      <div class="cuerpo-in">
+        <p>La parada 15 revela el momento exacto en que se diseñó la ciudad: se une acá el plano original del Cura Zoilo Domínguez con la ordenanza municipal que fijó nuestro aniversario definitivo. Llegamos al momento exacto en que dejamos de ser un conjunto de estancias para convertirnos formalmente en una Villa, con su plaza y sus calles perfectamente diseñadas. 🏛️️✨</p>
+        <h4>⏳ Línea de tiempo · El nacimiento oficial de nuestra ciudad</h4>
+        <h4>Año 1849 · La compra de tierras para la Villa</h4>
+        <p>El 25 de septiembre de 1849, el Padre Zoilo Domínguez dio el primer paso legal: le compró a Pedro Márquez una fracción de tierra con un objetivo claro y ambicioso: fundar una Villa que nucleara a los habitantes de la zona.</p>
+        <h4>Año 1851 · El diseño en damero, origen de nuestra ciudad</h4>
+        <p>El cura Zoilo Domínguez no dejó nada al azar. Él mismo proyectó el plano original de la ciudad utilizando el clásico sistema de damero colonial (manzanas cuadradas distribuidas como un tablero de ajedrez). Diseñó la plaza central cuadrada y ubicó estratégicamente la Iglesia y su casa parroquial justo al frente de ella, moldeando el centro de Lules tal como lo caminamos hoy en día. 🌳⛪</p>
+        <h4>El 20 de noviembre · Nuestra fecha de fundación</h4>
+        <p>El 20 de noviembre de 1851, el cura Zoilo pidió permiso formal al obispado para construir el edificio de la Iglesia fundacional, licencia que le fue concedida al día siguiente.</p>
+        <p>Tomando este hito histórico como referencia fundamental (un logro en el que, como recordamos en notas anteriores, el Padre Miguel Alderete Garrido tuvo un rol motorizador clave), el 2 de octubre de 1992 el Concejo Deliberante promulgó la Ordenanza 520/92, fijando de forma oficial y definitiva la fecha de fundación de nuestra ciudad: el 20 de noviembre de 1851. 📜</p>
+        <h4>Año 1852 · Sigue el crecimiento industrial</h4>
+        <p>Apenas un año después del nacimiento oficial de la Villa, el desarrollo económico no se detuvo: en 1852 se fundó el Ingenio La Reducción, sumando otro motor productivo al departamento.</p>
+        <div class="caja-edu">
+          <p>“Cada vez que caminamos alrededor de la plaza principal, estamos pisando el diseño exacto que el cura Zoilo Domínguez dibujó en un papel en 1851. ¿Qué es lo que más te gusta de nuestra plaza hoy en día?”</p>
+        </div>
+        <p class="meta">Martes de Historia · Lules Noticias</p>
+      </div></details>
+  </section>
+
+  <section id="fe" class="sec">
+    <p class="over">Sección</p><h2 class="tit">Camino de la Fe</h2>
+    <details class="pieza"><summary class="iglesia terracota">Iglesia San Miguel<span class="chev">▼</span></summary>
+      <div class="cuerpo-in"><div class="ficha">Construida en el siglo XVII, conserva frescos originales y un retablo barroco tallado en madera dorada.<p class="meta">Ruta · Parada 1</p><div class="retablo">⛪</div></div></div></details>
+    <details class="pieza"><summary class="iglesia">Capilla del Rosario<span class="chev">▼</span></summary>
+      <div class="cuerpo-in"><div class="ficha">Pequeña joya colonial conocida por sus vitrales y su patio de naranjos.<p class="meta">Ruta · Parada 2</p><div class="retablo">🕯️</div></div></div></details>
+    <details class="pieza"><summary class="iglesia">Ruta de las ermitas<span class="chev">▼</span></summary>
+      <div class="cuerpo-in"><div class="ficha">Sendero peregrino que conecta siete ermitas entre montañas y viñedos.<p class="meta">Ruta · Completa</p><div class="retablo">⛰️</div></div></div></details>
+  </section>
+<!-- ==== PEGÁ LA PARTE 8 DEBAJO DE ESTA LÍNEA ==== -->
