@@ -84,6 +84,7 @@ summary.iglesia .chev{color:#fff0c8}
 .cel.v{background:none;box-shadow:none;border:1px dashed var(--line)}
 footer{text-align:center;padding:1.8rem 1rem 1.2rem;color:var(--mut);font-size:.75rem;letter-spacing:.08em}
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.flot{position:fixed;right:14px;bottom:16px;z-index:40;display:flex;flex-direction:column;align-items:center;gap:2px;padding:.55rem .75rem;border-radius:999px;color:#241c12;background:linear-gradient(145deg,#e8c26a,#a8781f);border:2px solid #6e5327;box-shadow:0 8px 18px -6px rgba(0,0,0,.55),inset 0 2px 2px rgba(255,240,190,.7);font-weight:800;transition:transform .09s}.flot-d{font-family:"Fraunces",serif;font-size:1.25rem;line-height:1}.flot-t{font-size:.52rem;letter-spacing:.14em}.flot:active{transform:translateY(4px)}#s-portada:checked ~ .marco .flot{display:none}
 </style>
 </head>
 <body>
@@ -106,7 +107,8 @@ footer{text-align:center;padding:1.8rem 1rem 1.2rem;color:var(--mut);font-size:.
   <label class="tab" for="s-fe"><svg class="tic"><use href="#i-fe"/></svg>Fe</label>
   <label class="tab" for="s-guia"><svg class="tic"><use href="#i-gui"/></svg>Guía</label>
 </nav>
-<main>
+<label class="flot" for="s-portada" aria-label="Volver a la portada"><span class="flot-d">D</span><span class="flot-t">VOLVER</span></label>
+  <main>
   <section id="portada" class="sec">
     <header class="masthead">
       <h1>DESCUBRIR</h1>
@@ -569,5 +571,6 @@ footer{text-align:center;padding:1.8rem 1rem 1.2rem;color:var(--mut);font-size:.
 <script>
 try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener('change',()=>window.scrollTo(0,0)))}catch(e){}
 </script>
+<script>try{var rad=document.querySelectorAll('input[name="sec"]');history.replaceState({sec:'s-portada'},'');rad.forEach(function(r){r.addEventListener('change',function(){if(r.checked){history.pushState({sec:r.id},'');window.scrollTo(0,0);}});});window.addEventListener('popstate',function(e){var id=(e.state&&e.state.sec)||'s-portada';var el=document.getElementById(id);if(el){el.checked=true;window.scrollTo(0,0);}});}catch(e){}</script>
 </body>
 </html>
