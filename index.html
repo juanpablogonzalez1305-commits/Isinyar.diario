@@ -637,5 +637,6 @@ h2.tit{font-style:italic;font-weight:700;color:#d9b04c;text-shadow:1px 0 0 #2a1c
 try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener('change',()=>window.scrollTo(0,0)))}catch(e){}
 </script>
 <script>try{var rad=document.querySelectorAll('input[name="sec"]');history.replaceState({sec:'s-portada'},'');rad.forEach(function(r){r.addEventListener('change',function(){if(r.checked){history.pushState({sec:r.id},'');window.scrollTo(0,0);}});});window.addEventListener('popstate',function(e){var id=(e.state&&e.state.sec)||'s-portada';var el=document.getElementById(id);if(el){el.checked=true;window.scrollTo(0,0);}});}catch(e){}</script>
+<script>try{var f=["15 de mayo","20 de noviembre (aniversario de la fundación de Lules)","8 de septiembre","19 de marzo","7 de octubre","16 de julio","29 de septiembre","31 de agosto","25 de septiembre","13 de junio","24 de septiembre","2 de febrero","13 de mayo","7 de agosto","27 de noviembre","12 de octubre","19 de abril","1 de mayo"];document.querySelectorAll('#fe details .ficha p:nth-of-type(2)').forEach(function(p,i){if(f[i])p.innerHTML='<b>\u{1F389} Fiesta patronal:</b> '+f[i]+'.'});}catch(e){}</script>
 </body>
 </html>
