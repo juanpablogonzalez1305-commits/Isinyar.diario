@@ -577,7 +577,9 @@ h2.tit{font-style:italic;font-weight:700;color:#d9b04c;text-shadow:1px 0 0 #2a1c
       <div class="cuerpo-in"><div class="ficha"><p><b>📍 Dirección:</b> a confirmar.</p><p><b>🎉 Fiesta patronal:</b> a confirmar.</p><p><b>📷 Foto:</b> espacio reservado.</p><p><b>🗺️ Mapa:</b> espacio reservado.</p><p class="meta">Camino de la Fe · Lules</p></div></div></details>
     <details class="pieza"><summary class="iglesia">18 · San José Obrero<span class="chev">▼</span></summary>
       <div class="cuerpo-in"><div class="ficha"><p><b>📍 Dirección:</b> a confirmar.</p><p><b>🎉 Fiesta patronal:</b> a confirmar.</p><p><b>📷 Foto:</b> espacio reservado.</p><p><b>🗺️ Mapa:</b> espacio reservado.</p><p class="meta">Camino de la Fe · Lules</p></div></div></details>
-<!--
+<details class="pieza"><summary class="iglesia terracota">19 · Ermita de Schoenstatt<span class="chev">▼</span></summary>
+      <div class="cuerpo-in"><div class="ficha"><p><b>📍 Dirección:</b> a confirmar.</p><p><b>🎉 Fiesta patronal:</b> a confirmar.</p><p><b>📷 Foto:</b> espacio reservado.</p><p><b>🗺️ Mapa:</b> espacio reservado.</p><p class="meta">Camino de la Fe · Lules</p></div></div></details>
+    <!--
     <!--<details class="pieza"><summary class="iglesia terracota">Iglesia San Miguel<span class="chev">▼</span></summary>
       <div class="cuerpo-in"><div class="ficha">Construida en el siglo XVII, conserva frescos originales y un retablo barroco tallado en madera dorada.<p class="meta">Ruta · Parada 1</p><div class="retablo">⛪</div></div></div></details>
     <details class="pieza"><summary class="iglesia">Capilla del Rosario<span class="chev">▼</span></summary>
@@ -638,5 +640,6 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
 </script>
 <script>try{var rad=document.querySelectorAll('input[name="sec"]');history.replaceState({sec:'s-portada'},'');rad.forEach(function(r){r.addEventListener('change',function(){if(r.checked){history.pushState({sec:r.id},'');window.scrollTo(0,0);}});});window.addEventListener('popstate',function(e){var id=(e.state&&e.state.sec)||'s-portada';var el=document.getElementById(id);if(el){el.checked=true;window.scrollTo(0,0);}});}catch(e){}</script>
 <script>try{var f=["15 de mayo","20 de noviembre (aniversario de la fundación de Lules)","8 de septiembre","19 de marzo","7 de octubre","16 de julio","29 de septiembre","31 de agosto","25 de septiembre","13 de junio","24 de septiembre","2 de febrero","13 de mayo","7 de agosto","27 de noviembre","12 de octubre","19 de abril","1 de mayo"];document.querySelectorAll('#fe details .ficha p:nth-of-type(2)').forEach(function(p,i){if(f[i])p.innerHTML='<b>\u{1F389} Fiesta patronal:</b> '+f[i]+'.'});}catch(e){}</script>
+<script>try{var d=["Lules Centro","Lules Centro","La Reducción","Ruinas","Villa Nueva","Villa del Carmen","San Rafael","San Ramón (La Reducción)","","El Oratorio","Mercedes","La Quebrada","Ingenio Lules","El Ceibal","","Barrio El Pilar","","","Barrio Obrador Municipal"];document.querySelectorAll('#fe details .ficha p:nth-of-type(1)').forEach(function(p,i){if(d[i])p.innerHTML='<b>\u{1F4CD} Dirección:</b> '+d[i]+'.'});var g=document.querySelectorAll('#fe details .ficha p:nth-of-type(2)');if(g[18])g[18].innerHTML='<b>\u{1F389} Fiesta patronal:</b> 18 de octubre (Virgen de Schoenstatt).';}catch(e){}</script>
 </body>
 </html>
