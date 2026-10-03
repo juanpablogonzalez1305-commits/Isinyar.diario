@@ -190,8 +190,46 @@ img {
   margin: 0 !important;
   box-shadow: none !important;
 }
+  /* Reproductor de YouTube para la Marcha de las Malvinas */
+#auvieux-himno-btn { display: none !important; }
+#auvieux-yt-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  margin: 1rem 0;
+  border: 2px solid #171310;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 0 #171310;
+  background: #000;
+}
+#auvieux-yt-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
 </style>
 </head>
+  <script>
+(function(){
+  function ponerYouTube(){
+    var btn = document.getElementById('auvieux-himno-btn');
+    if(!btn){ setTimeout(ponerYouTube, 500); return; }
+    if(document.getElementById('auvieux-yt-wrap')) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'auvieux-yt-wrap';
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/k7LoMOSRTY0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    wrap.appendChild(iframe);
+    btn.parentNode.insertBefore(wrap, btn.nextSibling);
+  }
+  ponerYouTube();
+})();
+  </script>
 <body>
 <input class="sr" type="radio" name="sec" id="s-portada" checked>
 <input class="sr" type="radio" name="sec" id="s-noticias">
