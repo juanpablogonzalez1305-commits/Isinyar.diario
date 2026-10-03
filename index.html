@@ -97,8 +97,12 @@ img {
 .masthead img, header img, body::before {
   filter: contrast(1.25) saturate(1.45) brightness(1.12); /* Aún más intenso para fondo/portada */
 }
-/* === CONTORNO NEGRO PARA "INTERÉS GENERAL" Y SIMILARES === */
-.place, h2.place, .masthead p.place {
+/* === REGLA NUCLEAR PARA TÍTULOS DE GUÍA === */
+#s-guia h2, 
+#s-guia h3, 
+#s-guia .tit, 
+#s-guia p[style*="color"], /* Atrapa cualquier párrafo coloreado manualmente */
+#s-guia strong {
   text-shadow: 
     -1px -1px 0 #000,  
      1px -1px 0 #000,
