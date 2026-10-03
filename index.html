@@ -90,38 +90,72 @@ h2.tit{font-style:italic;font-weight:700;color:#d9b04c;text-shadow:1px 0 0 #2a1c
 #fe .ficha p:not(.meta){font-family:"Fraunces",serif;font-style:italic;font-weight:600;font-size:.95rem;color:#171310;background:#fffdf8;border:1.5px solid #171310;border-radius:12px;padding:.5rem .65rem;box-shadow:0 2px 0 rgba(23,19,16,.3),inset 0 1px 0 #fff}
 
 #fe .ficha p:nth-of-type(4){background:none;border:0;box-shadow:none;padding:0;margin:.2rem 0}#fe .ficha p:nth-of-type(4) a{display:block;font-family:"Fraunces",serif;font-style:italic;font-weight:700;font-size:.98rem;color:#171310;text-decoration:none;text-align:center;background:linear-gradient(180deg,#fffdf8,#f1e6cf);border:1.5px solid #171310;border-radius:12px;padding:.6rem .65rem;box-shadow:0 4px 0 0 #171310,0 10px 16px -6px rgba(0,0,0,.45),inset 0 1px 0 #fff;transition:transform .09s,box-shadow .09s}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(4px);box-shadow:0 0 0 0 #171310,0 3px 6px -3px rgba(0,0,0,.4),inset 0 2px 5px rgba(0,0,0,.25)}
-/* FORZAR ESTILO MODERNO A TODAS LAS NOTAS DE HEMEROTECA */
-details.pieza .cuerpo-in, details.pieza .hemero {
+/* === MARTILLO NEUMÁTICO PARA RENÉ JUÁREZ === */
+/* Fuerza ancho pleno y fuente moderna SOLO en notas hemeroteca */
+#s-historia details summary + div > *,
+#s-historia .hemero *,
+#s-historia .cuerpo-in *,
+#s-historia figure img {
   max-width: 100% !important;
   width: 100% !important;
-  margin: 0 auto !important;
-  padding: 1rem !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
-details.pieza p, details.pieza li {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  font-size: 1rem !important;
-  line-height: 1.6 !important;
-  text-align: left !important;
+
+/* Fuente sans-serif limpia tipo Auvieux */
+#s-historia .hemero p,
+#s-historia .cuerpo-in p,
+#s-historia blockquote,
+#s-historia figcaption {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 1rem !important; /* Tamaño estándar móvil */
+  line-height: 1.65 !important; /* Aire entre renglones */
+  text-align: left !important; /* Sin huecos raros del justificado */
   letter-spacing: normal !important;
   word-spacing: normal !important;
+  color: #171310 !important; /* Negro profundo legible */
 }
-details.pieza img {
+
+/* Títulos grandes pero proporcionados */
+#s-historia h3.tit-h,
+#s-historia h1,
+#s-historia h2 {
+  font-family: "Fraunces", Georgia, serif !important;
+  font-size: 1.35rem !important;
+  line-height: 1.25 !important;
+  margin: .8rem 0 !important;
+  text-align: center !important;
+}
+
+/* Imágenes ocupando todo el cofre dorado */
+#s-historia img.facsimil-img,
+#s-historia figure img {
+  display: block !important;
   width: 100% !important;
   height: auto !important;
   border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1) !important;
 }
-details.pieza .mast {
+
+/* Membrete flexible sin fugarse */
+#s-historia .mast,
+#s-historia header.encabezado {
   display: flex !important;
+  flex-wrap: wrap !important;
   justify-content: space-between !important;
-  align-items: center !important;
-  gap: 0.5rem !important;
-  font-size: 0.85rem !important;
+  align-items: baseline !important;
+  gap: .3rem .8rem !important;
+  font-size: .82rem !important;
   white-space: nowrap !important;
-  overflow: hidden !important;
+  overflow-x: hidden !important;
 }
+
 @media(max-width:480px){
-  details.pieza .mast{font-size:.72rem!important;gap:.2rem .5rem!important}
-  details.pieza h3,details.pieza .tit-h{font-size:1.1rem!important}
+  #s-historia .mast{font-size:.7rem!important;gap:.2rem .5rem!important}
+  #s-historia h3.tit-h,#s-historia h1,#s-historia h2{font-size:1.15rem!important}
+  #s-historia .hemero p,#s-historia .cuerpo-in p{font-size:.95rem!important;line-height:1.55!important}
 }
 </style>
 <style>#fe .ficha p:nth-of-type(4) a{background:linear-gradient(180deg,#ffffff,#efe3c8);box-shadow:0 6px 0 0 #14100c,0 14px 22px -8px rgba(0,0,0,.55),inset 0 2px 0 #fff,inset 0 -3px 6px rgba(120,100,60,.25)}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(6px);box-shadow:0 0 0 0 #14100c,0 4px 8px -4px rgba(0,0,0,.4),inset 0 3px 6px rgba(0,0,0,.3)}#fe .ficha .meta{display:none}</style>
