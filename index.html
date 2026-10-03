@@ -89,7 +89,41 @@ footer{text-align:center;padding:1.8rem 1rem 1.2rem;color:var(--mut);font-size:.
 h2.tit{font-style:italic;font-weight:700;color:#d9b04c;text-shadow:1px 0 0 #2a1c08,-1px 0 0 #2a1c08,0 1px 0 #2a1c08,0 -1px 0 #2a1c08,1px 1px 0 #2a1c08,-1px -1px 0 #2a1c08,1px -1px 0 #2a1c08,-1px 1px 0 #2a1c08,0 2px 6px rgba(42,28,8,.5)}.over{color:#171310}
 #fe .ficha p:not(.meta){font-family:"Fraunces",serif;font-style:italic;font-weight:600;font-size:.95rem;color:#171310;background:#fffdf8;border:1.5px solid #171310;border-radius:12px;padding:.5rem .65rem;box-shadow:0 2px 0 rgba(23,19,16,.3),inset 0 1px 0 #fff}
 
-#fe .ficha p:nth-of-type(4){background:none;border:0;box-shadow:none;padding:0;margin:.2rem 0}#fe .ficha p:nth-of-type(4) a{display:block;font-family:"Fraunces",serif;font-style:italic;font-weight:700;font-size:.98rem;color:#171310;text-decoration:none;text-align:center;background:linear-gradient(180deg,#fffdf8,#f1e6cf);border:1.5px solid #171310;border-radius:12px;padding:.6rem .65rem;box-shadow:0 4px 0 0 #171310,0 10px 16px -6px rgba(0,0,0,.45),inset 0 1px 0 #fff;transition:transform .09s,box-shadow .09s}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(4px);box-shadow:0 0 0 0 #171310,0 3px 6px -3px rgba(0,0,0,.4),inset 0 2px 5px rgba(0,0,0,.25)}</style>
+#fe .ficha p:nth-of-type(4){background:none;border:0;box-shadow:none;padding:0;margin:.2rem 0}#fe .ficha p:nth-of-type(4) a{display:block;font-family:"Fraunces",serif;font-style:italic;font-weight:700;font-size:.98rem;color:#171310;text-decoration:none;text-align:center;background:linear-gradient(180deg,#fffdf8,#f1e6cf);border:1.5px solid #171310;border-radius:12px;padding:.6rem .65rem;box-shadow:0 4px 0 0 #171310,0 10px 16px -6px rgba(0,0,0,.45),inset 0 1px 0 #fff;transition:transform .09s,box-shadow .09s}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(4px);box-shadow:0 0 0 0 #171310,0 3px 6px -3px rgba(0,0,0,.4),inset 0 2px 5px rgba(0,0,0,.25)}
+/* FORZAR ESTILO MODERNO A TODAS LAS NOTAS DE HEMEROTECA */
+details.pieza .cuerpo-in, details.pieza .hemero {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 1rem !important;
+}
+details.pieza p, details.pieza li {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+  text-align: left !important;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+}
+details.pieza img {
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 8px !important;
+}
+details.pieza .mast {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+@media(max-width:480px){
+  details.pieza .mast{font-size:.72rem!important;gap:.2rem .5rem!important}
+  details.pieza h3,details.pieza .tit-h{font-size:1.1rem!important}
+}
+</style>
 <style>#fe .ficha p:nth-of-type(4) a{background:linear-gradient(180deg,#ffffff,#efe3c8);box-shadow:0 6px 0 0 #14100c,0 14px 22px -8px rgba(0,0,0,.55),inset 0 2px 0 #fff,inset 0 -3px 6px rgba(120,100,60,.25)}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(6px);box-shadow:0 0 0 0 #14100c,0 4px 8px -4px rgba(0,0,0,.4),inset 0 3px 6px rgba(0,0,0,.3)}#fe .ficha .meta{display:none}</style>
 <style>#fe summary.iglesia,#fe summary.terracota{background:linear-gradient(180deg,#fbf7ec,#efe7d2);border:2px solid #8a6a35;color:#221a10;text-shadow:none;box-shadow:0 5px 0 #d6cab0,0 10px 16px -8px rgba(90,70,40,.4)}#fe summary.iglesia .chev,#fe summary.terracota .chev{color:#b8860b}</style>
 <style>.hemero{background:#f6f1e4;color:#191713;font-family:Georgia,"Times New Roman",serif;padding:1.1rem 1rem;border:1px solid #8d8577;box-shadow:0 10px 24px -12px rgba(0,0,0,.5);margin:1rem 0}.hemero .mast{display:flex;justify-content:space-between;gap:.5rem;align-items:baseline;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;border-bottom:3px double #191713;padding-bottom:.45rem}.hemero .mast b{font-size:.95rem;letter-spacing:.3em}.hemero .kick{font-style:italic;font-size:.8rem;text-align:left;border-bottom:1px solid #191713;padding:.5rem 0 .3rem;margin:.7rem 0 0;text-transform:uppercase;letter-spacing:.06em}.hemero h3.tit-h{background:#191713;color:#f6f1e4;font-size:1.2rem;line-height:1.35;padding:.7rem .8rem;margin:.6rem 0 .8rem;font-weight:700}.hemero .redaccion{border:1px solid #191713;padding:.6rem .7rem;font-size:.88rem;line-height:1.6;margin:0 0 .9rem;background:#fbf8ef}.hemero .redaccion b{display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}.hemero p{font-size:1.02rem;line-height:1.8;text-align:justify;margin:0 0 .8rem}.hemero h4{font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid #191713;padding-bottom:.25rem;margin:1rem 0 .6rem}.hemero .facsimil{margin:0 0 1rem;border:1px solid #191713;padding:.4rem;background:#fff}.hemero .facsimil img{display:block;width:100%;height:auto}.hemero .facsimil figcaption{font-size:.74rem;font-style:italic;padding-top:.4rem;text-align:left}.hemero .pie{border-top:1px solid #191713;margin-top:.9rem;padding-top:.5rem;font-size:.78rem;font-style:italic;text-align:left}@media(min-width:760px){.hemero .cuerpo-nota{columns:2;column-gap:2rem}}</style>
