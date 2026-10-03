@@ -117,37 +117,51 @@ img {
 #s-guia input[type="radio"] + label {
   text-shadow: none !important;
   }
-/* === ENSANCHAR LAS 9 PARTES INTERNAS DE RENÉ JUÁREZ === */
-/* Solo afecta el contenido interno de hemeroteca/historia */
-#s-historia .cuerpo-in,
-.his-panel .cuerpo-in,
-details.pieza .cuerpo-in {
+/* === ENSANCHADOR UNIVERSAL PARA HISTORIA/HEMEROTECA === */
+/* Fuerza al contenedor principal de la sección a ocupar todo el ancho disponible */
+#s-historia .sec-inner, 
+#s-historia main, 
+#s-historia section.sec {
   max-width: 100% !important;
+  width: 100vw !important; /* Ocupa todo el ancho de pantalla */
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+}
+
+/* Asegura que los detalles (las tarjetas desplegables) también sean anchos */
+#s-historia details.pieza {
+  width: calc(100% - 2rem) !important; /* Deja un margen pequeño para respirar */
+  margin: 1rem auto !important;
+  display: block !important;
+}
+
+/* El contenido interno (.cuerpo-in) debe fluir sin restricciones */
+#s-historia details.pieza .cuerpo-in,
+#s-historia details.pieza .hemero {
   width: 100% !important;
-  padding-left: 0.8rem !important;
-  padding-right: 0.8rem !important;
-  margin: 0 auto !important;
+  max-width: none !important;
+  padding: 1.5rem !important;
+  box-sizing: border-box !important;
 }
 
-/* Asegurar que cada párrafo/bloque interno tenga aire propio */
-#s-historia .cuerpo-in p,
-#s-historia .cuerpo-in div:not(.mast),
-.his-panel .cuerpo-in p {
-  font-size: 1rem !important;
-  line-height: 1.65 !important;
-  text-align: left !important;
-  margin-bottom: 0.9rem !important;
+/* Tipografía legible para adultos mayores */
+#s-historia details.pieza p,
+#s-historia details.pieza div:not(.mast):not(.chev) {
+  font-size: 1.1rem !important; /* Letra más grande */
+  line-height: 1.7 !important; /* Más aire entre renglones */
+  text-align: justify !important; /* Justificado tipo revista */
   color: #171310 !important;
+  font-family: Georgia, "Times New Roman", serif !important; /* Fuente clásica elegante */
 }
 
-/* Separar visualmente las 9 partes con bordes suaves tipo tarjeta */
-#s-historia .cuerpo-in > *:not(script):not(style) {
-  background: rgba(255,253,246,.6) !important;
-  border: 1px solid #e0d5c0 !important;
-  border-radius: 10px !important;
-  padding: 0.7rem 0.9rem !important;
-  margin-bottom: 0.7rem !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,.04) !important;
+/* Imágenes ocupando todo el espacio útil */
+#s-historia img {
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 8px !important;
+  margin: 1rem 0 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15) !important;
 }
 </style>
 <style>#fe .ficha p:nth-of-type(4) a{background:linear-gradient(180deg,#ffffff,#efe3c8);box-shadow:0 6px 0 0 #14100c,0 14px 22px -8px rgba(0,0,0,.55),inset 0 2px 0 #fff,inset 0 -3px 6px rgba(120,100,60,.25)}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(6px);box-shadow:0 0 0 0 #14100c,0 4px 8px -4px rgba(0,0,0,.4),inset 0 3px 6px rgba(0,0,0,.3)}#fe .ficha .meta{display:none}</style>
