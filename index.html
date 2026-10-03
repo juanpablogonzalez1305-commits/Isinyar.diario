@@ -117,52 +117,7 @@ img {
 #s-guia input[type="radio"] + label {
   text-shadow: none !important;
   }
-/* === ENSANCHADOR UNIVERSAL PARA HISTORIA/HEMEROTECA === */
-/* Fuerza al contenedor principal de la sección a ocupar todo el ancho disponible */
-#s-historia .sec-inner, 
-#s-historia main, 
-#s-historia section.sec {
-  max-width: 100% !important;
-  width: 100vw !important; /* Ocupa todo el ancho de pantalla */
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  margin: 0 !important;
-}
 
-/* Asegura que los detalles (las tarjetas desplegables) también sean anchos */
-#s-historia details.pieza {
-  width: calc(100% - 2rem) !important; /* Deja un margen pequeño para respirar */
-  margin: 1rem auto !important;
-  display: block !important;
-}
-
-/* El contenido interno (.cuerpo-in) debe fluir sin restricciones */
-#s-historia details.pieza .cuerpo-in,
-#s-historia details.pieza .hemero {
-  width: 100% !important;
-  max-width: none !important;
-  padding: 1.5rem !important;
-  box-sizing: border-box !important;
-}
-
-/* Tipografía legible para adultos mayores */
-#s-historia details.pieza p,
-#s-historia details.pieza div:not(.mast):not(.chev) {
-  font-size: 1.1rem !important; /* Letra más grande */
-  line-height: 1.7 !important; /* Más aire entre renglones */
-  text-align: justify !important; /* Justificado tipo revista */
-  color: #171310 !important;
-  font-family: Georgia, "Times New Roman", serif !important; /* Fuente clásica elegante */
-}
-
-/* Imágenes ocupando todo el espacio útil */
-#s-historia img {
-  width: 100% !important;
-  height: auto !important;
-  border-radius: 8px !important;
-  margin: 1rem 0 !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,.15) !important;
-}
 </style>
 <style>#fe .ficha p:nth-of-type(4) a{background:linear-gradient(180deg,#ffffff,#efe3c8);box-shadow:0 6px 0 0 #14100c,0 14px 22px -8px rgba(0,0,0,.55),inset 0 2px 0 #fff,inset 0 -3px 6px rgba(120,100,60,.25)}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(6px);box-shadow:0 0 0 0 #14100c,0 4px 8px -4px rgba(0,0,0,.4),inset 0 3px 6px rgba(0,0,0,.3)}#fe .ficha .meta{display:none}</style>
 <style>#fe summary.iglesia,#fe summary.terracota{background:linear-gradient(180deg,#fbf7ec,#efe7d2);border:2px solid #8a6a35;color:#221a10;text-shadow:none;box-shadow:0 5px 0 #d6cab0,0 10px 16px -8px rgba(90,70,40,.4)}#fe summary.iglesia .chev,#fe summary.terracota .chev{color:#b8860b}</style>
