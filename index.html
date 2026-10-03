@@ -130,6 +130,63 @@ img {
 <style>#historia>.his-panel{display:none}#his-l:checked~#his-linea{display:block}#his-h:checked~#his-hemero{display:block}#his-c:checked~#his-cultura{display:block}.his-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}.his-tabs label{flex:1;text-align:center;font-family:"Fraunces",serif;font-style:italic;font-weight:700;font-size:.9rem;color:#221a10;background:linear-gradient(180deg,#fbf7ec,#efe7d2);border:2px solid #8a6a35;border-radius:999px;padding:.5rem .6rem;box-shadow:0 3px 0 #d6cab0;cursor:pointer}.his-tabs label:active{transform:translateY(2px);box-shadow:0 1px 0 #d6cab0}#his-l:checked~.his-tabs label[for="his-l"],#his-h:checked~.his-tabs label[for="his-h"],#his-c:checked~.his-tabs label[for="his-c"]{background:linear-gradient(180deg,#8a6a35,#6d5226);color:#fbf7ec;border-color:#4c3a17;box-shadow:0 3px 0 #3a2c10}</style>
 <style>#fe{background-image:linear-gradient(rgba(243,238,229,.9),rgba(243,238,229,.9)),url('https://files.catbox.moe/zaqfkh.png');background-size:cover,cover;background-position:center,center;background-repeat:no-repeat,no-repeat;background-attachment:fixed,fixed;}</style>
 <script>if(!window._ibPatch){window._ibPatch=1;var _origIB=Node.prototype.insertBefore;Node.prototype.insertBefore=function(n,r){try{if(r&&r.parentNode!==this){return this.appendChild(n);}return _origIB.call(this,n,r);}catch(e){try{return this.appendChild(n);}catch(e2){return n;}}};}</script>
+<style>
+/* ARREGLO VISUAL DE LOS 9 BOTONES DE RENÉ JUÁREZ */
+
+/* El contenedor interno deja de sumar sangría */
+#rene-grupo > div {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Cada una de las 9 paradas recupera el mismo relieve del resto del diario */
+#rene-grupo details {
+  background: linear-gradient(145deg,#fffdf6,#e6ddc8) !important;
+  border: 2px solid #6e5327 !important;
+  border-radius: 22px !important;
+  box-shadow: 0 0 0 1px rgba(46,32,12,.35),
+              0 7px 0 0 #bfae8a,
+              0 18px 26px -12px rgba(93,78,52,.5),
+              inset 0 2px 2px rgba(255,255,255,.95),
+              inset 0 -4px 8px rgba(120,100,70,.22) !important;
+  margin: .9rem 0 !important;
+  padding: 0 !important;
+}
+
+/* El título de cada parada queda con relieve y tipografía como el resto */
+#rene-grupo details > summary {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 22px !important;
+  box-shadow: none !important;
+  padding: 1.15rem 1.2rem !important;
+  font-weight: 800 !important;
+  font-size: 1.05rem !important;
+  color: #171310 !important;
+  list-style: none !important;
+}
+#rene-grupo details > summary::-webkit-details-marker { display: none !important; }
+
+/* Cuando una parada está abierta, la unión entre título y cuerpo */
+#rene-grupo details[open] > summary {
+  border-bottom: 2px solid rgba(110,83,39,.4) !important;
+  border-radius: 22px 22px 0 0 !important;
+}
+
+/* El cuerpo de cada parada recupera ancho completo, sin doble sangría */
+#rene-grupo details > .cuerpo-in {
+  padding: 1rem 1.2rem 1.15rem !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+</style>
 </head>
 <body>
 <input class="sr" type="radio" name="sec" id="s-portada" checked>
