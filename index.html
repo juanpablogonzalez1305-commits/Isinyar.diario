@@ -97,12 +97,9 @@ img {
 .masthead img, header img, body::before {
   filter: contrast(1.25) saturate(1.45) brightness(1.12); /* Aún más intenso para fondo/portada */
 }
-/* === REGLA NUCLEAR PARA TÍTULOS DE GUÍA === */
-#s-guia h2, 
-#s-guia h3, 
-#s-guia .tit, 
-#s-guia p[style*="color"], /* Atrapa cualquier párrafo coloreado manualmente */
-#s-guia strong {
+/* === CONTORNO NEGRO UNIVERSAL PARA GUÍA === */
+/* Aplica sombra negra a TODO texto dentro de #s-guia que sea grande o destacado */
+#s-guia * {
   text-shadow: 
     -1px -1px 0 #000,  
      1px -1px 0 #000,
@@ -113,6 +110,13 @@ img {
     -2px  0   0 #000, /* Izquierda */
      2px  0   0 #000; /* Derecha */
 }
+
+/* Excepción: Quitamos el contorno a los botones blancos/beige para que no se ensucien */
+#s-guia button, 
+#s-guia .card, 
+#s-guia input[type="radio"] + label {
+  text-shadow: none !important;
+  }
 </style>
 <style>#fe .ficha p:nth-of-type(4) a{background:linear-gradient(180deg,#ffffff,#efe3c8);box-shadow:0 6px 0 0 #14100c,0 14px 22px -8px rgba(0,0,0,.55),inset 0 2px 0 #fff,inset 0 -3px 6px rgba(120,100,60,.25)}#fe .ficha p:nth-of-type(4) a:active{transform:translateY(6px);box-shadow:0 0 0 0 #14100c,0 4px 8px -4px rgba(0,0,0,.4),inset 0 3px 6px rgba(0,0,0,.3)}#fe .ficha .meta{display:none}</style>
 <style>#fe summary.iglesia,#fe summary.terracota{background:linear-gradient(180deg,#fbf7ec,#efe7d2);border:2px solid #8a6a35;color:#221a10;text-shadow:none;box-shadow:0 5px 0 #d6cab0,0 10px 16px -8px rgba(90,70,40,.4)}#fe summary.iglesia .chev,#fe summary.terracota .chev{color:#b8860b}</style>
