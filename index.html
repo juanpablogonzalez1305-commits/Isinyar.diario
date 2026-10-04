@@ -1529,5 +1529,40 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   font-size: .78rem !important;
 }
 </style>
+<style>
+#hoja-hogar .hemero p,
+#hoja-hogar .cuerpo-in p {
+  text-align: left !important;
+  font-size: .95rem !important;
+  line-height: 1.7 !important;
+  word-spacing: normal !important;
+  letter-spacing: normal !important;
+  margin: 0 0 .7rem !important;
+}
+#hoja-hogar .cuerpo-in { word-spacing: normal !important; }
+#hoja-hogar .cuerpo-in * { word-spacing: normal !important; }
+</style>
+<script>
+(function(){
+  function engancharPausa(){
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.hogarHook === '1') return;
+      r.dataset.hogarHook = '1';
+      r.addEventListener('change', function(){
+        if(window._hogarLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._hogarLeyendo = false;
+          var b = document.querySelector('#hoja-hogar .btn-voz-hogar-final');
+          if(b) b.innerHTML = '🔊 Escuchar en voz alta';
+        }
+        // También por las dudas, cualquier voz activa
+        try{ window.speechSynthesis.cancel(); }catch(e){}
+      });
+    });
+  }
+  engancharPausa();
+  setInterval(engancharPausa, 1500);
+})();
+</script>
 </body>
 </html>
