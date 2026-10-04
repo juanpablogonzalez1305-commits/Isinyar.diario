@@ -249,6 +249,25 @@ img {
   ponerYouTube();
 })();
   </script>
+  <script>
+(function(){
+  function ponerYouTubeDiPalma(){
+    var btn = document.getElementById('dipalma-mus-btn');
+    if(!btn){ setTimeout(ponerYouTubeDiPalma, 500); return; }
+    if(document.getElementById('dipalma-yt-wrap')) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'dipalma-yt-wrap';
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/EpUUq76ZBu0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    wrap.appendChild(iframe);
+    btn.parentNode.insertBefore(wrap, btn.nextSibling);
+  }
+  ponerYouTubeDiPalma();
+})();
+  </script>
 <body>
 <input class="sr" type="radio" name="sec" id="s-portada" checked>
 <input class="sr" type="radio" name="sec" id="s-noticias">
