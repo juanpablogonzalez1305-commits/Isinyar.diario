@@ -301,7 +301,9 @@ img {
     iframe.allowFullscreen = true;
     iframe.loading = 'lazy';
     wrap.appendChild(iframe);
-    btn.parentNode.insertBefore(wrap, btn.nextSibling);
+var grupo = document.getElementById('rene-grupo');
+var destino = grupo ? (grupo.querySelector('div') || grupo) : btn.parentNode;
+destino.insertBefore(wrap, destino.firstChild);
   }
   ponerYouTubeRene();
 })();
