@@ -1839,5 +1839,36 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
 #hoja-hogar .btn-voz-hogar-nuevo { display: none !important; }
 #hoja-hogar .btn-voz-hogar-final { display: block !important; }
 </style>
+<script>
+(function(){
+  function corregirFechaObrador(){
+    var d = document.getElementById('hoja-obrador');
+    if(!d){ setTimeout(corregirFechaObrador, 500); return; }
+    if(d.dataset.fechaOk === '1') return;
+
+    // Corregir el mast: "Memorias · DESCUBRIR · Lules" → "Abril de 1995 · DESCUBRIR · Memorias"
+    var mast = d.querySelector('.mast');
+    if(mast){
+      mast.innerHTML = '<span>Abril de 1995</span><b>DESCUBRIR</b><span>Memorias</span>';
+    }
+
+    // Corregir el pie de la nota para que mencione la fecha
+    var pie = d.querySelector('.pie');
+    if(pie){
+      pie.textContent = 'Nota publicada en la revista Descubrir, abril de 1995. Transcripción y adaptación.';
+    }
+
+    // Corregir el kicker para que quede más claro
+    var kick = d.querySelector('.kick');
+    if(kick){
+      kick.textContent = 'Abril de 1995 · Imágenes de un barrio humilde · El Obrador Municipal';
+    }
+
+    d.dataset.fechaOk = '1';
+  }
+  corregirFechaObrador();
+  setInterval(corregirFechaObrador, 1500);
+})();
+</script>
 </body>
 </html>
