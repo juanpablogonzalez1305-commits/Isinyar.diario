@@ -1355,5 +1355,71 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   ponerHogar();
 })();
 </script>
+<style>
+#hoja-hogar .hemero p { font-size: 1.02rem !important; line-height: 1.8 !important; }
+#hoja-hogar .hemero h4 { font-size: .95rem !important; }
+#hoja-hogar .hemero .tit-h { font-size: 1.2rem !important; }
+#hoja-hogar .hemero .kick { font-size: .8rem !important; }
+#hoja-hogar .hemero .pie { font-size: .78rem !important; }
+#hoja-hogar .btn-voz-hogar { display: none !important; }
+</style>
+<script>
+(function(){
+  function arreglarBotonHogar(){
+    var d = document.getElementById('hoja-hogar');
+    if(!d){ setTimeout(arreglarBotonHogar, 500); return; }
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+    if(cue.querySelector('.btn-voz-hogar-nuevo')) return;
+    var viejo = cue.querySelector('.btn-voz-hogar');
+    if(viejo){ viejo.style.display = 'none'; }
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn-voz-hogar-nuevo';
+    b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+    b.innerHTML = '🔊 Escuchar en voz alta';
+    b.addEventListener('click', function(){
+      var s = window.speechSynthesis;
+      if(!s){ return; }
+      if(window._hogarLeyendo){
+        s.cancel();
+        window._hogarLeyendo = false;
+        b.innerHTML = '🔊 Escuchar en voz alta';
+        return;
+      }
+      var texto = cue.textContent.replace(/Escuchar en voz alta/g,'').replace(/\s+/g,' ').trim();
+      var chunks = [];
+      var frases = texto.match(/[^.!?]+[.!?]*/g) || [texto];
+      var buf = '';
+      for(var i=0;i<frases.length;i++){
+        if((buf+frases[i]).length > 180){ if(buf){chunks.push(buf);} buf = frases[i]; }
+        else { buf += frases[i]; }
+      }
+      if(buf){ chunks.push(buf); }
+      window._hogarLeyendo = true;
+      b.innerHTML = '⏸ Detener lectura';
+      s.cancel();
+      var idx = 0;
+      function hablar(){
+        if(!window._hogarLeyendo){ return; }
+        if(idx >= chunks.length){
+          window._hogarLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var u = new SpeechSynthesisUtterance(chunks[idx]);
+        u.lang = 'es-AR';
+        u.rate = .95;
+        u.onend = function(){ idx++; setTimeout(hablar, 150); };
+        u.onerror = u.onend;
+        s.speak(u);
+      }
+      setTimeout(function(){ s.resume(); hablar(); }, 200);
+    });
+    cue.appendChild(b);
+  }
+  arreglarBotonHogar();
+})();
+        </script>
 </body>
 </html>
