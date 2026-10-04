@@ -1738,5 +1738,99 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   ponerObrador();
 })();
 </script>
+<script>
+(function(){
+  function botonObradorFinal(){
+    var d = document.getElementById('hoja-obrador');
+    if(!d){ setTimeout(botonObradorFinal, 500); return; }
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    // Ocultar botones viejos de esta nota
+    cue.querySelectorAll('.btn-voz-obrador').forEach(function(x){ x.style.display = 'none'; });
+
+    if(cue.querySelector('.btn-voz-obrador-final')) return;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn-voz-obrador-final';
+    b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+    b.innerHTML = '🔊 Escuchar en voz alta';
+
+    b.addEventListener('click', function(){
+      var s = window.speechSynthesis;
+      if(!s){ return; }
+      if(window._obradorLeyendo){
+        s.cancel();
+        window._obradorLeyendo = false;
+        b.innerHTML = '🔊 Escuchar en voz alta';
+        return;
+      }
+
+      // Ahora tomamos TODO el cuerpo-in, no solo .cuerpo-nota
+      var bloques = [];
+      var nodos = cue.querySelectorAll('.mast, .kick, .tit-h, p, h4, blockquote');
+      nodos.forEach(function(el){
+        // Saltear el texto de los pies de foto y del botón
+        if(el.closest('.facsimil')) return;
+        if(el.classList.contains('btn-voz-obrador-final')) return;
+        var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+        if(!t) return;
+        if(t.length > 200){
+          var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+          partes.forEach(function(parte){
+            parte = parte.trim();
+            if(parte) bloques.push({ txt: parte, pausa: 500 });
+          });
+        } else {
+          bloques.push({ txt: t, pausa: 900 });
+        }
+      });
+
+      if(!bloques.length) return;
+
+      window._obradorLeyendo = true;
+      b.innerHTML = '⏸ Detener lectura';
+      s.cancel();
+
+      var idx = 0;
+      function hablar(){
+        if(!window._obradorLeyendo){ return; }
+        if(idx >= bloques.length){
+          window._obradorLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var item = bloques[idx];
+        var u = new SpeechSynthesisUtterance(item.txt);
+        u.lang = 'es-AR';
+        u.rate = .9;
+        u.pitch = 1;
+        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+        s.speak(u);
+      }
+      setTimeout(function(){ s.resume(); hablar(); }, 200);
+    });
+
+    cue.appendChild(b);
+
+    // Pausar al cambiar de sección
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.obradorFinalHook === '1') return;
+      r.dataset.obradorFinalHook = '1';
+      r.addEventListener('change', function(){
+        if(window._obradorLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._obradorLeyendo = false;
+          var bt = d.querySelector('.btn-voz-obrador-final');
+          if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+        }
+      });
+    });
+  }
+  botonObradorFinal();
+})();
+</script>
 </body>
 </html>
