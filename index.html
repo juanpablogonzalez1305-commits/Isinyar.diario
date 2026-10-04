@@ -1870,5 +1870,43 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   setInterval(corregirFechaObrador, 1500);
 })();
 </script>
+<style>
+/* Contorno negro para las palabras Comercial e Interés general */
+#guia p.sub {
+  color: #d9b04c !important;
+  text-shadow:
+    -1px -1px 0 #14100c,
+     1px -1px 0 #14100c,
+    -1px  1px 0 #14100c,
+     1px  1px 0 #14100c,
+    -2px  0   0 #14100c,
+     2px  0   0 #14100c,
+     0   -2px 0 #14100c,
+     0    2px 0 #14100c !important;
+  font-weight: 800 !important;
+  letter-spacing: .06em !important;
+}
+</style>
+<script>
+(function(){
+  function limpiarGuia(){
+    var g = document.getElementById('guia');
+    if(!g){ setTimeout(limpiarGuia, 500); return; }
+    if(g.dataset.limpiaOk === '1') return;
+    var ds = g.querySelectorAll('details');
+    for(var i = 0; i < ds.length; i++){
+      var s = ds[i].querySelector('summary');
+      if(!s) continue;
+      var t = (s.textContent || '').toLowerCase();
+      if(t.indexOf('ofertas de la semana') > -1 || t.indexOf('clasificados de la comunidad') > -1){
+        ds[i].style.display = 'none';
+      }
+    }
+    g.dataset.limpiaOk = '1';
+  }
+  limpiarGuia();
+  setInterval(limpiarGuia, 1500);
+})();
+</script>
 </body>
 </html>
