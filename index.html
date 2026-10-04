@@ -1421,5 +1421,91 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   arreglarBotonHogar();
 })();
         </script>
+<script>
+(function(){
+  function botonHogarFinal(){
+    var d = document.getElementById('hoja-hogar');
+    if(!d){ setTimeout(botonHogarFinal, 500); return; }
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    // Ocultar todos los botones de voz anteriores de esta nota
+    cue.querySelectorAll('.btn-voz-hogar, .btn-voz-hogar-nuevo, .btn-voz-hogar-final').forEach(function(x){ x.style.display = 'none'; });
+
+    if(cue.querySelector('.btn-voz-hogar-final')) return;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn-voz-hogar-final';
+    b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+    b.innerHTML = '🔊 Escuchar en voz alta';
+
+    b.addEventListener('click', function(){
+      var s = window.speechSynthesis;
+      if(!s){ return; }
+
+      if(window._hogarLeyendo){
+        s.cancel();
+        window._hogarLeyendo = false;
+        b.innerHTML = '🔊 Escuchar en voz alta';
+        return;
+      }
+
+      // Armar bloques con pausa después de cada uno
+      var bloques = [];
+      var nodos = cue.querySelectorAll('.mast, .kick, .tit-h, .cuerpo-nota > p, .cuerpo-nota > h4, .cuerpo-nota > blockquote, .pie');
+      nodos.forEach(function(el){
+        var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/\s+/g,' ').trim();
+        if(!t) return;
+        // Cortar bloques muy largos en oraciones
+        if(t.length > 200){
+          var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+          partes.forEach(function(parte){
+            parte = parte.trim();
+            if(parte) bloques.push({ txt: parte, pausa: 500 });
+          });
+        } else {
+          bloques.push({ txt: t, pausa: 900 });
+        }
+      });
+
+      if(!bloques.length) return;
+
+      window._hogarLeyendo = true;
+      b.innerHTML = '⏸ Detener lectura';
+      s.cancel();
+
+      var idx = 0;
+      function hablar(){
+        if(!window._hogarLeyendo){ return; }
+        if(idx >= bloques.length){
+          window._hogarLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var item = bloques[idx];
+        var u = new SpeechSynthesisUtterance(item.txt);
+        u.lang = 'es-AR';
+        u.rate = .9;
+        u.pitch = 1;
+        u.onend = function(){
+          idx++;
+          setTimeout(hablar, item.pausa);
+        };
+        u.onerror = function(){
+          idx++;
+          setTimeout(hablar, item.pausa);
+        };
+        s.speak(u);
+      }
+
+      setTimeout(function(){ s.resume(); hablar(); }, 200);
+    });
+
+    cue.appendChild(b);
+  }
+  botonHogarFinal();
+})();
+</script>
 </body>
 </html>
