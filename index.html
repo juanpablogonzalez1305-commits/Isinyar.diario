@@ -385,6 +385,56 @@ destino.insertBefore(wrap, destino.firstChild);
   ponerYouTubeHimno();
 })();
   </script>
+  <script>
+(function(){
+  // Apagar todo cuando el usuario cambia de sección
+  function pausarTodo(){
+    // 1. Silenciar la voz de "escuchar en voz alta"
+    try { if(window.speechSynthesis) window.speechSynthesis.cancel(); } catch(e){}
+
+    // 2. Detener audios HTML5 que estén sonando
+    document.querySelectorAll('audio').forEach(function(a){
+      try { if(!a.paused){ a.pause(); a.currentTime = 0; } } catch(e){}
+    });
+
+    // 3. Detener videos de YouTube con la API oficial
+    document.querySelectorAll('iframe[src*="youtube.com/embed/"]').forEach(function(f){
+      try {
+        f.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+      } catch(e){}
+    });
+  }
+
+  // Activar la API de YouTube en cada iframe para poder pausarlo después
+  function habilitarAPI(iframe){
+    if(!iframe || iframe.dataset.ytapi === '1') return;
+    if(iframe.src.indexOf('youtube.com/embed/') === -1) return;
+    if(iframe.src.indexOf('enablejsapi=1') > -1){
+      iframe.dataset.ytapi = '1';
+      return;
+    }
+    var sep = iframe.src.indexOf('?') > -1 ? '&' : '?';
+    iframe.dataset.ytapi = '1';
+    iframe.src = iframe.src + sep + 'enablejsapi=1&origin=*';
+  }
+
+  function init(){
+    document.querySelectorAll('iframe[src*="youtube.com/embed/"]').forEach(habilitarAPI);
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.pausaHook === '1') return;
+      r.dataset.pausaHook = '1';
+      r.addEventListener('change', pausarTodo);
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  setInterval(init, 1500);
+})();
+  </script>
 <body>
 <input class="sr" type="radio" name="sec" id="s-portada" checked>
 <input class="sr" type="radio" name="sec" id="s-noticias">
