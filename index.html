@@ -1564,5 +1564,179 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   setInterval(engancharPausa, 1500);
 })();
 </script>
+<style>
+#hoja-obrador .hemero p,
+#hoja-obrador .cuerpo-in p {
+  text-align: left !important;
+  font-size: .95rem !important;
+  line-height: 1.7 !important;
+  word-spacing: normal !important;
+  letter-spacing: normal !important;
+  margin: 0 0 .7rem !important;
+}
+#hoja-obrador .cuerpo-in { word-spacing: normal !important; }
+#hoja-obrador .cuerpo-in * { word-spacing: normal !important; }
+#hoja-obrador .hemero h4 {
+  font-size: .95rem !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+#hoja-obrador .hemero .tit-h {
+  font-size: 1.15rem !important;
+}
+#hoja-obrador .hemero .kick {
+  font-size: .8rem !important;
+}
+#hoja-obrador .hemero .pie {
+  font-size: .78rem !important;
+}
+#hoja-obrador .hemero blockquote {
+  font-size: .95rem !important;
+  font-style: italic !important;
+  border-left: 3px solid #8a6a35 !important;
+  padding-left: .6rem !important;
+  margin: .7rem 0 !important;
+}
+</style>
+<script>
+(function(){
+  function ponerObrador(){
+    var sec = document.getElementById('historia');
+    if(!sec){ setTimeout(ponerObrador, 500); return; }
+    if(document.getElementById('hoja-obrador')) return;
+
+    var ref = null;
+    var ds = sec.querySelectorAll('details');
+    for(var i = 0; i < ds.length; i++){
+      var s = ds[i].querySelector('summary');
+      if(s && /^\s*7\s*·/.test(s.textContent)){ ref = ds[i]; break; }
+    }
+    if(!ref && ds.length){ ref = ds[ds.length - 1]; }
+    if(!ref) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'hoja-obrador';
+
+    var H = '';
+    H += '<summary class="rel deep">8 · Imágenes de un barrio humilde · Obrador Municipal<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Memorias</span><b>DESCUBRIR</b><span>Lules</span></div>';
+    H += '<p class="kick">Imágenes de un barrio humilde · El Obrador Municipal</p>';
+    H += '<h3 class="tit-h">QUIEN NO ENCUENTRA EN SUS SUEÑOS IMÁGENES DE UN BARRIO HUMILDE</h3>';
+    H += '<figure class="facsimil">';
+    H += '<a href="https://files.catbox.moe/y57nan.png" target="_blank" rel="noopener">';
+    H += '<img src="https://files.catbox.moe/y57nan.png" alt="Imagen de un barrio humilde · Obrador Municipal" style="width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .4rem;box-shadow:0 4px 0 #d6cab0">';
+    H += '</a>';
+    H += '<figcaption>Los chicos juegan en el barrio. Foto: Revista Descubrir.</figcaption>';
+    H += '</figure>';
+    H += '<p>Quien no encuentra en sus sueños imágenes de un barrio humilde: calles de tierra, la madre inclinada sobre una pileta de lavar, los olores que provenían de la quema, o el perfume de las flores, acompañado por el canto de la naturaleza, quizás no llegue a comprender el porqué de la felicidad de los niños en esos barrios, alejados del cariño de los que poseen el poder económico.</p>';
+    H += '<blockquote>"Los niños no saben o no piensan en lo que no poseen y eso los hace felices."</blockquote>';
+    H += '<p>Lules tiene barrios con esas características. Al comenzar a escribir estas líneas me pregunto: ¿cómo encaro la nota? Bosquejo una denuncia y no me gusta, enumero las necesidades y no estoy convencido; hay algo que no encaja en el ambiente. Vuelvo a realizar un inventario de lo visto y vivido en esta tarde y está todo: las casas que se llueven, padres e hijos adolescentes en la misma habitación, de la canilla no sale agua, el padre se lamenta de no haber conseguido ninguna changa en el día de hoy. Las casas donde falta el padre o la madre.</p>';
+    H += '<p>Los chicos que no asisten a la escuela, la falta de útiles escolares, la falta de quien los apoye cuando hay algo que en la escuela no entienden, los juguetes, la falta de iluminación, la lluvia, el barro, el río que avanza y pone en peligro la seguridad de sus habitantes, la señora ciega que no tiene quien le brinde una ayuda, o las que no llegan para todos, los bolsones con mercadería que no les corresponden, y por sobre todo la falta de trabajo. Pero hay algo en el ambiente que no es parte de este cuadro y que forma el todo: son los niños, su inocencia, la dulzura, la alegría. No saben o no piensan en lo que no poseen y eso los hace felices.</p>';
+    H += '<figure class="facsimil">';
+    H += '<a href="https://files.catbox.moe/qsk8lk.png" target="_blank" rel="noopener">';
+    H += '<img src="https://files.catbox.moe/qsk8lk.png" alt="Los rostros cambian pero las necesidades se repiten" style="width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .4rem;box-shadow:0 4px 0 #d6cab0">';
+    H += '</a>';
+    H += '<figcaption>Los rostros cambian pero las necesidades se repiten, los niños juegan en los pasillos.</figcaption>';
+    H += '</figure>';
+    H += '<p>El barrio Obrador Municipal es esto y mucho más. Podríamos definirlo como la realidad que nos golpea y no queremos aceptar que existe. Como el avestruz, escondemos la cabeza y es otra la realidad; no la vemos, no existe. Buscando la razón de nuestro proceder, diremos que nosotros también tenemos problemas, que defendemos a los nuestros, que el que es pobre lo es porque quiere serlo, y tantas otras razones que lo único que logran es seguir pisoteando la dignidad de nuestros semejantes.</p>';
+    H += '<p>Pienso en todo esto y me siento contento de que en nuestra ciudad los que piensan así sean los menos. Nuestros políticos recorrieron los pasillos de este barrio, conversaron con su gente, cumplieron con sus promesas y tienen proyectos de asistencia para los que necesitan.</p>';
+    H += '<p>En este barrio viven 70 familias, y necesitan para su subsistencia mensual alrededor de $ 20.000. No piden donaciones, necesitan un trabajo digno que les permita educar a sus hijos con su esfuerzo.</p>';
+    H += '<p>¿Qué es lo que debemos hacer para ayudar a nuestros hermanos que viven en estos barrios? Bueno, seguro que los políticos ya tienen un plan que lo explicarán cuando los visiten días antes de una elección.</p>';
+    H += '<p>Un agradecimiento público de los vecinos a la gente de Cáritas, quienes están cuando ellos lo necesitan.</p>';
+    H += '<p>Pido disculpas a los señores concejales o dirigentes políticos que se sientan agraviados, en especial a los que visitan o alguna vez visitaron el barrio.</p>';
+    H += '<p>Los rostros cambian, pero las necesidades se repiten. Ramona Rosa Maidana, 54 años, ocho hijos, 11 nietos, con su esposo Francisco Aragón, nos cuentan que en su pequeña casita viven tres familias, la casa se llueve y don Francisco no tiene trabajo estable.</p>';
+    H += '<p>Doña Irma Quiroga nos cuenta que entre sus mayores problemas está el avance del río y las noches con miedos, por el incesante ruido.</p>';
+    H += '<p>Gladys Quiroga, 49 años, 9 hijos, 16 nietos, nos sorprende por la preocupación que tiene por sus vecinos. Entre otras cosas, pidió ayuda para la señora cieguita que vive en el barrio; nos cuenta que solicitó que se le hiciera el contrapiso de la vivienda de esta porque se le llena de agua. Para ello contaba con el cemento, este se endureció y la solución no llegó.</p>';
+    H += '<p>Miguel Gutiérrez (36 años), un ejemplo de vida, cría a sus siete hijos (Pedro, 18 años; Ceferino, 16; José, 14; Francisco, 12; Paola, 10; Daniel, 7, y Pablo, 4) sólo desde hace dos años, por la muerte de su esposa. Criar a los niños, protegerlos, atenderlos, educarlos y llevarles el pan es una tarea dura, que exige mucho sacrificio, pero su logro es acompañado por una gran felicidad. Las necesidades que existen son muchas, pero pronto podremos solucionarlas.</p>';
+    H += '<p>No pretendemos culpar a nadie por los problemas sin solución, solo queremos que juntos cobremos conciencia de la dramática realidad, porque esto ya es un paso adelante.</p>';
+    H += '<blockquote>"Quien no recibiere el Reino de Dios como un niño, no entrará en él."</blockquote>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir. Transcripción y adaptación.</p>';
+    H += '</div>';
+    H += '</div>';
+
+    d.innerHTML = H;
+    ref.parentNode.insertBefore(d, ref.nextSibling);
+
+    // Botón de voz con pausas
+    setTimeout(function(){
+      var cue = d.querySelector('.cuerpo-in');
+      if(!cue || cue.querySelector('.btn-voz-obrador')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-obrador';
+      b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s){ return; }
+        if(window._obradorLeyendo){
+          s.cancel();
+          window._obradorLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var bloques = [];
+        var nodos = cue.querySelectorAll('.mast, .kick, .tit-h, .cuerpo-nota > p, .cuerpo-nota > h4, .cuerpo-nota > blockquote, .pie');
+        nodos.forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(parte){
+              parte = parte.trim();
+              if(parte) bloques.push({ txt: parte, pausa: 500 });
+            });
+          } else {
+            bloques.push({ txt: t, pausa: 900 });
+          }
+        });
+        if(!bloques.length) return;
+        window._obradorLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._obradorLeyendo){ return; }
+          if(idx >= bloques.length){
+            window._obradorLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .9;
+          u.pitch = 1;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+      cue.appendChild(b);
+    }, 300);
+
+    // Enganchar pausa al cambiar de sección
+    setTimeout(function(){
+      document.querySelectorAll('input[name="sec"]').forEach(function(r){
+        if(r.dataset.obradorHook === '1') return;
+        r.dataset.obradorHook = '1';
+        r.addEventListener('change', function(){
+          if(window._obradorLeyendo){
+            try{ window.speechSynthesis.cancel(); }catch(e){}
+            window._obradorLeyendo = false;
+            var bt = d.querySelector('.btn-voz-obrador');
+            if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+          }
+        });
+      });
+    }, 500);
+  }
+  ponerObrador();
+})();
+</script>
 </body>
 </html>
