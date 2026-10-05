@@ -1908,5 +1908,95 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   setInterval(limpiarGuia, 1500);
 })();
 </script>
+<script>
+(function(){
+  function ponerVozAccidente(){
+    var ds = document.querySelectorAll('details');
+    var nota = null;
+    for(var i = 0; i < ds.length; i++){
+      var s = ds[i].querySelector('summary');
+      if(s && s.textContent.indexOf('ACCIDENTE FATAL EN COLONIA 2') > -1){
+        nota = ds[i];
+        break;
+      }
+    }
+    if(!nota){ setTimeout(ponerVozAccidente, 500); return; }
+    var cue = nota.querySelector('.cuerpo-in');
+    if(!cue) return;
+    if(cue.querySelector('.btn-voz-accidente')) return;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn-voz-accidente';
+    b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+    b.innerHTML = '🔊 Escuchar en voz alta';
+
+    b.addEventListener('click', function(){
+      var s = window.speechSynthesis;
+      if(!s){ return; }
+      if(window._accidenteLeyendo){
+        s.cancel();
+        window._accidenteLeyendo = false;
+        b.innerHTML = '🔊 Escuchar en voz alta';
+        return;
+      }
+      var bloques = [];
+      var nodos = cue.querySelectorAll('p, h3, h4');
+      nodos.forEach(function(el){
+        var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+        if(!t) return;
+        if(t.length > 200){
+          var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+          partes.forEach(function(parte){
+            parte = parte.trim();
+            if(parte) bloques.push({ txt: parte, pausa: 500 });
+          });
+        } else {
+          bloques.push({ txt: t, pausa: 900 });
+        }
+      });
+      if(!bloques.length) return;
+      window._accidenteLeyendo = true;
+      b.innerHTML = '⏸ Detener lectura';
+      s.cancel();
+      var idx = 0;
+      function hablar(){
+        if(!window._accidenteLeyendo){ return; }
+        if(idx >= bloques.length){
+          window._accidenteLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var item = bloques[idx];
+        var u = new SpeechSynthesisUtterance(item.txt);
+        u.lang = 'es-AR';
+        u.rate = .95;
+        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+        s.speak(u);
+      }
+      setTimeout(function(){ s.resume(); hablar(); }, 200);
+    });
+
+    cue.appendChild(b);
+
+    // Pausar al cambiar de sección
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.accidenteHook === '1') return;
+      r.dataset.accidenteHook = '1';
+      r.addEventListener('change', function(){
+        if(window._accidenteLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._accidenteLeyendo = false;
+          var bt = nota.querySelector('.btn-voz-accidente');
+          if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+        }
+      });
+    });
+  }
+  ponerVozAccidente();
+  setInterval(ponerVozAccidente, 1500);
+})();
+</script>
 </body>
 </html>
