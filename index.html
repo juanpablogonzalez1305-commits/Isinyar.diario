@@ -1998,5 +1998,179 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   setInterval(ponerVozAccidente, 1500);
 })();
 </script>
+<style>
+#nota-carmen {
+  margin-top: 1rem;
+  border: 2px solid #6e5327;
+  border-radius: 22px;
+  background: linear-gradient(145deg,#fffdf6,#e6ddc8);
+  box-shadow: 0 0 0 1px rgba(46,32,12,.35),
+              0 7px 0 0 #bfae8a,
+              0 18px 26px -12px rgba(93,78,52,.5),
+              inset 0 2px 2px rgba(255,255,255,.95),
+              inset 0 -4px 8px rgba(120,100,70,.22);
+  padding: .2rem;
+}
+#nota-carmen > summary {
+  padding: 1.15rem 1.2rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #171310;
+  list-style: none;
+  cursor: pointer;
+}
+#nota-carmen > summary::-webkit-details-marker { display: none; }
+#nota-carmen > .cuerpo-in { padding: 0 1.2rem 1.15rem; }
+#nota-carmen .hemero p {
+  font-size: .95rem !important;
+  line-height: 1.7 !important;
+  text-align: left !important;
+  word-spacing: normal !important;
+  margin: 0 0 .7rem !important;
+}
+#nota-carmen .hemero h4 {
+  font-size: .95rem !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+#nota-carmen .hemero .tit-h { font-size: 1.15rem !important; }
+#nota-carmen .hemero .kick { font-size: .8rem !important; }
+#nota-carmen .hemero .pie { font-size: .78rem !important; }
+</style>
+<script>
+(function(){
+  function ponerCarmen(){
+    var objetivo = null;
+    document.querySelectorAll('#fe details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && s.textContent.indexOf('Virgen del Carmen') > -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo){ setTimeout(ponerCarmen, 500); return; }
+    var cue = objetivo.querySelector('.cuerpo-in');
+    if(!cue) return;
+    if(cue.querySelector('#nota-carmen')) return;
+
+    var H = '';
+    H += '<details id="nota-carmen" class="pieza">';
+    H += '<summary class="rel deep">📰 Revista Descubrir, agosto de 1995 · La constancia y el esfuerzo coronaron esta obra<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Agosto de 1995</span><b>DESCUBRIR</b><span>Memorias</span></div>';
+    H += '<p class="kick">Capilla Nuestra Señora del Carmen · 12 años de una obra</p>';
+    H += '<h3 class="tit-h">LA CONSTANCIA Y EL ESFUERZO CORONARON ESTA OBRA</h3>';
+    H += '<figure class="facsimil">';
+    H += '<a href="https://files.catbox.moe/id5z6x.png" target="_blank" rel="noopener">';
+    H += '<img src="https://files.catbox.moe/id5z6x.png" alt="Inauguración de la capilla Nuestra Señora del Carmen" style="width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .4rem;box-shadow:0 4px 0 #d6cab0">';
+    H += '</a>';
+    H += '<figcaption>La capilla Nuestra Señora del Carmen, el día de su inauguración. Foto: Revista Descubrir, agosto de 1995.</figcaption>';
+    H += '</figure>';
+    H += '<p>El 21 de octubre de 1983 se ponía en marcha un sueño. Con vocación, amor y entrega se tejió una historia, cuyo resultado es esta realidad.</p>';
+    H += '<p>El 16 de julio se celebró el día de la Virgen del Carmen, Santa Patrona de este importante barrio de Lules.</p>';
+    H += '<p>DESCUBRIR entrevistó a Elías Dip Ale (60), actual presidente, y a Eva Graneros de Mamani, tesorera de la primera comisión pro tempore.</p>';
+    H += '<h4>¿Cómo nace la idea de construir una capilla, y qué día comenzó la construcción?</h4>';
+    H += '<p>En realidad, la idea de construir una capilla en el barrio donde se vive está latente en todos los corazones de la comunidad católica. Para que este deseo se encienda y arda, sólo hay que escuchar el llamado a realizar esta obra.</p>';
+    H += '<p>Nuestro barrio, en la década del 60 al 70, creció en forma acelerada, crecimiento que se acentuó en la década siguiente. Hacia 1982 ya comenzamos a sentir la necesidad de un cambio: los días de lluvia no podíamos celebrar misa, ni ninguna otra actividad, en nuestra gruta, porque era muy pequeña.</p>';
+    H += '<p>Así surgió la idea de hablar con nuestro párroco, el padre Julito (Julio César Rodríguez), que muy pronto motorizó este deseo, con el apoyo del entonces Intendente Municipal, don Juan Padilla.</p>';
+    H += '<p>La obra comenzó el 21 de octubre de 1983, oportunidad en la que se colocó la cruz basal, que trajo del ex Ingenio Mercedes el sacerdote Julio César Rodríguez.</p>';
+    H += '<p>La historia de esta obra comienza a concretarse un 21 de octubre de 1983; pasaron casi 12 años.</p>';
+    H += '<h4>¿Qué hechos relevantes se sucedieron en este período hasta llegar a este ansiado día?</h4>';
+    H += '<p>Es indudable que la obra comienza a concretarse un 21 de octubre, pero esta historia comenzó a escribirse mucho antes, con las reuniones que desembocaron en la donación de la imagen por parte de Rosario Pereyra. Luego, con la construcción de la gruta en calle Alvear, y finalmente con la necesidad real de tener una capilla.</p>';
+    H += '<p>La primera comisión estuvo integrada de la siguiente manera:</p>';
+    H += '<p><b>Presidente:</b> Rosario Zapulla. <b>Vicepresidente:</b> Elías Dip Ale. <b>Tesorera:</b> Eva Graneros. <b>Colaboradores:</b> Sra. de Arroyo, matrimonio Carballo, Oscar Pistán y Sra., Tatín y Valentín Moreno, Elvira de Núñez, Juana de Bulacios, José Lozano, Javier Mieja, Roberto Espeche, Esteban Ríos, Don Leiva, Víctor Pistán, matrimonio Bazán, familia Maya, Sergio Ávalos, don Arroyo, entre otros.</p>';
+    H += '<p>Para la construcción trabajamos todos; recibimos ayuda de la Municipalidad, del comercio, de las empresas locales, etc.</p>';
+    H += '<p>Roque Cassara, Héctor Díaz y su padre Martín hicieron el vitral. La cruz de madera, el primer campanario y la primera campanilla las donó la Sra. Verónica Bhomer de Prado. La segunda campana fue donada por el Sr. Morales, del Ferrocarril Belgrano. La imagen de la capilla la donó el padre Julito.</p>';
+    H += '<p>La comisión actual está integrada por: <b>Presidente:</b> Elías Dip Ale. <b>Tesorera:</b> Beatriz Zapulla de Liistro. <b>Colaboradores:</b> Juana Bulacios, Rosita Ponce, Oscar Pistán, Teresita Iñigo y Teresita Arroyo, entre otros. Esta comisión asumió hace 7 años.</p>';
+    H += '<h4>¿Qué representa este día para ustedes?</h4>';
+    H += '<p>Este es un día que nos llena de júbilo, porque cumplimos con una de las metas, que es la de construir un templo para nuestra Santa Patrona. Pero esta tarea no termina acá: esto representa lo material; lo espiritual debemos construirlo todos los días de nuestra vida.</p>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir, agosto de 1995, página 12. Transcripción y adaptación.</p>';
+    H += '</div>';
+    H += '</div>';
+    H += '</details>';
+
+    var wrap = document.createElement('div');
+    wrap.innerHTML = H;
+    var nueva = wrap.firstChild;
+    cue.appendChild(nueva);
+
+    // Botón de voz con pausas
+    setTimeout(function(){
+      var cuerpo = nueva.querySelector('.cuerpo-in');
+      if(!cuerpo || cuerpo.querySelector('.btn-voz-carmen')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-carmen';
+      b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s){ return; }
+        if(window._carmenLeyendo){
+          s.cancel();
+          window._carmenLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var bloques = [];
+        var nodos = cuerpo.querySelectorAll('.mast, .kick, .tit-h, p, h4, blockquote');
+        nodos.forEach(function(el){
+          if(el.closest('.facsimil')) return;
+          if(el.classList.contains('btn-voz-carmen')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(parte){
+              parte = parte.trim();
+              if(parte) bloques.push({ txt: parte, pausa: 500 });
+            });
+          } else {
+            bloques.push({ txt: t, pausa: 900 });
+          }
+        });
+        if(!bloques.length) return;
+        window._carmenLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._carmenLeyendo){ return; }
+          if(idx >= bloques.length){
+            window._carmenLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .9;
+          u.pitch = 1;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+      cuerpo.appendChild(b);
+    }, 300);
+
+    // Pausar al cambiar de sección
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.carmenHook === '1') return;
+      r.dataset.carmenHook = '1';
+      r.addEventListener('change', function(){
+        if(window._carmenLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._carmenLeyendo = false;
+          var bt = nueva.querySelector('.btn-voz-carmen');
+          if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+        }
+      });
+    });
+  }
+  ponerCarmen();
+})();
+</script>
 </body>
 </html>
