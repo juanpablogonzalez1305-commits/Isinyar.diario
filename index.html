@@ -2344,5 +2344,171 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   ponerCayetano();
 })();
 </script>
-  </body>
+  <style>
+#nota-rosario {
+  margin-top: 1rem;
+  border: 2px solid #6e5327;
+  border-radius: 22px;
+  background: linear-gradient(145deg,#fffdf6,#e6ddc8);
+  box-shadow: 0 0 0 1px rgba(46,32,12,.35),
+              0 7px 0 0 #bfae8a,
+              0 18px 26px -12px rgba(93,78,52,.5),
+              inset 0 2px 2px rgba(255,255,255,.95),
+              inset 0 -4px 8px rgba(120,100,70,.22);
+  padding: .2rem;
+}
+#nota-rosario > summary {
+  padding: 1.15rem 1.2rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #171310;
+  list-style: none;
+  cursor: pointer;
+}
+#nota-rosario > summary::-webkit-details-marker { display: none; }
+#nota-rosario > .cuerpo-in { padding: 0 1rem 1rem; }
+#nota-rosario .hemero p {
+  font-size: .95rem !important;
+  line-height: 1.7 !important;
+  text-align: left !important;
+  word-spacing: normal !important;
+  margin: 0 0 .7rem !important;
+}
+#nota-rosario .hemero h4 {
+  font-size: .95rem !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+#nota-rosario .hemero .tit-h { font-size: 1.15rem !important; }
+#nota-rosario .hemero .kick { font-size: .8rem !important; }
+#nota-rosario .hemero .pie { font-size: .78rem !important; }
+#nota-rosario .hemero .mast { font-size: .58rem !important; letter-spacing: .06em !important; }
+#nota-rosario .hemero .mast b { font-size: .82rem !important; letter-spacing: .2em !important; }
+#nota-rosario .hemero .mast span { font-size: .58rem !important; }
+</style>
+<script>
+(function(){
+  function ponerRosario(){
+    var objetivo = null;
+    document.querySelectorAll('#fe details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(!s) return;
+      var t = s.textContent;
+      if(t.indexOf('Virgen del Rosario') > -1 && t.indexOf('San Nicolás') === -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo){ setTimeout(ponerRosario, 500); return; }
+    var cue = objetivo.querySelector('.cuerpo-in');
+    if(!cue) return;
+    if(cue.querySelector('#nota-rosario')) return;
+
+    var H = '';
+    H += '<details id="nota-rosario" class="pieza">';
+    H += '<summary class="rel deep">📰 Revista Descubrir, octubre de 1995 · Virgen del Rosario · La Villa Nueva recordó el día de su Santa Patrona<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Octubre de 1995</span><b>DESCUBRIR</b><span>Memorias</span></div>';
+    H += '<p class="kick">Virgen del Rosario · Villa Nueva, Lules</p>';
+    H += '<h3 class="tit-h">LA VILLA NUEVA RECORDÓ EL DÍA DE SU SANTA PATRONA</h3>';
+    H += '<h4>La Batalla de Lepanto</h4>';
+    H += '<p>En el año 1571, Don Juan de Austria reunió un ejército para combatir a los turcos que se aprestaban a invadir Europa.</p>';
+    H += '<p>Todas las miradas estaban dirigidas hacia el Oriente, de donde venía el gran peligro de la herejía y del islamismo, que niegan la divinidad de Cristo y combaten su Iglesia.</p>';
+    H += '<p>El mundo cristiano imploraba ayuda y protección a la Santísima Virgen; la oración predilecta era el Santo Rosario.</p>';
+    H += '<p>Los soldados se lanzaron al combate, sosteniendo en una mano el Rosario y en la otra la espada. Así atacaron las naves enemigas, hasta la victoria en la Batalla de Lepanto.</p>';
+    H += '<p>Al comienzo de la batalla el viento le fue desfavorable, pero pronto cambió, contribuyendo esto a la victoria. La misma fue considerada como una ayuda especial de la Madre de Dios.</p>';
+    H += '<p>Desde entonces, los 7 de Octubre la Iglesia celebra la fiesta del Santo Rosario.</p>';
+    H += '<h4>La capilla en Villa Nueva</h4>';
+    H += '<p>La Capilla de la Virgen del Rosario, en Villa Nueva, fue fruto del trabajo de un grupo grande de personas que se dedicaron parte de su tiempo al progreso social y espiritual de los habitantes de éste, uno de los barrios más importantes de Lules.</p>';
+    H += '<p>El Sr. Miguel Ponce, junto a un grupo importante de vecinos, decidieron reunirse en la casa de la familia Chain para formar la primera comisión del centro vecinal Villa Nueva. Entre esos integrantes estaba el Sr. Sofio Permuto, quien junto a su padre decidieron donar el terreno donde hoy se encuentra la Capilla.</p>';
+    H += '<p>Esta primera comisión estuvo formada por Said Chain, Miguel Ponce, el Prof. Ignacio Graneros, Ramón Desantis, Martín Aguirre, Andrés Bau, Vicente Soria, Domingo Correa, Antonio Costilla, Edmundo Sosa, José Usandivara, Miguel Martinez, Camilo Serrato, Custodio Veliz, Alfredo Liistro y Angel Quiroga.</p>';
+    H += '<p>Apoyados activamente e integrando subcomisiones y comisiones especiales, estuvo gran parte de la comunidad, tal cual se puede ver en el listado que acompaña la nota entregada por Raúl Chain, con el pedido expreso de que en lo posible lo publiquemos, como un justo reconocimiento a hombres y mujeres que lucharon para que la Villa Nueva sea un Barrio de progreso permanente, y con este esfuerzo sus hijos sientan orgullo de habitar ese pedazo de suelo de Lules.</p>';
+    H += '<blockquote style="border-left:3px solid #8a6a35;padding-left:.6rem;font-style:italic">Con el esfuerzo de este grupo de vecinos, y otros que luego fueron participando de nuevas comisiones, se construyó la capilla que hoy tiene Nuestra Señora del Rosario en la Villa Nueva.</blockquote>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir, octubre de 1995, página 11. Transcripción.</p>';
+    H += '</div>';
+    H += '</div>';
+    H += '</details>';
+
+    var wrap = document.createElement('div');
+    wrap.innerHTML = H;
+    var nueva = wrap.firstChild;
+    cue.appendChild(nueva);
+
+    setTimeout(function(){
+      var cuerpo = nueva.querySelector('.cuerpo-in');
+      if(!cuerpo || cuerpo.querySelector('.btn-voz-rosario')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-rosario';
+      b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s){ return; }
+        if(window._rosarioLeyendo){
+          s.cancel();
+          window._rosarioLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var bloques = [];
+        var nodos = cuerpo.querySelectorAll('.mast, .kick, .tit-h, p, h4, blockquote');
+        nodos.forEach(function(el){
+          if(el.closest('.facsimil')) return;
+          if(el.classList.contains('btn-voz-rosario')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(parte){
+              parte = parte.trim();
+              if(parte) bloques.push({ txt: parte, pausa: 500 });
+            });
+          } else {
+            bloques.push({ txt: t, pausa: 900 });
+          }
+        });
+        if(!bloques.length) return;
+        window._rosarioLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._rosarioLeyendo){ return; }
+          if(idx >= bloques.length){
+            window._rosarioLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .9;
+          u.pitch = 1;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+      cuerpo.appendChild(b);
+    }, 300);
+
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.rosarioHook === '1') return;
+      r.dataset.rosarioHook = '1';
+      r.addEventListener('change', function(){
+        if(window._rosarioLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._rosarioLeyendo = false;
+          var bt = nueva.querySelector('.btn-voz-rosario');
+          if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+        }
+      });
+    });
+  }
+  ponerRosario();
+})();
+</script>
+</body>
 </html>
