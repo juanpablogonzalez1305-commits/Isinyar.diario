@@ -2510,5 +2510,165 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   ponerRosario();
 })();
 </script>
+<style>
+#nota-merced {
+  margin-top: 1rem;
+  border: 2px solid #6e5327;
+  border-radius: 22px;
+  background: linear-gradient(145deg,#fffdf6,#e6ddc8);
+  box-shadow: 0 0 0 1px rgba(46,32,12,.35),
+              0 7px 0 0 #bfae8a,
+              0 18px 26px -12px rgba(93,78,52,.5),
+              inset 0 2px 2px rgba(255,255,255,.95),
+              inset 0 -4px 8px rgba(120,100,70,.22);
+  padding: .2rem;
+}
+#nota-merced > summary {
+  padding: 1.15rem 1.2rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #171310;
+  list-style: none;
+  cursor: pointer;
+}
+#nota-merced > summary::-webkit-details-marker { display: none; }
+#nota-merced > .cuerpo-in { padding: 0 1rem 1rem; }
+#nota-merced .hemero p {
+  font-size: .95rem !important;
+  line-height: 1.7 !important;
+  text-align: left !important;
+  word-spacing: normal !important;
+  margin: 0 0 .7rem !important;
+}
+#nota-merced .hemero h4 {
+  font-size: .95rem !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+#nota-merced .hemero .tit-h { font-size: 1.15rem !important; }
+#nota-merced .hemero .kick { font-size: .8rem !important; }
+#nota-merced .hemero .pie { font-size: .78rem !important; }
+#nota-merced .hemero .mast { font-size: .58rem !important; letter-spacing: .06em !important; }
+#nota-merced .hemero .mast b { font-size: .82rem !important; letter-spacing: .2em !important; }
+#nota-merced .hemero .mast span { font-size: .58rem !important; }
+</style>
+<script>
+(function(){
+  function ponerMerced(){
+    var objetivo = null;
+    document.querySelectorAll('#fe details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && s.textContent.indexOf('Virgen de la Merced') > -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo){ setTimeout(ponerMerced, 500); return; }
+    var cue = objetivo.querySelector('.cuerpo-in');
+    if(!cue) return;
+    if(cue.querySelector('#nota-merced')) return;
+
+    var H = '';
+    H += '<details id="nota-merced" class="pieza">';
+    H += '<summary class="rel deep">📰 Revista Descubrir, octubre de 1995 · La Virgen de la Merced<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Octubre de 1995</span><b>DESCUBRIR</b><span>Memorias</span></div>';
+    H += '<p class="kick">Virgen de la Merced · Mercedes, Lules</p>';
+    H += '<h3 class="tit-h">LA VIRGEN DE LA MERCED</h3>';
+    H += '<p>En la época que funcionaba el Ingenio, las celebraciones religiosas se realizaban en el oratorio de los Padillas, en el lugar donde hoy está la Iglesia; existía una casucha de palitoque y el negocio de la familia Bonilla. Luego, cuando éste se retiró, el lugar se utilizó como sala de música; acá tuvo su sede la banda, que tanto orgullo trajo a los habitantes de este pueblo.</p>';
+    H += '<p>Cuando el Ingenio se cerró, el lugar pasó a ser ocupado como capilla, trayendo para ello las imágenes que había en el Oratorio; éstas tenían más de 100 años.</p>';
+    H += '<p>En 1973 el cura párroco Manuel Ballesteros Romero invitó a los vecinos a formar la comisión Pro-templo. Esta se formó eligiendo como presidente al Sr. Juan Ávila, quien la ejerció hasta que pasó a desempeñar la sagrada misión de ministro de la Eucaristía. A partir de entonces ocupó este cargo la Sra. Gladys de Araoz.</p>';
+    H += '<p>El sueño de construir una nueva capilla fue una semilla que fue germinando sin que nos diéramos cuenta. En 1984, durante el gobierno del Intendente René Delgadino, se comenzaron las gestiones para la construcción; se conformó una comisión, el padre Melitón Chávez hizo las gestiones en el arzobispado y comenzamos a trabajar.</p>';
+    H += '<p>Con ferias de platos, rifas y donaciones pudimos comprar las chapas y la estructura para el tinglado. Después de esto estuvimos parados dos años, hasta que llegó el Intendente Julio Adad, quien nos prestó apoyo enviando personal para la construcción. En esta etapa trabajó mucha gente, por ejemplo el entonces concejal Alderetes, los muchachos de la Manchuria, y tantos otros que colaboraron.</p>';
+    H += '<p>El proyecto de la Iglesia lo elaboró el Arq. Alberto García en el término de dos meses. La obra se empezaba a cristalizar y el 24 de septiembre de 1989 sólo le faltaban detalles; poco a poco estos fueron realizándose y hoy tenemos una hermosa capilla. Aún faltan algunos trabajos, pero tenemos fe que en poco tiempo la obra quedará concluida.</p>';
+    H += '<h4>Hijos de Mercedes que nos llenan de orgullo</h4>';
+    H += '<p>Mercedes dio a Lules hijos que llenaron de orgullo a esta ciudad. Aquí nacieron el actual Gobernador Ramón Ortega, el Director de la Banda de la Provincia Morito Olivares, el Sacerdote Javier Mijia y el Doctor Cruz.</p>';
+    H += '<p>En nuestra Iglesia también existió un coro que estaba dirigido por Humberto Toledo, que también nos llenó de orgullo.</p>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir, octubre de 1995, página 3. Transcripción.</p>';
+    H += '</div>';
+    H += '</div>';
+    H += '</details>';
+
+    var wrap = document.createElement('div');
+    wrap.innerHTML = H;
+    var nueva = wrap.firstChild;
+    cue.appendChild(nueva);
+
+    setTimeout(function(){
+      var cuerpo = nueva.querySelector('.cuerpo-in');
+      if(!cuerpo || cuerpo.querySelector('.btn-voz-merced')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-merced';
+      b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s){ return; }
+        if(window._mercedLeyendo){
+          s.cancel();
+          window._mercedLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var bloques = [];
+        var nodos = cuerpo.querySelectorAll('.mast, .kick, .tit-h, p, h4, blockquote');
+        nodos.forEach(function(el){
+          if(el.closest('.facsimil')) return;
+          if(el.classList.contains('btn-voz-merced')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(parte){
+              parte = parte.trim();
+              if(parte) bloques.push({ txt: parte, pausa: 500 });
+            });
+          } else {
+            bloques.push({ txt: t, pausa: 900 });
+          }
+        });
+        if(!bloques.length) return;
+        window._mercedLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._mercedLeyendo){ return; }
+          if(idx >= bloques.length){
+            window._mercedLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .9;
+          u.pitch = 1;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+      cuerpo.appendChild(b);
+    }, 300);
+
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.mercedHook === '1') return;
+      r.dataset.mercedHook = '1';
+      r.addEventListener('change', function(){
+        if(window._mercedLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._mercedLeyendo = false;
+          var bt = nueva.querySelector('.btn-voz-merced');
+          if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+        }
+      });
+    });
+  }
+  ponerMerced();
+})();
+            </script>
 </body>
 </html>
