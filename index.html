@@ -2828,5 +2828,122 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   ponerRosarioNicolas();
 })();
 </script>
+<script>
+(function(){
+  function ponerSanNicolasFix(){
+    var secciones = document.querySelectorAll('#fe > details');
+    var objetivo = null;
+    // Busca "Nicol" sin acento, case-insensitive
+    for(var i = 0; i < secciones.length; i++){
+      var s = secciones[i].querySelector(':scope > summary');
+      if(s && /Nicol[aá]s/i.test(s.textContent)){
+        objetivo = secciones[i];
+        break;
+      }
+    }
+    if(!objetivo){ setTimeout(ponerSanNicolasFix, 500); return; }
+    var cue = objetivo.querySelector('.cuerpo-in');
+    if(!cue){ setTimeout(ponerSanNicolasFix, 500); return; }
+    if(cue.querySelector('#nota-rosario-nicolas')) return;
+
+    var H = '';
+    H += '<details id="nota-rosario-nicolas" class="pieza">';
+    H += '<summary class="rel deep">📰 Revista Descubrir · Llegada de la Virgen del Rosario de San Nicolás<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Memorias</span><b>DESCUBRIR</b><span>Lules</span></div>';
+    H += '<p class="kick">Virgen del Rosario de San Nicolás · Barrio Celular Chico</p>';
+    H += '<h3 class="tit-h">LLEGADA DE LA VIRGEN DEL ROSARIO DE SAN NICOLÁS</h3>';
+    H += '<p>El 24 de setiembre, en las cercanías del Río Lules, nuestra comunidad con fuertes aplausos y pañuelos en alto recibió la imagen de la Virgen del Rosario de San Nicolás, que fue donada por un grupo de padres de la catequesis familiar de la parroquia San José, y traída desde San Nicolás.</p>';
+    H += '<p>Nos cuenta Mirian Prado, corresponsal católico de la Parroquia San Isidro Labrador: "La emoción que nos embargó durante la espera fue inenarrable, nuestros corazones latían presurosamente, y nuestros ojos al divisar la imagen se nos llenaron de lágrimas".</p>';
+    H += '<p>El lunes 25, día en que se conmemora la primera aparición de María en San Nicolás, la imagen recorrió las calles de Lules en una gran caravana. Su paso fue saludado por la comunidad y los alumnos del Colegio Padre Manuel Ballesteros, la Escuela de Manualidades y niños de la escuela Eliseo Cantón. Una rosa, una mano en alto, o un pañuelo nos acercó a María, en nuestras peticiones o en una acción de gracias.</p>';
+    H += '<p>La imagen fue depositada en una gruta construida en el Barrio Celular Chico, donde Cáritas realiza su apostolado desde hace dos años. Allí sus habitantes la esperaban con gran devoción y llenos de júbilo.</p>';
+    H += '<p>La misa fue celebrada allí por el Padre Miguel Alderete Garrido, quien exhortó a la conversión, a la oración en familia y, sobre todo, a acercarnos a María, quien intercede por nosotros ante Dios nuestro Señor.</p>';
+    H += '<p>Ese mismo día se inauguró el Centro Misionero Nuestra Señora del Rosario de San Nicolás, el cual se encuentra en su primera etapa de construcción. En este centro se atiende a 50 niños, brindándoles catequesis, apoyo escolar y muchas veces ropas y alimentos.</p>';
+    H += '<blockquote style="border-left:3px solid #8a6a35;padding-left:.6rem;font-style:italic">"Nuestra Madre quiere que ayudemos a nuestros hermanos más necesitados, ofreciéndole todo el amor que nuestro corazón es capaz de dar".</blockquote>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir. Transcripción.</p>';
+    H += '</div>';
+    H += '</div>';
+    H += '</details>';
+
+    var wrap = document.createElement('div');
+    wrap.innerHTML = H;
+    var nueva = wrap.firstChild;
+    cue.appendChild(nueva);
+
+    setTimeout(function(){
+      var cuerpo = nueva.querySelector('.cuerpo-in');
+      if(!cuerpo || cuerpo.querySelector('.btn-voz-rosario-nicolas')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-rosario-nicolas';
+      b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s){ return; }
+        if(window._rosarioNicolasLeyendo){
+          s.cancel();
+          window._rosarioNicolasLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var bloques = [];
+        cuerpo.querySelectorAll('.mast, .kick, .tit-h, p, h4, blockquote').forEach(function(el){
+          if(el.closest('.facsimil')) return;
+          if(el.classList.contains('btn-voz-rosario-nicolas')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(parte){
+              parte = parte.trim();
+              if(parte) bloques.push({ txt: parte, pausa: 500 });
+            });
+          } else {
+            bloques.push({ txt: t, pausa: 900 });
+          }
+        });
+        if(!bloques.length) return;
+        window._rosarioNicolasLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._rosarioNicolasLeyendo){ return; }
+          if(idx >= bloques.length){
+            window._rosarioNicolasLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .9;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+      cuerpo.appendChild(b);
+    }, 300);
+
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.rosarioNicolasFixHook === '1') return;
+      r.dataset.rosarioNicolasFixHook = '1';
+      r.addEventListener('change', function(){
+        if(window._rosarioNicolasLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._rosarioNicolasLeyendo = false;
+          var bt = nueva.querySelector('.btn-voz-rosario-nicolas');
+          if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+        }
+      });
+    });
+  }
+  ponerSanNicolasFix();
+})();
+</script>
 </body>
 </html>
