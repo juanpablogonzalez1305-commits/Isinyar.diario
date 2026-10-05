@@ -2178,5 +2178,168 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   ponerCarmen();
 })();
 </script>
-</body>
+<style>
+#nota-cayetano {
+  margin-top: 1rem;
+  border: 2px solid #6e5327;
+  border-radius: 22px;
+  background: linear-gradient(145deg,#fffdf6,#e6ddc8);
+  box-shadow: 0 0 0 1px rgba(46,32,12,.35),
+              0 7px 0 0 #bfae8a,
+              0 18px 26px -12px rgba(93,78,52,.5),
+              inset 0 2px 2px rgba(255,255,255,.95),
+              inset 0 -4px 8px rgba(120,100,70,.22);
+  padding: .2rem;
+}
+#nota-cayetano > summary {
+  padding: 1.15rem 1.2rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #171310;
+  list-style: none;
+  cursor: pointer;
+}
+#nota-cayetano > summary::-webkit-details-marker { display: none; }
+#nota-cayetano > .cuerpo-in { padding: 0 1rem 1rem; }
+#nota-cayetano .hemero p {
+  font-size: .95rem !important;
+  line-height: 1.7 !important;
+  text-align: left !important;
+  word-spacing: normal !important;
+  margin: 0 0 .7rem !important;
+}
+#nota-cayetano .hemero h4 {
+  font-size: .95rem !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+#nota-cayetano .hemero .tit-h { font-size: 1.15rem !important; }
+#nota-cayetano .hemero .kick { font-size: .8rem !important; }
+#nota-cayetano .hemero .pie { font-size: .78rem !important; }
+</style>
+<script>
+(function(){
+  function ponerCayetano(){
+    var objetivo = null;
+    document.querySelectorAll('#fe details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && s.textContent.indexOf('San Cayetano') > -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo){ setTimeout(ponerCayetano, 500); return; }
+    var cue = objetivo.querySelector('.cuerpo-in');
+    if(!cue) return;
+    if(cue.querySelector('#nota-cayetano')) return;
+
+    var H = '';
+    H += '<details id="nota-cayetano" class="pieza">';
+    H += '<summary class="rel deep">📰 Revista Descubrir, septiembre de 1995 · Capilla de San Cayetano · Una historia que comenzó a escribirse un 30 de mayo de 1954<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Septiembre de 1995</span><b>DESCUBRIR</b><span>Memorias</span></div>';
+    H += '<p class="kick">Capilla de San Cayetano · El Ceibal, Lules</p>';
+    H += '<h3 class="tit-h">UNA HISTORIA QUE COMENZÓ A ESCRIBIRSE UN 30 DE MAYO DE 1954</h3>';
+    H += '<p>El Ceibal, localidad perteneciente a Lules, segundo distrito del departamento de Famaillá, a los 30 días del mes de mayo de 1954, reunidos un grupo de vecinos y adyacentes —Julio Berrizbeitia, Tomasa de Santiago, Lorenzo Saavedra, Mercedes Navarro, Silva Santucho, Angela Santucho, Ignacia Sepúlveda, José González, Micaela Santucho y Leonicia Orellana—, inspirados en Cristo nuestro Señor y con el fin de propender a la divulgación y afianzamiento de la doctrina, unidos en su voluntad para constituir una comisión Pro-Capilla del Ceibal de la Bolsa, resuelven:</p>';
+    H += '<p>Visto la sentida necesidad de disponer de un lugar adecuado donde poner en práctica nuestro culto religioso y demostraciones de Fe, y contando con el firme propósito de colaborar en un todo para tan espiritual fin, se elige la siguiente comisión:</p>';
+    H += '<p><b>Presidente:</b> Angela Santucho<br>';
+    H += '<b>Secretario:</b> Tomasa de Santucho<br>';
+    H += '<b>Tesorero:</b> Lorenzo Saavedra<br>';
+    H += '<b>Sub Comisiones — Propaganda:</b> Eusebia Orellana y José González<br>';
+    H += '<b>Hacienda:</b> Julio César Berrizbeitia e Ignacia Sepúlveda</p>';
+    H += '<p>Cumplido el motivo se da por finalizada la reunión a hs. 11,50. (Libro de actas de la Capilla de San Cayetano)</p>';
+    H += '<h4>Del libro de actas</h4>';
+    H += '<p><b>05/06/1954:</b> "...El Pbro. Manuel Ballesteros Romero informó sobre los trámites realizados para que sea una realidad la aspiración de una capilla en este lugar... Acto seguido se dejó constancia que la familia Berrizbeitia donaría en tiempo y forma el terreno para la construcción de la Capilla..."</p>';
+    H += '<p><b>29/10/1954:</b> "...Los miembros de la comisión realizarían una visita a los vecinos para pedirle algunas donaciones..."</p>';
+    H += '<p><b>02/08/1956:</b> "...Los miembros de la comisión juntamente con el Reverendo Padre Pbro. Manuel Ballesteros, se refieren en primer término a una rifa que estaba en venta... y cuyos fondos serán ingresados a pro-templo..."</p>';
+    H += '<p><b>18/11/1956:</b> "...El Pbro. Manuel Ballesteros volvió a referirse a una iniciativa dada anteriormente: que se busque socio mensual, para que aporte según su voluntad, para ingresar la suma a pro-templo; y se autorizó al Sr. Julio Berrizbeitia a pagar un trabajo que se hizo en la Capilla, que fue levantar el altar a 25 cm de altura..."</p>';
+    H += '<p><b>06/05/1958:</b> "...Fuimos honrados con la presencia del Sr. Arzobispo de Tucumán Monseñor Juan Carlos Aramburu..."</p>';
+    H += '<blockquote style="border-left:3px solid #8a6a35;padding-left:.6rem;font-style:italic">La capilla de San Cayetano hoy es una realidad, que nació del trabajo de un grupo de personas, apoyadas en su comunidad y dirigidas por quien dejó impresa su historia en esta ciudad: el Padre Manuel Ballesteros Romero.</blockquote>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir, septiembre de 1995, página 3. Transcripción.</p>';
+    H += '</div>';
+    H += '</div>';
+    H += '</details>';
+
+    var wrap = document.createElement('div');
+    wrap.innerHTML = H;
+    var nueva = wrap.firstChild;
+    cue.appendChild(nueva);
+
+    setTimeout(function(){
+      var cuerpo = nueva.querySelector('.cuerpo-in');
+      if(!cuerpo || cuerpo.querySelector('.btn-voz-cayetano')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-cayetano';
+      b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s){ return; }
+        if(window._cayetanoLeyendo){
+          s.cancel();
+          window._cayetanoLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var bloques = [];
+        var nodos = cuerpo.querySelectorAll('.mast, .kick, .tit-h, p, h4, blockquote');
+        nodos.forEach(function(el){
+          if(el.closest('.facsimil')) return;
+          if(el.classList.contains('btn-voz-cayetano')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(parte){
+              parte = parte.trim();
+              if(parte) bloques.push({ txt: parte, pausa: 500 });
+            });
+          } else {
+            bloques.push({ txt: t, pausa: 900 });
+          }
+        });
+        if(!bloques.length) return;
+        window._cayetanoLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._cayetanoLeyendo){ return; }
+          if(idx >= bloques.length){
+            window._cayetanoLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .9;
+          u.pitch = 1;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+      cuerpo.appendChild(b);
+    }, 300);
+
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.cayetanoHook === '1') return;
+      r.dataset.cayetanoHook = '1';
+      r.addEventListener('change', function(){
+        if(window._cayetanoLeyendo){
+          try{ window.speechSynthesis.cancel(); }catch(e){}
+          window._cayetanoLeyendo = false;
+          var bt = nueva.querySelector('.btn-voz-cayetano');
+          if(bt) bt.innerHTML = '🔊 Escuchar en voz alta';
+        }
+      });
+    });
+  }
+  ponerCayetano();
+})();
+</script>
+  </body>
 </html>
