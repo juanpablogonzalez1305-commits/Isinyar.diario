@@ -2675,5 +2675,31 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   ponerMerced();
 })();
             </script>
+<script>
+(function(){
+  function cerrarNotas(){
+    // Cerrar la nota del accidente
+    document.querySelectorAll('details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(!s) return;
+      var t = (s.textContent || '').toUpperCase();
+      if(t.indexOf('ACCIDENTE FATAL') > -1){
+        d.removeAttribute('open');
+      }
+      if(d.classList.contains('ultimo-momento')){
+        d.removeAttribute('open');
+      }
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', cerrarNotas);
+  } else {
+    cerrarNotas();
+  }
+  window.addEventListener('load', cerrarNotas);
+  setTimeout(cerrarNotas, 1000);
+  setTimeout(cerrarNotas, 3000);
+})();
+</script>
 </body>
 </html>
