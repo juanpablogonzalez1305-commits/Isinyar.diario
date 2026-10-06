@@ -2748,5 +2748,60 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  var yaOrdene = false;
+  var intentos = 0;
+
+  function buscarYcerrar(){
+    intentos++;
+    if(intentos > 120) return;
+
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+
+    // Recorrer todos los detalles de Noticias
+    var detalles = sec.querySelectorAll('details');
+    var accidente = null;
+
+    for(var i = 0; i < detalles.length; i++){
+      var d = detalles[i];
+      if(d.id === 'nota-rosario-nicolas') continue;
+      var txt = (d.textContent || '').toUpperCase();
+      if(txt.indexOf('ACCIDENTE FATAL') > -1){
+        accidente = d;
+        break;
+      }
+    }
+
+    if(accidente){
+      // Cerrar el accidente
+      if(accidente.hasAttribute('open')){ accidente.removeAttribute('open'); }
+      if(accidente.open === true){ accidente.open = false; }
+
+      // Mover ÚLTIMO MOMENTO arriba del accidente
+      if(!yaOrdene){
+        var ultimo = sec.querySelector('.ultimo-momento');
+        if(ultimo && ultimo !== accidente){
+          accidente.parentNode.insertBefore(ultimo, accidente);
+          yaOrdene = true;
+        }
+      }
+    }
+  }
+
+  // Ejecutar muchas veces para agarrar la nota cuando se cree
+  function ciclo(){
+    buscarYcerrar();
+    if(intentos < 120){ setTimeout(ciclo, 500); }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
