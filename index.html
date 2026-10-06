@@ -2701,5 +2701,52 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   setTimeout(cerrarNotas, 3000);
 })();
 </script>
+<script>
+(function(){
+  var cerrado = false;
+  var ordenado = false;
+
+  function arreglar(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+
+    // 1. Cerrar la nota del accidente
+    if(!cerrado){
+      sec.querySelectorAll('details').forEach(function(d){
+        var s = d.querySelector('summary');
+        if(s && (s.textContent || '').toUpperCase().indexOf('ACCIDENTE FATAL') > -1){
+          if(d.hasAttribute('open')){ d.removeAttribute('open'); }
+          cerrado = true;
+        }
+      });
+    }
+
+    // 2. Poner el ÚLTIMO MOMENTO arriba del accidente
+    if(!ordenado){
+      var ultimo = sec.querySelector('.ultimo-momento');
+      var accidente = null;
+      sec.querySelectorAll('details').forEach(function(d){
+        var s = d.querySelector('summary');
+        if(s && (s.textContent || '').toUpperCase().indexOf('ACCIDENTE FATAL') > -1){
+          accidente = d;
+        }
+      });
+      if(ultimo && accidente){
+        accidente.parentNode.insertBefore(ultimo, accidente);
+        ordenado = true;
+      }
+    }
+  }
+
+  var intentos = 0;
+  var t = setInterval(function(){
+    intentos++;
+    arreglar();
+    if((cerrado && ordenado) || intentos > 40){
+      clearInterval(t);
+    }
+  }, 500);
+})();
+</script>
 </body>
 </html>
