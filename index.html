@@ -3009,5 +3009,89 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   margin-bottom: 0 !important;
 }
 </style>
+<script>
+(function(){
+  function arreglarFestival(){
+    // Buscar el details que dice "Nueva edición del festival cultural"
+    var objetivo = null;
+    document.querySelectorAll('details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && (s.textContent || '').indexOf('Nueva edición del festival cultural') > -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo) return;
+    if(objetivo.dataset.festivalOk === '1') return;
+
+    // 1. Cambiar el título del summary
+    var sum = objetivo.querySelector('summary');
+    if(sum){
+      sum.innerHTML = '';
+      sum.appendChild(document.createTextNode('Nueva edición de Lules Canta a la Patria'));
+      var chev = document.createElement('span');
+      chev.className = 'chev';
+      chev.textContent = '\u25BC';
+      sum.appendChild(chev);
+    }
+
+    // 2. Poner el contenido de la noticia
+    var cue = objetivo.querySelector('.cuerpo-in');
+    if(!cue) return;
+    cue.innerHTML = '';
+    var p1 = document.createElement('p');
+    p1.innerHTML = 'A finales de septiembre, la ciudad albergó la <b>53.ª edición</b> del emblemático festival folclórico y popular en el <b>Parque Cultural Lules</b>. Con una masiva concurrencia, el evento contó con destacados artistas nacionales y provinciales, consolidándose una vez más como un espacio clave para la identidad local.';
+    cue.appendChild(p1);
+    var pm = document.createElement('p');
+    pm.className = 'meta';
+    pm.textContent = 'Septiembre de 2026 · Lules, Tucumán.';
+    cue.appendChild(pm);
+
+    // 3. Botón de voz
+    if(!cue.querySelector('.btn-voz-festival')){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-festival';
+      b.style.cssText = 'display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._festivalLeyendo){
+          s.cancel();
+          window._festivalLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var t = cue.textContent.replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+        var u = new SpeechSynthesisUtterance(t);
+        u.lang = 'es-AR';
+        u.rate = .92;
+        u.onend = function(){ window._festivalLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; };
+        u.onerror = u.onend;
+        window._festivalLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        s.speak(u);
+      });
+      cue.appendChild(b);
+    }
+
+    objetivo.dataset.festivalOk = '1';
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    arreglarFestival();
+    if(n < 40) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
