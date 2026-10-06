@@ -2803,5 +2803,78 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  var arreglado = false;
+  var ordenado = false;
+
+  function arreglar(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+
+    // Buscar cualquier details que contenga "ACCIDENTE FATAL"
+    var detalles = sec.querySelectorAll('details');
+    var accidente = null;
+    for(var i = 0; i < detalles.length; i++){
+      var d = detalles[i];
+      if(d.classList.contains('ultimo-momento')) continue;
+      var t = (d.textContent || '').toUpperCase();
+      if(t.indexOf('ACCIDENTE FATAL') > -1 && t.length < 3000){
+        accidente = d;
+        break;
+      }
+    }
+    if(!accidente) return;
+
+    // 1. Ponerle un summary correcto
+    if(!arreglado){
+      var sum = accidente.querySelector('summary');
+      if(!sum){
+        // No tiene summary: crearlo y ponerlo primero
+        sum = document.createElement('summary');
+        sum.className = 'rel deep';
+        sum.style.cssText = 'list-style:none;cursor:pointer;padding:1.15rem 1.2rem;font-weight:800;font-size:1.05rem;color:#171310';
+        accidente.insertBefore(sum, accidente.firstChild);
+      }
+      // Vaciar y reescribir el summary
+      sum.innerHTML = '';
+      sum.appendChild(document.createTextNode('ACCIDENTE FATAL EN COLONIA 2'));
+      var chev = document.createElement('span');
+      chev.className = 'chev';
+      chev.textContent = '\u25BC';
+      sum.appendChild(chev);
+      // Volver a aplicar estilo
+      sum.style.cssText = 'list-style:none;cursor:pointer;padding:1.15rem 1.2rem;font-weight:800;font-size:1.05rem;color:#171310';
+      arreglado = true;
+    }
+
+    // 2. Cerrarla siempre
+    if(accidente.hasAttribute('open')){ accidente.removeAttribute('open'); }
+    if(accidente.open === true){ accidente.open = false; }
+
+    // 3. Mover ÚLTIMO MOMENTO arriba del accidente
+    if(!ordenado){
+      var ultimo = sec.querySelector('.ultimo-momento');
+      if(ultimo && ultimo !== accidente){
+        accidente.parentNode.insertBefore(ultimo, accidente);
+        ordenado = true;
+      }
+    }
+  }
+
+  var intentos = 0;
+  function ciclo(){
+    intentos++;
+    arreglar();
+    if(intentos < 100){ setTimeout(ciclo, 500); }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
