@@ -2877,5 +2877,116 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function arreglar(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+
+    // 1. Encontrar todos los "accidentes"
+    var accidentes = [];
+    sec.querySelectorAll('details').forEach(function(d){
+      if(d.classList.contains('ultimo-momento')) return;
+      var t = (d.textContent || '').toUpperCase();
+      if(t.indexOf('ACCIDENTE FATAL') > -1 && t.length < 5000){
+        accidentes.push(d);
+      }
+    });
+
+    // 2. Si hay más de uno, borrar los que NO tienen voz
+    if(accidentes.length > 1){
+      accidentes.forEach(function(a){
+        if(!a.querySelector('.btn-voz-accidente')){
+          a.remove();
+        }
+      });
+    }
+
+    // 3. Mover ÚLTIMO MOMENTO arriba del accidente
+    var ultimo = sec.querySelector('.ultimo-momento');
+    var accidente = null;
+    sec.querySelectorAll('details').forEach(function(d){
+      if(accidente) return;
+      if(d.classList.contains('ultimo-momento')) return;
+      var t = (d.textContent || '').toUpperCase();
+      if(t.indexOf('ACCIDENTE FATAL') > -1 && t.length < 5000){
+        accidente = d;
+      }
+    });
+    if(ultimo && accidente){
+      accidente.parentNode.insertBefore(ultimo, accidente);
+    }
+
+    // 4. Agregar botón de voz a ÚLTIMO MOMENTO
+    if(ultimo && !ultimo.querySelector('.btn-voz-ultimo')){
+      var todos = ultimo.querySelectorAll('div');
+      var cue = todos[todos.length - 1];
+      if(cue){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'btn-voz-ultimo';
+        b.style.cssText = 'display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #c9a243;border-radius:12px;background:linear-gradient(180deg,#3a2a18,#241c12);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #0c0a08;cursor:pointer;color:#e8c26a';
+        b.innerHTML = '🔊 Escuchar en voz alta';
+        b.addEventListener('click', function(){
+          var s = window.speechSynthesis;
+          if(!s) return;
+          if(window._ultimoLeyendo){
+            s.cancel();
+            window._ultimoLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var bloques = [];
+          ultimo.querySelectorAll('h4, p').forEach(function(el){
+            var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+            if(!t) return;
+            if(t.length > 200){
+              var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+              partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+            } else {
+              bloques.push({txt: t, pausa: 900});
+            }
+          });
+          if(!bloques.length) return;
+          window._ultimoLeyendo = true;
+          b.innerHTML = '⏸ Detener lectura';
+          s.cancel();
+          var idx = 0;
+          function hablar(){
+            if(!window._ultimoLeyendo) return;
+            if(idx >= bloques.length){
+              window._ultimoLeyendo = false;
+              b.innerHTML = '🔊 Escuchar en voz alta';
+              return;
+            }
+            var item = bloques[idx];
+            var u = new SpeechSynthesisUtterance(item.txt);
+            u.lang = 'es-AR';
+            u.rate = .9;
+            u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+            u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+            s.speak(u);
+          }
+          setTimeout(function(){ s.resume(); hablar(); }, 200);
+        });
+        cue.appendChild(b);
+      }
+    }
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    arreglar();
+    if(n < 60) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
