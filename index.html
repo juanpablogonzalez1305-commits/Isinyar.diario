@@ -3360,5 +3360,62 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function reemplazar(texto){
+    var r = texto;
+    // 1. Preposición + artículo
+    r = r.split('a la intendenta').join('al intendente');
+    r = r.split('A la intendenta').join('Al intendente');
+    r = r.split('de la intendenta').join('del intendente');
+    r = r.split('De la intendenta').join('Del intendente');
+    r = r.split('para la intendenta').join('para el intendente');
+    r = r.split('con la intendenta').join('con el intendente');
+    // 2. Artículo solo
+    r = r.split('la intendenta').join('el intendente');
+    r = r.split('La intendenta').join('El intendente');
+    r = r.split('LA INTENDENTA').join('EL INTENDENTE');
+    // 3. Sueltos
+    r = r.split('intendenta').join('intendente');
+    r = r.split('Intendenta').join('Intendente');
+    r = r.split('INTENDENTA').join('INTENDENTE');
+    return r;
+  }
+
+  function recorrer(nodo){
+    if(nodo.nodeType === 3){
+      var nuevo = reemplazar(nodo.nodeValue);
+      if(nuevo !== nodo.nodeValue){ nodo.nodeValue = nuevo; }
+    } else if(nodo.nodeType === 1){
+      if(nodo.tagName === 'SCRIPT' || nodo.tagName === 'STYLE') return;
+      if(nodo.hasAttribute && nodo.hasAttribute('alt')){
+        var alt = nodo.getAttribute('alt');
+        var altNuevo = reemplazar(alt);
+        if(altNuevo !== alt){ nodo.setAttribute('alt', altNuevo); }
+      }
+      for(var i = 0; i < nodo.childNodes.length; i++){
+        recorrer(nodo.childNodes[i]);
+      }
+    }
+  }
+
+  function ciclo(){
+    if(document.body) recorrer(document.body);
+  }
+
+  var n = 0;
+  function repetir(){
+    n++;
+    ciclo();
+    if(n < 40) setTimeout(repetir, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', repetir);
+  } else {
+    repetir();
+  }
+  window.addEventListener('load', repetir);
+})();
+</script>
 </body>
 </html>
