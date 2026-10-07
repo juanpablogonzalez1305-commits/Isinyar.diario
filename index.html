@@ -3227,5 +3227,50 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function reordenarIntendenta(){
+    var ultimo = document.querySelector('.ultimo-momento');
+    if(!ultimo) return;
+
+    // Buscar la foto actual
+    var foto = ultimo.querySelector('img[alt*="Intendenta"], img.foto-intendenta');
+    if(!foto) return;
+
+    // Buscar el título
+    var h4s = ultimo.querySelectorAll('h4');
+    var titulo = null;
+    for(var i = 0; i < h4s.length; i++){
+      if((h4s[i].textContent || '').indexOf('Reconocimiento a la Intendenta') > -1){
+        titulo = h4s[i];
+        break;
+      }
+    }
+    if(!titulo) return;
+
+    var filaTitulo = titulo.parentNode;
+
+    // Si la foto ya está justo después de la fila del título, no hacer nada
+    if(filaTitulo.nextElementSibling === foto) return;
+
+    // Sacar la foto y ponerla justo después de la fila del título
+    foto.remove();
+    filaTitulo.parentNode.insertBefore(foto, filaTitulo.nextSibling);
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    reordenarIntendenta();
+    if(n < 40) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
