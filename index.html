@@ -3272,5 +3272,93 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function ponerUniversidad(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+    if(document.getElementById('nota-universidad')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-universidad';
+
+    var H = '';
+    H += '<summary class="rel deep">Educación universitaria en Lules: gestión de la Intendenta con la Facultad de Derecho<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<img src="https://files.catbox.moe/alyv92.png" alt="Intendenta Marta Albarracín en reunión con la Facultad de Derecho de la UNT" style="width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .6rem;box-shadow:0 4px 0 #d6cab0">';
+    H += '<p class="meta">Martes 6 de octubre de 2026 · San Isidro de Lules.</p>';
+    H += '<p>La intendenta <b>Marta Albarracín</b> mantuvo una reunión institucional con las autoridades de la <b>Facultad de Derecho y Ciencias Sociales de la Universidad Nacional de Tucumán (UNT)</b>, encabezadas por su decana, con el propósito de llevar la oferta académica de la carrera a San Isidro de Lules.</p>';
+    H += '<p>Esta iniciativa busca permitir que los jóvenes y adultos de la zona puedan cursar estudios universitarios y capacitarse profesionalmente sin la necesidad de trasladarse a la capital provincial o a otras localidades, reduciendo significativamente los costos de transporte y manutención para las familias luleñas.</p>';
+    H += '<p>La gestión forma parte de un plan más amplio del municipio para consolidar un <b>Polo Universitario local</b> que acerque la educación superior pública a la comunidad.</p>';
+    H += '<button type="button" class="btn-voz-universidad" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+    sec.appendChild(d);
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-universidad');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._uniLeyendo){
+          s.cancel();
+          window._uniLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var cue = d.querySelector('.cuerpo-in');
+        var bloques = [];
+        cue.querySelectorAll('p').forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else {
+            bloques.push({txt: t, pausa: 900});
+          }
+        });
+        if(!bloques.length) return;
+        window._uniLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._uniLeyendo) return;
+          if(idx >= bloques.length){
+            window._uniLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    ponerUniversidad();
+    if(n < 40) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
