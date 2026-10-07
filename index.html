@@ -3133,5 +3133,51 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function ponerFotoIntendenta(){
+    var ultimo = document.querySelector('.ultimo-momento');
+    if(!ultimo) return;
+    if(ultimo.dataset.fotoInt === '1') return;
+
+    // Buscar el h4 que dice "Reconocimiento a la Intendenta"
+    var h4s = ultimo.querySelectorAll('h4');
+    var objetivo = null;
+    for(var i = 0; i < h4s.length; i++){
+      if((h4s[i].textContent || '').indexOf('Reconocimiento a la Intendenta') > -1){
+        objetivo = h4s[i];
+        break;
+      }
+    }
+    if(!objetivo) return;
+
+    // El contenedor de la tarjeta es el div padre del h4
+    var tarjeta = objetivo.parentNode;
+    if(!tarjeta) return;
+
+    // Insertar la foto después del título
+    var img = document.createElement('img');
+    img.src = 'https://files.catbox.moe/48e2b2.png';
+    img.alt = 'Intendenta Marta Albarracín recibe el Premio Mujer Líder Tucumán 2026';
+    img.style.cssText = 'width:100%;border:2px solid #c9a243;border-radius:10px;margin:.6rem 0 .6rem;box-shadow:0 4px 0 rgba(0,0,0,.5)';
+    objetivo.parentNode.insertBefore(img, objetivo.nextSibling);
+
+    ultimo.dataset.fotoInt = '1';
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    ponerFotoIntendenta();
+    if(n < 40) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
