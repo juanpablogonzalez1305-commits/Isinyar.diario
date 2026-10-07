@@ -3093,5 +3093,45 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function ponerFotoFestival(){
+    var objetivo = null;
+    document.querySelectorAll('details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && (s.textContent || '').indexOf('Lules Canta a la Patria') > -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo) return;
+    if(objetivo.dataset.fotoOk === '1') return;
+
+    var cue = objetivo.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    // Insertar la foto arriba del primer párrafo
+    var img = document.createElement('img');
+    img.src = 'https://files.catbox.moe/s9i7z2.png';
+    img.alt = '53ª edición de Lules Canta a la Patria';
+    img.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .6rem;box-shadow:0 4px 0 #d6cab0';
+    cue.insertBefore(img, cue.firstChild);
+
+    objetivo.dataset.fotoOk = '1';
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    ponerFotoFestival();
+    if(n < 40) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
