@@ -2978,7 +2978,7 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   function ciclo(){
     n++;
     arreglar();
-    if(n < 60) setTimeout(ciclo, 800);
+    if(n < 2) setTimeout(ciclo, 800);
   }
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', ciclo);
