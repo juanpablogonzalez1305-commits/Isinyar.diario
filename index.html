@@ -4221,5 +4221,28 @@ if ('serviceWorker' in navigator) {
   }, 30000);
 })();
 </script>
+<script>
+(function(){
+  function prueba(){
+    // Cartel de prueba arriba de todo
+    var c = document.createElement('div');
+    c.id = 'prueba-ok';
+    c.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff0000;color:#fff;font-weight:900;font-size:1rem;padding:1rem;text-align:center;z-index:99999';
+    c.textContent = 'PRUEBA OK - el script corre';
+    document.body.appendChild(c);
+
+    // Chequear si los contenedores existen
+    var hh = document.getElementById('his-hemero');
+    var hi = document.getElementById('historia');
+    var mensaje = 'his-hemero: ' + (hh ? 'SI' : 'NO') + ' / historia: ' + (hi ? 'SI' : 'NO');
+    c.textContent = 'PRUEBA OK - ' + mensaje;
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', prueba);
+  } else {
+    prueba();
+  }
+})();
+</script>
 </body>
 </html>
