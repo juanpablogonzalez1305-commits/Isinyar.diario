@@ -3403,5 +3403,95 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', repetir);
 })();
     </script>
+<script>
+(function(){
+  function ponerNotaGobernador(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+    if(document.getElementById('nota-gobernador')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-gobernador';
+
+    var H = '';
+    H += '<summary class="rel deep">En palabras de la intendente Marta Albarracín: "Seguiremos trabajando con compromiso, cerca de nuestra gente"<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<img src="https://files.catbox.moe/o1ycj5.png" alt="Encuentro con el gobernador Osvaldo Jaldo en Casa de Gobierno" style="width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .6rem;box-shadow:0 4px 0 #d6cab0">';
+    H += '<p class="meta">Jueves 2 de octubre de 2026 · Casa de Gobierno, San Miguel de Tucumán.</p>';
+    H += '<p>Lules presente en Casa de Gobierno.</p>';
+    H += '<p>Junto al legislador <b>Carlos Gallia</b>, participé de un encuentro con el gobernador <b>Osvaldo Jaldo</b> y el ministro de Gobierno y Justicia, Regino Amado, para conversar sobre la realidad de nuestras comunidades y el trabajo que venimos realizando en el oeste tucumano.</p>';
+    H += '<p>Como intendente de Lules, valoro estos espacios donde podemos acercar las necesidades de nuestros vecinos, compartir propuestas y coordinar acciones para seguir creciendo.</p>';
+    H += '<p>Compartimos esta reunión con los intendentes Francisco Serra (h), Francisco Caliva y Bruno Romano; las legisladoras Edith Comolli y Nacy Bulacio; el prosecretario legislativo Alejandro Humberto Martínez; el concejal de Tafí Viejo Alejandro Nicolás Martínez; el secretario de Estado de Acción Política y Comunitaria, Ing. Daniel García; las dirigentes Andrea Amado y Mabel Carrizo; el comisionado comunal de Los Sosa, José Albarracín; el secretario de Obras y Servicios Públicos de Alberdi, Arq. Miguel Abboud; y el interventor del IPACyM, Dr. Regino Racedo.</p>';
+    H += '<p>Gracias a todos por ser parte de este encuentro. Seguiremos trabajando con compromiso, cerca de nuestra gente y con el corazón puesto en Lules.</p>';
+    H += '<button type="button" class="btn-voz-gobernador" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+    sec.appendChild(d);
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-gobernador');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._gobernadorLeyendo){
+          s.cancel();
+          window._gobernadorLeyendo = false;
+          b.innerHTML = '🔊 Escuchar en voz alta';
+          return;
+        }
+        var cue = d.querySelector('.cuerpo-in');
+        var bloques = [];
+        cue.querySelectorAll('p').forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else {
+            bloques.push({txt: t, pausa: 900});
+          }
+        });
+        if(!bloques.length) return;
+        window._gobernadorLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._gobernadorLeyendo) return;
+          if(idx >= bloques.length){
+            window._gobernadorLeyendo = false;
+            b.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    ponerNotaGobernador();
+    if(n < 40) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
