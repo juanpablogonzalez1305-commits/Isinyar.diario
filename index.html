@@ -3751,5 +3751,128 @@ if ('serviceWorker' in navigator) {
   ciclo();
 })();
 </script>
-</body>
+<style>
+#pasos-instalar-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;
+  display:none;align-items:center;justify-content:center;padding:18px;
+}
+#pasos-instalar-overlay.visible{display:flex;}
+#pasos-instalar-caja{
+  background:linear-gradient(160deg,#241c12,#15110d);
+  border:3px solid #c9a243;border-radius:20px;
+  padding:1.2rem 1.1rem;max-width:420px;width:100%;
+  box-shadow:0 8px 0 0 #0c0a08,0 20px 40px -14px rgba(0,0,0,.85);
+  color:#f4efe6;font-family:Manrope,system-ui,sans-serif;
+}
+#pasos-instalar-caja h3{
+  font-family:Fraunces,serif;font-weight:900;font-size:1.1rem;
+  color:#ffd87a;letter-spacing:.06em;margin:0 0 .8rem;text-align:center;
+}
+#pasos-instalar-caja ol{
+  margin:0;padding-left:1.2rem;font-size:.96rem;line-height:1.7;
+}
+#pasos-instalar-caja ol li{margin:.4rem 0;}
+#pasos-instalar-caja ol li b{color:#ffd87a;}
+#pasos-instalar-cerrar{
+  display:block;width:100%;margin-top:1.1rem;padding:.75rem 1rem;
+  border:2px solid #c9a243;border-radius:12px;
+  background:linear-gradient(180deg,#e8c26a,#a8781f);color:#241c12;
+  font-family:Fraunces,serif;font-style:italic;font-weight:800;
+  font-size:1rem;box-shadow:0 4px 0 #6e5327;cursor:pointer;
+}
+</style>
+<div id="pasos-instalar-overlay">
+  <div id="pasos-instalar-caja">
+    <h3>📲 CÓMO INSTALAR LA APP</h3>
+    <ol id="pasos-instalar-lista"></ol>
+    <button id="pasos-instalar-cerrar" type="button">Entendido</button>
+  </div>
+</div>
+<script>
+(function(){
+  function armarPasos(){
+    var lista = document.getElementById('pasos-instalar-lista');
+    if(!lista || lista.dataset.listo === '1') return;
+    lista.dataset.listo = '1';
+    var ua = navigator.userAgent || '';
+    var esIPhone = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var esAndroid = /android/i.test(ua);
+    var html = '';
+    if(esIPhone){
+      html += '<li>Abrí esta página en <b>Safari</b> (no en Chrome).</li>';
+      html += '<li>Tocá el botón <b>Compartir ⬆</b> abajo de todo.</li>';
+      html += '<li>Bajá y elegí <b>"Agregar a pantalla de inicio"</b>.</li>';
+      html += '<li>Tocá <b>"Agregar"</b> arriba a la derecha.</li>';
+    } else if(esAndroid){
+      html += '<li>Tocá los <b>tres puntitos ⋯</b> arriba a la derecha de Chrome.</li>';
+      html += '<li>Elegí <b>"Instalar aplicación"</b> o <b>"Agregar a pantalla de inicio"</b>.</li>';
+      html += '<li>Confirmá y el ícono aparece en tu pantalla.</li>';
+    } else {
+      html += '<li>Tocá los <b>tres puntitos ⋯</b> arriba a la derecha.</li>';
+      html += '<li>Elegí <b>"Instalar aplicación"</b> o <b>"Agregar a pantalla de inicio"</b>.</li>';
+      html += '<li>Confirmá y el ícono aparece en tu pantalla.</li>';
+    }
+    lista.innerHTML = html;
+  }
+  armarPasos();
+
+  // Cerrar el cartel
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.id === 'pasos-instalar-cerrar'){
+      var ov = document.getElementById('pasos-instalar-overlay');
+      if(ov) ov.classList.remove('visible');
+    }
+  });
+
+  // Interceptar el clic del botón "Instalar ahora" para que NO use alert
+  function interceptar(){
+    var b = document.getElementById('inst-boton-principal');
+    if(!b || b.dataset.noAlert === '1') return;
+    b.dataset.noAlert = '1';
+    // Quitar el listener viejo clonando el botón
+    var clon = b.cloneNode(true);
+    b.parentNode.replaceChild(clon, b);
+    clon.addEventListener('click', function(){
+      // 1. Si hay prompt diferido (Android Chrome normal), usarlo
+      if(window.__promptDescubrir){
+        window.__promptDescubrir.prompt();
+        window.__promptDescubrir.userChoice.then(function(){
+          window.__promptDescubrir = null;
+        });
+        return;
+      }
+      // 2. Si no hay prompt, mostrar el cartel de pasos
+      var ov = document.getElementById('pasos-instalar-overlay');
+      if(ov){
+        armarPasos();
+        ov.classList.add('visible');
+      }
+      // 3. Cerrar el cartel de instalación original
+      var cartelInstalar = document.getElementById('instalar-app');
+      if(cartelInstalar) cartelInstalar.style.display = 'none';
+      try{ localStorage.setItem('descubrir_app_aviso', 'ok'); }catch(e){}
+    });
+  }
+
+  // Capturar el beforeinstallprompt para guardarlo en la variable global
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    window.__promptDescubrir = e;
+  });
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    interceptar();
+    if(n < 30) setTimeout(ciclo, 500);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
+  </body>
 </html>
