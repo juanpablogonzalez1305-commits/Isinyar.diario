@@ -3365,24 +3365,11 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
 (function(){
   function reemplazar(texto){
     var r = texto;
-    // 1. Preposición + artículo
-    r = r.split('a la intendenta').join('al intendente');
-    r = r.split('A la intendenta').join('Al intendente');
-    r = r.split('de la intendenta').join('del intendente');
-    r = r.split('De la intendenta').join('Del intendente');
-    r = r.split('para la intendenta').join('para el intendente');
-    r = r.split('con la intendenta').join('con el intendente');
-    // 2. Artículo solo
-    r = r.split('la intendenta').join('el intendente');
-    r = r.split('La intendenta').join('El intendente');
-    r = r.split('LA INTENDENTA').join('EL INTENDENTE');
-    // 3. Sueltos
     r = r.split('intendenta').join('intendente');
     r = r.split('Intendenta').join('Intendente');
     r = r.split('INTENDENTA').join('INTENDENTE');
     return r;
   }
-
   function recorrer(nodo){
     if(nodo.nodeType === 3){
       var nuevo = reemplazar(nodo.nodeValue);
@@ -3399,16 +3386,14 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
       }
     }
   }
-
   function ciclo(){
     if(document.body) recorrer(document.body);
   }
-
   var n = 0;
   function repetir(){
     n++;
     ciclo();
-    if(n < 2) setTimeout(repetir, 800);
+    if(n < 40) setTimeout(repetir, 800);
   }
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', repetir);
@@ -3417,6 +3402,6 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   }
   window.addEventListener('load', repetir);
 })();
-</script>
+    </script>
 </body>
 </html>
