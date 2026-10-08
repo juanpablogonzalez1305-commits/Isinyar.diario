@@ -4455,6 +4455,43 @@ if ('serviceWorker' in navigator) {
   }, 3000);
 })();
 </script>
+<script>
+(function(){
+  if(window._artazaMuro) return;
+  window._artazaMuro = 1;
 
+  function matar(n){
+    if(!n || n.nodeType !== 1) return;
+    if(n.tagName !== 'DETAILS') return;
+    if(n.id === 'nota-artaza-final') return;
+    var s = n.querySelector ? n.querySelector('summary') : null;
+    if(s && (s.textContent || '').indexOf('Artaza') > -1){
+      try{ n.remove(); }catch(e){}
+    }
+  }
+
+  // Matar las que ya están
+  document.querySelectorAll('details').forEach(matar);
+
+  // Vigilar el DOM: reacciona al instante cuando aparece una nueva
+  var obs = new MutationObserver(function(mutations){
+    for(var i = 0; i < mutations.length; i++){
+      var added = mutations[i].addedNodes;
+      for(var j = 0; j < added.length; j++){
+        matar(added[j]);
+      }
+    }
+  });
+
+  function iniciar(){
+    if(document.body){
+      obs.observe(document.body, {childList: true, subtree: true});
+    } else {
+      setTimeout(iniciar, 100);
+    }
+  }
+  iniciar();
+})();
+</script>
 </body>
 </html>
