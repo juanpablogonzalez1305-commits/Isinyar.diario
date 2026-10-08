@@ -3542,5 +3542,88 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function cortarVoz(){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    // Resetear todos los botones que digan "Detener lectura"
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.innerHTML || '';
+      if(t.indexOf('Detener lectura') > -1 || t.indexOf('Detener la lectura') > -1){
+        var nuevo = t.replace(/⏸\s*Detener la lectura/g,'🔊 Escuchar en voz alta')
+                      .replace(/⏸\s*Detener lectura/g,'🔊 Escuchar en voz alta');
+        b.innerHTML = nuevo;
+      }
+    });
+    // Limpiar todas las variables de estado
+    window._reneLeyendo = false;
+    window._hogarLeyendo = false;
+    window._obradorLeyendo = false;
+    window._accidenteLeyendo = false;
+    window._carmenLeyendo = false;
+    window._rosarioLeyendo = false;
+    window._mercedLeyendo = false;
+    window._cayetanoLeyendo = false;
+    window._rosarioNicolasLeyendo = false;
+    window._snLeyendo = false;
+    window._uniLeyendo = false;
+    window._festivalLeyendo = false;
+    window._gobernadorLeyendo = false;
+    window._ultimoLeyendo = false;
+    window._btnLeyendo = null;
+  }
+
+  // 1. Cortar voz al cambiar de sección
+  function hookSecciones(){
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.cortaVozHook === '1') return;
+      r.dataset.cortaVozHook = '1';
+      r.addEventListener('change', cortarVoz);
+    });
+  }
+
+  // 2. Cortar voz al cerrar cualquier details que esté leyendo
+  function hookDetails(){
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.dataset.cortaVozHook === '1') return;
+      d.dataset.cortaVozHook = '1';
+      d.addEventListener('toggle', function(){
+        if(!d.open){
+          // Se está cerrando
+          if(window.speechSynthesis && window.speechSynthesis.speaking){
+            // Ver si había un botón "Detener lectura" adentro
+            var b = d.querySelector('button, a');
+            var teniaVoz = false;
+            d.querySelectorAll('button, a').forEach(function(x){
+              if((x.innerHTML || '').indexOf('Detener') > -1) teniaVoz = true;
+            });
+            if(teniaVoz){
+              cortarVoz();
+            }
+          }
+        }
+      });
+    });
+  }
+
+  function ciclo(){
+    hookSecciones();
+    hookDetails();
+  }
+
+  var n = 0;
+  function repetir(){
+    n++;
+    ciclo();
+    if(n < 60) setTimeout(repetir, 500);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', repetir);
+  } else {
+    repetir();
+  }
+  window.addEventListener('load', repetir);
+})();
+</script>
 </body>
 </html>
