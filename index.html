@@ -2,19 +2,7 @@
 <html lang="es">
 <!-- DESCUBRIR v26 · Paradas 1 a 18 -->
 <head>
-  <script>
-(function(){
-  var arranque = Date.now();
-  var origST = window.setTimeout;
-  window.setTimeout = function(fn, delay){
-    // Después de 8 segundos, bloquear todos los timeouts cortos (bucles infinitos)
-    if(Date.now() - arranque > 8000 && typeof delay === 'number' && delay < 2000){
-      return -1;
-    }
-    return origST.apply(window, arguments);
-  };
-})();
-  </script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#15110d">
