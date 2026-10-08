@@ -3493,5 +3493,54 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', ciclo);
 })();
 </script>
+<script>
+(function(){
+  function moverMarchaAuvieux(){
+    // Buscar la entrada de Auvieux
+    var auvieux = null;
+    document.querySelectorAll('#historia details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && (s.textContent || '').indexOf('Julio César Auvieux') > -1){
+        auvieux = d;
+      }
+    });
+    if(!auvieux) return;
+
+    // Buscar el video de la Marcha (por el ID de YouTube)
+    var videoWrap = null;
+    document.querySelectorAll('div[id*="yt-wrap"], div').forEach(function(div){
+      if(videoWrap) return;
+      var iframe = div.querySelector ? div.querySelector('iframe[src*="k7LoMOSRTY0"]') : null;
+      if(iframe){
+        videoWrap = div;
+      }
+    });
+    if(!videoWrap) return;
+
+    // Si ya está adentro de Auvieux, no hacer nada
+    if(auvieux.contains(videoWrap)) return;
+
+    // Mover el video dentro de Auvieux
+    var cue = auvieux.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    // Insertar el video al principio del cuerpo-in
+    cue.insertBefore(videoWrap, cue.firstChild);
+  }
+
+  var n = 0;
+  function ciclo(){
+    n++;
+    moverMarchaAuvieux();
+    if(n < 40) setTimeout(ciclo, 800);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  window.addEventListener('load', ciclo);
+})();
+</script>
 </body>
 </html>
