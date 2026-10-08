@@ -3625,5 +3625,75 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   window.addEventListener('load', repetir);
 })();
 </script>
+<div id="instalar-app" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:linear-gradient(160deg,#241c12,#15110d);border:3px solid #c9a243;border-radius:20px;box-shadow:0 8px 0 0 #0c0a08,0 20px 40px -14px rgba(0,0,0,.85);padding:1rem 1.1rem;max-width:480px;margin:0 auto;color:#f4efe6"><div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem"><span style="font-size:1.6rem">📱</span><div style="flex:1"><div style="font-family:Fraunces,serif;font-weight:900;font-size:1.05rem;color:#ffd87a;letter-spacing:.06em">DESCUBRIR EN TU CELULAR</div><div style="font-size:.78rem;color:#c9a243;margin-top:.15rem" id="inst-sub">Instalalo como app</div></div></div><div id="inst-cuerpo" style="font-size:.92rem;line-height:1.6;color:#f4efe6"></div><div style="display:flex;gap:.5rem;margin-top:.9rem"><button id="inst-boton-principal" type="button" style="flex:1;padding:.7rem .8rem;border:2px solid #c9a243;border-radius:12px;background:linear-gradient(180deg,#e8c26a,#a8781f);color:#241c12;font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:.95rem;box-shadow:0 4px 0 #6e5327;cursor:pointer">Entendido</button><button id="inst-boton-cerrar" type="button" style="padding:.7rem .8rem;border:2px solid #6e5327;border-radius:12px;background:transparent;color:#c9a243;font-weight:800;font-size:.85rem;cursor:pointer">Cerrar</button></div></div>
+<script>
+(function(){
+  // No mostrar si ya la instalaron o cerraron el cartel
+  if(localStorage.getItem('descubrir_app_aviso') === 'ok') return;
+
+  // No mostrar si ya está corriendo como app instalada
+  if(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return;
+  if(window.navigator.standalone === true) return;
+
+  var cartel = document.getElementById('instalar-app');
+  var cuerpo = document.getElementById('inst-cuerpo');
+  var botonPrincipal = document.getElementById('inst-boton-principal');
+  var botonCerrar = document.getElementById('inst-boton-cerrar');
+  if(!cartel) return;
+
+  var ua = navigator.userAgent || '';
+  var esAndroid = /android/i.test(ua);
+  var esIPhone = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  var promptDiferido = null;
+
+  // Android: escuchar el evento de instalación de Chrome
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    promptDiferido = e;
+    if(esAndroid){
+      botonPrincipal.innerHTML = '📲 Instalar ahora';
+    }
+  });
+
+  // Armar el texto según el dispositivo
+  if(esAndroid){
+    cuerpo.innerHTML = '<p style="margin:0 0 .4rem">Leé el diario como una app, sin abrir el navegador cada vez. Aparece el ícono en tu pantalla de inicio.</p><p style="margin:0;color:#c9a243;font-weight:700;font-size:.86rem">Tocá "Instalar ahora" o los 3 puntitos de Chrome → "Instalar aplicación".</p>';
+  } else if(esIPhone){
+    cuerpo.innerHTML = '<p style="margin:0 0 .4rem">Leé el diario como una app, sin abrir Safari cada vez. Aparece el ícono en tu pantalla de inicio.</p><p style="margin:0;color:#c9a243;font-weight:700;font-size:.86rem">1. Tocá el botón Compartir <span style="display:inline-block;background:#c9a243;color:#241c12;border-radius:4px;padding:0 .3rem">⬆</span><br>2. Bajá y elegí "Agregar a pantalla de inicio"<br>3. Tocá "Agregar".</p>';
+  } else {
+    cuerpo.innerHTML = '<p style="margin:0 0 .4rem">Leé el diario como una app. Aparece el ícono en tu pantalla de inicio.</p><p style="margin:0;color:#c9a243;font-weight:700;font-size:.86rem">Tocá los 3 puntitos del navegador y elegí "Instalar aplicación" o "Agregar a pantalla de inicio".</p>';
+  }
+
+  // Mostrar el cartel con animación
+  setTimeout(function(){
+    cartel.style.display = 'block';
+    cartel.animate([
+      {transform: 'translateY(30px)', opacity: 0},
+      {transform: 'translateY(0)', opacity: 1}
+    ], {duration: 400, easing: 'ease-out'});
+  }, 3000);
+
+  function cerrar(){
+    localStorage.setItem('descubrir_app_aviso', 'ok');
+    cartel.style.display = 'none';
+  }
+
+  botonCerrar.addEventListener('click', cerrar);
+
+  botonPrincipal.addEventListener('click', function(){
+    if(promptDiferido){
+      promptDiferido.prompt();
+      promptDiferido.userChoice.then(function(){
+        promptDiferido = null;
+        cerrar();
+      });
+    } else {
+      // No hay prompt disponible: cerrar y listo
+      cerrar();
+    }
+  });
+})();
+</script>
 </body>
 </html>
