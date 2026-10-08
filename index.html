@@ -4455,22 +4455,6 @@ if ('serviceWorker' in navigator) {
   }, 3000);
 })();
 </script>
-<script>
-(function(){
-  if(window._artazaEsconder) return;
-  window._artazaEsconder = 1;
-  function esconder(){
-    document.querySelectorAll('details').forEach(function(el){
-      if(el.style.display === 'none') return;
-      var s = el.querySelector('summary');
-      if(s && (s.textContent || '').indexOf('Artaza') > -1){
-        el.style.display = 'none';
-      }
-    });
-  }
-  esconder();
-  setInterval(esconder, 500);
-})();
-</script>
+
 </body>
 </html>
