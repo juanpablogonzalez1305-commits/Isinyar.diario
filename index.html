@@ -3874,5 +3874,110 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', ciclo);
 })();
 </script>
-  </body>
+  <style>
+#pasos-instalar-overlay{z-index:99999 !important;}
+#pasos-instalar-caja{cursor:default;}
+</style>
+<script>
+(function(){
+  if(window._instalarFixOK) return;
+  window._instalarFixOK = 1;
+
+  // 1. Arreglar el botón principal del cartel
+  function arreglarBoton(){
+    var b = document.getElementById('inst-boton-principal');
+    if(!b || b.dataset.fixOK === '1') return;
+    // Clonar para eliminar TODOS los listeners viejos
+    var clon = b.cloneNode(true);
+    b.parentNode.replaceChild(clon, b);
+    clon.dataset.fixOK = '1';
+    clon.innerHTML = '📲 Instalar ahora';
+    clon.addEventListener('click', function(){
+      // a) Si hay prompt de instalación, usarlo
+      if(window.__promptDescubrir){
+        window.__promptDescubrir.prompt();
+        window.__promptDescubrir.userChoice.then(function(){
+          window.__promptDescubrir = null;
+        });
+      } else {
+        // b) Mostrar el cartel de pasos (uno solo)
+        var ov = document.getElementById('pasos-instalar-overlay');
+        if(ov){
+          var lista = document.getElementById('pasos-instalar-lista');
+          if(lista && !lista.dataset.listo){
+            var ua = navigator.userAgent || '';
+            var esIPhone = /iphone|ipad|ipod/i.test(ua);
+            var html = '';
+            if(esIPhone){
+              html += '<li>Abrí esta página en <b>Safari</b>.</li>';
+              html += '<li>Tocá <b>Compartir ⬆</b>.</li>';
+              html += '<li>Elegí <b>"Agregar a pantalla de inicio"</b>.</li>';
+              html += '<li>Tocá <b>"Agregar"</b>.</li>';
+            } else {
+              html += '<li>Tocá los <b>tres puntitos ⋯</b> de Chrome.</li>';
+              html += '<li>Elegí <b>"Instalar aplicación"</b>.</li>';
+              html += '<li>Confirmá.</li>';
+            }
+            lista.innerHTML = html;
+            lista.dataset.listo = '1';
+          }
+          ov.classList.add('visible');
+        }
+      }
+      // c) Cerrar el cartel de instalación original
+      var cartel = document.getElementById('instalar-app');
+      if(cartel) cartel.style.display = 'none';
+      try{ localStorage.setItem('descubrir_app_aviso', 'ok'); }catch(e){}
+    });
+  }
+
+  // 2. Cerrar el overlay de pasos al tocar afuera o "Entendido"
+  function hookOverlay(){
+    var ov = document.getElementById('pasos-instalar-overlay');
+    if(!ov || ov.dataset.hookOK === '1') return;
+    ov.dataset.hookOK = '1';
+    ov.addEventListener('click', function(e){
+      // Si toca el fondo (no la caja), cerrar
+      if(e.target === ov){
+        ov.classList.remove('visible');
+      }
+    });
+  }
+
+  // 3. Reforzar el botón "Entendido"
+  function hookEntendido(){
+    var b = document.getElementById('pasos-instalar-cerrar');
+    if(!b || b.dataset.hookOK === '1') return;
+    b.dataset.hookOK = '1';
+    b.addEventListener('click', function(){
+      var ov = document.getElementById('pasos-instalar-overlay');
+      if(ov) ov.classList.remove('visible');
+    });
+  }
+
+  // 4. Capturar el prompt de instalación
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    window.__promptDescubrir = e;
+  });
+
+  function ciclo(){
+    arreglarBoton();
+    hookOverlay();
+    hookEntendido();
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ciclo);
+  } else {
+    ciclo();
+  }
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
+</body>
 </html>
