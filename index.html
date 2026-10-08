@@ -3720,5 +3720,36 @@ if ('serviceWorker' in navigator) {
     .catch(function(e){ console.log('SW error', e); });
 }
   </script>
+<script>
+(function(){
+  function mejorarBoton(){
+    var b = document.getElementById('inst-boton-principal');
+    if(!b || b.dataset.mejorado === '2') return;
+    b.dataset.mejorado = '2';
+    // Si no hay prompt pendiente, mostrar instrucciones
+    var tienePrompt = window.__promptDescubrir;
+    if(!tienePrompt){
+      b.innerHTML = '📲 Instalar ahora';
+      b.addEventListener('click', function(){
+        if(window.__promptDescubrir){
+          window.__promptDescubrir.prompt();
+          window.__promptDescubrir.userChoice.then(function(){
+            window.__promptDescubrir = null;
+          });
+        } else {
+          alert('Para instalar la app:\n\n1. Tocá los 3 puntitos ··· de Chrome\n2. Elegí "Instalar aplicación" o "Agregar a pantalla de inicio"\n3. Confirmá\n\nListo, el ícono aparece en tu pantalla.');
+        }
+      });
+    }
+  }
+  var n = 0;
+  function ciclo(){
+    n++;
+    mejorarBoton();
+    if(n < 30) setTimeout(ciclo, 500);
+  }
+  ciclo();
+})();
+</script>
 </body>
 </html>
