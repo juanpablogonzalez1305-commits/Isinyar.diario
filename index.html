@@ -3695,5 +3695,23 @@ try{document.querySelectorAll('input[name="sec"]').forEach(r=>r.addEventListener
   });
 })();
 </script>
-</body>
+<script>
+(function(){
+  function arreglarBoton(){
+    var b = document.getElementById('inst-boton-principal');
+    if(!b) return;
+    if(b.dataset.mejorado === '1') return;
+    b.dataset.mejorado = '1';
+    b.innerHTML = '📲 Instalar ahora';
+  }
+  var n = 0;
+  function ciclo(){
+    n++;
+    arreglarBoton();
+    if(n < 20) setTimeout(ciclo, 500);
+  }
+  ciclo();
+})();
+</script>
+  </body>
 </html>
