@@ -4662,5 +4662,79 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._cortaVozUniversal) return;
+  window._cortaVozUniversal = 1;
+
+  function cortarTODO(){
+    // 1. Cortar la voz de inmediato
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+
+    // 2. Resetear TODAS las variables globales que terminen en "Leyendo"
+    //    (así funciona con cualquier botón nuevo, sin tocar nada)
+    for(var k in window){
+      try{
+        if(typeof k === 'string' && k.match(/_(\w+)Leyendo$/)){
+          window[k] = false;
+        }
+      }catch(e){}
+    }
+    window._btnLeyendo = null;
+
+    // 3. Resetear todos los botones que digan "Detener"
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.innerHTML || '';
+      if(t.indexOf('Detener') > -1){
+        b.innerHTML = t
+          .replace(/⏸\s*Detener la lectura/g, '🔊 Escuchar en voz alta')
+          .replace(/⏸\s*Detener lectura/g, '🔊 Escuchar en voz alta');
+      }
+    });
+  }
+
+  // Enganchar a cambio de sección
+  function hookRadios(){
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.cortaU === '1') return;
+      r.dataset.cortaU = '1';
+      r.addEventListener('change', cortarTODO);
+    });
+  }
+
+  // Enganchar a CUALQUIER toggle de una nota (abrir o cerrar)
+  function hookDetails(){
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.dataset.cortaU === '1') return;
+      d.dataset.cortaU = '1';
+      d.addEventListener('toggle', function(){
+        setTimeout(function(){
+          // Si la nota que se toggleó NO contiene un botón "Detener" activo,
+          // es porque estamos abriendo/cerrando OTRA nota → cortar
+          var tieneDetener = false;
+          d.querySelectorAll('button, a').forEach(function(b){
+            if((b.innerHTML || '').indexOf('Detener') > -1) tieneDetener = true;
+          });
+          if(!tieneDetener){
+            cortarTODO();
+          }
+        }, 30);
+      });
+    });
+  }
+
+  function ciclo(){
+    hookRadios();
+    hookDetails();
+  }
+  ciclo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 100) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
