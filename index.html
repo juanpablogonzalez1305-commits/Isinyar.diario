@@ -4892,5 +4892,67 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
-</body>
+<script>
+(function(){
+  if(window._pilarOK) return;
+  window._pilarOK = 1;
+
+  function poner(){
+    var sec = document.getElementById('noticias');
+    if(!sec){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-pilar')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-pilar';
+
+    var H = '';
+    H += '<summary class="rel deep">Invitación: Fiesta de Nuestra Señora del Pilar en Lules<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<p class="meta">Domingo 11 de octubre de 2026 · Celebración comunitaria<br><span style="font-size:.85em;opacity:.85">Fiesta patronal: 12 de octubre (Nuestra Señora del Pilar)</span></p>';
+    H += '<img src="https://files.catbox.moe/39w56n.jpg" alt="Fiesta de la Virgen del Pilar" style="width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .7rem;box-shadow:0 4px 0 #d6cab0;display:block">';
+    H += '<p style="text-align:center;font-family:Fraunces,serif;font-style:italic;font-size:1.05rem;color:#6b5a33;margin-top:1rem">Fiesta de la Virgen del Pilar · Los esperamos</p>';
+    H += '<button type="button" class="btn-voz-pilar" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+
+    // Insertar al principio de Noticias
+    var primero = sec.querySelector('details');
+    if(primero && primero.parentNode === sec){
+      sec.insertBefore(d, primero);
+    } else {
+      sec.appendChild(d);
+    }
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-pilar');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._pilarLeyendo){ s.cancel(); window._pilarLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var t = 'Invitación a la Fiesta de Nuestra Señora del Pilar. Domingo 11 de octubre, celebración comunitaria. Fiesta patronal: 12 de octubre. Los esperamos.';
+        var u = new SpeechSynthesisUtterance(t);
+        u.lang = 'es-AR'; u.rate = .92;
+        u.onend = function(){ window._pilarLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; };
+        u.onerror = u.onend;
+        window._pilarLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        s.speak(u);
+      });
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    poner();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
+                       </body>
 </html>
