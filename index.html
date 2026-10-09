@@ -4817,5 +4817,44 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._monitoreadaFotoOK) return;
+  window._monitoreadaFotoOK = 1;
+
+  function ponerFoto(){
+    var d = document.getElementById('nota-monitoreada');
+    if(!d){ setTimeout(ponerFoto, 500); return; }
+
+    // Si ya tiene la foto, no hacer nada
+    if(d.querySelector('.foto-monitoreada')) return;
+
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    var img = document.createElement('img');
+    img.className = 'foto-monitoreada';
+    img.src = 'https://files.catbox.moe/ljeswa.png';
+    img.alt = 'Zona monitoreada en el sector de la Escuela Gelsi';
+    img.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .7rem;box-shadow:0 4px 0 #d6cab0;display:block';
+
+    // Insertar después de la fecha (meta)
+    var meta = cue.querySelector('.meta');
+    if(meta && meta.parentNode){
+      meta.parentNode.insertBefore(img, meta.nextSibling);
+    } else {
+      cue.insertBefore(img, cue.firstChild);
+    }
+  }
+
+  ponerFoto();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerFoto();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
