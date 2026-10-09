@@ -5126,5 +5126,126 @@ if ('serviceWorker' in navigator) {
   filter: brightness(1.4) contrast(1.15) !important;
 }
 </style>
+  <style>
+/* Sello de agua con el escudo del municipio, más potente y sin estirar */
+#noticias details.pieza > summary.rel.deep {
+  position: relative;
+  overflow: hidden;
+}
+#noticias details.pieza > summary.rel.deep > .escudo-muni {
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 120px;
+  height: 120px;
+  opacity: 0.38;
+  pointer-events: none;
+  z-index: 0;
+  object-fit: contain;
+  aspect-ratio: 1 / 1;
+}
+#noticias details.pieza > summary.rel.deep > *:not(.escudo-muni) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Último Momento */
+#noticias details.ultimo-momento > summary {
+  position: relative;
+  overflow: hidden;
+}
+#noticias details.ultimo-momento > summary > .escudo-muni {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 130px;
+  height: 130px;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  object-fit: contain;
+  aspect-ratio: 1 / 1;
+  filter: brightness(1.4) contrast(1.15);
+}
+#noticias details.ultimo-momento > summary > *:not(.escudo-muni) {
+  position: relative;
+  z-index: 1;
+}
+</style>
+<script>
+(function(){
+  if(window._escudoFinalOK) return;
+  window._escudoFinalOK = 1;
+
+  var ESCUDO_URL = 'https://files.catbox.moe/71my2c.png';
+
+  function noLleva(texto){
+    var t = (texto || '').toUpperCase();
+    if(t.indexOf('ACCIDENTE FATAL') > -1) return true;
+    return false;
+  }
+
+  function limpiar(){
+    // Sacar cualquier escudo viejo con el link sucio
+    document.querySelectorAll('img.escudo-muni').forEach(function(img){
+      if(img.src.indexOf('71my2c') === -1){
+        img.remove();
+      }
+    });
+  }
+
+  function ponerSellos(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+
+    limpiar();
+
+    // Notas blancas
+    sec.querySelectorAll('details.pieza').forEach(function(d){
+      if(d.classList.contains('ultimo-momento')) return;
+      if(d.closest('.ultimo-momento')) return;
+
+      var sum = d.querySelector(':scope > summary.rel.deep');
+      if(!sum) return;
+
+      var t = sum.textContent || '';
+      if(noLleva(t)){
+        var viejo = sum.querySelector('.escudo-muni');
+        if(viejo) viejo.remove();
+        return;
+      }
+
+      if(sum.querySelector('.escudo-muni')) return;
+      var img = document.createElement('img');
+      img.className = 'escudo-muni';
+      img.src = ESCUDO_URL;
+      img.alt = '';
+      sum.appendChild(img);
+    });
+
+    // Último Momento
+    sec.querySelectorAll('details.ultimo-momento').forEach(function(d){
+      var sum = d.querySelector(':scope > summary');
+      if(!sum) return;
+      if(sum.querySelector('.escudo-muni')) return;
+      var img = document.createElement('img');
+      img.className = 'escudo-muni';
+      img.src = ESCUDO_URL;
+      img.alt = '';
+      sum.appendChild(img);
+    });
+  }
+
+  ponerSellos();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerSellos();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+  </script>
   </body>
 </html>
