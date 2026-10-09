@@ -4582,5 +4582,85 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._monitoreadaOK) return;
+  window._monitoreadaOK = 1;
+
+  function poner(){
+    var sec = document.getElementById('noticias');
+    if(!sec){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-monitoreada')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-monitoreada';
+
+    var H = '';
+    H += '<summary class="rel deep">📹 Atención: zona monitoreada en el sector de la Escuela Gelsi<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<p class="meta">Jueves 8 de octubre de 2026 · Escuela Gelsi, San Isidro de Lules.</p>';
+    H += '<p>Las cámaras de seguridad en el sector de la <b>Escuela Gelsi</b> nos permiten controlar un lugar donde se arroja basura.</p>';
+    H += '<p>Quienes arrojen residuos en este sector <b>serán multados</b>.</p>';
+    H += '<p>Les pido a los vecinos que nos ayuden a cuidar la limpieza, especialmente cerca de nuestras escuelas. Detrás de cada lugar limpio hay trabajadores que se esfuerzan todos los días.</p>';
+    H += '<p style="font-style:italic;color:#6b5a33;margin-top:1rem">Cuidemos Lules entre todos.</p>';
+    H += '<button type="button" class="btn-voz-monitoreada" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+
+    // Insertar al principio de Noticias
+    var primero = sec.querySelector('details');
+    if(primero && primero.parentNode === sec){
+      sec.insertBefore(d, primero);
+    } else {
+      sec.appendChild(d);
+    }
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-monitoreada');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._monitoreadaLeyendo){ s.cancel(); window._monitoreadaLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        d.querySelectorAll('.cuerpo-in p').forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._monitoreadaLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._monitoreadaLeyendo) return;
+          if(idx >= bloques.length){ window._monitoreadaLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    poner();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
