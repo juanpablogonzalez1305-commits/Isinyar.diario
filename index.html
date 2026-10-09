@@ -4523,5 +4523,64 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._cortaTrabajosOK) return;
+  window._cortaTrabajosOK = 1;
+
+  function cortarTrabajos(){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    window._trabajosLeyendo = false;
+    // Resetear el botón de trabajos si dice "Detener"
+    var b = document.querySelector('.btn-voz-trabajos');
+    if(b && (b.innerHTML || '').indexOf('Detener') > -1){
+      b.innerHTML = '🔊 Escuchar en voz alta';
+    }
+    // Y también resetear cualquier otro botón que haya quedado en "Detener"
+    document.querySelectorAll('button').forEach(function(x){
+      if((x.innerHTML || '').indexOf('Detener') > -1){
+        x.innerHTML = x.innerHTML
+          .replace(/⏸\s*Detener la lectura/g, '🔊 Escuchar en voz alta')
+          .replace(/⏸\s*Detener lectura/g, '🔊 Escuchar en voz alta');
+      }
+    });
+  }
+
+  // Enganchar al cambio de sección
+  document.querySelectorAll('input[name="sec"]').forEach(function(r){
+    if(r.dataset.cortaTrab === '1') return;
+    r.dataset.cortaTrab = '1';
+    r.addEventListener('change', cortarTrabajos);
+  });
+
+  // Enganchar al cierre de cualquier nota
+  document.querySelectorAll('details').forEach(function(d){
+    if(d.dataset.cortaTrab === '1') return;
+    d.dataset.cortaTrab = '1';
+    d.addEventListener('toggle', function(){
+      if(!d.open){ cortarTrabajos(); }
+    });
+  });
+
+  // Repetir por si aparecen elementos nuevos
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.cortaTrab === '1') return;
+      r.dataset.cortaTrab = '1';
+      r.addEventListener('change', cortarTrabajos);
+    });
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.dataset.cortaTrab === '1') return;
+      d.dataset.cortaTrab = '1';
+      d.addEventListener('toggle', function(){
+        if(!d.open){ cortarTrabajos(); }
+      });
+    });
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
