@@ -5110,5 +5110,21 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
   </script>
-</body>
+<style>
+/* Sello más potente, sin tapar las letras */
+#noticias details.pieza > summary.rel.deep > .escudo-muni {
+  opacity: 0.38 !important;
+  width: 120px !important;
+  height: 120px !important;
+  right: -10px !important;
+}
+#noticias details.ultimo-momento > summary > .escudo-muni {
+  opacity: 0.55 !important;
+  width: 130px !important;
+  height: 130px !important;
+  right: -12px !important;
+  filter: brightness(1.4) contrast(1.15) !important;
+}
+</style>
+  </body>
 </html>
