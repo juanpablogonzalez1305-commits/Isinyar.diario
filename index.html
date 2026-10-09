@@ -4404,5 +4404,85 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
       </script>
+<script>
+(function(){
+  if(window._trabajosOK) return;
+  window._trabajosOK = 1;
+
+  function poner(){
+    var sec = document.getElementById('noticias');
+    if(!sec){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-trabajos')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-trabajos';
+
+    var H = '';
+    H += '<summary class="rel deep">⚠️ Atención conductores: trabajos de reparación en el acceso a la ciudad<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<p class="meta">Miércoles 7 de octubre de 2026 · Arco de Lules, acceso a la ciudad.</p>';
+    H += '<p>La <b>Secretaría de Obras y Servicios Públicos de la Municipalidad de San Isidro de Lules</b> informa que se están llevando a cabo intensas tareas de <b>bacheo y reparación de la rejilla principal</b> en la zona del <b>Arco de Lules</b>.</p>';
+    H += '<p>Debido a la presencia de maquinarias y personal trabajando en la calzada, se solicita a todos los vecinos y conductores circular con extrema precaución, respetar las señales de desvío y disminuir la velocidad al ingresar o salir de la ciudad.</p>';
+    H += '<p style="font-style:italic;color:#6b5a33;margin-top:1rem">Gestión Marta Albarracín.</p>';
+    H += '<button type="button" class="btn-voz-trabajos" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+
+    // Insertar al principio de Noticias (antes de Último Momento)
+    var primero = sec.querySelector('details');
+    if(primero && primero.parentNode === sec){
+      sec.insertBefore(d, primero);
+    } else {
+      sec.appendChild(d);
+    }
+
+    // Botón de voz
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-trabajos');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._trabajosLeyendo){ s.cancel(); window._trabajosLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        d.querySelectorAll('.cuerpo-in p').forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._trabajosLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._trabajosLeyendo) return;
+          if(idx >= bloques.length){ window._trabajosLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    poner();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
