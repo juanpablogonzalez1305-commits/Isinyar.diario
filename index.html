@@ -4106,5 +4106,81 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
-        </body>
+     <script>
+(function(){
+  if(window._capatazInstalar) return;
+  window._capatazInstalar = 1;
+
+  var MS_7_DIAS = 7 * 24 * 60 * 60 * 1000;
+
+  function estaInstalada(){
+    if(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+    if(window.navigator.standalone === true) return true;
+    return false;
+  }
+
+  function debeMostrar(){
+    if(estaInstalada()) return false;
+    var ultimaVez = 0;
+    try{ ultimaVez = parseInt(localStorage.getItem('descubrir_ultimo_aviso') || '0', 10); }catch(e){}
+    if(!ultimaVez) return true;
+    if(Date.now() - ultimaVez > MS_7_DIAS) return true;
+    return false;
+  }
+
+  function marcarMostrado(){
+    try{ localStorage.setItem('descubrir_ultimo_aviso', String(Date.now())); }catch(e){}
+    try{ localStorage.setItem('descubrir_app_aviso', 'ok'); }catch(e){}
+  }
+
+  function controlar(){
+    var cartel = document.getElementById('instalar-app');
+    if(!cartel) return;
+
+    if(!debeMostrar()){
+      // No debe mostrarse. Ocultar y evitar que otros scripts lo muestren.
+      cartel.style.display = 'none';
+      // Redefinir su método de mostrar por si algún script lo llama
+      cartel.style.setProperty('display', 'none', 'important');
+      return;
+    }
+
+    // Debe mostrarse: los otros scripts ya lo manejan, no hacemos nada.
+    // Solo nos aseguramos de que si tocan Cerrar o Entendido, se marque.
+    var cerrar = document.getElementById('inst-boton-cerrar');
+    var principal = document.getElementById('inst-boton-principal');
+    if(cerrar && cerrar.dataset.capataz !== '1'){
+      cerrar.dataset.capataz = '1';
+      cerrar.addEventListener('click', marcarMostrado);
+    }
+    if(principal && principal.dataset.capataz !== '1'){
+      principal.dataset.capataz = '1';
+      principal.addEventListener('click', marcarMostrado);
+    }
+  }
+
+  // Ejecutar cada 300 ms durante 30 segundos
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    controlar();
+    if(n > 100) clearInterval(t);
+  }, 300);
+  controlar();
+
+  // Y también con MutationObserver, para reaccionar al instante
+  function iniciarObs(){
+    if(!document.body){ setTimeout(iniciarObs, 200); return; }
+    var obs = new MutationObserver(function(){
+      var cartel = document.getElementById('instalar-app');
+      if(cartel && !debeMostrar()){
+        cartel.style.display = 'none';
+      }
+    });
+    obs.observe(document.body, {childList: true, subtree: true, attributes: true, attributeFilter: ['style']});
+  }
+  iniciarObs();
+})();
+     </script>   
+</body>
 </html>
