@@ -4736,5 +4736,86 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._galliaOK) return;
+  window._galliaOK = 1;
+
+  function poner(){
+    var sec = document.getElementById('noticias');
+    if(!sec){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-gallia')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-gallia';
+
+    var H = '';
+    H += '<summary class="rel deep">Carlos Gallia visitó Ingenio Lules: una tarde de alegría junto a la familia Ruiz y 32 chicos del barrio<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<p class="meta">Viernes 9 de octubre de 2026 · Ingenio Lules, San Isidro de Lules.</p>';
+    H += '<p>Compartir momentos que llenan el corazón.</p>';
+    H += '<p>Hoy estuve visitando a la querida familia Ruiz en Ingenio Lules, quienes con un compromiso enorme y pura vocación abren las puertas de su casa para brindar la merienda a más de 32 chicos del barrio.</p>';
+    H += '<p>Pudimos charlar con los papás y mamás presentes, escuchar sus realidades y, sobre todo, compartir una tarde de alegría con los más pequeños. La solidaridad y el esfuerzo que ponen día a día es un verdadero ejemplo de amor por la comunidad.</p>';
+    H += '<p>Siempre vamos a estar a la par de quienes trabajan incansablemente por el bienestar de nuestros chicos.</p>';
+    H += '<p style="font-style:italic;color:#6b5a33;margin-top:1rem">¡Muchísimas gracias a la familia Ruiz y a todos los vecinos por el cariño y el hermoso recibimiento!</p>';
+    H += '<button type="button" class="btn-voz-gallia" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+
+    // Insertar al principio de Noticias
+    var primero = sec.querySelector('details');
+    if(primero && primero.parentNode === sec){
+      sec.insertBefore(d, primero);
+    } else {
+      sec.appendChild(d);
+    }
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-gallia');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._galliaLeyendo){ s.cancel(); window._galliaLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        d.querySelectorAll('.cuerpo-in p').forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._galliaLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._galliaLeyendo) return;
+          if(idx >= bloques.length){ window._galliaLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    poner();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
