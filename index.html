@@ -5003,5 +5003,112 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
   </script>                    
+<style>
+/* Sello de agua para las notas de Noticias (excepto el accidente) */
+#noticias details.pieza > summary.rel.deep {
+  position: relative;
+  overflow: hidden;
+}
+#noticias details.pieza > summary.rel.deep > .escudo-muni {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px;
+  height: 100px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+/* El texto y el chev quedan arriba del sello */
+#noticias details.pieza > summary.rel.deep > *:not(.escudo-muni) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Último Momento: fondo oscuro, sello más visible */
+#noticias details.ultimo-momento > summary {
+  position: relative;
+  overflow: hidden;
+}
+#noticias details.ultimo-momento > summary > .escudo-muni {
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 110px;
+  height: 110px;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+  filter: brightness(1.3) contrast(1.1);
+}
+#noticias details.ultimo-momento > summary > *:not(.escudo-muni) {
+  position: relative;
+  z-index: 1;
+}
+</style>
+<script>
+(function(){
+  if(window._escudoSelloOK) return;
+  window._escudoSelloOK = 1;
+
+  var ESCUDO_URL = 'https://files.catbox.moe/14arfp.png';
+
+  function noLleva(texto){
+    var t = (texto || '').toUpperCase();
+    if(t.indexOf('ACCIDENTE FATAL') > -1) return true;
+    return false;
+  }
+
+  function ponerSellos(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+
+    // Notas blancas (menos accidente)
+    sec.querySelectorAll('details.pieza').forEach(function(d){
+      if(d.classList.contains('ultimo-momento')) return;
+      if(d.closest('.ultimo-momento')) return;
+
+      var sum = d.querySelector(':scope > summary.rel.deep');
+      if(!sum) return;
+
+      var t = sum.textContent || '';
+      if(noLleva(t)){
+        var viejo = sum.querySelector('.escudo-muni');
+        if(viejo) viejo.remove();
+        return;
+      }
+
+      if(sum.querySelector('.escudo-muni')) return;
+      var img = document.createElement('img');
+      img.className = 'escudo-muni';
+      img.src = ESCUDO_URL;
+      img.alt = '';
+      sum.appendChild(img);
+    });
+
+    // Último Momento
+    sec.querySelectorAll('details.ultimo-momento').forEach(function(d){
+      var sum = d.querySelector(':scope > summary');
+      if(!sum) return;
+      if(sum.querySelector('.escudo-muni')) return;
+      var img = document.createElement('img');
+      img.className = 'escudo-muni';
+      img.src = ESCUDO_URL;
+      img.alt = '';
+      sum.appendChild(img);
+    });
+  }
+
+  ponerSellos();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerSellos();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+  </script>
 </body>
 </html>
