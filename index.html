@@ -4267,5 +4267,74 @@ if ('serviceWorker' in navigator) {
   poner();
 })();
 </script>
-</body>
+<script>
+(function(){
+  if(window._cortaVozOK) return;
+  window._cortaVozOK = 1;
+
+  function resetearBotones(){
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.innerHTML || '';
+      if(t.indexOf('Detener lectura') > -1 || t.indexOf('Detener la lectura') > -1){
+        b.innerHTML = t
+          .replace(/⏸\s*Detener la lectura/g, '🔊 Escuchar en voz alta')
+          .replace(/⏸\s*Detener lectura/g, '🔊 Escuchar en voz alta');
+      }
+    });
+  }
+
+  function cortar(){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    // Apagar las banderas de todos los botones de voz
+    window._artazaLeyendo = false;
+    window._reneLeyendo = false;
+    window._hogarLeyendo = false;
+    window._obradorLeyendo = false;
+    window._accidenteLeyendo = false;
+    window._carmenLeyendo = false;
+    window._rosarioLeyendo = false;
+    window._mercedLeyendo = false;
+    window._cayetanoLeyendo = false;
+    window._rosarioNicolasLeyendo = false;
+    window._snLeyendo = false;
+    window._uniLeyendo = false;
+    window._festivalLeyendo = false;
+    window._gobernadorLeyendo = false;
+    window._ultimoLeyendo = false;
+    window._btnLeyendo = null;
+    resetearBotones();
+  }
+
+  function hookSecciones(){
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.cortaOK === '1') return;
+      r.dataset.cortaOK = '1';
+      r.addEventListener('change', cortar);
+    });
+  }
+
+  function hookDetails(){
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.dataset.cortaOK === '1') return;
+      d.dataset.cortaOK = '1';
+      d.addEventListener('toggle', function(){
+        if(!d.open){ cortar(); }
+      });
+    });
+  }
+
+  function ciclo(){
+    hookSecciones();
+    hookDetails();
+  }
+  ciclo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+</script>
+  </body>
 </html>
