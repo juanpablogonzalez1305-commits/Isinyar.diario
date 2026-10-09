@@ -5315,5 +5315,96 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
       </script>
+<script>
+(function(){
+  if(window._fotosIsidroFixOK) return;
+  window._fotosIsidroFixOK = 1;
+
+  function arreglar(){
+    // Buscar la ficha de San Isidro Labrador
+    var objetivo = null;
+    document.querySelectorAll('#fe details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && (s.textContent || '').indexOf('Iglesia San Isidro Labrador') > -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo) return;
+    if(objetivo.dataset.fixFinal === '1') return;
+
+    var ficha = objetivo.querySelector('.ficha');
+    if(!ficha) return;
+
+    // 1. Encontrar el contenedor de fotos (el div con las dos imágenes)
+    var fotoWrap = null;
+    ficha.querySelectorAll('div').forEach(function(div){
+      if(div.querySelectorAll('img').length >= 1 && div.style.display === 'flex'){
+        fotoWrap = div;
+      }
+    });
+
+    // 2. Si existe el wrap, insertamos un párrafo oculto antes para que el botón Brújula vuelva a ser "nth-of-type(4)"
+    if(fotoWrap && !ficha.querySelector('p.oculto-foto')){
+      var hiddenP = document.createElement('p');
+      hiddenP.className = 'oculto-foto';
+      hiddenP.style.cssText = 'display:none';
+      hiddenP.textContent = 'Foto:';
+      fotoWrap.parentNode.insertBefore(hiddenP, fotoWrap);
+    }
+
+    // 3. Arreglar el estilo del botón Brújula (por las dudas)
+    var brujulaP = null;
+    ficha.querySelectorAll('p').forEach(function(p){
+      if((p.textContent || '').indexOf('Brújula') > -1){
+        brujulaP = p;
+      }
+    });
+    if(brujulaP){
+      brujulaP.style.cssText = 'background:none;border:0;box-shadow:none;padding:0;margin:.2rem 0';
+      var a = brujulaP.querySelector('a');
+      if(a){
+        a.style.cssText = 'display:block;font-family:Fraunces,serif;font-style:italic;font-weight:700;font-size:.98rem;color:#171310;text-decoration:none;text-align:center;background:linear-gradient(180deg,#fffdf8,#f1e6cf);border:1.5px solid #171310;border-radius:12px;padding:.6rem .65rem;box-shadow:0 4px 0 0 #171310,0 10px 16px -6px rgba(0,0,0,.45),inset 0 1px 0 #fff';
+      }
+    }
+
+    // 4. Si una foto no cargó, ocultar su espacio para que la otra ocupe el ancho completo
+    if(fotoWrap){
+      var imgs = fotoWrap.querySelectorAll('img');
+      imgs.forEach(function(img){
+        if(img.complete && img.naturalWidth === 0){
+          // La imagen falló: ocultar su contenedor
+          if(img.parentNode && img.parentNode.style){
+            img.parentNode.style.display = 'none';
+          }
+        }
+      });
+      // Si quedó solo una foto, que ocupe todo el ancho
+      var visibles = 0;
+      imgs.forEach(function(img){
+        if(img.parentNode && img.parentNode.style.display !== 'none') visibles++;
+      });
+      if(visibles === 1){
+        fotoWrap.style.display = 'block';
+        imgs.forEach(function(img){
+          if(img.parentNode && img.parentNode.style.display !== 'none'){
+            img.parentNode.style.flex = 'none';
+            img.parentNode.style.width = '100%';
+          }
+        });
+      }
+    }
+
+    objetivo.dataset.fixFinal = '1';
+  }
+
+  arreglar();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    arreglar();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
