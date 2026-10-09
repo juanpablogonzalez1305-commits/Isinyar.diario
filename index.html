@@ -5247,5 +5247,73 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
   </script>
-  </body>
+  <script>
+(function(){
+  if(window._fotosIsidroOK) return;
+  window._fotosIsidroOK = 1;
+
+  function ponerFotos(){
+    // Buscar la ficha de la Iglesia San Isidro Labrador
+    var objetivo = null;
+    document.querySelectorAll('#fe details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(s && (s.textContent || '').indexOf('Iglesia San Isidro Labrador') > -1){
+        objetivo = d;
+      }
+    });
+    if(!objetivo) return;
+    if(objetivo.dataset.fotosIsidro === '1') return;
+
+    var ficha = objetivo.querySelector('.ficha');
+    if(!ficha) return;
+
+    // Buscar el párrafo que dice "Foto: espacio reservado"
+    var parrafos = ficha.querySelectorAll('p');
+    var objetivoP = null;
+    for(var i = 0; i < parrafos.length; i++){
+      if((parrafos[i].textContent || '').indexOf('Foto:') > -1){
+        objetivoP = parrafos[i];
+        break;
+      }
+    }
+    if(!objetivoP) return;
+
+    // Reemplazar el párrafo por las dos fotos
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;gap:.6rem;margin:.6rem 0 .8rem';
+
+    var div1 = document.createElement('div');
+    div1.style.cssText = 'flex:1;text-align:center';
+    var img1 = document.createElement('img');
+    img1.src = 'https://files.catbox.moe/0hfdfk.png';
+    img1.alt = 'Iglesia San Isidro Labrador';
+    img1.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;box-shadow:0 4px 0 #d6cab0;display:block';
+    div1.appendChild(img1);
+
+    var div2 = document.createElement('div');
+    div2.style.cssText = 'flex:1;text-align:center';
+    var img2 = document.createElement('img');
+    img2.src = 'https://files.catbox.moe/iytyum.png';
+    img2.alt = 'Iglesia San Isidro Labrador';
+    img2.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;box-shadow:0 4px 0 #d6cab0;display:block';
+    div2.appendChild(img2);
+
+    wrap.appendChild(div1);
+    wrap.appendChild(div2);
+
+    objetivoP.parentNode.replaceChild(wrap, objetivoP);
+
+    objetivo.dataset.fotosIsidro = '1';
+  }
+
+  ponerFotos();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerFotos();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+      </script>
+</body>
 </html>
