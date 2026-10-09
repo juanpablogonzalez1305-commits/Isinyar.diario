@@ -4182,5 +4182,90 @@ if ('serviceWorker' in navigator) {
   iniciarObs();
 })();
      </script>   
+<script>
+(function(){
+  if(window._artazaNotaOK) return;
+  window._artazaNotaOK = 1;
+  function poner(){
+    var cont = document.getElementById('his-hemero') || document.getElementById('historia');
+    if(!cont){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-artaza')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-artaza';
+
+    var H = '';
+    H += '<summary class="rel deep">9 · Club Atlético Irigoyen · Los hermanos Artaza: años viviendo el deporte<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Julio de 1995</span><b>DESCUBRIR</b><span>Memorias</span></div>';
+    H += '<p class="kick">Club Atlético Irigoyen · Los hermanos Artaza · San Isidro de Lules</p>';
+    H += '<h3 class="tit-h">LOS HERMANOS ARTAZA: AÑOS VIVIENDO EL DEPORTE</h3>';
+    H += '<p>Fundadores del Club Irigoyen el 25 de Mayo de 1946. En su dilatada trayectoria, se consagraron campeones en los años:</p>';
+    H += '<p><b>1950</b> Campeones Categoría Libre · <b>1962</b> Campeones Categoría Infantiles · <b>1968</b> Campeones Categoría Juvenil · <b>1971</b> Campeones Categoría Infantiles · <b>1972</b> Campeones Categoría Cadete · <b>1974</b> Campeones Categoría Infantiles · <b>1980</b> Campeones Categoría Juvenil · <b>1982</b> Campeones Categoría Infantiles · <b>1983</b> Campeones Categoría Juvenil · <b>1984</b> Campeones Categoría Infantiles · <b>1987</b> Campeones Categoría Juvenil · <b>1990</b> Campeones Categoría Infantil.</p>';
+    H += '<p>En el mes de Mayo, mes en que Lules se pone de fiesta para celebrar a San Isidro Labrador, o en que la patria nos recuerda que merced al sacrificio de un puñado de hombres nació a la libertad, mayo mes de la revolución, del cambio, de la lucha por nobles ideales. En este mes, un 25 de Mayo de 1946 nacía a la vida deportiva el Club Atlético Irigoyen, de la mano de Antonio Salvador Artaza. Estaba llamado a entrar en la historia del deporte de Lules, por el don que Dios había puesto en ellos: el de amar a los niños a través de su pasión, que es el deporte. Don Juan Artaza tomó también la barra, donde le cupo brindar el amor a la vida deportiva e inculcar a los niños el amor a la institución.</p>';
+    H += '<p>Hoy Juan y Antonio Artaza forman parte de ese ayer, y en una lección de vida nos muestran lo que el espíritu de sacrificio, el amor y la constancia pueden hacer: estar cerca de cumplir 50 años abrazados a un ideal, el de "hacer feliz a los niños".</p>';
+    H += '<p>DESCUBRIR entrevistó a los hermanos Artaza, para rendir a través de estas líneas un justo reconocimiento a su labor.</p>';
+    H += '<h4>¿Cómo y cuándo nace la institución?</h4>';
+    H += '<p>En realidad elegir un solo equipo, cuando por este club pasaron más de 2000 niños, es difícil. Todos de alguna manera le dieron sentido a nuestra vida, y ver en la calle a muchos de ellos, y sentir que aún guardan por nosotros un cariño, es una satisfacción inmensa.</p>';
+    H += '<p>Irigoyen tuvo en 1968 un gran equipo que salió Campeón Juvenil. Estaba integrado por Milla, Lazarre, Miguel Mastroberardino, Nadal, "Toti" Gómez, Aparicio, Rulo Moreno, Mario Díaz y también como mascota a Jorge Mustafá.</p>';
+    H += '<p>Hablar de las aptitudes futbolísticas de cada uno de esos integrantes nos trae dulces recuerdos, por la capacidad técnica, y porque muchos de ellos pudieron canalizar su lugar a través de clubes de barrio que actúan en categorías más competitivas.</p>';
+    H += '<h4>¿Cómo descubrieron ustedes esta pasión por el deporte, y sintieron el deseo de dirigir equipos?</h4>';
+    H += '<p>En nuestros años jóvenes, de cada sitio baldío hacíamos una cancha; en esa época los entrenábamos después, en las canchas de tierra de la redonda.</p>';
+    H += '<p>Pero la pasión por el deporte la llevamos en la sangre. Nuestro padre tenía un club de fútbol que se llamaba Lules Central para el 1918, y su pasión lo llevó a alquilar un parlamento para que los entrenaran.</p>';
+    H += '<h4>¿Cuándo comenzaron a trabajar con los equipos infantiles?</h4>';
+    H += '<p>Irigoyen nace para equipos de mayores; en esa época no había infantiles. En 1962, Juan armó un equipo que salió campeón, y a partir de allí los logros se fueron sucediendo. El equipo era de niños de 12 a 13 años; entre otros jugaban Turi Pérez, Aracena, Abdalad, Polaco Brahan, Nacho, Valle, Pepe Poderoso, Suárez, Ávila, Amaya, Vallejo.</p>';
+    H += '<h4>¿Cuál fue el equipo que les dio las mayores satisfacciones, a lo largo de toda esta historia deportiva?</h4>';
+    H += '<p>La vida nos llena de emoción. Alguien puede recordar a Víctor Hugo Jiménez cuando niño, jugando en nuestro club, y sentimos orgullo por su trayectoria deportiva. La misma emoción sentimos cuando vemos a uno de nuestros chicos ya hecho hombre triunfar en los estudios, o triunfar en la vida.</p>';
+    H += '<p>Toda una vida dedicada al deporte: 13 campeonatos obtenidos, cerca de 3000 niños que transitaron por sus filas. Don Antonio y don Juan Artaza son ejemplo y virtud en nuestra comunidad; su trabajo fue siempre silencioso, nunca reconocido, pero en el que se brindó a los demás.</p>';
+    H += '<p>En los primeros números, tal vez no se haya valorado el amor y la entrega. En la distancia, el tiempo, el amor sigue estando. Por eso, a los que aún tienen la suerte de contar con sus padres, les pedimos que no se olviden de decirles cuánto los aman. Porque es lo único que les queda cuando la vida se acaba.</p>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir, julio de 1995, página 16. Transcripción.</p>';
+    H += '<button type="button" class="btn-voz-artaza" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+    H += '</div>';
+
+    d.innerHTML = H;
+    cont.appendChild(d);
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-artaza');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._artazaLeyendo){ s.cancel(); window._artazaLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        d.querySelectorAll('.mast, .kick, .tit-h, p, h4').forEach(function(el){
+          if(el.classList.contains('btn-voz-artaza')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._artazaLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._artazaLeyendo) return;
+          if(idx >= bloques.length){ window._artazaLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+  poner();
+})();
+</script>
 </body>
 </html>
