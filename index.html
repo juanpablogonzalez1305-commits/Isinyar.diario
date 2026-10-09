@@ -4954,5 +4954,54 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
-                       </body>
+  <script>
+(function(){
+  if(window._pilarSin12OK) return;
+  window._pilarSin12OK = 1;
+
+  function arreglar(){
+    var d = document.getElementById('nota-pilar');
+    if(!d) return;
+    if(d.dataset.sin12OK === '1') return;
+
+    var meta = d.querySelector('.meta');
+    if(meta){
+      meta.innerHTML = 'Domingo 11 de octubre de 2026';
+    }
+    d.dataset.sin12OK = '1';
+
+    // Actualizar el texto que lee la voz también
+    var b = d.querySelector('.btn-voz-pilar');
+    if(b && b.dataset.vozOK !== '1'){
+      b.dataset.vozOK = '1';
+      // Clonar para quitar listeners viejos
+      var clon = b.cloneNode(true);
+      b.parentNode.replaceChild(clon, b);
+      clon.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._pilarLeyendo){ s.cancel(); window._pilarLeyendo = false; clon.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var t = 'Invitación a la Fiesta de Nuestra Señora del Pilar. Domingo 11 de octubre. Los esperamos.';
+        var u = new SpeechSynthesisUtterance(t);
+        u.lang = 'es-AR'; u.rate = .92;
+        u.onend = function(){ window._pilarLeyendo = false; clon.innerHTML = '🔊 Escuchar en voz alta'; };
+        u.onerror = u.onend;
+        window._pilarLeyendo = true;
+        clon.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        s.speak(u);
+      });
+    }
+  }
+
+  arreglar();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    arreglar();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+  </script>                    
+</body>
 </html>
