@@ -5406,5 +5406,96 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._tangoOK) return;
+  window._tangoOK = 1;
+
+  function poner(){
+    var cont = document.getElementById('his-cultura');
+    if(!cont){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-tango')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-tango';
+
+    var H = '';
+    H += '<summary class="rel deep">🎭 "Tango para tres" llega a Lules: una comedia dramática en la Casa de la Cultura<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Octubre de 2026</span><b>CULTURA VIVA</b><span>Lules</span></div>';
+    H += '<p class="kick">Teatro en la Casa de la Cultura de Lules</p>';
+    H += '<h3 class="tit-h">"TANGO PARA TRES": UNA COMEDIA DRAMÁTICA QUE LLEGA A LULES</h3>';
+    H += '<p>La obra de teatro <b>"Tango para tres"</b> tiene fecha confirmada para la ciudad de <b>Lules</b>. La función será el <b>lunes 12 de octubre de 2026 a las 21:00 horas</b> en la <b>Casa de la Cultura de Lules</b>.</p>';
+    H += '<h4>Detalles de la función</h4>';
+    H += '<p><b>Obra:</b> Tango para tres (comedia dramática)</p>';
+    H += '<p><b>Elenco principal:</b> Arnaldo André, Marta González y Romina Fernandes</p>';
+    H += '<p><b>Dirección y libro:</b> Hernán Krasutzky</p>';
+    H += '<p><b>Fecha y hora:</b> Lunes 12 de octubre de 2026 a las 21:00 hs</p>';
+    H += '<p><b>Lugar:</b> Casa de la Cultura de Lules</p>';
+    H += '<h4>Entradas y precios</h4>';
+    H += '<p><b>Valor anticipadas:</b> $20.000</p>';
+    H += '<p><b>Compra anticipada:</b> Se puede gestionar por WhatsApp al <b>+54 9 381 444-0089</b> o de forma presencial en la Casa de la Cultura.</p>';
+    H += '<p><b>Boletería:</b> Las entradas generales estarán disponibles el mismo día del evento a partir de las <b>19:00 horas</b>.</p>';
+    H += '<button type="button" class="btn-voz-tango" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+    H += '</div>';
+
+    d.innerHTML = H;
+
+    var primero = cont.querySelector('details, .hemero, div');
+    if(primero && primero.parentNode === cont){
+      cont.insertBefore(d, primero);
+    } else {
+      cont.appendChild(d);
+    }
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-tango');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._tangoLeyendo){ s.cancel(); window._tangoLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        d.querySelectorAll('.mast, .kick, .tit-h, p, h4').forEach(function(el){
+          if(el.classList.contains('btn-voz-tango')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._tangoLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._tangoLeyendo) return;
+          if(idx >= bloques.length){ window._tangoLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    poner();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
