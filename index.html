@@ -5497,5 +5497,42 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
-</body>
+<script>
+(function(){
+  if(window._tangoFotoOK) return;
+  window._tangoFotoOK = 1;
+
+  function ponerFoto(){
+    var d = document.getElementById('nota-tango');
+    if(!d){ setTimeout(ponerFoto, 500); return; }
+    if(d.querySelector('.foto-tango')) return;
+
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    var img = document.createElement('img');
+    img.className = 'foto-tango';
+    img.src = 'https://files.catbox.moe/62vlkj.png';
+    img.alt = 'Tango para tres · Casa de la Cultura de Lules';
+    img.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .7rem;box-shadow:0 4px 0 #d6cab0;display:block';
+
+    // Insertar después del título grande (tit-h)
+    var titulo = cue.querySelector('.tit-h');
+    if(titulo && titulo.parentNode){
+      titulo.parentNode.insertBefore(img, titulo.nextSibling);
+    } else {
+      cue.insertBefore(img, cue.firstChild);
+    }
+  }
+
+  ponerFoto();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerFoto();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
+      </body>
 </html>
