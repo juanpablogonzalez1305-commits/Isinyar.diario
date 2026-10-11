@@ -6822,5 +6822,46 @@ h2.tit {
   }, 500);
 })();
 </script>
+<style>
+/* Animaciones más espaciadas: pulsos con más pausa entre uno y otro */
+
+/* Ola de los títulos: antes 5s, ahora 9s (más tiempo de pausa) */
+h2.tit span,
+.tit-letra {
+  animation-duration: 9s !important;
+}
+
+/* Haz de luz en los botones: antes 5s, ahora 9s */
+details > summary::after {
+  animation-duration: 9s !important;
+}
+
+/* Los íconos de la portada (ondas): antes 3.2s, ahora 5s */
+.keys .chip::before,
+.keys .chip::after {
+  animation-duration: 5s !important;
+}
+
+/* Brillo de la barra superior (respiración): antes 2.5s, ahora 4s */
+.topbar .tic {
+  animation-duration: 4s !important;
+}
+
+/* Brillo de las pestañas de Historia: antes 6s, ahora 9s */
+.his-tabs label::after {
+  animation-duration: 9s !important;
+}
+
+/* Emojis vivos (🌤️ y 🧭): antes 2.8s y 3s, ahora 4.5s */
+.emoji-vivo,
+.emoji-brujula {
+  animation-duration: 4.5s !important;
+}
+
+/* Brillo del título DESCUBRIR: antes 5s, ahora 8s */
+.masthead h1::after {
+  animation-duration: 8s !important;
+}
+</style>
 </body>
 </html>
