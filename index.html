@@ -6748,31 +6748,45 @@ details > summary::after {
 </style>
 <script>
 (function(){
-  if(window._titulosV3OK) return;
-  window._titulosV3OK = 1;
+  if(window._titulosV4OK) return;
+  window._titulosV4OK = 1;
 
   function partirTitulos(){
     document.querySelectorAll('h2.tit').forEach(function(h){
       if(h.dataset.olaLista === '1') return;
-      var texto = h.textContent;
+      var texto = h.textContent.replace(/\s+/g,' ').trim();
       if(!texto || texto.length > 60) return;
+
       h.textContent = '';
-      for(var i = 0; i < texto.length; i++){
-        var ch = texto[i];
-        if(ch === ' '){
-          var esp = document.createElement('span');
-          esp.className = 'tit-letra espacio';
-          esp.innerHTML = '&nbsp;';
-          h.appendChild(esp);
-          h.appendChild(document.createTextNode(' '));
-        } else {
+      var palabras = texto.split(' ');
+      var contador = 0;
+
+      palabras.forEach(function(palabra, idx){
+        // Cada palabra es un bloque que no se puede cortar
+        var bloquePalabra = document.createElement('span');
+        bloquePalabra.className = 'tit-palabra';
+
+        // Adentro, cada letra con su animación
+        for(var i = 0; i < palabra.length; i++){
           var span = document.createElement('span');
           span.className = 'tit-letra';
-          span.textContent = ch;
-          span.style.animationDelay = (i * 0.06) + 's';
-          h.appendChild(span);
+          span.textContent = palabra[i];
+          span.style.animationDelay = (contador * 0.06) + 's';
+          contador++;
+          bloquePalabra.appendChild(span);
         }
-      }
+
+        h.appendChild(bloquePalabra);
+
+        // Espacio entre palabras (permite el salto de línea)
+        if(idx < palabras.length - 1){
+          var espacio = document.createElement('span');
+          espacio.className = 'tit-espacio';
+          espacio.innerHTML = '&nbsp;';
+          h.appendChild(espacio);
+        }
+      });
+
       h.dataset.olaLista = '1';
     });
   }
@@ -6785,6 +6799,6 @@ details > summary::after {
     if(n > 60) clearInterval(t);
   }, 500);
 })();
-</script>
+            </script>
 </body>
 </html>
