@@ -6066,26 +6066,26 @@ if ('serviceWorker' in navigator) {
       tieneVer: true,
       textoVer: '🎭 Ver la nota completa',
       destino: 'cultura-viva',
-      segundos: 5
+      segundos: 8
     },
     {
       img: 'https://files.catbox.moe/s6g3yw.png',
       tieneVer: false,
-      segundos: 5
+      segundos: 8
     },
     {
       img: 'https://files.catbox.moe/vfnxib.png',
       tieneVer: true,
       textoVer: '📰 Ver la nota en la Hemeroteca',
       destino: 'hemeroteca',
-      segundos: 5
+      segundos: 8
     },
     {
       img: 'https://files.catbox.moe/tz6wq6.png',
       tieneVer: true,
       textoVer: '📰 Ver la nota en la Hemeroteca',
       destino: 'hemeroteca',
-      segundos: 10
+      segundos: 15
     }
   ];
   // ==========================================================
@@ -6213,6 +6213,49 @@ if ('serviceWorker' in navigator) {
     }
   }, 500);
 
+})();
+</script>
+<script>
+(function(){
+  if(window._arregloBotonHemero) return;
+  window._arregloBotonHemero = 1;
+
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+
+    var btn = (t.id === 'cartel-ver') ? t : (t.closest ? t.closest('#cartel-ver') : null);
+    if(!btn) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    var destino = btn.dataset.destino || 'cultura-viva';
+    var overlay = document.getElementById('cartel-destacado');
+    if(overlay) overlay.classList.remove('visible');
+
+    var radio = document.getElementById('s-historia');
+    if(radio){
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+
+    setTimeout(function(){
+      var labels = document.querySelectorAll('label');
+      for(var i = 0; i < labels.length; i++){
+        var txt = (labels[i].textContent || '').toUpperCase();
+        if(destino === 'hemeroteca' && txt.indexOf('HEMEROTECA') > -1){
+          labels[i].click();
+          break;
+        }
+        if(destino === 'cultura-viva' && txt.indexOf('CULTURA VIVA') > -1){
+          labels[i].click();
+          break;
+        }
+      }
+      window.scrollTo(0, 0);
+    }, 250);
+  }, true);
 })();
 </script>
 </body>
