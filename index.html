@@ -5922,5 +5922,72 @@ if ('serviceWorker' in navigator) {
 
 })();
 </script>
+<script>
+(function(){
+  if(window._musicaPortadaOK) return;
+  window._musicaPortadaOK = 1;
+
+  // ==== CONFIGURACIÓN ====
+  var MP3_URL = 'https://files.catbox.moe/asvg0d.mp3';
+  var VOLUMEN = 0.30;
+  // =======================
+
+  var audioMusica = new Audio(MP3_URL);
+  audioMusica.loop = true;
+  audioMusica.volume = VOLUMEN;
+  audioMusica.preload = 'auto';
+
+  var btnMusica = document.createElement('button');
+  btnMusica.id = 'cartel-musica-btn';
+  btnMusica.type = 'button';
+  btnMusica.innerHTML = '🔊';
+  btnMusica.title = 'Activar / desactivar música';
+  btnMusica.style.cssText = 'position:absolute;top:10px;left:10px;width:42px;height:42px;border-radius:50%;background:#c9a243;color:#241c12;font-size:1.3rem;border:2px solid #241c12;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 8px rgba(0,0,0,.6);transition:transform .15s,box-shadow .15s;';
+
+  var caja = document.getElementById('cartel-caja');
+  if(caja) caja.appendChild(btnMusica);
+
+  var musicaActiva = false;
+
+  btnMusica.addEventListener('click', function(){
+    if(musicaActiva){
+      audioMusica.pause();
+      musicaActiva = false;
+      btnMusica.classList.remove('sonando');
+    } else {
+      audioMusica.play();
+      musicaActiva = true;
+      btnMusica.classList.add('sonando');
+    }
+  });
+
+  function cortarMusica(){
+    if(musicaActiva){
+      audioMusica.pause();
+      audioMusica.currentTime = 0;
+      musicaActiva = false;
+      btnMusica.classList.remove('sonando');
+    }
+  }
+
+  // Cortar al cerrar el cartel
+  var overlay = document.getElementById('cartel-destacado');
+  if(overlay){
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay) cortarMusica();
+    });
+  }
+  document.querySelectorAll('#cartel-ver, #cartel-cerrar, #cartel-cerrar-x').forEach(function(b){
+    b.addEventListener('click', cortarMusica);
+  });
+
+  // SOLO cortar cuando la sección realmente cambie
+  // (no cuando el usuario toca las tarjetas de la portada sin entrar)
+  document.querySelectorAll('input[name="sec"]').forEach(function(r){
+    r.addEventListener('change', cortarMusica);
+  });
+
+})();
+</script>
 </body>
 </html>
