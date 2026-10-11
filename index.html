@@ -6800,5 +6800,25 @@ details > summary::after {
   }, 500);
 })();
             </script>
+<style>
+/* Cada palabra entera, sin cortarse */
+.tit-palabra {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+.tit-espacio {
+  display: inline-block !important;
+  width: 0.28em !important;
+}
+/* Los h2 permiten salto de línea solo entre palabras */
+h2.tit {
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+</style>
 </body>
 </html>
