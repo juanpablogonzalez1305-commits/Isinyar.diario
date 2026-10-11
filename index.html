@@ -5989,5 +5989,76 @@ if ('serviceWorker' in navigator) {
 
 })();
 </script>
+<script>
+(function(){
+  if(window._musicaPortadaOK3) return;
+  window._musicaPortadaOK3 = 1;
+
+  // ==== CONFIGURACIÓN ====
+  var MP3_URL = 'https://files.catbox.moe/asvg0d.mp3';
+  var VOLUMEN = 0.30;
+  // =======================
+
+  // 1. Frenar cualquier audio de música anterior que haya quedado sonando
+  try{
+    if(window._audioMusicaCartel){
+      window._audioMusicaCartel.pause();
+      window._audioMusicaCartel.currentTime = 0;
+    }
+  }catch(e){}
+
+  // 2. Ocultar botón viejo (si existe) y crear uno nuevo limpio
+  var viejoBtn = document.getElementById('cartel-musica-btn');
+  if(viejoBtn) viejoBtn.style.display = 'none';
+
+  var audio = new Audio(MP3_URL);
+  audio.loop = true;
+  audio.volume = VOLUMEN;
+  audio.preload = 'auto';
+  window._audioMusicaCartel = audio;
+
+  var btn = document.createElement('button');
+  btn.id = 'cartel-musica-btn-nuevo';
+  btn.type = 'button';
+  btn.innerHTML = '🔊';
+  btn.title = 'Activar / desactivar música';
+  btn.style.cssText = 'position:absolute;top:10px;left:10px;width:42px;height:42px;border-radius:50%;background:#c9a243;color:#241c12;font-size:1.3rem;border:2px solid #241c12;cursor:pointer;z-index:11;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 8px rgba(0,0,0,.6);transition:transform .15s,box-shadow .15s;';
+
+  var caja = document.getElementById('cartel-caja');
+  if(caja) caja.appendChild(btn);
+
+  var activa = false;
+
+  btn.addEventListener('click', function(){
+    if(activa){
+      audio.pause();
+      activa = false;
+      btn.classList.remove('sonando');
+    } else {
+      audio.play();
+      activa = true;
+      btn.classList.add('sonando');
+    }
+  });
+
+  function cortarMusica(){
+    if(activa){
+      audio.pause();
+      audio.currentTime = 0;
+      activa = false;
+      btn.classList.remove('sonando');
+    }
+  }
+
+  // 3. SOLO cortar cuando la sección realmente cambie
+  document.querySelectorAll('input[name="sec"]').forEach(function(r){
+    r.addEventListener('change', cortarMusica);
+  });
+
+  // 4. Ignoramos cerrar cartel, tocar afuera, ver nota, etc.
+  //    La música sigue sonando hasta que cambie la sección.
+
+})();
+</script>
 </body>
 </html>
