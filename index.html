@@ -6122,5 +6122,63 @@ var FLYERS = [
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._irNotaFixOK2) return;
+  window._irNotaFixOK2 = 1;
+
+  function ponerInterceptor(){
+    var btn = document.getElementById('cartel-ver');
+    if(!btn || btn.dataset.fixCaptura === '1') return;
+    btn.dataset.fixCaptura = '1';
+
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      // Detectar a dónde ir según el flyer que está visible
+      var img = document.getElementById('cartel-flyer');
+      var src = img ? img.src : '';
+      var destino = 'cultura-viva';
+      if(src.indexOf('vfnxib') > -1) destino = 'hemeroteca';
+
+      // Cerrar cartel
+      var overlay = document.getElementById('cartel-destacado');
+      if(overlay) overlay.classList.remove('visible');
+
+      // Ir a Historia y Cultura
+      var radio = document.getElementById('s-historia');
+      if(radio){
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+
+      setTimeout(function(){
+        var labels = document.querySelectorAll('label');
+        for(var i = 0; i < labels.length; i++){
+          var txt = (labels[i].textContent || '').toUpperCase();
+          if(destino === 'hemeroteca' && txt.indexOf('HEMEROTECA') > -1){
+            labels[i].click();
+            break;
+          }
+          if(destino === 'cultura-viva' && txt.indexOf('CULTURA VIVA') > -1){
+            labels[i].click();
+            break;
+          }
+        }
+        window.scrollTo(0, 0);
+      }, 250);
+    }, true);
+  }
+
+  ponerInterceptor();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerInterceptor();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
