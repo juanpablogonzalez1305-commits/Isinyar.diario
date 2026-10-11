@@ -6479,5 +6479,160 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
+<style>
+/* ========== VIDA SUTIL PARA EL DIARIO ========== */
+
+/* 1. Brillo dorado que recorre el título DESCUBRIR */
+.masthead h1 { position: relative; overflow: hidden; }
+.masthead h1::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -60%;
+  width: 40%; height: 200%;
+  background: linear-gradient(120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,240,190,.55) 50%,
+    rgba(255,255,255,0) 100%);
+  transform: skewX(-20deg);
+  animation: brilloMasthead 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+@keyframes brilloMasthead {
+  0% { left: -60%; } 60% { left: 130%; } 100% { left: 130%; }
+}
+
+/* 2. Ondas doradas en los 4 íconos de la portada (desfasadas) */
+.keys .chip { position: relative; overflow: visible; }
+.keys .chip::before,
+.keys .chip::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 19px;
+  border: 2px solid #c9a243;
+  opacity: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+.keys .chip::before { animation: ondaChip 3.2s ease-out infinite; }
+.keys .chip::after  { animation: ondaChip 3.2s ease-out infinite 1.6s; }
+@keyframes ondaChip {
+  0%   { opacity: .55; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(1.35); }
+}
+.keys .key:nth-child(1) .chip::before,
+.keys .key:nth-child(1) .chip::after { animation-delay: 0s, 1.6s; }
+.keys .key:nth-child(2) .chip::before,
+.keys .key:nth-child(2) .chip::after { animation-delay: .4s, 2s; }
+.keys .key:nth-child(3) .chip::before,
+.keys .key:nth-child(3) .chip::after { animation-delay: .8s, 2.4s; }
+.keys .key:nth-child(4) .chip::before,
+.keys .key:nth-child(4) .chip::after { animation-delay: 1.2s, 2.8s; }
+
+/* 3. Respiración sutil en los íconos de la barra superior */
+.topbar .tic {
+  animation: respirarTic 2.5s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes respirarTic {
+  0%, 100% { transform: scale(1); opacity: .95; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+.topbar label:nth-child(1) .tic { animation-delay: 0s; }
+.topbar label:nth-child(2) .tic { animation-delay: .4s; }
+.topbar label:nth-child(4) .tic { animation-delay: .8s; }
+.topbar label:nth-child(5) .tic { animation-delay: 1.2s; }
+
+/* 4. Brillo suave en las pestañas de Historia y Cultura */
+.his-tabs label { position: relative; overflow: hidden; }
+.his-tabs label::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -80%;
+  width: 40%; height: 200%;
+  background: linear-gradient(120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,240,190,.5) 50%,
+    rgba(255,255,255,0) 100%);
+  transform: skewX(-20deg);
+  animation: brilloTab 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.his-tabs label:nth-child(1)::after { animation-delay: 0s; }
+.his-tabs label:nth-child(2)::after { animation-delay: 2s; }
+.his-tabs label:nth-child(3)::after { animation-delay: 4s; }
+@keyframes brilloTab {
+  0% { left: -80%; } 50% { left: 130%; } 100% { left: 130%; }
+}
+
+/* 5. Emojis animados: pronóstico del tiempo y brújulas */
+.emoji-vivo {
+  display: inline-block;
+  animation: respirarEmoji 2.8s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes respirarEmoji {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(201,162,67,0)); }
+  50%      { transform: scale(1.15); filter: drop-shadow(0 0 4px rgba(201,162,67,.7)); }
+}
+/* Brújulas: un destello más marcado */
+.emoji-brujula {
+  display: inline-block;
+  animation: brilloBrujula 3s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes brilloBrujula {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(201,162,67,0)); opacity: .95; }
+  50%      { transform: scale(1.2); filter: drop-shadow(0 0 5px rgba(201,162,67,.9)); opacity: 1; }
+}
+
+/* 6. Reducir movimiento si el usuario lo tiene desactivado */
+@media (prefers-reduced-motion: reduce) {
+  .masthead h1::after,
+  .keys .chip::before, .keys .chip::after,
+  .topbar .tic,
+  .his-tabs label::after,
+  .emoji-vivo, .emoji-brujula {
+    animation: none !important;
+  }
+}
+</style>
+<script>
+(function(){
+  if(window._emojisVivosOK) return;
+  window._emojisVivosOK = 1;
+
+  function envolverEmojis(){
+    // 1. Envolver el 🌤️ del pronóstico del tiempo
+    document.querySelectorAll('#nota-clima > summary').forEach(function(s){
+      if(s.dataset.emojiEnv === '1') return;
+      var html = s.innerHTML;
+      if(html.indexOf('🌤️') > -1){
+        s.innerHTML = html.replace('🌤️', '<span class="emoji-vivo">🌤️</span>');
+        s.dataset.emojiEnv = '1';
+      }
+    });
+
+    // 2. Envolver las 🧭 de las brújulas
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.dataset.emojiEnv === '1') return;
+      var html = a.innerHTML || '';
+      if(html.indexOf('🧭') > -1){
+        a.innerHTML = html.replace(/🧭/g, '<span class="emoji-brujula">🧭</span>');
+        a.dataset.emojiEnv = '1';
+      }
+    });
+  }
+
+  envolverEmojis();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    envolverEmojis();
+    if(n > 80) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
