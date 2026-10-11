@@ -6720,48 +6720,68 @@ details:nth-child(3n+1) > summary::after { animation-delay: 2.5s; }
 })();
 </script>
 <style>
-/* Títulos: los cortos grandes, los largos un poco más chicos */
+/* Títulos: sin cortar palabras, permitir 2 renglones */
 h2.tit {
-  font-size: clamp(1.4rem, 6vw, 1.9rem) !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
+  font-size: clamp(1.5rem, 6.5vw, 2rem) !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  line-height: 1.15 !important;
   letter-spacing: -.01em !important;
 }
-h2.tit.titulo-largo {
-  font-size: clamp(1.15rem, 5.2vw, 1.65rem) !important;
+.tit-letra {
+  display: inline-block;
+  white-space: pre;
 }
-.tit-letra { white-space: nowrap; }
+.tit-letra.espacio {
+  width: 0.28em;
+}
 
-/* Haz de luz sutil (mantener) */
+/* Haz de luz intermedio (50%) */
 details > summary::after {
   background: linear-gradient(120deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,240,190,.32) 50%,
+    rgba(255,240,190,.5) 50%,
     rgba(255,255,255,0) 100%) !important;
 }
 </style>
 <script>
 (function(){
-  if(window._titulosAdaptablesOK) return;
-  window._titulosAdaptablesOK = 1;
+  if(window._titulosV3OK) return;
+  window._titulosV3OK = 1;
 
-  function clasificar(){
+  function partirTitulos(){
     document.querySelectorAll('h2.tit').forEach(function(h){
-      var texto = h.textContent.replace(/\s+/g,' ').trim();
-      // Si el título tiene más de 22 caracteres, lo tratamos como largo
-      if(texto.length > 22){
-        h.classList.add('titulo-largo');
-      } else {
-        h.classList.remove('titulo-largo');
+      if(h.dataset.olaLista === '1') return;
+      var texto = h.textContent;
+      if(!texto || texto.length > 60) return;
+      h.textContent = '';
+      for(var i = 0; i < texto.length; i++){
+        var ch = texto[i];
+        if(ch === ' '){
+          var esp = document.createElement('span');
+          esp.className = 'tit-letra espacio';
+          esp.innerHTML = '&nbsp;';
+          h.appendChild(esp);
+          h.appendChild(document.createTextNode(' '));
+        } else {
+          var span = document.createElement('span');
+          span.className = 'tit-letra';
+          span.textContent = ch;
+          span.style.animationDelay = (i * 0.06) + 's';
+          h.appendChild(span);
+        }
       }
+      h.dataset.olaLista = '1';
     });
   }
 
-  clasificar();
+  partirTitulos();
   var n = 0;
   var t = setInterval(function(){
     n++;
-    clasificar();
+    partirTitulos();
     if(n > 60) clearInterval(t);
   }, 500);
 })();
