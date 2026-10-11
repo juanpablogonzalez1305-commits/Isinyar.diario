@@ -5649,5 +5649,179 @@ if ('serviceWorker' in navigator) {
   box-shadow:0 4px 8px rgba(0,0,0,.6) !important;
 }
 </style>
+<style>
+#cartel-destacado{position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(3px);}
+#cartel-destacado.visible{display:flex;}
+#cartel-caja{
+  background:linear-gradient(160deg,#241c12,#15110d);
+  border:3px solid #c9a243;border-radius:20px;
+  max-width:480px;width:100%;
+  max-height:94vh;display:flex;flex-direction:column;
+  box-shadow:0 8px 0 0 #0c0a08,0 20px 40px -14px rgba(0,0,0,.85);
+  padding:14px;position:relative;
+  animation:cartelPop .4s ease-out;
+}
+@keyframes cartelPop{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+#cartel-cerrar-x{position:absolute;top:10px;right:10px;width:42px;height:42px;border-radius:50%;background:#c9a243;color:#241c12;font-size:1.5rem;font-weight:900;border:2px solid #241c12;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 8px rgba(0,0,0,.6);}
+#cartel-slide{position:relative;width:100%;max-height:62vh;overflow:hidden;border-radius:12px;border:2px solid #c9a243;margin-bottom:12px;background:#000;}
+#cartel-slide img{width:100%;height:auto;max-height:62vh;object-fit:contain;display:block;transition:opacity .35s ease-in-out;}
+#cartel-botones{display:flex;flex-direction:column;gap:8px;}
+#cartel-ver{display:block;width:100%;padding:1rem 1rem;border:2px solid #c9a243;border-radius:12px;background:linear-gradient(180deg,#e8c26a,#a8781f);color:#241c12;font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1.05rem;box-shadow:0 4px 0 #6e5327;cursor:pointer;}
+#cartel-ver.oculto{display:none;}
+#cartel-cerrar{
+  display:block;width:100%;padding:.85rem 1rem;border:2px solid #c9a243;border-radius:12px;
+  background:rgba(201,162,67,.15);color:#ffd87a;
+  font-family:Fraunces,serif;font-style:italic;font-weight:900;font-size:1rem;
+  letter-spacing:.05em;cursor:pointer;
+}
+#cartel-indicadores{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+#cartel-indicadores span{width:8px;height:8px;border-radius:50%;background:rgba(201,162,67,.35);transition:background .3s;}
+#cartel-indicadores span.activo{background:#c9a243;}
+</style>
+<div id="cartel-destacado">
+  <div id="cartel-caja">
+    <button id="cartel-cerrar-x" type="button" aria-label="Cerrar">✕</button>
+    <div id="cartel-slide">
+      <img id="cartel-flyer" src="https://files.catbox.moe/62vlkj.png" alt="Cartel destacado">
+    </div>
+    <div id="cartel-botones">
+      <button id="cartel-ver" type="button">🎭 Ver la nota completa</button>
+      <button id="cartel-cerrar" type="button">Cerrar</button>
+    </div>
+    <div id="cartel-indicadores"><span class="activo"></span><span></span></div>
+  </div>
+</div>
+<script>
+(function(){
+  if(window._cartelDualOK) return;
+  window._cartelDualOK = 1;
+
+  // ==== CONFIGURACIÓN ====
+  var FLYERS = [
+    {
+      img: 'https://files.catbox.moe/62vlkj.png',
+      tieneVer: true,
+      textoVer: '🎭 Ver la nota completa',
+      destino: 'cultura-viva'
+    },
+    {
+      img: 'https://files.catbox.moe/s6g3yw.png',
+      tieneVer: false
+    }
+  ];
+  var SEGUNDOS_ROTACION = 5;
+  var INICIO_ANIO = 2026;
+  var INICIO_MES = 9;       // 9 = octubre
+  var INICIO_DIA = 10;
+  var INICIO_HORA = 12;
+  var INICIO_MIN = 0;
+  var HORAS_DURACION = 24;  // poner 0 para desactivar
+  // =======================
+
+  var inicio = new Date(INICIO_ANIO, INICIO_MES, INICIO_DIA, INICIO_HORA, INICIO_MIN, 0);
+  var fin = new Date(inicio.getTime() + HORAS_DURACION * 60 * 60 * 1000);
+  var ahora = new Date();
+  if(HORAS_DURACION === 0 || ahora < inicio || ahora > fin) return;
+
+  var overlay = document.getElementById('cartel-destacado');
+  var img = document.getElementById('cartel-flyer');
+  var btnVer = document.getElementById('cartel-ver');
+  var btnCerrar = document.getElementById('cartel-cerrar');
+  var btnX = document.getElementById('cartel-cerrar-x');
+  var indicadores = document.querySelectorAll('#cartel-indicadores span');
+
+  var idx = 0;
+  var rotador = null;
+
+  function mostrarFlyer(i){
+    var f = FLYERS[i];
+    if(!f) return;
+    // Transición suave: bajar opacidad, cambiar src, subir opacidad
+    img.style.opacity = '0';
+    setTimeout(function(){
+      img.src = f.img;
+      img.onload = function(){ img.style.opacity = '1'; };
+      // Por si ya estaba cacheada y onload no dispara
+      setTimeout(function(){ img.style.opacity = '1'; }, 50);
+    }, 200);
+
+    if(f.tieneVer){
+      btnVer.classList.remove('oculto');
+      btnVer.innerHTML = f.textoVer || '🎭 Ver la nota completa';
+      btnVer.dataset.destino = f.destino || '';
+    } else {
+      btnVer.classList.add('oculto');
+      btnVer.dataset.destino = '';
+    }
+
+    indicadores.forEach(function(s, k){
+      if(k === i) s.classList.add('activo');
+      else s.classList.remove('activo');
+    });
+  }
+
+  function rotar(){
+    idx = (idx + 1) % FLYERS.length;
+    mostrarFlyer(idx);
+  }
+
+  function iniciarRotador(){
+    if(rotador) clearInterval(rotador);
+    if(FLYERS.length > 1){
+      rotador = setInterval(rotar, SEGUNDOS_ROTACION * 1000);
+    }
+  }
+
+  function cerrarCartel(){
+    overlay.classList.remove('visible');
+    if(rotador) clearInterval(rotador);
+  }
+
+  function irANota(destino){
+    cerrarCartel();
+    var radio = document.getElementById('s-historia');
+    if(radio){
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    setTimeout(function(){
+      var labels = document.querySelectorAll('label');
+      for(var i = 0; i < labels.length; i++){
+        var txt = (labels[i].textContent || '').toUpperCase();
+        if(destino === 'cultura-viva' && txt.indexOf('CULTURA VIVA') > -1){
+          labels[i].click();
+          break;
+        }
+      }
+      window.scrollTo(0, 0);
+    }, 250);
+  }
+
+  btnVer.addEventListener('click', function(){
+    var dest = btnVer.dataset.destino || 'cultura-viva';
+    irANota(dest);
+  });
+  btnCerrar.addEventListener('click', cerrarCartel);
+  btnX.addEventListener('click', cerrarCartel);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) cerrarCartel();
+  });
+
+  mostrarFlyer(0);
+  setTimeout(function(){
+    overlay.classList.add('visible');
+    iniciarRotador();
+  }, 1500);
+
+  // Que no se superponga con el cartel de instalar la app
+  var watcher = setInterval(function(){
+    var instalar = document.getElementById('instalar-app');
+    if(instalar && overlay.classList.contains('visible')){
+      instalar.style.display = 'none';
+    }
+    if(!document.body.contains(overlay)) clearInterval(watcher);
+  }, 500);
+})();
+</script>
 </body>
 </html>
