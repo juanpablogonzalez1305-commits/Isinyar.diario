@@ -6746,60 +6746,7 @@ details > summary::after {
     rgba(255,255,255,0) 100%) !important;
 }
 </style>
-<script>
-(function(){
-  if(window._titulosV4OK) return;
-  window._titulosV4OK = 1;
 
-  function partirTitulos(){
-    document.querySelectorAll('h2.tit').forEach(function(h){
-      if(h.dataset.olaLista === '1') return;
-      var texto = h.textContent.replace(/\s+/g,' ').trim();
-      if(!texto || texto.length > 60) return;
-
-      h.textContent = '';
-      var palabras = texto.split(' ');
-      var contador = 0;
-
-      palabras.forEach(function(palabra, idx){
-        // Cada palabra es un bloque que no se puede cortar
-        var bloquePalabra = document.createElement('span');
-        bloquePalabra.className = 'tit-palabra';
-
-        // Adentro, cada letra con su animación
-        for(var i = 0; i < palabra.length; i++){
-          var span = document.createElement('span');
-          span.className = 'tit-letra';
-          span.textContent = palabra[i];
-          span.style.animationDelay = (contador * 0.06) + 's';
-          contador++;
-          bloquePalabra.appendChild(span);
-        }
-
-        h.appendChild(bloquePalabra);
-
-        // Espacio entre palabras (permite el salto de línea)
-        if(idx < palabras.length - 1){
-          var espacio = document.createElement('span');
-          espacio.className = 'tit-espacio';
-          espacio.innerHTML = '&nbsp;';
-          h.appendChild(espacio);
-        }
-      });
-
-      h.dataset.olaLista = '1';
-    });
-  }
-
-  partirTitulos();
-  var n = 0;
-  var t = setInterval(function(){
-    n++;
-    partirTitulos();
-    if(n > 60) clearInterval(t);
-  }, 500);
-})();
-            </script>
 <style>
 /* Cada palabra entera, sin cortarse */
 .tit-palabra {
@@ -6820,5 +6767,60 @@ h2.tit {
   hyphens: none !important;
 }
 </style>
+<script>
+(function(){
+  if(window._titulosV5OK) return;
+  window._titulosV5OK = 1;
+
+  function armar(){
+    document.querySelectorAll('h2.tit').forEach(function(h){
+      if(h.dataset.v5 === '1') return;
+      var texto = (h.textContent || '').replace(/\s+/g,' ').trim();
+      if(!texto || texto.length > 60) return;
+
+      h.textContent = '';
+      var palabras = texto.split(' ');
+      var contador = 0;
+
+      palabras.forEach(function(palabra, idx){
+        // Contenedor de la palabra: SIN estilos heredados, todo en línea
+        var wrap = document.createElement('span');
+        wrap.style.cssText = 'display:inline-block;white-space:nowrap;word-break:keep-all;overflow-wrap:normal;hyphens:none;';
+
+        for(var i = 0; i < palabra.length; i++){
+          var letra = document.createElement('span');
+          letra.textContent = palabra[i];
+          letra.style.cssText = 'display:inline-block;animation:olaTitulo 5s ease-in-out infinite;';
+          letra.style.animationDelay = (contador * 0.06) + 's';
+          wrap.appendChild(letra);
+          contador++;
+        }
+        h.appendChild(wrap);
+
+        // Espacio entre palabras
+        if(idx < palabras.length - 1){
+          var esp = document.createElement('span');
+          esp.innerHTML = '&nbsp;';
+          esp.style.cssText = 'display:inline-block;width:0.28em;';
+          h.appendChild(esp);
+        }
+      });
+
+      h.style.whiteSpace = 'normal';
+      h.style.wordBreak = 'normal';
+      h.style.overflowWrap = 'normal';
+      h.dataset.v5 = '1';
+    });
+  }
+
+  armar();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    armar();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
