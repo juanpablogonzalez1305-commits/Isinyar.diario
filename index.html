@@ -6384,5 +6384,100 @@ if ('serviceWorker' in navigator) {
 
 })();
 </script>
+<script>
+(function(){
+  if(window._climaLulesOK) return;
+  window._climaLulesOK = 1;
+
+  var LAT = -26.9225;
+  var LON = -65.3533;
+
+  function crearBotonClima(){
+    var guia = document.getElementById('guia');
+    if(!guia) return;
+    if(document.getElementById('nota-clima')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-clima';
+    d.innerHTML = '<summary class="rel deep">🌤️ Pronóstico del tiempo para Lules<span class="chev">▼</span></summary><div class="cuerpo-in" id="clima-contenido"><p style="text-align:center;color:#6b5a33;font-style:italic">Cargando pronóstico...</p></div>';
+
+    var sub = guia.querySelector('p.sub');
+    if(sub && sub.parentNode === guia){
+      guia.insertBefore(d, sub);
+    } else {
+      var primero = guia.querySelector('details');
+      if(primero && primero.parentNode === guia){
+        guia.insertBefore(d, primero);
+      } else {
+        guia.appendChild(d);
+      }
+    }
+
+    cargarClima();
+  }
+
+  function cargarClima(){
+    var cont = document.getElementById('clima-contenido');
+    if(!cont) return;
+
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON +
+              '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,relative_humidity_2m_mean' +
+              '&timezone=America/Argentina/Tucuman&forecast_days=8';
+
+    fetch(url)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(!data.daily || !data.daily.time){ throw new Error('Sin datos'); }
+        var html = '<div style="display:flex;flex-direction:column;gap:.6rem">';
+
+        html += '<p style="margin:0 0 .4rem;font-size:.9rem;color:#6b5a33"><b>Actualizado:</b> ' + new Date().toLocaleString('es-AR') + '</p>';
+
+        for(var i = 0; i < data.daily.time.length; i++){
+          var fecha = new Date(data.daily.time[i] + 'T12:00:00');
+          var diaNombre = i === 0 ? 'Hoy' : (i === 1 ? 'Mañana' : fecha.toLocaleDateString('es-AR', {weekday:'long', day:'numeric', month:'short'}));
+          var emoji = emojiClima(data.daily.weather_code[i]);
+          var tMax = Math.round(data.daily.temperature_2m_max[i]);
+          var tMin = Math.round(data.daily.temperature_2m_min[i]);
+          var lluvia = data.daily.precipitation_probability_max[i] || 0;
+          var viento = Math.round(data.daily.wind_speed_10m_max[i] || 0);
+          var humedad = data.daily.relative_humidity_2m_mean[i] || 0;
+
+          html += '<div style="border-bottom:1px dashed rgba(138,106,53,.4);padding:.5rem 0;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">';
+          html += '<span style="font-size:1.5rem">' + emoji + '</span>';
+          html += '<div style="flex:1;min-width:100px"><b style="text-transform:capitalize;color:#8a6a35">' + diaNombre + '</b><br><span style="font-size:.85rem">' + tMin + '° / ' + tMax + '°</span></div>';
+          html += '<div style="font-size:.82rem;color:#6b5a33;line-height:1.5">💧 ' + lluvia + '%<br>💨 ' + viento + ' km/h<br>💦 ' + humedad + '%</div>';
+          html += '</div>';
+        }
+        html += '</div>';
+        html += '<p style="font-size:.75rem;color:#6b5a33;font-style:italic;margin-top:.6rem;text-align:center">Datos: Open-Meteo.com</p>';
+        cont.innerHTML = html;
+      })
+      .catch(function(){
+        cont.innerHTML = '<p style="text-align:center;color:#6b5a33;font-style:italic">Pronóstico no disponible en este momento. Probá de nuevo más tarde.</p>';
+      });
+  }
+
+  function emojiClima(code){
+    if(code === 0) return '☀️';
+    if(code <= 3) return '⛅';
+    if(code <= 48) return '🌫️';
+    if(code <= 57) return '🌦️';
+    if(code <= 67) return '🌧️';
+    if(code <= 77) return '❄️';
+    if(code <= 82) return '🌧️';
+    if(code <= 86) return '🌨️';
+    return '⛈️';
+  }
+
+  crearBotonClima();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    if(!document.getElementById('nota-clima')) crearBotonClima();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
