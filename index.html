@@ -5534,5 +5534,97 @@ if ('serviceWorker' in navigator) {
   }, 500);
 })();
 </script>
-      </body>
+    <style>
+#cartel-destacado{position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px);}
+#cartel-destacado.visible{display:flex;}
+#cartel-caja{background:linear-gradient(160deg,#241c12,#15110d);border:3px solid #c9a243;border-radius:20px;max-width:440px;width:100%;box-shadow:0 8px 0 0 #0c0a08,0 20px 40px -14px rgba(0,0,0,.85);padding:14px;position:relative;animation:cartelPop .4s ease-out;}
+@keyframes cartelPop{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+#cartel-cerrar-x{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;background:#c9a243;color:#241c12;font-size:1.2rem;font-weight:900;border:2px solid #241c12;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;line-height:1;}
+#cartel-flyer{width:100%;display:block;border-radius:12px;border:2px solid #c9a243;margin-bottom:12px;}
+#cartel-botones{display:flex;flex-direction:column;gap:8px;}
+#cartel-ver{display:block;width:100%;padding:.85rem 1rem;border:2px solid #c9a243;border-radius:12px;background:linear-gradient(180deg,#e8c26a,#a8781f);color:#241c12;font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #6e5327;cursor:pointer;}
+#cartel-cerrar{display:block;width:100%;padding:.7rem 1rem;border:2px solid #6e5327;border-radius:12px;background:transparent;color:#c9a243;font-weight:800;font-size:.9rem;cursor:pointer;}
+</style>
+<div id="cartel-destacado">
+  <div id="cartel-caja">
+    <button id="cartel-cerrar-x" type="button" aria-label="Cerrar">✕</button>
+    <img id="cartel-flyer" src="https://files.catbox.moe/62vlkj.png" alt="Tango para tres en Lules">
+    <div id="cartel-botones">
+      <button id="cartel-ver" type="button">🎭 Ver la nota completa</button>
+      <button id="cartel-cerrar" type="button">Cerrar</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  if(window._cartelDestOK) return;
+  window._cartelDestOK = 1;
+
+  // ==== CONFIGURACIÓN FÁCIL DE CAMBIAR ====
+  var INICIO_ANIO = 2026;
+  var INICIO_MES = 9;       // 0=enero, 9=octubre
+  var INICIO_DIA = 10;
+  var INICIO_HORA = 12;     // 12 = mediodía
+  var INICIO_MIN = 0;
+  var HORAS_DURACION = 24;  // para desactivarlo antes: poné 0
+  // ========================================
+
+  var inicio = new Date(INICIO_ANIO, INICIO_MES, INICIO_DIA, INICIO_HORA, INICIO_MIN, 0);
+  var fin = new Date(inicio.getTime() + HORAS_DURACION * 60 * 60 * 1000);
+  var ahora = new Date();
+  if(ahora < inicio || ahora > fin) return;
+
+  var overlay = document.getElementById('cartel-destacado');
+  var btnVer = document.getElementById('cartel-ver');
+  var btnCerrar = document.getElementById('cartel-cerrar');
+  var btnX = document.getElementById('cartel-cerrar-x');
+
+  function cerrarCartel(){
+    overlay.classList.remove('visible');
+    window._cartelDestacadoCerrado = true;
+  }
+
+  function irANota(){
+    overlay.classList.remove('visible');
+    window._cartelDestacadoCerrado = true;
+    var radioHistoria = document.getElementById('s-historia');
+    if(radioHistoria){
+      radioHistoria.checked = true;
+      radioHistoria.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    setTimeout(function(){
+      var labels = document.querySelectorAll('label');
+      for(var i = 0; i < labels.length; i++){
+        var txt = (labels[i].textContent || '').toUpperCase();
+        if(txt.indexOf('CULTURA VIVA') > -1){
+          labels[i].click();
+          break;
+        }
+      }
+      window.scrollTo(0, 0);
+    }, 250);
+  }
+
+  btnVer.addEventListener('click', irANota);
+  btnCerrar.addEventListener('click', cerrarCartel);
+  btnX.addEventListener('click', cerrarCartel);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) cerrarCartel();
+  });
+
+  setTimeout(function(){
+    overlay.classList.add('visible');
+  }, 1500);
+
+  // Que no se superponga con el cartel de instalar la app
+  var watcher = setInterval(function(){
+    var instalar = document.getElementById('instalar-app');
+    if(instalar && overlay.classList.contains('visible')){
+      instalar.style.display = 'none';
+    }
+    if(!document.body.contains(overlay)) clearInterval(watcher);
+  }, 500);
+})();
+</script>  
+</body>
 </html>
