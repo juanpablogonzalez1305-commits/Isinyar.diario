@@ -6863,5 +6863,225 @@ details > summary::after {
   animation-duration: 8s !important;
 }
 </style>
+<style>
+#nota-cifras .hemero p { font-size: .95rem !important; line-height: 1.7 !important; text-align: left !important; margin: 0 0 .7rem !important; }
+#nota-cifras .hemero h4 { font-size: .95rem !important; letter-spacing: .08em !important; text-transform: uppercase !important; }
+#nota-cifras .hemero .tit-h { font-size: 1.15rem !important; }
+#nota-cifras .hemero .kick { font-size: .8rem !important; }
+#nota-cifras .hemero .pie { font-size: .78rem !important; }
+#nota-cifras .hemero .mast { font-size: .58rem !important; letter-spacing: .06em !important; }
+#nota-cifras .hemero .mast b { font-size: .82rem !important; letter-spacing: .2em !important; }
+#nota-cifras .hemero .mast span { font-size: .58rem !important; }
+#nota-cifras .hemero table { width: 100%; border-collapse: collapse; margin: .6rem 0 1rem; font-size: .78rem; }
+#nota-cifras .hemero th { background: linear-gradient(180deg,#f6dfa4,#cfa143); color: #171310; padding: .35rem .4rem; text-align: left; border: 1px solid #8a6a35; font-weight: 800; }
+#nota-cifras .hemero td { padding: .3rem .4rem; border: 1px solid #d9ceb7; vertical-align: top; }
+#nota-cifras .hemero tr:nth-child(even) td { background: rgba(251,247,236,.65); }
+#nota-cifras .hemero td.num { text-align: right; font-family: monospace; }
+</style>
+<script>
+(function(){
+  if(window._cifrasOK) return;
+  window._cifrasOK = 1;
+
+  function poner(){
+    var sec = document.getElementById('historia');
+    if(!sec){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-cifras')) return;
+
+    var ds = sec.querySelectorAll('details');
+    var ref = ds[ds.length - 1];
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-cifras';
+
+    var H = '';
+    H += '<summary class="rel deep">10 · Lules en cifras: el retrato del Departamento según los censos de 1989 y 1991<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<div class="hemero">';
+    H += '<div class="mast"><span>Abril de 1995</span><b>DESCUBRIR</b><span>Memorias</span></div>';
+    H += '<p class="kick">Lules en cifras · Departamento de Lules · Tucumán</p>';
+    H += '<h3 class="tit-h">LULES EN CIFRAS</h3>';
+    H += '<p>El departamento de Lules es uno de los más chicos de la provincia, junto con Capital, Yerba Buena y Famaillá. La superficie total de la Provincia es de 22.524 km².</p>';
+    H += '<p>En cuanto a la población, Lules ocupa el <b>octavo lugar</b> con <b>44.763 habitantes</b>, siendo la población total de la Provincia de 1.142.247 habitantes (datos del Censo de Población y Viviendas de 1991).</p>';
+    H += '<h4>Departamento · Superficie [km²]</h4>';
+    H += '<table>';
+    H += '<tr><th>#</th><th>Departamento</th><th>Sup. km²</th></tr>';
+    H += '<tr><td>1</td><td>Burruyacú</td><td class="num">3.605</td></tr>';
+    H += '<tr><td>2</td><td>Trancas</td><td class="num">2.862</td></tr>';
+    H += '<tr><td>3</td><td>Tafí del Valle</td><td class="num">2.741</td></tr>';
+    H += '<tr><td>4</td><td>Lules</td><td class="num">2.027</td></tr>';
+    H += '<tr><td>5</td><td>Graneros</td><td class="num">1.678</td></tr>';
+    H += '<tr><td>6</td><td>Chicligasta</td><td class="num">1.267</td></tr>';
+    H += '<tr><td>7</td><td>Simoca</td><td class="num">1.261</td></tr>';
+    H += '<tr><td>8</td><td>Cruz Alta</td><td class="num">1.255</td></tr>';
+    H += '<tr><td>9</td><td>Monteros</td><td class="num">1.169</td></tr>';
+    H += '<tr><td>10</td><td>Leales</td><td class="num">1.170</td></tr>';
+    H += '<tr><td>11</td><td>La Cocha</td><td class="num">917</td></tr>';
+    H += '<tr><td>12</td><td>Juan B. Alberdi</td><td class="num">730</td></tr>';
+    H += '<tr><td>13</td><td>Río Chico</td><td class="num">583</td></tr>';
+    H += '<tr><td>14</td><td>Lules</td><td class="num">540</td></tr>';
+    H += '<tr><td>15</td><td>Famaillá</td><td class="num">427</td></tr>';
+    H += '<tr><td>16</td><td>Yerba Buena</td><td class="num">160</td></tr>';
+    H += '<tr><td>17</td><td>Capital</td><td class="num">90</td></tr>';
+    H += '</table>';
+    H += '<p style="font-size:.8rem;font-style:italic;color:#6b5a33">Nota: la tabla original del diario presentaba dos entradas con el nombre "Lules" (una con 2.027 km² y otra con 540 km²). Se transcribe tal como figura en la publicación.</p>';
+    H += '<h4>Departamento · Población</h4>';
+    H += '<table>';
+    H += '<tr><th>#</th><th>Departamento</th><th>Población</th></tr>';
+    H += '<tr><td>1</td><td>Capital</td><td class="num">473.014</td></tr>';
+    H += '<tr><td>2</td><td>Cruz Alta</td><td class="num">131.943</td></tr>';
+    H += '<tr><td>3</td><td>Tafí Viejo</td><td class="num">79.193</td></tr>';
+    H += '<tr><td>4</td><td>Chicligasta</td><td class="num">63.746</td></tr>';
+    H += '<tr><td>5</td><td>Monteros</td><td class="num">51.941</td></tr>';
+    H += '<tr><td>6</td><td>Leales</td><td class="num">47.282</td></tr>';
+    H += '<tr><td>7</td><td>Río Chico</td><td class="num">46.389</td></tr>';
+    H += '<tr><td><b>8</b></td><td><b>Lules</b></td><td class="num"><b>44.763</b></td></tr>';
+    H += '<tr><td>9</td><td>Yerba Buena</td><td class="num">43.616</td></tr>';
+    H += '<tr><td>10</td><td>Simoca</td><td class="num">30.565</td></tr>';
+    H += '<tr><td>11</td><td>Burruyacú</td><td class="num">29.028</td></tr>';
+    H += '<tr><td>12</td><td>Famaillá</td><td class="num">26.567</td></tr>';
+    H += '<tr><td>13</td><td>Juan B. Alberdi</td><td class="num">24.368</td></tr>';
+    H += '<tr><td>14</td><td>La Cocha</td><td class="num">14.655</td></tr>';
+    H += '<tr><td>15</td><td>Trancas</td><td class="num">11.937</td></tr>';
+    H += '<tr><td>16</td><td>Graneros</td><td class="num">11.834</td></tr>';
+    H += '<tr><td>17</td><td>Tafí del Valle</td><td class="num">11.411</td></tr>';
+    H += '</table>';
+    H += '<h4>Departamento de Lules · Datos generales</h4>';
+    H += '<table>';
+    H += '<tr><th>Zona</th><th>Sup. km²</th><th>Viviendas</th><th>Población</th><th>Hab/viv.</th><th>Densidad</th></tr>';
+    H += '<tr><td>Municipio de Lules</td><td class="num">163</td><td class="num">5.146</td><td class="num">21.524</td><td class="num">4,18</td><td class="num">132,05</td></tr>';
+    H += '<tr><td>Com. San Pablo y Villa Nougués</td><td class="num">292</td><td class="num">2.106</td><td class="num">9.025</td><td class="num">4,29</td><td class="num">30,91</td></tr>';
+    H += '<tr><td>Com. El Manantial</td><td class="num">28</td><td class="num">2.655</td><td class="num">11.725</td><td class="num">4,42</td><td class="num">418,75</td></tr>';
+    H += '<tr><td>Com. S. Felipe y Santa Bárbara</td><td class="num">57</td><td class="num">532</td><td class="num">2.450</td><td class="num">4,61</td><td class="num">42,98</td></tr>';
+    H += '<tr><td>Territorio sin jurisdicción comunal</td><td class="num">22</td><td class="num">39</td><td class="num">16</td><td class="num">1,77</td><td class="num">0,72</td></tr>';
+    H += '<tr style="background:#f6dfa4"><td><b>TOTAL DEL DEPARTAMENTO</b></td><td class="num"><b>540</b></td><td class="num"><b>10.461</b></td><td class="num"><b>44.763</b></td><td class="num"><b>4,28</b></td><td class="num"><b>82,89</b></td></tr>';
+    H += '</table>';
+    H += '<p style="font-size:.8rem;font-style:italic;color:#6b5a33">El departamento de Lules está conformado por un Municipio (Lules) y tres Comunas: San Pablo y Villa Nougués, El Manantial, y San Felipe y Santa Bárbara. La superficie del Departamento es de 540 km².</p>';
+    H += '<h4>Población del Municipio por Circuito</h4>';
+    H += '<table>';
+    H += '<tr><th>Circuito</th><th>Población</th></tr>';
+    H += '<tr><td>Circuito 26</td><td class="num">1.881</td></tr>';
+    H += '<tr><td>Circuito 27</td><td class="num">14.104</td></tr>';
+    H += '<tr><td>Circuito 28</td><td class="num">2.272</td></tr>';
+    H += '<tr><td>Circuito 29</td><td class="num">3.267</td></tr>';
+    H += '<tr style="background:#f6dfa4"><td><b>TOTAL MUNICIPIO</b></td><td class="num"><b>21.524</b></td></tr>';
+    H += '</table>';
+    H += '<h4>Circuito 26 · Población por barrios</h4>';
+    H += '<table>';
+    H += '<tr><th>Barrio</th><th>Varones</th><th>Mujeres</th><th>Total</th><th>% s/total</th></tr>';
+    H += '<tr><td>Malvinas</td><td class="num">94</td><td class="num">98</td><td class="num">192</td><td class="num">6,892</td></tr>';
+    H += '<tr><td>Colonia 3</td><td class="num">77</td><td class="num">70</td><td class="num">147</td><td class="num">0,683</td></tr>';
+    H += '<tr><td>Finca Chica</td><td class="num">123</td><td class="num">121</td><td class="num">244</td><td class="num">1,134</td></tr>';
+    H += '<tr><td>Colonia 2</td><td class="num">166</td><td class="num">156</td><td class="num">322</td><td class="num">1,496</td></tr>';
+    H += '<tr><td>Ingenio Lules</td><td class="num">456</td><td class="num">440</td><td class="num">896</td><td class="num">4,163</td></tr>';
+    H += '<tr><td>San José de Lules</td><td class="num">41</td><td class="num">39</td><td class="num">80</td><td class="num">0,372</td></tr>';
+    H += '<tr style="background:#f6dfa4"><td><b>TOTAL</b></td><td class="num"><b>957</b></td><td class="num"><b>924</b></td><td class="num"><b>1.881</b></td><td class="num"><b>8,739</b></td></tr>';
+    H += '</table>';
+    H += '<h4>Circuito 27 · Población por barrios</h4>';
+    H += '<table>';
+    H += '<tr><th>Barrio</th><th>Varones</th><th>Mujeres</th><th>Total</th><th>% s/total</th></tr>';
+    H += '<tr><td>Quebrada</td><td class="num">203</td><td class="num">215</td><td class="num">418</td><td class="num">1,942</td></tr>';
+    H += '<tr><td>25 de Mayo Ampliación</td><td class="num">233</td><td class="num">227</td><td class="num">460</td><td class="num">2,137</td></tr>';
+    H += '<tr><td>Villa Nueva</td><td class="num">717</td><td class="num">724</td><td class="num">1.441</td><td class="num">6,695</td></tr>';
+    H += '<tr><td>Obrador Municipal</td><td class="num">46</td><td class="num">45</td><td class="num">91</td><td class="num">0,423</td></tr>';
+    H += '<tr><td>Albergue</td><td class="num">36</td><td class="num">32</td><td class="num">68</td><td class="num">0,316</td></tr>';
+    H += '<tr><td>San Martín</td><td class="num">181</td><td class="num">187</td><td class="num">368</td><td class="num">1,71</td></tr>';
+    H += '<tr><td>Independencia</td><td class="num">229</td><td class="num">227</td><td class="num">456</td><td class="num">2,119</td></tr>';
+    H += '<tr><td>Centro</td><td class="num">229</td><td class="num">227</td><td class="num">456</td><td class="num">2,119</td></tr>';
+    H += '<tr><td>Cevilas</td><td class="num">141</td><td class="num">143</td><td class="num">285</td><td class="num">1,324</td></tr>';
+    H += '<tr><td>San Isidro</td><td class="num">269</td><td class="num">261</td><td class="num">530</td><td class="num">2,462</td></tr>';
+    H += '<tr><td>Central</td><td class="num">338</td><td class="num">340</td><td class="num">679</td><td class="num">3,155</td></tr>';
+    H += '<tr><td>Villa del Carmen</td><td class="num">456</td><td class="num">458</td><td class="num">914</td><td class="num">4,246</td></tr>';
+    H += '<tr><td>Villa Nueva (2)</td><td class="num">1.458</td><td class="num">1.432</td><td class="num">2.890</td><td class="num">13,43</td></tr>';
+    H += '<tr><td>El Oratorio</td><td class="num">1.099</td><td class="num">1.079</td><td class="num">2.178</td><td class="num">10,12</td></tr>';
+    H += '<tr><td>Las Tipas</td><td class="num">163</td><td class="num">160</td><td class="num">323</td><td class="num">1,501</td></tr>';
+    H += '<tr><td>Pasaje Garibaldi</td><td class="num">87</td><td class="num">77</td><td class="num">164</td><td class="num">0,762</td></tr>';
+    H += '<tr><td>Yerba Huasi</td><td class="num">29</td><td class="num">32</td><td class="num">61</td><td class="num">0,283</td></tr>';
+    H += '<tr><td>Varios</td><td class="num">99</td><td class="num">88</td><td class="num">187</td><td class="num">0,869</td></tr>';
+    H += '<tr style="background:#f6dfa4"><td><b>TOTAL</b></td><td class="num"><b>7.085</b></td><td class="num"><b>7.019</b></td><td class="num"><b>14.104</b></td><td class="num"><b>65,53</b></td></tr>';
+    H += '</table>';
+    H += '<h4>Circuito 28 · Población por barrios</h4>';
+    H += '<table>';
+    H += '<tr><th>Barrio</th><th>Varones</th><th>Mujeres</th><th>Total</th><th>% s/total</th></tr>';
+    H += '<tr><td>Mercedes</td><td class="num">709</td><td class="num">688</td><td class="num">1.397</td><td class="num">6,49</td></tr>';
+    H += '<tr><td>La Bolsa</td><td class="num">281</td><td class="num">213</td><td class="num">494</td><td class="num">2,31</td></tr>';
+    H += '<tr><td>El Ceibal</td><td class="num">244</td><td class="num">193</td><td class="num">437</td><td class="num">2,035</td></tr>';
+    H += '<tr style="background:#f6dfa4"><td><b>TOTAL</b></td><td class="num"><b>1.154</b></td><td class="num"><b>1.237</b></td><td class="num"><b>2.272</b></td><td class="num"><b>10,56</b></td></tr>';
+    H += '</table>';
+    H += '<h4>Circuito 29 · Población por barrios</h4>';
+    H += '<table>';
+    H += '<tr><th>Barrio</th><th>Varones</th><th>Mujeres</th><th>Total</th><th>% s/total</th></tr>';
+    H += '<tr><td>La Posse</td><td class="num">56</td><td class="num">53</td><td class="num">109</td><td class="num">0,506</td></tr>';
+    H += '<tr><td>San Rafael</td><td class="num">198</td><td class="num">187</td><td class="num">385</td><td class="num">1,821</td></tr>';
+    H += '<tr><td>San Horacio</td><td class="num">148</td><td class="num">137</td><td class="num">285</td><td class="num">1,324</td></tr>';
+    H += '<tr><td>Ingenio Viejo</td><td class="num">313</td><td class="num">320</td><td class="num">633</td><td class="num">2,941</td></tr>';
+    H += '<tr><td>La Reducción</td><td class="num">936</td><td class="num">912</td><td class="num">1.848</td><td class="num">8,586</td></tr>';
+    H += '<tr style="background:#f6dfa4"><td><b>TOTAL</b></td><td class="num"><b>1.651</b></td><td class="num"><b>1.616</b></td><td class="num"><b>3.267</b></td><td class="num"><b>15,18</b></td></tr>';
+    H += '</table>';
+    H += '<h4>Fuentes de los datos</h4>';
+    H += '<p>Los datos publicados en esta nota provienen de las siguientes fuentes oficiales:</p>';
+    H += '<p>📊 <b>Censo Nacional de Población y Vivienda 1991</b> — para los datos de población, vivienda, sexo y densidad del Departamento de Lules y de la Provincia.</p>';
+    H += '<p>📋 <b>Censo Municipal 1989</b> — para los datos desagregados por circuito y por barrio del Municipio de Lules.</p>';
+    H += '<p>📰 <b>Revista DESCUBRIR</b>, abril de 1995 — publicación original de donde se rescató esta información.</p>';
+    H += '<p class="pie">Nota publicada en la revista Descubrir, abril de 1995 (páginas 6 y 7). Transcripción y adaptación.</p>';
+    H += '</div>';
+    H += '</div>';
+
+    d.innerHTML = H;
+    ref.parentNode.insertBefore(d, ref.nextSibling);
+
+    setTimeout(function(){
+      var cue = d.querySelector('.cuerpo-in');
+      if(!cue || cue.querySelector('.btn-voz-cifras')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-voz-cifras';
+      b.style.cssText = 'display:block;width:100%;margin:.8rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310';
+      b.innerHTML = '🔊 Escuchar en voz alta';
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._cifrasLeyendo){ s.cancel(); window._cifrasLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        cue.querySelectorAll('.mast, .kick, .tit-h, p, h4').forEach(function(el){
+          if(el.closest('table')) return;
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._cifrasLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._cifrasLeyendo) return;
+          if(idx >= bloques.length){ window._cifrasLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+      cue.appendChild(b);
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    poner();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
