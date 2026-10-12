@@ -7183,5 +7183,24 @@ details > summary::after {
 })();
 </script>
 </script>
+<style>
+/* Las tablas largas se pueden deslizar con el dedo */
+#nota-cifras table {
+  display: block !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  max-width: 100% !important;
+  -webkit-overflow-scrolling: touch;
+}
+#nota-cifras table tr {
+  display: table-row !important;
+}
+#nota-cifras table th,
+#nota-cifras table td {
+  white-space: nowrap !important;
+  font-size: .75rem !important;
+  padding: .3rem .5rem !important;
+}
+</style>
 </body>
 </html>
