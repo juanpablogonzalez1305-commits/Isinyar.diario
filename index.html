@@ -7332,5 +7332,61 @@ details > summary::after {
   }, 500);
 })();
           </script>
-  </body>
+  <script>
+(function(){
+  if(window._cifrasGraficosOK) return;
+  window._cifrasGraficosOK = 1;
+
+  function ponerGraficos(){
+    var cont = document.getElementById('cifras-resto');
+    if(!cont) return;
+
+    // Si ya están puestos, no hacer nada
+    if(cont.querySelector('.graficos-cifras')) return;
+
+    // Buscar la sección de Fuentes
+    var titulos = cont.querySelectorAll('h4');
+    var fuentes = null;
+    for(var i = 0; i < titulos.length; i++){
+      if((titulos[i].textContent || '').indexOf('Fuentes') > -1){
+        fuentes = titulos[i];
+        break;
+      }
+    }
+    if(!fuentes) return;
+
+    // Crear el contenedor de los gráficos
+    var wrap = document.createElement('div');
+    wrap.className = 'graficos-cifras';
+    wrap.style.cssText = 'display:flex;flex-direction:column;gap:1rem;margin:1.2rem 0;';
+
+    // Imagen 1
+    var img1 = document.createElement('img');
+    img1.src = 'https://files.catbox.moe/7fk4og.png';
+    img1.alt = 'Gráfico de superficie por departamento';
+    img1.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;box-shadow:0 4px 0 #d6cab0;display:block';
+
+    // Imagen 2
+    var img2 = document.createElement('img');
+    img2.src = 'https://files.catbox.moe/vh26ix.png';
+    img2.alt = 'Gráfico de población por departamento';
+    img2.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;box-shadow:0 4px 0 #d6cab0;display:block';
+
+    wrap.appendChild(img1);
+    wrap.appendChild(img2);
+
+    // Insertar antes de "Fuentes"
+    fuentes.parentNode.insertBefore(wrap, fuentes);
+  }
+
+  ponerGraficos();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerGraficos();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+  </script>
+</body>
 </html>
