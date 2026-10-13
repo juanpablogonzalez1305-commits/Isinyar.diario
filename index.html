@@ -8331,5 +8331,27 @@ details > summary::after {
   }, 300);
 })();
 </script>
+<style>
+/* Botones de teléfono con relieve */
+#guia a[href^="tel:"] {
+  display: inline-block !important;
+  padding: .4rem .75rem !important;
+  margin: .15rem 0 !important;
+  border: 1.5px solid #6e5327 !important;
+  border-radius: 10px !important;
+  background: linear-gradient(145deg,#fbf3dc,#e6cd96) !important;
+  color: #5f4708 !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+  font-size: .85rem !important;
+  box-shadow: 0 3px 0 0 #b08c46, inset 0 1px 0 rgba(255,255,255,.7) !important;
+  transition: transform .09s, box-shadow .09s !important;
+  line-height: 1.2 !important;
+}
+#guia a[href^="tel:"]:active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 0 0 0 #b08c46, inset 0 2px 4px rgba(95,71,8,.35) !important;
+}
+</style>
 </body>
 </html>
