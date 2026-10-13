@@ -7518,10 +7518,13 @@ details > summary::after {
   }, 500);
 })();
 </script>
+
+
+    
 <script>
 (function(){
-  if(window._vozFINALv2OK) return;
-  window._vozFINALv2OK = 1;
+  if(window._vozFINALv3OK) return;
+  window._vozFINALv3OK = 1;
 
   var activo = null;
   var cancelacionForzada = null;
@@ -7536,7 +7539,6 @@ details > summary::after {
   }
 
   function cortarTodo(){
-    // Cancelar varias veces para asegurar
     try{ window.speechSynthesis.cancel(); }catch(e){}
     if(cancelacionForzada) clearTimeout(cancelacionForzada);
     cancelacionForzada = setTimeout(function(){
@@ -7553,15 +7555,12 @@ details > summary::after {
     var s = window.speechSynthesis;
     if(!s) return;
 
-    // Si toca el mismo botón que ya está leyendo: detener
     if(activo === boton){
       cortarTodo();
       return;
     }
 
-    // Si hay otro botón activo: cortarlo FUERTE antes de arrancar
     if(activo){
-      // Marcar como inactivo para que sus callbacks no sigan disparando
       activo = null;
       try{ s.cancel(); }catch(e){}
       setTimeout(function(){ try{ s.cancel(); }catch(e){} }, 50);
@@ -7592,7 +7591,6 @@ details > summary::after {
     activo = boton;
     boton.innerHTML = '⏸ Detener lectura';
 
-    // Esperar el corte previo y arrancar
     setTimeout(function(){
       if(activo !== boton) return;
       try{ s.resume(); }catch(e){}
@@ -7623,9 +7621,9 @@ details > summary::after {
   }
 
   function armarUno(boton){
-    if(!boton || boton.dataset.vozFinal2 === '1') return;
+    if(!boton || boton.dataset.vozFinal3 === '1') return;
     var clon = boton.cloneNode(true);
-    clon.dataset.vozFinal2 = '1';
+    clon.dataset.vozFinal3 = '1';
     clon.innerHTML = '🔊 Escuchar en voz alta';
     if(boton.parentNode) boton.parentNode.replaceChild(clon, boton);
     clon.addEventListener('click', function(e){
@@ -7645,18 +7643,24 @@ details > summary::after {
 
   function engancharCortador(){
     document.querySelectorAll('input[name="sec"]').forEach(function(r){
-      if(r.dataset.cortaF2 === '1') return;
-      r.dataset.cortaF2 = '1';
+      if(r.dataset.cortaF3 === '1') return;
+      r.dataset.cortaF3 = '1';
       r.addEventListener('change', cortarTodo);
     });
   }
 
+  // CUALQUIER apertura o cierre de nota corta la voz,
+  // salvo que la nota toggled contenga el botón activo
   function engancharDetails(){
     document.querySelectorAll('details').forEach(function(d){
-      if(d.dataset.cortaF2 === '1') return;
-      d.dataset.cortaF2 = '1';
+      if(d.dataset.cortaF3 === '1') return;
+      d.dataset.cortaF3 = '1';
       d.addEventListener('toggle', function(){
-        if(!d.open) cortarTodo();
+        // Si no hay nada leyendo, nada que cortar
+        if(!activo) return;
+        // Si el botón activo está dentro de esta nota, es la que empezó a leer, no cortar
+        if(d.contains(activo)) return;
+        cortarTodo();
       });
     });
   }
@@ -7690,5 +7694,5 @@ details > summary::after {
 
 })();
 </script>
-</body>
+  </body>
 </html>
