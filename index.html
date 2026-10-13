@@ -7520,18 +7520,13 @@ details > summary::after {
 </script>
 <script>
 (function(){
-  if(window._vozFINALOK) return;
-  window._vozFINALOK = 1;
+  if(window._vozFINALv2OK) return;
+  window._vozFINALv2OK = 1;
 
   var activo = null;
+  var cancelacionForzada = null;
 
-  function detenerTodo(){
-    try{ window.speechSynthesis.cancel(); }catch(e){}
-    if(activo){
-      activo.innerHTML = '🔊 Escuchar en voz alta';
-      activo = null;
-    }
-    // Resetear todos los botones que digan Detener
+  function apagarBotones(){
     document.querySelectorAll('button, a').forEach(function(b){
       var t = b.textContent || '';
       if(t.indexOf('Detener lectura') > -1){
@@ -7540,18 +7535,37 @@ details > summary::after {
     });
   }
 
+  function cortarTodo(){
+    // Cancelar varias veces para asegurar
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    if(cancelacionForzada) clearTimeout(cancelacionForzada);
+    cancelacionForzada = setTimeout(function(){
+      try{ window.speechSynthesis.cancel(); }catch(e){}
+    }, 50);
+    setTimeout(function(){
+      try{ window.speechSynthesis.cancel(); }catch(e){}
+    }, 200);
+    activo = null;
+    apagarBotones();
+  }
+
   function manejarClick(boton){
     var s = window.speechSynthesis;
     if(!s) return;
 
+    // Si toca el mismo botón que ya está leyendo: detener
     if(activo === boton){
-      detenerTodo();
+      cortarTodo();
       return;
     }
 
+    // Si hay otro botón activo: cortarlo FUERTE antes de arrancar
     if(activo){
-      s.cancel();
-      activo.innerHTML = '🔊 Escuchar en voz alta';
+      // Marcar como inactivo para que sus callbacks no sigan disparando
+      activo = null;
+      try{ s.cancel(); }catch(e){}
+      setTimeout(function(){ try{ s.cancel(); }catch(e){} }, 50);
+      setTimeout(function(){ try{ s.cancel(); }catch(e){} }, 150);
     }
 
     var padre = boton.closest('details') || boton.parentNode;
@@ -7577,9 +7591,10 @@ details > summary::after {
 
     activo = boton;
     boton.innerHTML = '⏸ Detener lectura';
-    s.cancel();
 
+    // Esperar el corte previo y arrancar
     setTimeout(function(){
+      if(activo !== boton) return;
       try{ s.resume(); }catch(e){}
       var idx = 0;
       function hablar(){
@@ -7593,8 +7608,14 @@ details > summary::after {
         var u = new SpeechSynthesisUtterance(item.txt);
         u.lang = 'es-AR';
         u.rate = .92;
-        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
-        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+        u.onend = function(){
+          if(activo !== boton) return;
+          idx++; setTimeout(hablar, item.pausa);
+        };
+        u.onerror = function(){
+          if(activo !== boton) return;
+          idx++; setTimeout(hablar, item.pausa);
+        };
         s.speak(u);
       }
       hablar();
@@ -7602,10 +7623,9 @@ details > summary::after {
   }
 
   function armarUno(boton){
-    if(!boton || boton.dataset.vozFinal === '1') return;
+    if(!boton || boton.dataset.vozFinal2 === '1') return;
     var clon = boton.cloneNode(true);
-    clon.dataset.vozFinal = '1';
-    clon.dataset.vozListo = '1';
+    clon.dataset.vozFinal2 = '1';
     clon.innerHTML = '🔊 Escuchar en voz alta';
     if(boton.parentNode) boton.parentNode.replaceChild(clon, boton);
     clon.addEventListener('click', function(e){
@@ -7623,22 +7643,20 @@ details > summary::after {
     });
   }
 
-  // Enganchar cortador
   function engancharCortador(){
     document.querySelectorAll('input[name="sec"]').forEach(function(r){
-      if(r.dataset.cortaFinal === '1') return;
-      r.dataset.cortaFinal = '1';
-      r.addEventListener('change', detenerTodo);
+      if(r.dataset.cortaF2 === '1') return;
+      r.dataset.cortaF2 = '1';
+      r.addEventListener('change', cortarTodo);
     });
   }
 
-  // Detectar cierre de notas
   function engancharDetails(){
     document.querySelectorAll('details').forEach(function(d){
-      if(d.dataset.cortaFinal === '1') return;
-      d.dataset.cortaFinal = '1';
+      if(d.dataset.cortaF2 === '1') return;
+      d.dataset.cortaF2 = '1';
       d.addEventListener('toggle', function(){
-        if(!d.open) detenerTodo();
+        if(!d.open) cortarTodo();
       });
     });
   }
@@ -7647,7 +7665,6 @@ details > summary::after {
   engancharCortador();
   engancharDetails();
 
-  // MutationObserver: captura nuevos botones y detalles al instante
   if(document.body){
     var obs = new MutationObserver(function(){
       procesarTodo();
@@ -7657,7 +7674,6 @@ details > summary::after {
     obs.observe(document.body, {childList: true, subtree: true});
   }
 
-  // Respaldo por intervalos
   var n = 0;
   var t = setInterval(function(){
     n++;
@@ -7667,10 +7683,9 @@ details > summary::after {
     if(n > 120) clearInterval(t);
   }, 500);
 
-  // Cortar al salir del diario
-  window.addEventListener('beforeunload', detenerTodo);
+  window.addEventListener('beforeunload', cortarTodo);
   document.addEventListener('visibilitychange', function(){
-    if(document.hidden) detenerTodo();
+    if(document.hidden) cortarTodo();
   });
 
 })();
