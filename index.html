@@ -7518,5 +7518,162 @@ details > summary::after {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._vozFINALOK) return;
+  window._vozFINALOK = 1;
+
+  var activo = null;
+
+  function detenerTodo(){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    if(activo){
+      activo.innerHTML = '🔊 Escuchar en voz alta';
+      activo = null;
+    }
+    // Resetear todos los botones que digan Detener
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.textContent || '';
+      if(t.indexOf('Detener lectura') > -1){
+        b.innerHTML = '🔊 Escuchar en voz alta';
+      }
+    });
+  }
+
+  function manejarClick(boton){
+    var s = window.speechSynthesis;
+    if(!s) return;
+
+    if(activo === boton){
+      detenerTodo();
+      return;
+    }
+
+    if(activo){
+      s.cancel();
+      activo.innerHTML = '🔊 Escuchar en voz alta';
+    }
+
+    var padre = boton.closest('details') || boton.parentNode;
+    if(!padre) return;
+
+    var bloques = [];
+    padre.querySelectorAll('p, h4, .mast, .kick, .tit-h, blockquote').forEach(function(el){
+      if(el.closest('table')) return;
+      var t = (el.textContent || '')
+        .replace(/Escuchar en voz alta/g,'')
+        .replace(/Detener lectura/g,'')
+        .replace(/⏸/g,'').replace(/🔊/g,'')
+        .replace(/\s+/g,' ').trim();
+      if(!t) return;
+      if(t.length > 200){
+        var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+        partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+      } else {
+        bloques.push({txt: t, pausa: 900});
+      }
+    });
+    if(!bloques.length) return;
+
+    activo = boton;
+    boton.innerHTML = '⏸ Detener lectura';
+    s.cancel();
+
+    setTimeout(function(){
+      try{ s.resume(); }catch(e){}
+      var idx = 0;
+      function hablar(){
+        if(activo !== boton) return;
+        if(idx >= bloques.length){
+          boton.innerHTML = '🔊 Escuchar en voz alta';
+          activo = null;
+          return;
+        }
+        var item = bloques[idx];
+        var u = new SpeechSynthesisUtterance(item.txt);
+        u.lang = 'es-AR';
+        u.rate = .92;
+        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+        s.speak(u);
+      }
+      hablar();
+    }, 400);
+  }
+
+  function armarUno(boton){
+    if(!boton || boton.dataset.vozFinal === '1') return;
+    var clon = boton.cloneNode(true);
+    clon.dataset.vozFinal = '1';
+    clon.dataset.vozListo = '1';
+    clon.innerHTML = '🔊 Escuchar en voz alta';
+    if(boton.parentNode) boton.parentNode.replaceChild(clon, boton);
+    clon.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      manejarClick(clon);
+    }, true);
+  }
+
+  function procesarTodo(){
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = (b.textContent || '').trim();
+      if(t.indexOf('Escuchar en voz alta') === -1) return;
+      armarUno(b);
+    });
+  }
+
+  // Enganchar cortador
+  function engancharCortador(){
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.cortaFinal === '1') return;
+      r.dataset.cortaFinal = '1';
+      r.addEventListener('change', detenerTodo);
+    });
+  }
+
+  // Detectar cierre de notas
+  function engancharDetails(){
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.dataset.cortaFinal === '1') return;
+      d.dataset.cortaFinal = '1';
+      d.addEventListener('toggle', function(){
+        if(!d.open) detenerTodo();
+      });
+    });
+  }
+
+  procesarTodo();
+  engancharCortador();
+  engancharDetails();
+
+  // MutationObserver: captura nuevos botones y detalles al instante
+  if(document.body){
+    var obs = new MutationObserver(function(){
+      procesarTodo();
+      engancharCortador();
+      engancharDetails();
+    });
+    obs.observe(document.body, {childList: true, subtree: true});
+  }
+
+  // Respaldo por intervalos
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    procesarTodo();
+    engancharCortador();
+    engancharDetails();
+    if(n > 120) clearInterval(t);
+  }, 500);
+
+  // Cortar al salir del diario
+  window.addEventListener('beforeunload', detenerTodo);
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden) detenerTodo();
+  });
+
+})();
+</script>
 </body>
 </html>
