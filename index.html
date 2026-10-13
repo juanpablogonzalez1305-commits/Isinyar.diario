@@ -7879,5 +7879,88 @@ details > summary::after {
 
 })();
 </script>
-  </body>
+  <script>
+(function(){
+  if(window._fixFlyersCruzadosOK) return;
+  window._fixFlyersCruzadosOK = 1;
+
+  // Mapeo correcto según la imagen que se ve en pantalla
+  var MAPA = [
+    { buscar: 'a68tq3', destino: 'hemeroteca', texto: '📰 Ver la nota en la Hemeroteca' },  // Artaza
+    { buscar: 'qtfoyi', destino: 'noticias',   texto: '📰 Ver las noticias' }                // Lealtad
+  ];
+
+  function irANota(destino){
+    var overlay = document.getElementById('cartel-destacado');
+    if(overlay) overlay.classList.remove('visible');
+
+    if(destino === 'noticias'){
+      var rNot = document.getElementById('s-noticias');
+      if(rNot){
+        rNot.checked = true;
+        rNot.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+      setTimeout(function(){ window.scrollTo(0, 0); }, 250);
+      return;
+    }
+
+    var rHist = document.getElementById('s-historia');
+    if(rHist){
+      rHist.checked = true;
+      rHist.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+    setTimeout(function(){
+      var labels = document.querySelectorAll('label');
+      for(var i = 0; i < labels.length; i++){
+        var txt = (labels[i].textContent || '').toUpperCase();
+        if(destino === 'hemeroteca' && txt.indexOf('HEMEROTECA') > -1){ labels[i].click(); break; }
+        if(destino === 'cultura-viva' && txt.indexOf('CULTURA VIVA') > -1){ labels[i].click(); break; }
+      }
+      window.scrollTo(0, 0);
+    }, 250);
+  }
+
+  // Click en el botón "Ver nota"
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var btn = t.closest ? t.closest('#cartel-ver') : null;
+    if(!btn) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    var img = document.getElementById('cartel-flyer');
+    var src = img ? (img.src || '') : '';
+    var destino = '';
+    for(var i = 0; i < MAPA.length; i++){
+      if(src.indexOf(MAPA[i].buscar) > -1){ destino = MAPA[i].destino; break; }
+    }
+    if(!destino) return;
+
+    irANota(destino);
+  }, true);
+
+  // Actualizar texto del botón cada vez que cambia la imagen
+  function ajustarTexto(){
+    var img = document.getElementById('cartel-flyer');
+    var btn = document.getElementById('cartel-ver');
+    if(!img || !btn) return;
+    var src = img.src || '';
+    for(var i = 0; i < MAPA.length; i++){
+      if(src.indexOf(MAPA[i].buscar) > -1){
+        if(btn.innerHTML !== MAPA[i].texto){
+          btn.innerHTML = MAPA[i].texto;
+          btn.dataset.destino = MAPA[i].destino;
+        }
+        return;
+      }
+    }
+  }
+
+  ajustarTexto();
+  setInterval(ajustarTexto, 300);
+})();
+  </script>
+</body>
 </html>
