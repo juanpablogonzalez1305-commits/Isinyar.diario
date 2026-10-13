@@ -7633,6 +7633,10 @@ details > summary::after {
       img: 'https://files.catbox.moe/q0uu1x.png',
       tieneVer: false,
       segundos: 8
+      ecologica: {
+  img: 'https://files.catbox.moe/5d4s3o.jpg',
+  tieneVer: false,
+  segundos: 8
     },
     artaza: {
       img: 'https://files.catbox.moe/qtfoyi.jpg',
@@ -7651,7 +7655,7 @@ details > summary::after {
   };
 
   // ============ ACÁ ELEGÍS CUÁLES SE MUESTRAN ============
-  var MOSTRAR = ['artaza', 'lealtad'];
+  var MOSTRAR = ['artaza', 'lealtad', 'ecologica'];
 
   // Se arma la lista final automáticamente (NO TOCAR)
   var FLYERS = MOSTRAR.map(function(n){ return FLYERS_TODOS[n]; }).filter(function(f){ return !!f; });
