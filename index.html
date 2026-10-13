@@ -7652,11 +7652,18 @@ details > summary::after {
       textoVer: '📰 Ver las noticias',
       destino: 'noticias',
       segundos: 10
+    },
+    guia: {
+  img: 'https://files.catbox.moe/2sq36j.jpg',
+  tieneVer: true,
+  textoVer: '📚 Ver la guía',
+  destino: 'guia',
+  segundos: 10
     }
   };
 
   // ============ ACÁ ELEGÍS CUÁLES SE MUESTRAN ============
-  var MOSTRAR = ['artaza', 'lealtad', 'ecologica'];
+  var MOSTRAR = ['artaza', 'lealtad', 'ecologica', 'guia'];
 
   // Se arma la lista final automáticamente (NO TOCAR)
   var FLYERS = MOSTRAR.map(function(n){ return FLYERS_TODOS[n]; }).filter(function(f){ return !!f; });
@@ -8353,5 +8360,42 @@ details > summary::after {
   box-shadow: 0 0 0 0 #b08c46, inset 0 2px 4px rgba(95,71,8,.35) !important;
 }
 </style>
+<script>
+(function(){
+  if(window._botonGuiaOK) return;
+  window._botonGuiaOK = 1;
+
+  // Interceptar el click del botón nuevo (el que usa el carrusel)
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var btn = t.closest ? t.closest('#cartel-ver-nuevo') : null;
+    if(!btn) return;
+
+    // Ver qué imagen está mostrando el cartel
+    var img = document.getElementById('cartel-flyer');
+    var src = img ? (img.src || '') : '';
+
+    // Si NO es el flyer de guía, dejar que el carrusel maneje el click
+    if(src.indexOf('2sq36j') === -1) return;
+
+    // Si ES el flyer de guía, manejar acá
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    var overlay = document.getElementById('cartel-destacado');
+    if(overlay) overlay.classList.remove('visible');
+
+    // Ir a Guía
+    var rGuia = document.getElementById('s-guia');
+    if(rGuia){
+      rGuia.checked = true;
+      rGuia.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+    setTimeout(function(){ window.scrollTo(0, 0); }, 300);
+  }, true);
+
+})();
+</script>
 </body>
 </html>
