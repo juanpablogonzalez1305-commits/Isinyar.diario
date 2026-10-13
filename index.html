@@ -7812,5 +7812,72 @@ details > summary::after {
 
 })();
   </script>
-</body>
+<script>
+(function(){
+  if(window._botonPorImagenOK) return;
+  window._botonPorImagenOK = 1;
+
+  // Mapeo: si la imagen del cartel contiene este texto → va a este destino
+  var MAPA = [
+    { buscar: 'qtfoyi',   destino: 'hemeroteca' },   // Artaza → Hemeroteca
+    { buscar: 'a68tq3',   destino: 'noticias' }      // Lealtad → Noticias
+  ];
+
+  function irANota(destino){
+    var overlay = document.getElementById('cartel-destacado');
+    if(overlay) overlay.classList.remove('visible');
+
+    if(destino === 'noticias'){
+      var rNot = document.getElementById('s-noticias');
+      if(rNot){
+        rNot.checked = true;
+        rNot.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+      setTimeout(function(){ window.scrollTo(0, 0); }, 250);
+      return;
+    }
+
+    var rHist = document.getElementById('s-historia');
+    if(rHist){
+      rHist.checked = true;
+      rHist.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+    setTimeout(function(){
+      var labels = document.querySelectorAll('label');
+      for(var i = 0; i < labels.length; i++){
+        var txt = (labels[i].textContent || '').toUpperCase();
+        if(destino === 'hemeroteca' && txt.indexOf('HEMEROTECA') > -1){ labels[i].click(); break; }
+        if(destino === 'cultura-viva' && txt.indexOf('CULTURA VIVA') > -1){ labels[i].click(); break; }
+      }
+      window.scrollTo(0, 0);
+    }, 250);
+  }
+
+  // Interceptar el click del botón "Ver nota"
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var btn = t.closest ? t.closest('#cartel-ver') : null;
+    if(!btn) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    // Leer el src de la imagen actual del cartel
+    var img = document.getElementById('cartel-flyer');
+    var src = img ? (img.src || '') : '';
+
+    // Decidir destino según el src
+    var destino = '';
+    for(var i = 0; i < MAPA.length; i++){
+      if(src.indexOf(MAPA[i].buscar) > -1){ destino = MAPA[i].destino; break; }
+    }
+    if(!destino) return;
+
+    irANota(destino);
+  }, true);
+
+})();
+</script>
+  </body>
 </html>
