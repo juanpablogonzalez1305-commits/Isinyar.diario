@@ -7500,5 +7500,100 @@ details > summary::after {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._vozUniversalOK) return;
+  window._vozUniversalOK = 1;
+
+  function limpiarBoton(b){
+    var clon = b.cloneNode(true);
+    b.parentNode.replaceChild(clon, b);
+    return clon;
+  }
+
+  function armarVoz(boton){
+    boton.dataset.vozListo = '1';
+    boton.innerHTML = '🔊 Escuchar en voz alta';
+
+    boton.addEventListener('click', function(){
+      var s = window.speechSynthesis;
+      if(!s) return;
+
+      // Si ya está leyendo este botón, detener
+      if(boton.dataset.activo === '1'){
+        s.cancel();
+        boton.dataset.activo = '0';
+        boton.innerHTML = '🔊 Escuchar en voz alta';
+        return;
+      }
+
+      // Buscar el contenedor de la nota
+      var padre = boton.closest('details') || boton.closest('.cuerpo-in') || boton.parentNode;
+      if(!padre) return;
+
+      // Armar bloques de texto
+      var bloques = [];
+      padre.querySelectorAll('p, h4, .mast, .kick, .tit-h, blockquote').forEach(function(el){
+        if(el.closest('table')) return;
+        var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'')
+                  .replace(/Detener lectura/g,'')
+                  .replace(/⏸/g,'').replace(/\s+/g,' ').trim();
+        if(!t) return;
+        if(t.length > 200){
+          var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+          partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+        } else {
+          bloques.push({txt: t, pausa: 900});
+        }
+      });
+      if(!bloques.length) return;
+
+      boton.dataset.activo = '1';
+      boton.innerHTML = '⏸ Detener lectura';
+      s.cancel();
+
+      // Delay clave para que el motor de voz se destrabe
+      setTimeout(function(){
+        try{ s.resume(); }catch(e){}
+        var idx = 0;
+        function hablar(){
+          if(boton.dataset.activo !== '1') return;
+          if(idx >= bloques.length){
+            boton.dataset.activo = '0';
+            boton.innerHTML = '🔊 Escuchar en voz alta';
+            return;
+          }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR';
+          u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        hablar();
+      }, 400);
+    });
+  }
+
+  function arreglarTodos(){
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = (b.textContent || '').trim();
+      if(t.indexOf('Escuchar en voz alta') === -1 && t.indexOf('Detener lectura') === -1) return;
+      if(b.dataset.vozListo === '1') return;
+      var nuevo = limpiarBoton(b);
+      armarVoz(nuevo);
+    });
+  }
+
+  arreglarTodos();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    arreglarTodos();
+    if(n > 80) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
