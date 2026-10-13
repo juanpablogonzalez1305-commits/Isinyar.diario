@@ -7885,11 +7885,131 @@ details > summary::after {
 })();
 </script>
 <script>
+
+
+  
+
+  
+<style>
+/* Ocultar el botón viejo del cartel */
+#cartel-ver { display: none !important; }
+
+/* Botón nuevo, inmune a scripts viejos */
+#cartel-ver-nuevo {
+  display: block;
+  width: 100%;
+  padding: 1rem 1rem;
+  border: 2px solid #c9a243;
+  border-radius: 12px;
+  background: linear-gradient(180deg,#e8c26a,#a8781f);
+  color: #241c12;
+  font-family: Fraunces, serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.05rem;
+  box-shadow: 0 4px 0 #6e5327;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+#cartel-ver-nuevo.oculto { display: none !important; }
+</style>
+<script>
+(function(){
+  if(window._botonNuevoOK) return;
+  window._botonNuevoOK = 1;
+
+  function crearBoton(){
+    var btnViejo = document.getElementById('cartel-ver');
+    if(!btnViejo) return false;
+    if(document.getElementById('cartel-ver-nuevo')) return true;
+
+    var nuevo = document.createElement('button');
+    nuevo.type = 'button';
+    nuevo.id = 'cartel-ver-nuevo';
+    nuevo.innerHTML = '📰 Ver la nota';
+    btnViejo.parentNode.insertBefore(nuevo, btnViejo);
+
+    nuevo.addEventListener('click', function(){
+      // Leer la imagen ACTUAL del cartel
+      var img = document.getElementById('cartel-flyer');
+      var src = img ? (img.src || '') : '';
+
+      // Decidir según el código del archivo catbox
+      var destino = '';
+      if(src.indexOf('a68tq3') > -1) destino = 'hemeroteca';  // Artaza
+      if(src.indexOf('qtfoyi') > -1) destino = 'noticias';     // Lealtad
+      if(!destino) return;
+
+      // Cerrar cartel
+      var overlay = document.getElementById('cartel-destacado');
+      if(overlay) overlay.classList.remove('visible');
+
+      // Navegar
+      if(destino === 'noticias'){
+        var rNot = document.getElementById('s-noticias');
+        if(rNot){
+          rNot.checked = true;
+          rNot.dispatchEvent(new Event('change', {bubbles:true}));
+        }
+        setTimeout(function(){ window.scrollTo(0, 0); }, 300);
+        return;
+      }
+
+      // Hemeroteca
+      var rHist = document.getElementById('s-historia');
+      if(rHist){
+        rHist.checked = true;
+        rHist.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+      setTimeout(function(){
+        var labels = document.querySelectorAll('label');
+        for(var i = 0; i < labels.length; i++){
+          var txt = (labels[i].textContent || '').toUpperCase();
+          if(txt.indexOf('HEMEROTECA') > -1){ labels[i].click(); break; }
+        }
+        window.scrollTo(0, 0);
+      }, 350);
+    });
+
+    return true;
+  }
+
+  function ajustarTexto(){
+    var img = document.getElementById('cartel-flyer');
+    var nuevo = document.getElementById('cartel-ver-nuevo');
+    if(!img || !nuevo) return;
+    var src = img.src || '';
+    if(src.indexOf('a68tq3') > -1){
+      nuevo.classList.remove('oculto');
+      nuevo.innerHTML = '📰 Ver la nota en la Hemeroteca';
+    } else if(src.indexOf('qtfoyi') > -1){
+      nuevo.classList.remove('oculto');
+      nuevo.innerHTML = '📰 Ver las noticias';
+    } else {
+      nuevo.classList.add('oculto');
+    }
+  }
+
+  function ciclo(){
+    crearBoton();
+    ajustarTexto();
+  }
+  ciclo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 120) clearInterval(t);
+  }, 300);
+})();
+</script>
+<!-- actualizacion -->
+  <script>
 (function(){
   if(window._carruselFinalOK) return;
   window._carruselFinalOK = 1;
 
-  // ============ LISTA COMPLETA DE FLYERS (NO TOCAR) ============
+  // ============ LISTA COMPLETA DE FLYERS ============
   var FLYERS_TODOS = {
     tango: {
       img: 'https://files.catbox.moe/62vlkj.png',
@@ -7935,23 +8055,26 @@ details > summary::after {
       textoVer: '📰 Ver las noticias',
       destino: 'noticias',
       segundos: 10
+    },
+    ecologica: {
+      img: 'https://files.catbox.moe/5d4s3o.jpg',
+      tieneVer: false,
+      segundos: 8
     }
   };
 
   // ============ ACÁ ELEGÍS CUÁLES SE MUESTRAN ============
-  var MOSTRAR = ['artaza', 'lealtad'];
+  var MOSTRAR = ['artaza', 'lealtad', 'ecologica'];
 
-  // Se arma la lista final automáticamente (NO TOCAR)
   var FLYERS = MOSTRAR.map(function(n){ return FLYERS_TODOS[n]; }).filter(function(f){ return !!f; });
 
-  // ============ CONFIGURACIÓN DE TIEMPO ============
+  // ============ TIEMPO ============
   var INICIO_ANIO = 2026;
-  var INICIO_MES = 9;       // 9 = octubre
+  var INICIO_MES = 9;
   var INICIO_DIA = 13;
   var INICIO_HORA = 0;
   var INICIO_MIN = 0;
   var HORAS_DURACION = 24;
-  // =================================================
 
   var inicio = new Date(INICIO_ANIO, INICIO_MES, INICIO_DIA, INICIO_HORA, INICIO_MIN, 0);
   var fin = new Date(inicio.getTime() + HORAS_DURACION * 60 * 60 * 1000);
@@ -8099,120 +8222,6 @@ details > summary::after {
   }, 500);
 
 })();
-</script>
-<style>
-/* Ocultar el botón viejo del cartel */
-#cartel-ver { display: none !important; }
-
-/* Botón nuevo, inmune a scripts viejos */
-#cartel-ver-nuevo {
-  display: block;
-  width: 100%;
-  padding: 1rem 1rem;
-  border: 2px solid #c9a243;
-  border-radius: 12px;
-  background: linear-gradient(180deg,#e8c26a,#a8781f);
-  color: #241c12;
-  font-family: Fraunces, serif;
-  font-style: italic;
-  font-weight: 800;
-  font-size: 1.05rem;
-  box-shadow: 0 4px 0 #6e5327;
-  cursor: pointer;
-  margin-bottom: 8px;
-}
-#cartel-ver-nuevo.oculto { display: none !important; }
-</style>
-<script>
-(function(){
-  if(window._botonNuevoOK) return;
-  window._botonNuevoOK = 1;
-
-  function crearBoton(){
-    var btnViejo = document.getElementById('cartel-ver');
-    if(!btnViejo) return false;
-    if(document.getElementById('cartel-ver-nuevo')) return true;
-
-    var nuevo = document.createElement('button');
-    nuevo.type = 'button';
-    nuevo.id = 'cartel-ver-nuevo';
-    nuevo.innerHTML = '📰 Ver la nota';
-    btnViejo.parentNode.insertBefore(nuevo, btnViejo);
-
-    nuevo.addEventListener('click', function(){
-      // Leer la imagen ACTUAL del cartel
-      var img = document.getElementById('cartel-flyer');
-      var src = img ? (img.src || '') : '';
-
-      // Decidir según el código del archivo catbox
-      var destino = '';
-      if(src.indexOf('a68tq3') > -1) destino = 'hemeroteca';  // Artaza
-      if(src.indexOf('qtfoyi') > -1) destino = 'noticias';     // Lealtad
-      if(!destino) return;
-
-      // Cerrar cartel
-      var overlay = document.getElementById('cartel-destacado');
-      if(overlay) overlay.classList.remove('visible');
-
-      // Navegar
-      if(destino === 'noticias'){
-        var rNot = document.getElementById('s-noticias');
-        if(rNot){
-          rNot.checked = true;
-          rNot.dispatchEvent(new Event('change', {bubbles:true}));
-        }
-        setTimeout(function(){ window.scrollTo(0, 0); }, 300);
-        return;
-      }
-
-      // Hemeroteca
-      var rHist = document.getElementById('s-historia');
-      if(rHist){
-        rHist.checked = true;
-        rHist.dispatchEvent(new Event('change', {bubbles:true}));
-      }
-      setTimeout(function(){
-        var labels = document.querySelectorAll('label');
-        for(var i = 0; i < labels.length; i++){
-          var txt = (labels[i].textContent || '').toUpperCase();
-          if(txt.indexOf('HEMEROTECA') > -1){ labels[i].click(); break; }
-        }
-        window.scrollTo(0, 0);
-      }, 350);
-    });
-
-    return true;
-  }
-
-  function ajustarTexto(){
-    var img = document.getElementById('cartel-flyer');
-    var nuevo = document.getElementById('cartel-ver-nuevo');
-    if(!img || !nuevo) return;
-    var src = img.src || '';
-    if(src.indexOf('a68tq3') > -1){
-      nuevo.classList.remove('oculto');
-      nuevo.innerHTML = '📰 Ver la nota en la Hemeroteca';
-    } else if(src.indexOf('qtfoyi') > -1){
-      nuevo.classList.remove('oculto');
-      nuevo.innerHTML = '📰 Ver las noticias';
-    } else {
-      nuevo.classList.add('oculto');
-    }
-  }
-
-  function ciclo(){
-    crearBoton();
-    ajustarTexto();
-  }
-  ciclo();
-  var n = 0;
-  var t = setInterval(function(){
-    n++;
-    ciclo();
-    if(n > 120) clearInterval(t);
-  }, 300);
-})();
-</script>
-<!-- actualizacion -->
-  </body>
+  </script>
+</body>
 </html>
