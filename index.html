@@ -8876,5 +8876,96 @@ h2.tit .tit-palabra {
 
 })();
       </script>  
-  </body>
+ <script>
+(function(){
+  if(window._bloqueoVoiceOK) return;
+  window._bloqueoVoiceOK = 1;
+
+  var s = window.speechSynthesis;
+  if(!s) return;
+
+  // Guardar el speak original
+  var speakReal = s.speak.bind(s);
+  var bloquearHasta = 0;
+
+  // Envolver speak: si estamos en "zona de bloqueo", no habla
+  s.speak = function(u){
+    if(Date.now() < bloquearHasta) return;
+    return speakReal(u);
+  };
+
+  function matar(){
+    // 1. Resetear TODAS las banderas Leyendo, incluida la de Castro
+    window._castroLeyendo = false;
+    try{
+      var ks = Object.keys(window);
+      for(var i = 0; i < ks.length; i++){
+        if(/_(\w+)Leyendo$/.test(ks[i])) window[ks[i]] = false;
+      }
+    }catch(e){}
+
+    // 2. Bloquear el motor de voz por 1,2 segundos (para que el bucle de Castro muera)
+    bloquearHasta = Date.now() + 1200;
+
+    // 3. Cancelar varias veces
+    try{ s.cancel(); }catch(e){}
+    setTimeout(function(){ try{ s.cancel(); }catch(e){} }, 100);
+    setTimeout(function(){ try{ s.cancel(); }catch(e){} }, 400);
+    setTimeout(function(){ try{ s.cancel(); }catch(e){} }, 800);
+
+    // 4. Resetear botones
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.textContent || '';
+      if(t.indexOf('Detener lectura') > -1){ b.innerHTML = '🔊 Escuchar en voz alta'; }
+    });
+  }
+
+  // Click en cualquier lado (menos en un botón de voz) → cortar
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var btn = t.closest ? t.closest('button, a, summary, label') : null;
+    if(!btn) return;
+    var txt = (btn.textContent || '').trim();
+    if(txt.indexOf('Escuchar en voz alta') === -1 && txt.indexOf('Detener lectura') === -1){
+      if(s.speaking || s.pending) matar();
+    }
+  }, true);
+
+  // Cambio de sección
+  function engancharSec(){
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.mkHook === '1') return;
+      r.dataset.mkHook = '1';
+      r.addEventListener('change', matar, true);
+    });
+  }
+
+  // Abrir/cerrar cualquier nota
+  function engancharDet(){
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.dataset.mkHook === '1') return;
+      d.dataset.mkHook = '1';
+      d.addEventListener('toggle', matar, true);
+    });
+  }
+
+  function ciclo(){ engancharSec(); engancharDet(); }
+  ciclo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 200) clearInterval(t);
+  }, 500);
+
+  // Detectar nuevos elementos
+  if(document.body){
+    var obs = new MutationObserver(ciclo);
+    obs.observe(document.body, {childList: true, subtree: true});
+  }
+
+})();
+ </script>
+</body>
 </html>
