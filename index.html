@@ -8254,5 +8254,60 @@ details > summary::after {
   }, 500);
 })();
 </script>
-          </body>
+  <style>
+/* Ocultar los destellos pulsantes anteriores */
+.masthead h1 .dest { display: none !important; }
+
+/* Chispas fijas (rayos de sol) dentro del título */
+.masthead h1 .chispa {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+}
+.masthead h1 .chispa svg { display: block; width: 100%; height: 100%; }
+</style>
+<script>
+(function(){
+  if(window._chispasFijasOK) return;
+  window._chispasFijasOK = 1;
+
+  var SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+    '<defs><radialGradient id="gc" cx="50%" cy="50%" r="50%">' +
+    '<stop offset="0%" stop-color="#fffdf0"/>' +
+    '<stop offset="30%" stop-color="#ffe9a8"/>' +
+    '<stop offset="55%" stop-color="#ffd87a"/>' +
+    '<stop offset="80%" stop-color="#c9a243"/>' +
+    '<stop offset="100%" stop-color="#c9a243" stop-opacity="0"/>' +
+    '</radialGradient></defs>' +
+    '<path d="M50 0 L53.5 46.5 L100 50 L53.5 53.5 L50 100 L46.5 53.5 L0 50 L46.5 46.5 Z" fill="url(#gc)"/>' +
+    '</svg>';
+
+  function crear(){
+    var h1 = document.querySelector('.masthead h1');
+    if(!h1 || h1.querySelector('.chispa')) return;
+    var posiciones = [
+      { top: '5%',  left: '8%',  size: 30 },   // arriba izq (sobre la D)
+      { top: '5%',  right: '8%', size: 26 },   // arriba der (sobre la R)
+      { top: '55%', left: '20%', size: 20 },   // abajo izq
+      { top: '55%', right: '20%', size: 22 },  // abajo der
+      { top: '30%', left: '48%', size: 18 }    // centro
+    ];
+    posiciones.forEach(function(p){
+      var s = document.createElement('span');
+      s.className = 'chispa';
+      s.style.top = p.top;
+      if(p.left)  s.style.left  = p.left;
+      if(p.right) s.style.right = p.right;
+      s.style.width  = p.size + 'px';
+      s.style.height = p.size + 'px';
+      s.innerHTML = SVG;
+      h1.appendChild(s);
+    });
+  }
+  crear();
+  var n = 0;
+  var t = setInterval(function(){ n++; crear(); if(n > 40) clearInterval(t); }, 500);
+})();
+</script>        
+</body>
 </html>
