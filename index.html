@@ -8417,5 +8417,32 @@ h2.tit .tit-palabra {
     0 1px 0 #c9a243, 0 -1px 0 #c9a243 !important;
 }
 </style>
+ <style>
+/* ============ MARCO DORADO PARA LOS VIDEOS DE YOUTUBE ============ */
+
+/* Todos los contenedores de video (los que terminan en -yt-wrap) */
+[id$="-yt-wrap"] {
+  border: 3px solid #c9a243 !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 0 0 2px #15110d,
+    0 0 0 5px #8a6a1a,
+    0 0 0 6px #c9a243,
+    0 8px 0 0 #8a6a1a,
+    0 22px 34px -12px rgba(0,0,0,.75),
+    0 0 22px rgba(217,176,76,.55) !important;
+  margin: 1.2rem .3rem !important;
+}
+
+/* Un pequeño brillo dorado adentro del marco */
+[id$="-yt-wrap"] iframe {
+  border-radius: 14px !important;
+}
+
+/* Respetar "reducir movimiento" (por si hay animación) */
+@media (prefers-reduced-motion: reduce) {
+  [id$="-yt-wrap"] { transition: none !important; }
+}
+ </style>
   </body>
 </html>
