@@ -8668,5 +8668,120 @@ h2.tit .tit-palabra {
 
 })();
 </script>
-</body>
+<script>
+(function(){
+  if(window._killVozOK) return;
+  window._killVozOK = 1;
+
+  function resetearBotones(){
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.textContent || '';
+      if(t.indexOf('Detener lectura') > -1){
+        b.innerHTML = '🔊 Escuchar en voz alta';
+      }
+    });
+  }
+
+  function matarVoz(){
+    var s = window.speechSynthesis;
+    if(!s) return;
+    try{ s.pause(); }catch(e){}
+    try{ s.cancel(); }catch(e){}
+    // Segunda pasada, por si el motor se resiste
+    setTimeout(function(){
+      try{ s.cancel(); }catch(e){}
+      try{ s.resume(); }catch(e){}
+    }, 60);
+    setTimeout(function(){
+      try{ s.cancel(); }catch(e){}
+    }, 200);
+    // Resetear banderas
+    for(var k in window){
+      try{
+        if(typeof k === 'string' && k.match(/_(\w+)Leyendo$/)){
+          window[k] = false;
+        }
+      }catch(e){}
+    }
+    window._btnLeyendo = null;
+    window._activo = null;
+    resetearBotones();
+  }
+
+  // Enganchar cambio de sección
+  function engancharSecciones(){
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.dataset.killHook === '1') return;
+      r.dataset.killHook = '1';
+      r.addEventListener('change', matarVoz, true);
+    });
+  }
+
+  // Enganchar apertura/cierre de notas
+  function engancharDetails(){
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.dataset.killHook === '1') return;
+      d.dataset.killHook = '1';
+      d.addEventListener('toggle', function(){
+        matarVoz();
+      }, true);
+    });
+  }
+
+  // Enganchar clicks en cualquier botón que NO sea de "Escuchar en voz alta"
+  // Esto cubre el caso de "tocar otro botón mientras lee"
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var btn = t.closest ? t.closest('button, a, summary, label') : null;
+    if(!btn) return;
+    var txt = (btn.textContent || '').trim();
+    // Si el click NO es en un botón de voz, cortar
+    if(txt.indexOf('Escuchar en voz alta') === -1){
+      // Solo cortar si hay algo sonando
+      try{
+        if(window.speechSynthesis && (window.speechSynthesis.speaking || window.speechSynthesis.pending)){
+          matarVoz();
+        }
+      }catch(e){}
+    }
+  }, true);
+
+  function ciclo(){
+    engancharSecciones();
+    engancharDetails();
+  }
+  ciclo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 120) clearInterval(t);
+  }, 500);
+
+  // Vigilancia pasiva: cada 400 ms, si hay algo sonando y estamos en otra sección
+  // (o la nota original se cerró), cortar
+  setInterval(function(){
+    try{
+      var s = window.speechSynthesis;
+      if(!s || (!s.speaking && !s.pending)) return;
+      // Si hay un botón con "Detener" pero la nota padre está cerrada, cortar
+      var activo = document.querySelector('button[data-activo="1"]');
+      if(activo){
+        var padre = activo.closest('details');
+        if(padre && !padre.open){
+          matarVoz();
+        }
+      }
+    }catch(e){}
+  }, 400);
+
+  window.addEventListener('beforeunload', matarVoz);
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden) matarVoz();
+  });
+
+})();
+</script>
+        </body>
 </html>
