@@ -8608,5 +8608,65 @@ h2.tit .tit-palabra {
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._cortaVozUniversalOK) return;
+  window._cortaVozUniversalOK = 1;
+
+  function apagarBotones(){
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.textContent || '';
+      if(t.indexOf('Detener lectura') > -1){
+        b.innerHTML = '🔊 Escuchar en voz alta';
+      }
+    });
+  }
+
+  function cortarTodo(){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    setTimeout(function(){ try{ window.speechSynthesis.cancel(); }catch(e){} }, 50);
+    setTimeout(function(){ try{ window.speechSynthesis.cancel(); }catch(e){} }, 200);
+    apagarBotones();
+  }
+
+  // Cortar al cambiar de sección
+  document.querySelectorAll('input[name="sec"]').forEach(function(r){
+    if(r.dataset.cortaUniv === '1') return;
+    r.dataset.cortaUniv = '1';
+    r.addEventListener('change', cortarTodo);
+  });
+
+  // Cortar al abrir o cerrar cualquier nota
+  document.querySelectorAll('details').forEach(function(d){
+    if(d.dataset.cortaUniv === '1') return;
+    d.dataset.cortaUniv = '1';
+    d.addEventListener('toggle', cortarTodo);
+  });
+
+  // Detectar elementos nuevos (por si aparece una nota nueva después)
+  if(document.body){
+    var obs = new MutationObserver(function(){
+      document.querySelectorAll('input[name="sec"]').forEach(function(r){
+        if(r.dataset.cortaUniv === '1') return;
+        r.dataset.cortaUniv = '1';
+        r.addEventListener('change', cortarTodo);
+      });
+      document.querySelectorAll('details').forEach(function(d){
+        if(d.dataset.cortaUniv === '1') return;
+        d.dataset.cortaUniv = '1';
+        d.addEventListener('toggle', cortarTodo);
+      });
+    });
+    obs.observe(document.body, {childList: true, subtree: true});
+  }
+
+  // Cortar al salir del diario
+  window.addEventListener('beforeunload', cortarTodo);
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden) cortarTodo();
+  });
+
+})();
+</script>
 </body>
 </html>
