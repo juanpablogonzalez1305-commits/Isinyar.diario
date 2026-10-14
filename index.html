@@ -8967,5 +8967,43 @@ h2.tit .tit-palabra {
 
 })();
  </script>
+<script>
+(function(){
+  if(window._mataMusicaFondoOK) return;
+  window._mataMusicaFondoOK = 1;
+
+  var s = window.speechSynthesis;
+  if(!s) return;
+
+  // Envolver speak: cuando arranca la voz, cortar cualquier audio de fondo
+  var speakOriginal = s.speak.bind(s);
+  s.speak = function(utterance){
+    // Cortar CUALQUIER audio HTML que esté sonando (los de fondo, no la voz)
+    document.querySelectorAll('audio').forEach(function(a){
+      try{
+        if(!a.paused){
+          a.pause();
+          a.volume = 0;
+        }
+      }catch(e){}
+    });
+    return speakOriginal(utterance);
+  };
+
+  // Y cada 500ms: si la voz está hablando, silenciar cualquier audio
+  setInterval(function(){
+    try{
+      if(s.speaking || s.pending){
+        document.querySelectorAll('audio').forEach(function(a){
+          if(!a.paused && a.volume > 0.01){
+            try{ a.pause(); a.volume = 0; }catch(e){}
+          }
+        });
+      }
+    }catch(e){}
+  }, 500);
+
+})();
+</script>
 </body>
 </html>
