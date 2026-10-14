@@ -8309,5 +8309,71 @@ details > summary::after {
   var t = setInterval(function(){ n++; crear(); if(n > 40) clearInterval(t); }, 500);
 })();
 </script>        
+<style>
+/* ============ BOTONES GRANDES DE LA PORTADA ============ */
+
+/* Caja del botón: fondo oscuro + marco dorado grueso */
+.keys .key .cara {
+  background: linear-gradient(160deg, #241c12, #15110d) !important;
+  border: 3px solid #c9a243 !important;
+  border-radius: 26px !important;
+  box-shadow:
+    0 0 0 1px rgba(255,240,190,.5) inset,
+    0 0 0 4px #15110d inset,
+    0 0 0 5px #8a6a1a inset,
+    0 8px 0 0 #8a6a1a,
+    0 22px 34px -12px rgba(0,0,0,.75),
+    0 0 18px rgba(217,176,76,.55) !important;
+  padding: 1.6rem 1.3rem !important;
+}
+
+/* Título del botón (Noticias, Historia, etc.): dorado */
+.keys .key .cara b {
+  color: #ffd87a !important;
+  text-shadow:
+    1px 0 0 #8a6a1a, -1px 0 0 #8a6a1a,
+    0 1px 0 #8a6a1a, 0 -1px 0 #8a6a1a,
+    0 0 10px rgba(217,176,76,.8) !important;
+  font-weight: 900 !important;
+}
+
+/* Descripción debajo del título: dorado suave */
+.keys .key .cara small {
+  color: #e8c26a !important;
+  text-shadow: 0 0 6px rgba(217,176,76,.5) !important;
+  opacity: .95 !important;
+}
+
+/* Ícono redondeado adentro: fondo oscuro + borde dorado brillante */
+.keys .key .cara .chip {
+  background: linear-gradient(145deg, #3a2a18, #15110d) !important;
+  border: 2px solid #c9a243 !important;
+  box-shadow:
+    0 0 0 1px rgba(255,240,190,.4) inset,
+    0 0 14px rgba(217,176,76,.65),
+    inset 0 2px 4px rgba(0,0,0,.7) !important;
+  color: #ffd87a !important;
+}
+
+/* El SVG del ícono adentro: dorado */
+.keys .key .cara .chip svg {
+  stroke: #ffd87a !important;
+  filter: drop-shadow(0 0 4px rgba(217,176,76,.9)) !important;
+}
+
+/* ============ ONDAS DORADAS MÁS BRILLANTES ============ */
+.keys .chip::before,
+.keys .chip::after {
+  border: 3px solid #ffd87a !important;
+  box-shadow: 0 0 12px rgba(217,176,76,.9) !important;
+  border-radius: 22px !important;
+}
+
+/* Reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .keys .chip::before,
+  .keys .chip::after { animation: none !important; }
+}
+</style>
 </body>
 </html>
