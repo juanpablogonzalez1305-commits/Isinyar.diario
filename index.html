@@ -8783,5 +8783,98 @@ h2.tit .tit-palabra {
 
 })();
 </script>
-        </body>
+      <script>
+(function(){
+  if(window._guardiaVozOK) return;
+  window._guardiaVozOK = 1;
+
+  var s = window.speechSynthesis;
+  if(!s) return;
+
+  var ultimoContexto = null;
+
+  // ==== 1. Envolver speak para recordar el "contexto" cuando arranca a leer ====
+  var speakOriginal = s.speak.bind(s);
+  s.speak = function(utterance){
+    // Guardar el contexto actual: sección + nota abierta
+    var secActiva = '';
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.checked) secActiva = r.id;
+    });
+    var notasAbiertas = [];
+    document.querySelectorAll('details[open]').forEach(function(d){
+      notasAbiertas.push(d);
+    });
+    // Contexto = combinación de sección + cantidad de notas abiertas + la primera nota
+    var primeraNota = notasAbiertas[0] || null;
+    ultimoContexto = {
+      sec: secActiva,
+      nota: primeraNota,
+      countNotas: notasAbiertas.length,
+      ts: Date.now()
+    };
+    return speakOriginal(utterance);
+  };
+
+  // ==== 2. Cada 250 ms revisar si el contexto cambió → cortar ====
+  function revisar(){
+    if(!ultimoContexto) return;
+    if(!s.speaking && !s.pending) return;
+
+    var secActual = '';
+    document.querySelectorAll('input[name="sec"]').forEach(function(r){
+      if(r.checked) secActual = r.id;
+    });
+    var notasAbiertas = document.querySelectorAll('details[open]');
+    var primeraNota = notasAbiertas[0] || null;
+
+    // Cambio de sección
+    if(secActual !== ultimoContexto.sec){
+      matar();
+      return;
+    }
+    // Cambio de nota abierta (se abrió otra nota distinta)
+    if(primeraNota !== ultimoContexto.nota){
+      matar();
+      return;
+    }
+    // Cambio en cantidad de notas abiertas
+    if(notasAbiertas.length !== ultimoContexto.countNotas){
+      matar();
+      return;
+    }
+  }
+
+  function matar(){
+    try{ s.cancel(); }catch(e){}
+    setTimeout(function(){ try{ s.cancel(); }catch(e){} }, 100);
+    ultimoContexto = null;
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = b.textContent || '';
+      if(t.indexOf('Detener lectura') > -1){
+        b.innerHTML = '🔊 Escuchar en voz alta';
+      }
+    });
+  }
+
+  setInterval(revisar, 250);
+
+  // También cortar al clickear cualquier cosa que NO sea un botón de voz
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var btn = t.closest ? t.closest('button, a, summary, label') : null;
+    if(!btn) return;
+    var txt = (btn.textContent || '').trim();
+    if(txt.indexOf('Escuchar en voz alta') === -1 &&
+       txt.indexOf('Detener lectura') === -1){
+      if(s.speaking || s.pending){
+        matar();
+      }
+    }
+  }, true);
+
+})();
+      </script>  
+  </body>
 </html>
