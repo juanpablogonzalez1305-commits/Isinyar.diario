@@ -8184,9 +8184,7 @@ details > summary::after {
 })();
 </script>
 <style>
-/* Brillo dorado potente en el título DESCUBRIR */
 .masthead h1 {
-  position: relative;
   text-shadow:
     2px 0 0 #c9a243,
     -2px 0 0 #c9a243,
@@ -8201,59 +8199,60 @@ details > summary::after {
     2px -2px 0 #8a6a1a,
     -2px 2px 0 #8a6a1a,
     0 0 12px rgba(217,176,76,.9),
-    0 0 24px rgba(217,176,76,.7),
-    0 0 40px rgba(217,176,76,.5) !important;
-}
-
-/* Destellos tipo sol en las 4 esquinas del título */
-.masthead {
+    0 0 24px rgba(217,176,76,.7) !important;
   position: relative;
 }
-.masthead::before,
-.masthead::after,
-.masthead h1::before,
-.masthead h1::after {
-  content: '';
+/* Todos los destellos ADENTRO del título */
+.masthead h1 .dest {
   position: absolute;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  pointer-events: none;
   background: radial-gradient(circle,
     rgba(255,255,255,1) 0%,
-    rgba(255,240,190,.9) 25%,
-    rgba(217,176,76,.5) 55%,
-    rgba(217,176,76,0) 75%);
-  pointer-events: none;
-  animation: destelloSol 2.4s ease-in-out infinite;
+    rgba(255,240,190,.9) 30%,
+    rgba(217,176,76,.5) 60%,
+    rgba(217,176,76,0) 80%);
+  animation: dest 2.4s ease-in-out infinite;
   z-index: 5;
 }
-
-/* Posiciones */
-.masthead h1::before { top: 0; left: 5%; }
-.masthead h1::after { top: 0; right: 5%; }
-.masthead::before { bottom: 15%; left: 12%; }
-.masthead::after { bottom: 15%; right: 12%; }
-
-/* Desfase para que titilen uno tras otro */
-.masthead h1::before { animation-delay: 0s; }
-.masthead h1::after { animation-delay: .6s; }
-.masthead::before { animation-delay: 1.2s; }
-.masthead::after { animation-delay: 1.8s; }
-
-@keyframes destelloSol {
+/* Posiciones internas del título (dentro de las letras) */
+.masthead h1 .dest.d1 { top: 20%; left: 14%; animation-delay: 0s; }
+.masthead h1 .dest.d2 { top: 20%; right: 14%; animation-delay: .6s; }
+.masthead h1 .dest.d3 { bottom: 20%; left: 14%; animation-delay: 1.2s; }
+.masthead h1 .dest.d4 { bottom: 20%; right: 14%; animation-delay: 1.8s; }
+@keyframes dest {
   0%, 100% { opacity: 0; transform: scale(.4); }
   50%      { opacity: 1; transform: scale(1); }
 }
-
-/* Respetar "reducir movimiento" */
 @media (prefers-reduced-motion: reduce) {
-  .masthead::before,
-  .masthead::after,
-  .masthead h1::before,
-  .masthead h1::after {
-    animation: none !important;
-    opacity: .6;
-  }
+  .masthead h1 .dest { animation: none !important; opacity: .6; }
 }
 </style>
+<script>
+(function(){
+  if(window._destellosTituloOK) return;
+  window._destellosTituloOK = 1;
+
+  function crear(){
+    var h1 = document.querySelector('.masthead h1');
+    if(!h1) return;
+    if(h1.querySelector('.dest')) return;
+    for(var i = 1; i <= 4; i++){
+      var s = document.createElement('span');
+      s.className = 'dest d' + i;
+      h1.appendChild(s);
+    }
+  }
+  crear();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    crear();
+    if(n > 40) clearInterval(t);
+  }, 500);
+})();
+</script>
           </body>
 </html>
