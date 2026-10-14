@@ -8444,5 +8444,55 @@ h2.tit .tit-palabra {
   [id$="-yt-wrap"] { transition: none !important; }
 }
  </style>
-  </body>
+ <style>
+/* ============ PESTAÑAS DE HISTORIA Y CULTURA AL ESTILO DEL DIARIO ============ */
+
+.his-tabs label {
+  /* Forma menos redonda, más cuadrada */
+  border-radius: 14px !important;
+  /* Fondo crema con relieve */
+  background: linear-gradient(145deg, #fbf3dc, #e6cd96) !important;
+  /* Borde doble dorado oscuro */
+  border: 2px solid #6e5327 !important;
+  /* Texto en Fraunces serif oscuro */
+  font-family: "Fraunces", serif !important;
+  font-style: italic !important;
+  font-weight: 800 !important;
+  color: #5a3d10 !important;
+  /* Sombra 3D como los otros botones del diario */
+  box-shadow:
+    0 0 0 1px rgba(46,32,12,.35),
+    0 5px 0 0 #b08c46,
+    inset 0 1px 0 rgba(255,255,255,.85),
+    inset 0 -3px 6px rgba(122,90,20,.25) !important;
+  padding: .65rem .5rem !important;
+  font-size: .95rem !important;
+  letter-spacing: .01em !important;
+  transition: transform .09s, box-shadow .09s !important;
+}
+
+/* Al presionar, se hunde igual que los otros */
+.his-tabs label:active {
+  transform: translateY(4px) !important;
+  box-shadow:
+    0 0 0 1px rgba(46,32,12,.35),
+    0 1px 0 0 #b08c46,
+    inset 0 3px 8px rgba(122,90,20,.4) !important;
+}
+
+/* La pestaña ACTIVA: fondo dorado oscuro, texto claro */
+#his-l:checked~.his-tabs label[for="his-l"],
+#his-h:checked~.his-tabs label[for="his-h"],
+#his-c:checked~.his-tabs label[for="his-c"] {
+  background: linear-gradient(145deg, #8a6a35, #6d5226) !important;
+  color: #fbf3dc !important;
+  border-color: #4c3a17 !important;
+  box-shadow:
+    0 0 0 1px rgba(46,32,12,.5),
+    0 5px 0 0 #3a2c10,
+    inset 0 1px 0 rgba(255,240,190,.4),
+    inset 0 -3px 6px rgba(0,0,0,.35) !important;
+}
+ </style>
+</body>
 </html>
