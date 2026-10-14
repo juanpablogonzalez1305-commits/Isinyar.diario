@@ -9005,5 +9005,50 @@ h2.tit .tit-palabra {
 
 })();
 </script>
+<style>
+/* Ocultar el botón de homenaje viejo (ya no se usa) */
+#rj-musica-wrap,
+#rj-musica-btn,
+#rj-btn,
+#rj-audio {
+  display: none !important;
+}
+/* Ocultar cualquier botón que diga "Pausar el homenaje" */
+a[data-viejo="1"] { display: none !important; }
+</style>
+<script>
+(function(){
+  if(window._quitarHomenajeOK) return;
+  window._quitarHomenajeOK = 1;
+
+  function quitar(){
+    // Eliminar el contenedor del botón viejo
+    var ids = ['rj-musica-wrap', 'rj-musica-btn', 'rj-btn', 'rj-audio'];
+    ids.forEach(function(id){
+      document.querySelectorAll('[id="' + id + '"]').forEach(function(el){ el.remove(); });
+    });
+
+    // Eliminar botones sueltos que digan "Pausar el homenaje" o "Homenaje a René"
+    document.querySelectorAll('button, a').forEach(function(b){
+      var t = (b.textContent || '').trim();
+      if(t.indexOf('Pausar el homenaje') > -1 ||
+         t.indexOf('Homenaje a René Juárez') > -1){
+        // Solo si no es un botón del carrusel de flyers
+        if(!b.closest('#cartel-destacado')){
+          b.remove();
+        }
+      }
+    });
+  }
+
+  quitar();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    quitar();
+    if(n > 120) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
