@@ -8183,5 +8183,77 @@ details > summary::after {
 
 })();
 </script>
-</body>
+<style>
+/* Brillo dorado potente en el título DESCUBRIR */
+.masthead h1 {
+  position: relative;
+  text-shadow:
+    2px 0 0 #c9a243,
+    -2px 0 0 #c9a243,
+    0 2px 0 #c9a243,
+    0 -2px 0 #c9a243,
+    1px 1px 0 #c9a243,
+    -1px -1px 0 #c9a243,
+    1px -1px 0 #c9a243,
+    -1px 1px 0 #c9a243,
+    2px 2px 0 #8a6a1a,
+    -2px -2px 0 #8a6a1a,
+    2px -2px 0 #8a6a1a,
+    -2px 2px 0 #8a6a1a,
+    0 0 12px rgba(217,176,76,.9),
+    0 0 24px rgba(217,176,76,.7),
+    0 0 40px rgba(217,176,76,.5) !important;
+}
+
+/* Destellos tipo sol en las 4 esquinas del título */
+.masthead {
+  position: relative;
+}
+.masthead::before,
+.masthead::after,
+.masthead h1::before,
+.masthead h1::after {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background: radial-gradient(circle,
+    rgba(255,255,255,1) 0%,
+    rgba(255,240,190,.9) 25%,
+    rgba(217,176,76,.5) 55%,
+    rgba(217,176,76,0) 75%);
+  pointer-events: none;
+  animation: destelloSol 2.4s ease-in-out infinite;
+  z-index: 5;
+}
+
+/* Posiciones */
+.masthead h1::before { top: 0; left: 5%; }
+.masthead h1::after { top: 0; right: 5%; }
+.masthead::before { bottom: 15%; left: 12%; }
+.masthead::after { bottom: 15%; right: 12%; }
+
+/* Desfase para que titilen uno tras otro */
+.masthead h1::before { animation-delay: 0s; }
+.masthead h1::after { animation-delay: .6s; }
+.masthead::before { animation-delay: 1.2s; }
+.masthead::after { animation-delay: 1.8s; }
+
+@keyframes destelloSol {
+  0%, 100% { opacity: 0; transform: scale(.4); }
+  50%      { opacity: 1; transform: scale(1); }
+}
+
+/* Respetar "reducir movimiento" */
+@media (prefers-reduced-motion: reduce) {
+  .masthead::before,
+  .masthead::after,
+  .masthead h1::before,
+  .masthead h1::after {
+    animation: none !important;
+    opacity: .6;
+  }
+}
+</style>
+          </body>
 </html>
