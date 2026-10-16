@@ -10229,5 +10229,27 @@ if(true) return;
   setInterval(ajustarBoton, 300);
 })();
  </script>
+ <style>
+/* Sacar el parpadeo del botón: arranca oculto hasta que el script lo decide */
+#cartel-ver { visibility: hidden; }
+#cartel-ver.mostrar-ver { visibility: visible !important; }
+</style>
+<script>
+(function(){
+  if(window._antiParpadeoOK) return;
+  window._antiParpadeoOK = 1;
+
+  function arreglar(){
+    var btn = document.getElementById('cartel-ver');
+    if(!btn) return;
+    if(btn.style.display === 'block'){
+      btn.classList.add('mostrar-ver');
+    } else {
+      btn.classList.remove('mostrar-ver');
+    }
+  }
+  setInterval(arreglar, 150);
+})();
+</script>
   </body>
 </html>
