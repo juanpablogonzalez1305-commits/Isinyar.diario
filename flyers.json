@@ -1,6 +1,7 @@
 {
   "mostrar": [
     "artaza",
+    "ecologica",
     "guia",
     "feriaesp"
   ],
@@ -10,7 +11,7 @@
     "tango": {
       "img": "https://files.catbox.moe/62vlkj.png",
       "tieneVer": true,
-      "textoVer": "ð­ Ver la nota completa",
+      "textoVer": "Ã°ÂÂÂ­ Ver la nota completa",
       "destino": "cultura-viva",
       "segundos": 8
     },
@@ -22,14 +23,14 @@
     "auvieux": {
       "img": "https://files.catbox.moe/vfnxib.png",
       "tieneVer": true,
-      "textoVer": "ð° Ver la nota en la Hemeroteca",
+      "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
       "segundos": 10
     },
     "padres": {
       "img": "https://files.catbox.moe/tz6wq6.png",
       "tieneVer": true,
-      "textoVer": "ð° Ver la nota en la Hemeroteca",
+      "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
       "segundos": 15
     },
@@ -41,14 +42,14 @@
     "artaza": {
       "img": "https://files.catbox.moe/a68tq3.jpg",
       "tieneVer": true,
-      "textoVer": "ð° Ver la nota en la Hemeroteca",
+      "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
       "segundos": 10
     },
     "lealtad": {
       "img": "https://files.catbox.moe/qtfoyi.jpg",
       "tieneVer": true,
-      "textoVer": "ð° Ver las noticias",
+      "textoVer": "Ã°ÂÂÂ° Ver las noticias",
       "destino": "noticias",
       "segundos": 10
     },
@@ -60,7 +61,7 @@
     "guia": {
       "img": "https://files.catbox.moe/2sq36j.jpg",
       "tieneVer": true,
-      "textoVer": "ð Ver la guÃ­a",
+      "textoVer": "Ã°ÂÂÂ Ver la guÃÂ­a",
       "destino": "guia",
       "segundos": 10
     },
