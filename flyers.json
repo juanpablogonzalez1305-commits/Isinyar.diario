@@ -1,0 +1,17 @@
+{
+  "mostrar": ["artaza", "ecologica", "guia", "feriaesp"],
+  "inicio": "2026-10-16T00:00:00",
+  "duracion_horas": 24,
+  "flyers": {
+    "tango": { "img": "https://files.catbox.moe/62vlkj.png", "tieneVer": true, "textoVer": "🎭 Ver la nota completa", "destino": "cultura-viva", "segundos": 8 },
+    "feria": { "img": "https://files.catbox.moe/s6g3yw.png", "tieneVer": false, "segundos": 8 },
+    "auvieux": { "img": "https://files.catbox.moe/vfnxib.png", "tieneVer": true, "textoVer": "📰 Ver la nota en la Hemeroteca", "destino": "hemeroteca", "segundos": 10 },
+    "padres": { "img": "https://files.catbox.moe/tz6wq6.png", "tieneVer": true, "textoVer": "📰 Ver la nota en la Hemeroteca", "destino": "hemeroteca", "segundos": 15 },
+    "residuos": { "img": "https://files.catbox.moe/q0uu1x.png", "tieneVer": false, "segundos": 8 },
+    "artaza": { "img": "https://files.catbox.moe/a68tq3.jpg", "tieneVer": true, "textoVer": "📰 Ver la nota en la Hemeroteca", "destino": "hemeroteca", "segundos": 10 },
+    "lealtad": { "img": "https://files.catbox.moe/qtfoyi.jpg", "tieneVer": true, "textoVer": "📰 Ver las noticias", "destino": "noticias", "segundos": 10 },
+    "ecologica": { "img": "https://files.catbox.moe/btobdv.jpg", "tieneVer": false, "segundos": 8 },
+    "guia": { "img": "https://files.catbox.moe/2sq36j.jpg", "tieneVer": true, "textoVer": "📚 Ver la guía", "destino": "guia", "segundos": 10 },
+    "feriaesp": { "img": "https://files.catbox.moe/05uf5l.png", "tieneVer": false, "segundos": 10 }
+  }
+}
