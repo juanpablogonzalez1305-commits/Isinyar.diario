@@ -69,6 +69,13 @@
       "img": "https://files.catbox.moe/05uf5l.png",
       "tieneVer": false,
       "segundos": 10
+    },
+    "ferianota": {
+      "img": "https://files.catbox.moe/05uf5l.png",
+      "tieneVer": true,
+      "segundos": 10,
+      "textoVer": "📰 Ver la nota",
+      "destino": "noticias"
     }
   }
 }
