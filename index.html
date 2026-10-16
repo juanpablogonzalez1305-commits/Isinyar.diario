@@ -9658,5 +9658,52 @@ a[data-viejo="1"] { display: none !important; }
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._borrarVideosViejosOK) return;
+  window._borrarVideosViejosOK = 1;
+
+  function borrar(){
+    var d = document.getElementById('nota-promo-portada');
+    if(!d) return;
+
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    // 1. Eliminar TODOS los video element dentro del botón
+    cue.querySelectorAll('video').forEach(function(v){ v.remove(); });
+
+    // 2. Eliminar sus contenedores (divs con marco dorado que quedaron vacíos)
+    cue.querySelectorAll('div').forEach(function(div){
+      if(div.querySelector('video')) return;
+      if(div.querySelector('iframe')) return;
+      // Si el div solo tenía un video y ahora está vacío, lo saco
+      var txt = (div.textContent || '').trim();
+      if(txt === '' && div.style.border && div.style.border.indexOf('c9a243') > -1){
+        div.remove();
+      }
+    });
+
+    // 3. También borrar cualquier <source> suelto con los links viejos
+    cue.querySelectorAll('source').forEach(function(s){
+      var src = s.src || '';
+      if(src.indexOf('qqohuw') > -1 || src.indexOf('2hivp8') > -1){
+        s.remove();
+      }
+    });
+
+    // Marcar como limpio
+    d.dataset.videosViejosBorrados = '1';
+  }
+
+  borrar();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    borrar();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+      </script>
 </body>
 </html>
