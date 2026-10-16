@@ -10419,5 +10419,82 @@ if(true) return;
 
 })();
 </script>
+<script>
+(function(){
+  if(window._notaEmprendedoresOK) return;
+  window._notaEmprendedoresOK = 1;
+
+  function poner(){
+    var sec = document.getElementById('noticias');
+    if(!sec){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-emprendedores')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-emprendedores';
+
+    var H = '';
+    H += '<summary class="rel deep">Emprendedores de Lules: el trabajo silencioso que impulsa a los sueños locales<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<p class="meta">Octubre de 2026 · San Isidro de Lules.</p>';
+    H += '<img src="https://files.catbox.moe/pfrox5.jpg" alt="Escudo del Departamento de Emprendedores de Lules" style="width:100%;max-width:340px;margin:.5rem auto .8rem;display:block;border:2px solid #8a6a35;border-radius:14px;box-shadow:0 4px 0 #d6cab0">';
+    H += '<p>Detrás de cada emprendimiento hay una historia, un sueño que empezó en la cocina de una casa, en un taller improvisado o en una idea que parecía imposible. Y en Lules, esas historias son cada vez más.</p>';
+    H += '<p>El <b>Departamento de Emprendedores</b> de la Municipalidad de San Isidro de Lules viene acompañando ese camino con un trabajo silencioso pero constante: capacitaciones, ferias, asesoramiento y un espacio donde cada vecino que quiere producir y crecer tiene un lugar para mostrar lo que hace.</p>';
+    H += '<p>El objetivo es claro: <b>dar visibilidad a los emprendedores locales</b>, que su esfuerzo se conozca, que su producto se valore y que su trabajo se sostenga en el tiempo. Porque el desarrollo de una ciudad también se mide por la cantidad de vecinos que se animan a emprender y encuentran apoyo para hacerlo.</p>';
+    H += '<p>Esta iniciativa forma parte del compromiso de la gestión de la intendenta <b>Marta Albarracín</b>, que apuesta al potencial de la gente de Lules como motor de crecimiento y de identidad.</p>';
+    H += '<p style="text-align:center;font-family:Fraunces,serif;font-style:italic;font-weight:700;color:#8a6a1a;margin-top:1rem">Cada emprendedor que crece es un Lules que crece.</p>';
+    H += '<button type="button" class="btn-voz-emprendedores" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+
+    var primero = sec.querySelector('details');
+    if(primero && primero.parentNode === sec){
+      sec.insertBefore(d, primero);
+    } else {
+      sec.appendChild(d);
+    }
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-emprendedores');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._emprenLeyendo){ s.cancel(); window._emprenLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        d.querySelectorAll('.cuerpo-in p').forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._emprenLeyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._emprenLeyendo) return;
+          if(idx >= bloques.length){ window._emprenLeyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){ n++; poner(); if(n > 60) clearInterval(t); }, 500);
+})();
+</script>
 </body>
 </html>
