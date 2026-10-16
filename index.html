@@ -9198,5 +9198,41 @@ a[data-viejo="1"] { display: none !important; }
   }, 500);
 })();
  </script>
+<script>
+(function(){
+  if(window._fixTitulo17OK) return;
+  window._fixTitulo17OK = 1;
+
+  // 1. Cambiar el título de la nota del 17 de octubre
+  function arreglarTitulo(){
+    document.querySelectorAll('details').forEach(function(d){
+      var s = d.querySelector('summary');
+      if(!s) return;
+      var t = (s.textContent || '');
+      if(t.indexOf('Almirante Brown') > -1 && t.indexOf('17') > -1){
+        s.innerHTML = '¡Lules epicentro provincial de la Lealtad Peronista! El acto del 17 de Octubre será en el Hipódromo de Tucumán<span class="chev">▼</span>';
+      }
+    });
+  }
+
+  // 2. Sacar el flyer del 17 de octubre del carrusel (sacarlo de MOSTRAR)
+  function quitarFlyerLealtad(){
+    // Ocultar cualquier <img> del carrusel que sea del flyer de lealtad
+    document.querySelectorAll('#cartel-flyer').forEach(function(img){
+      if(img.src && img.src.indexOf('qtfoyi') > -1){
+        // No hay mucho que hacer acá desde el script del carrusel, mejor cambiar el HTML
+      }
+    });
+  }
+
+  arreglarTitulo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    arreglarTitulo();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
