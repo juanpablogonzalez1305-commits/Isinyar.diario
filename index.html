@@ -10251,5 +10251,86 @@ if(true) return;
   setInterval(arreglar, 150);
 })();
 </script>
-  </body>
+  <script>
+(function(){
+  if(window._btnSupremoOK) return;
+  window._btnSupremoOK = 1;
+
+  // Mapa: qué imagen → qué botón y a dónde lleva
+  var MAPA = {
+    'a68tq3': { texto: '📰 Ver la nota en la Hemeroteca', destino: 'hemeroteca' },
+    'qtfoyi': { texto: '📰 Ver las noticias',           destino: 'noticias' },
+    '2sq36j': { texto: '📚 Ver la guía',                destino: 'guia' },
+    '62vlkj': { texto: '🎭 Ver la nota completa',       destino: 'cultura-viva' },
+    'vfnxib': { texto: '📰 Ver la nota en la Hemeroteca', destino: 'hemeroteca' },
+    'tz6wq6': { texto: '📰 Ver la nota en la Hemeroteca', destino: 'hemeroteca' },
+    '05uf5l': { texto: '📰 Ver la nota',                destino: 'noticias' }
+  };
+
+  function forzar(){
+    var img = document.getElementById('cartel-flyer');
+    var btn = document.getElementById('cartel-ver');
+    if(!img || !btn) return;
+
+    var src = img.src || '';
+    var encontrado = null;
+    for(var k in MAPA){
+      if(src.indexOf(k) > -1){ encontrado = MAPA[k]; break; }
+    }
+
+    if(encontrado){
+      btn.style.setProperty('display', 'block', 'important');
+      btn.style.setProperty('visibility', 'visible', 'important');
+      if(btn.innerHTML !== encontrado.texto) btn.innerHTML = encontrado.texto;
+      btn.dataset.destino = encontrado.destino;
+    } else {
+      btn.style.setProperty('display', 'none', 'important');
+    }
+  }
+
+  forzar();
+  setInterval(forzar, 100);
+
+  // Click en el botón "Ver nota"
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var b = t.closest ? t.closest('#cartel-ver') : null;
+    if(!b) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    var dest = b.dataset.destino;
+    if(!dest) return;
+
+    var overlay = document.getElementById('cartel-destacado');
+    if(overlay) overlay.classList.remove('visible');
+
+    if(dest === 'noticias'){
+      var r = document.getElementById('s-noticias');
+      if(r){ r.checked = true; r.dispatchEvent(new Event('change', {bubbles:true})); }
+      setTimeout(function(){ window.scrollTo(0,0); }, 250);
+      return;
+    }
+    if(dest === 'guia'){
+      var g = document.getElementById('s-guia');
+      if(g){ g.checked = true; g.dispatchEvent(new Event('change', {bubbles:true})); }
+      setTimeout(function(){ window.scrollTo(0,0); }, 250);
+      return;
+    }
+    var h = document.getElementById('s-historia');
+    if(h){ h.checked = true; h.dispatchEvent(new Event('change', {bubbles:true})); }
+    setTimeout(function(){
+      var labels = document.querySelectorAll('label');
+      for(var i = 0; i < labels.length; i++){
+        var txt = (labels[i].textContent || '').toUpperCase();
+        if(dest === 'hemeroteca' && txt.indexOf('HEMEROTECA') > -1){ labels[i].click(); break; }
+        if(dest === 'cultura-viva' && txt.indexOf('CULTURA VIVA') > -1){ labels[i].click(); break; }
+      }
+      window.scrollTo(0,0);
+    }, 250);
+  }, true);
+
+})();
+                   </script>
+</body>
 </html>
