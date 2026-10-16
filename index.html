@@ -9803,5 +9803,46 @@ a[data-viejo="1"] { display: none !important; }
   }, 500);
 })();
 </script>
-</body>
+<script>
+(function(){
+  // Mata los intervalos viejos que están reconstruyendo todo
+  try{
+    var idMasAlto = setInterval(function(){}, 999999);
+    for(var i = 1; i <= idMasAlto; i++){
+      clearInterval(i);
+      clearTimeout(i);
+    }
+  }catch(e){}
+
+  // Marca todos los flags viejos para que sus scripts no sigan corriendo
+  window._staffVideoOK = 1;
+  window._staffVideoFinalOK = 1;
+  window._borrarVideosViejosOK = 1;
+  window._staffRebuildOK = 1;
+  window._videoPromoOK = 1;
+
+  // Espera 1 segundo (para que los otros scripts mueran) y recién ahí construye
+  setTimeout(function(){
+    var d = document.getElementById('nota-promo-portada');
+    if(!d) return;
+
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    // Reconstruir una sola vez
+    var H = '';
+    H += '<p class="meta" style="font-family:Fraunces,serif;font-style:italic;color:#c9a243;font-size:.85rem;margin:0 0 .6rem">Conocé quiénes hacemos DESCUBRIR.</p>';
+    H += '<div style="margin:.6rem 0;border:3px solid #c9a243;border-radius:16px;overflow:hidden;box-shadow:0 6px 0 #8a6a1a,0 0 18px rgba(217,176,76,.5);background:#000">';
+    H += '<video controls playsinline preload="metadata" style="width:100%;display:block;background:#000">';
+    H += '<source src="https://files.catbox.moe/jkev21.mp4" type="video/mp4">';
+    H += 'Tu navegador no soporta la reproducción de video.';
+    H += '</video>';
+    H += '</div>';
+    H += '<p style="font-family:Fraunces,serif;font-style:italic;color:#e8c26a;font-size:.95rem;line-height:1.6">En <b>DESCUBRIR</b> encontrás las noticias de nuestra ciudad, la historia de Lules, el camino de la fe, la guía de servicios y toda la información útil para el día a día.</p>';
+
+    cue.innerHTML = H;
+  }, 1500);
+})();
+</script>
+            </body>
 </html>
