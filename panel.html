@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Flyers · DESCUBRIR</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f4efe6;color:#171310;padding:16px;padding-bottom:80px}
+h1{font-family:Georgia,serif;font-size:1.5rem;color:#8a6a1a;text-align:center;margin-bottom:6px}
+h2{font-size:1rem;margin:20px 0 10px;color:#8a6a1a;border-bottom:2px solid #c9a243;padding-bottom:4px}
+.sub{text-align:center;font-size:.85rem;color:#6b5a33;margin-bottom:20px;font-style:italic}
+.card{background:#fff;border:2px solid #c9a243;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 3px 0 #d6cab0}
+.card label{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.95rem}
+.card input[type=checkbox]{width:22px;height:22px;accent-color:#c9a243}
+.card .nombre{font-weight:800;flex:1}
+.card .info{font-size:.75rem;color:#6b5a33;display:block;margin-top:2px}
+.card .dest{font-size:.7rem;background:#f4efe6;color:#8a6a1a;padding:2px 6px;border-radius:6px;font-weight:700}
+.card .dest.no{background:#f0e5d0;color:#8a6a1a}
+input[type=datetime-local],input[type=number],input[type=password]{width:100%;padding:12px;border:2px solid #c9a243;border-radius:10px;font-size:1rem;background:#fffdf6;font-family:inherit}
+.row{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.row label{font-size:.85rem;font-weight:700;color:#6b5a33;width:120px;flex-shrink:0}
+.btn{display:block;width:100%;padding:16px;border:3px solid #6e5327;border-radius:14px;background:linear-gradient(180deg,#e8c26a,#a8781f);color:#241c12;font-weight:900;font-size:1.05rem;box-shadow:0 5px 0 #6e5327;cursor:pointer;font-family:inherit;margin-top:16px}
+.btn:active{transform:translateY(5px);box-shadow:0 0 0 #6e5327}
+.btn.sec{background:linear-gradient(180deg,#f4efe6,#e0d5be);font-size:.9rem;padding:12px}
+.estado{text-align:center;font-size:.9rem;margin-top:12px;font-weight:700;min-height:20px}
+.ok{color:#2a7a3a}
+.err{color:#b02a1a}
+.ayuda{font-size:.78rem;color:#6b5a33;line-height:1.5;background:#fff8e6;padding:10px;border-radius:8px;border-left:3px solid #c9a243;margin-top:8px}
+.oculto{display:none}
+</style>
+</head>
+<body>
+
+<h1>Panel de Flyers</h1>
+<p class="sub">DESCUBRIR · Lules</p>
+
+<div id="acceso">
+  <div class="card">
+    <h2 style="margin-top:0">🔐 Acceso</h2>
+    <p style="font-size:.85rem;margin-bottom:8px;color:#6b5a33">Pegá tu token de GitHub (se guarda solo en este celular):</p>
+    <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxx">
+    <button class="btn sec" onclick="guardarToken()">Guardar token</button>
+    <div class="ayuda">
+      <b>¿No tenés token todavía?</b><br>
+      Andá a <b>github.com/settings/tokens</b> → "Generate new token (classic)" → marcar solo <b>"repo"</b> → generar → copiar acá.
+    </div>
+  </div>
+</div>
+
+<div id="panel" class="oculto">
+  <h2>📺 Flyers disponibles</h2>
+  <div id="listaFlyers"></div>
+
+  <h2>⏱️ Duración</h2>
+  <div class="row">
+    <label>Desde:</label>
+    <input type="datetime-local" id="inicio">
+  </div>
+  <div class="row">
+    <label>Duración:</label>
+    <input type="number" id="horas" min="1" max="8760" value="24">
+  </div>
+  <p style="font-size:.75rem;color:#6b5a33;margin-top:-4px">horas totales (24 = 1 día, 48 = 2 días, 168 = 1 semana)</p>
+
+  <button class="btn" onclick="guardar()">💾 Guardar cambios</button>
+  <button class="btn sec" onclick="abrirDiario()">👁️ Ver el diario</button>
+  <div class="estado" id="estado"></div>
+
+  <button class="btn sec" style="margin-top:30px" onclick="borrarToken()">Cerrar sesión</button>
+</div>
+
+<script>
+var OWNER = 'juanpablogonzalez1305-commits';
+var REPO = 'Isinyar.diario';
+var ARCHIVO = 'flyers.json';
+var RUTA_DIARIO = 'https://juanpablogonzalez1305-commits.github.io/Isinyar.diario/';
+
+var CONFIG = null;
+var SHA = null;
+
+function getToken(){ return localStorage.getItem('gh_token') || ''; }
+function setEstado(msg, tipo){
+  var e = document.getElementById('estado');
+  e.textContent = msg;
+  e.className = 'estado ' + (tipo || '');
+}
+
+function guardarToken(){
+  var t = document.getElementById('token').value.trim();
+  if(!t){ setEstado('Pegá un token', 'err'); return; }
+  localStorage.setItem('gh_token', t);
+  cargarConfig();
+}
+function borrarToken(){
+  if(confirm('¿Borrar el token guardado?')){
+    localStorage.removeItem('gh_token');
+    location.reload();
+  }
+}
+
+function apiUrl(){ return 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + ARCHIVO; }
+
+function cargarConfig(){
+  var t = getToken();
+  if(!t){ document.getElementById('acceso').classList.remove('oculto'); document.getElementById('panel').classList.add('oculto'); return; }
+  setEstado('Cargando...');
+  fetch(apiUrl() + '?t=' + Date.now(), { headers: { 'Authorization': 'token ' + t } })
+    .then(function(r){ if(!r.ok) throw new Error('No autorizado'); return r.json(); })
+    .then(function(data){
+      SHA = data.sha;
+      var texto = atob(data.content.replace(/\n/g, ''));
+      CONFIG = JSON.parse(texto);
+      document.getElementById('acceso').classList.add('oculto');
+      document.getElementById('panel').classList.remove('oculto');
+      render();
+      setEstado('');
+    })
+    .catch(function(e){ setEstado('Error: ' + e.message, 'err'); });
+}
+
+function render(){
+  var cont = document.getElementById('listaFlyers');
+  cont.innerHTML = '';
+  var nombres = Object.keys(CONFIG.flyers);
+  nombres.forEach(function(n){
+    var f = CONFIG.flyers[n];
+    var activo = CONFIG.mostrar.indexOf(n) > -1;
+    var div = document.createElement('div');
+    div.className = 'card';
+    var dest = f.tieneVer ? (f.destino || '') : 'sin botón';
+    var destClase = f.tieneVer ? 'dest' : 'dest no';
+    div.innerHTML = '<label>' +
+      '<input type="checkbox" data-nombre="' + n + '"' + (activo ? ' checked' : '') + '>' +
+      '<span class="nombre">' + n + '<span class="info">' + f.segundos + ' seg · <span class="' + destClase + '">' + dest + '</span></span></span>' +
+      '</label>';
+    cont.appendChild(div);
+  });
+
+  if(CONFIG.inicio){
+    document.getElementById('inicio').value = CONFIG.inicio.substring(0, 16);
+  }
+  document.getElementById('horas').value = CONFIG.duracion_horas || 24;
+}
+
+function guardar(){
+  var t = getToken();
+  if(!t){ setEstado('Falta el token', 'err'); return; }
+
+  var mostrar = [];
+  document.querySelectorAll('#listaFlyers input[type=checkbox]').forEach(function(c){
+    if(c.checked) mostrar.push(c.getAttribute('data-nombre'));
+  });
+  if(!mostrar.length){ setEstado('Marcá al menos un flyer', 'err'); return; }
+
+  var inicio = document.getElementById('inicio').value;
+  var horas = parseInt(document.getElementById('horas').value, 10);
+  if(!inicio || !horas){ setEstado('Revisá fecha y horas', 'err'); return; }
+
+  CONFIG.mostrar = mostrar;
+  CONFIG.inicio = inicio.length === 16 ? inicio + ':00' : inicio;
+  CONFIG.duracion_horas = horas;
+
+  var nuevoContenido = JSON.stringify(CONFIG, null, 2);
+  var base64 = btoa(unescape(encodeURIComponent(nuevoContenido)));
+
+  setEstado('Guardando...');
+  fetch(apiUrl(), {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'token ' + t,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: 'Panel: actualizar flyers',
+      content: base64,
+      sha: SHA
+    })
+  })
+  .then(function(r){ if(!r.ok) throw new Error('No se pudo guardar'); return r.json(); })
+  .then(function(data){
+    SHA = data.content.sha;
+    setEstado('✅ Guardado. Esperá 2 minutos y recargá el diario.', 'ok');
+  })
+  .catch(function(e){ setEstado('Error: ' + e.message, 'err'); });
+}
+
+function abrirDiario(){ window.open(RUTA_DIARIO, '_blank'); }
+
+if(getToken()) cargarConfig();
+else document.getElementById('acceso').classList.remove('oculto');
+</script>
+</body>
+</html>
