@@ -17,7 +17,9 @@ h2{font-size:1rem;margin:20px 0 10px;color:#8a6a1a;border-bottom:2px solid #c9a2
 .card .info{font-size:.75rem;color:#6b5a33;display:block;margin-top:2px}
 .card .dest{font-size:.7rem;background:#f4efe6;color:#8a6a1a;padding:2px 6px;border-radius:6px;font-weight:700}
 .card .dest.no{background:#f0e5d0;color:#8a6a1a}
-input[type=datetime-local],input[type=number],input[type=password]{width:100%;padding:12px;border:2px solid #c9a243;border-radius:10px;font-size:1rem;background:#fffdf6;font-family:inherit}
+.card .acciones{display:flex;gap:6px;margin-left:auto}
+.card .acciones button{background:#f4efe6;border:1px solid #c9a243;border-radius:6px;padding:4px 8px;font-size:.75rem;cursor:pointer;color:#8a6a1a;font-weight:700}
+input[type=datetime-local],input[type=number],input[type=password],input[type=text],input[type=url],select{width:100%;padding:12px;border:2px solid #c9a243;border-radius:10px;font-size:1rem;background:#fffdf6;font-family:inherit}
 .row{display:flex;gap:10px;align-items:center;margin-bottom:10px}
 .row label{font-size:.85rem;font-weight:700;color:#6b5a33;width:120px;flex-shrink:0}
 .btn{display:block;width:100%;padding:16px;border:3px solid #6e5327;border-radius:14px;background:linear-gradient(180deg,#e8c26a,#a8781f);color:#241c12;font-weight:900;font-size:1.05rem;box-shadow:0 5px 0 #6e5327;cursor:pointer;font-family:inherit;margin-top:16px}
@@ -28,6 +30,10 @@ input[type=datetime-local],input[type=number],input[type=password]{width:100%;pa
 .err{color:#b02a1a}
 .ayuda{font-size:.78rem;color:#6b5a33;line-height:1.5;background:#fff8e6;padding:10px;border-radius:8px;border-left:3px solid #c9a243;margin-top:8px}
 .oculto{display:none}
+#modalAgregar{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;padding:16px;overflow:auto;display:none}
+#modalAgregar.visible{display:block}
+.modal-caja{background:#f4efe6;max-width:520px;margin:20px auto;padding:16px;border-radius:16px;border:3px solid #c9a243}
+.modal-caja h2{margin-top:0}
 </style>
 </head>
 <body>
@@ -38,7 +44,7 @@ input[type=datetime-local],input[type=number],input[type=password]{width:100%;pa
 <div id="acceso">
   <div class="card">
     <h2 style="margin-top:0">🔐 Acceso</h2>
-    <p style="font-size:.85rem;margin-bottom:8px;color:#6b5a33">Pegá tu token de GitHub (se guarda solo en este celular):</p>
+    <p style="font-size:.85rem;margin-bottom:8px;color:#6b5a33">Pegá tu token de GitHub:</p>
     <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxx">
     <button class="btn sec" onclick="guardarToken()">Guardar token</button>
     <div class="ayuda">
@@ -51,6 +57,7 @@ input[type=datetime-local],input[type=number],input[type=password]{width:100%;pa
 <div id="panel" class="oculto">
   <h2>📺 Flyers disponibles</h2>
   <div id="listaFlyers"></div>
+  <button class="btn sec" onclick="abrirModal()" style="margin-top:8px">➕ Agregar flyer nuevo</button>
 
   <h2>⏱️ Duración</h2>
   <div class="row">
@@ -70,6 +77,43 @@ input[type=datetime-local],input[type=number],input[type=password]{width:100%;pa
   <button class="btn sec" style="margin-top:30px" onclick="borrarToken()">Cerrar sesión</button>
 </div>
 
+<div id="modalAgregar">
+  <div class="modal-caja">
+    <h2>➕ Agregar flyer nuevo</h2>
+    <p style="font-size:.85rem;color:#6b5a33;margin-bottom:12px">Pegá los datos del flyer nuevo. Después tenés que subir la imagen a catbox y pegar el link acá.</p>
+
+    <label style="font-weight:700;font-size:.85rem">Nombre corto (sin espacios, minúscula):</label>
+    <input type="text" id="nNombre" placeholder="ejemplo: emprendedores">
+
+    <label style="font-weight:700;font-size:.85rem;display:block;margin-top:12px">Link de la imagen (catbox):</label>
+    <input type="url" id="nImg" placeholder="https://files.catbox.moe/xxxxx.jpg">
+
+    <label style="font-weight:700;font-size:.85rem;display:block;margin-top:12px">Duración en segundos:</label>
+    <input type="number" id="nSegundos" value="10" min="3" max="60">
+
+    <label style="font-weight:700;font-size:.85rem;display:block;margin-top:12px">¿Lleva botón?</label>
+    <select id="nTieneVer">
+      <option value="false">No, solo la imagen</option>
+      <option value="true">Sí, con botón</option>
+    </select>
+
+    <div id="botonOpciones" class="oculto" style="margin-top:12px">
+      <label style="font-weight:700;font-size:.85rem">Texto del botón:</label>
+      <input type="text" id="nTextoVer" value="📰 Ver la nota">
+
+      <label style="font-weight:700;font-size:.85rem;display:block;margin-top:12px">A dónde lleva:</label>
+      <select id="nDestino">
+        <option value="noticias">Noticias</option>
+        <option value="hemeroteca">Hemeroteca</option>
+        <option value="cultura-viva">Cultura Viva</option>
+        <option value="guia">Guía</option>
+      </select>
+    </div>
+
+    <button class="btn" onclick="guardarFlyerNuevo()">💾 Agregar flyer</button>
+    <button class="btn sec" onclick="cerrarModal()">Cancelar</button>
+  </div>
+</div>
 <script>
 var OWNER = 'juanpablogonzalez1305-commits';
 var REPO = 'Isinyar.diario';
@@ -82,13 +126,13 @@ var SHA = null;
 function getToken(){ return localStorage.getItem('gh_token') || ''; }
 function setEstado(msg, tipo){
   var e = document.getElementById('estado');
+  if(!e) return;
   e.textContent = msg;
   e.className = 'estado ' + (tipo || '');
 }
-
 function guardarToken(){
   var t = document.getElementById('token').value.trim();
-  if(!t){ setEstado('Pegá un token', 'err'); return; }
+  if(!t){ alert('Pegá un token'); return; }
   localStorage.setItem('gh_token', t);
   cargarConfig();
 }
@@ -98,7 +142,6 @@ function borrarToken(){
     location.reload();
   }
 }
-
 function apiUrl(){ return 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + ARCHIVO; }
 
 function cargarConfig(){
@@ -109,7 +152,7 @@ function cargarConfig(){
     .then(function(r){ if(!r.ok) throw new Error('No autorizado'); return r.json(); })
     .then(function(data){
       SHA = data.sha;
-      var texto = atob(data.content.replace(/\n/g, ''));
+      var texto = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
       CONFIG = JSON.parse(texto);
       document.getElementById('acceso').classList.add('oculto');
       document.getElementById('panel').classList.remove('oculto');
@@ -126,13 +169,14 @@ function render(){
   nombres.forEach(function(n){
     var f = CONFIG.flyers[n];
     var activo = CONFIG.mostrar.indexOf(n) > -1;
-    var div = document.createElement('div');
-    div.className = 'card';
     var dest = f.tieneVer ? (f.destino || '') : 'sin botón';
     var destClase = f.tieneVer ? 'dest' : 'dest no';
+    var div = document.createElement('div');
+    div.className = 'card';
     div.innerHTML = '<label>' +
       '<input type="checkbox" data-nombre="' + n + '"' + (activo ? ' checked' : '') + '>' +
-      '<span class="nombre">' + n + '<span class="info">' + f.segundos + ' seg · <span class="' + destClase + '">' + dest + '</span></span></span>' +
+      '<span class="nombre">' + n + '<span class="info">' + (f.segundos || 8) + ' seg · <span class="' + destClase + '">' + dest + '</span></span></span>' +
+      '<span class="acciones"><button type="button" onclick="borrarFlyer(\'' + n + '\')">🗑️</button></span>' +
       '</label>';
     cont.appendChild(div);
   });
@@ -167,20 +211,98 @@ function guardar(){
   setEstado('Guardando...');
   fetch(apiUrl(), {
     method: 'PUT',
-    headers: {
-      'Authorization': 'token ' + t,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: 'Panel: actualizar flyers',
-      content: base64,
-      sha: SHA
-    })
+    headers: { 'Authorization': 'token ' + t, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'Panel: actualizar flyers', content: base64, sha: SHA })
   })
   .then(function(r){ if(!r.ok) throw new Error('No se pudo guardar'); return r.json(); })
   .then(function(data){
     SHA = data.content.sha;
     setEstado('✅ Guardado. Esperá 2 minutos y recargá el diario.', 'ok');
+  })
+  .catch(function(e){ setEstado('Error: ' + e.message, 'err'); });
+}
+
+function abrirModal(){
+  document.getElementById('modalAgregar').classList.add('visible');
+  document.getElementById('nNombre').value = '';
+  document.getElementById('nImg').value = '';
+  document.getElementById('nSegundos').value = 10;
+  document.getElementById('nTieneVer').value = 'false';
+  document.getElementById('botonOpciones').classList.add('oculto');
+}
+function cerrarModal(){
+  document.getElementById('modalAgregar').classList.remove('visible');
+}
+
+document.getElementById('nTieneVer').addEventListener('change', function(){
+  if(this.value === 'true') document.getElementById('botonOpciones').classList.remove('oculto');
+  else document.getElementById('botonOpciones').classList.add('oculto');
+});
+
+function guardarFlyerNuevo(){
+  var t = getToken();
+  if(!t){ alert('Falta el token'); return; }
+
+  var nombre = document.getElementById('nNombre').value.trim().toLowerCase().replace(/\s+/g, '');
+  var img = document.getElementById('nImg').value.trim();
+  var segundos = parseInt(document.getElementById('nSegundos').value, 10);
+  var tieneVer = document.getElementById('nTieneVer').value === 'true';
+  var textoVer = document.getElementById('nTextoVer').value.trim();
+  var destino = document.getElementById('nDestino').value;
+
+  if(!nombre){ alert('Falta el nombre'); return; }
+  if(!img || img.indexOf('http') !== 0){ alert('Falta el link de la imagen'); return; }
+  if(!segundos){ segundos = 10; }
+
+  var nuevo = { img: img, tieneVer: tieneVer, segundos: segundos };
+  if(tieneVer){
+    nuevo.textoVer = textoVer || '📰 Ver la nota';
+    nuevo.destino = destino;
+  }
+
+  CONFIG.flyers[nombre] = nuevo;
+
+  var nuevoContenido = JSON.stringify(CONFIG, null, 2);
+  var base64 = btoa(unescape(encodeURIComponent(nuevoContenido)));
+
+  setEstado('Agregando flyer...');
+  fetch(apiUrl(), {
+    method: 'PUT',
+    headers: { 'Authorization': 'token ' + t, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'Panel: agregar flyer ' + nombre, content: base64, sha: SHA })
+  })
+  .then(function(r){ if(!r.ok) throw new Error('No se pudo guardar'); return r.json(); })
+  .then(function(data){
+    SHA = data.content.sha;
+    cerrarModal();
+    render();
+    setEstado('✅ Flyer agregado. Ahora tildalo y tocá Guardar cambios.', 'ok');
+  })
+  .catch(function(e){ setEstado('Error: ' + e.message, 'err'); });
+}
+
+function borrarFlyer(nombre){
+  if(!confirm('¿Borrar el flyer "' + nombre + '"? Esta acción no se puede deshacer.')) return;
+  var t = getToken();
+  if(!t){ alert('Falta el token'); return; }
+
+  delete CONFIG.flyers[nombre];
+  CONFIG.mostrar = CONFIG.mostrar.filter(function(n){ return n !== nombre; });
+
+  var nuevoContenido = JSON.stringify(CONFIG, null, 2);
+  var base64 = btoa(unescape(encodeURIComponent(nuevoContenido)));
+
+  setEstado('Borrando...');
+  fetch(apiUrl(), {
+    method: 'PUT',
+    headers: { 'Authorization': 'token ' + t, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'Panel: borrar flyer ' + nombre, content: base64, sha: SHA })
+  })
+  .then(function(r){ if(!r.ok) throw new Error('No se pudo borrar'); return r.json(); })
+  .then(function(data){
+    SHA = data.content.sha;
+    render();
+    setEstado('✅ Flyer borrado.', 'ok');
   })
   .catch(function(e){ setEstado('Error: ' + e.message, 'err'); });
 }
