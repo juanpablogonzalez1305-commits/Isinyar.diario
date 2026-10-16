@@ -10332,5 +10332,92 @@ if(true) return;
 
 })();
                    </script>
+<script>
+(function(){
+  if(window._repararEscudoYReneOK) return;
+  window._repararEscudoYReneOK = 1;
+
+  var ESCUDO = 'https://files.catbox.moe/71my2c.png';
+
+  // ==== 1. Insertar el video de René dentro del grupo correcto ====
+  function ponerVideoRene(){
+    var grupo = document.getElementById('rene-grupo');
+    if(!grupo) return;
+    if(grupo.querySelector('#rene-yt-wrap')) return;
+
+    var wrap = document.createElement('div');
+    wrap.id = 'rene-yt-wrap';
+    wrap.style.cssText = 'position:relative;padding-bottom:56.25%;height:0;margin:1rem 0;border:3px solid #c9a243;border-radius:16px;overflow:hidden;box-shadow:0 6px 0 #8a6a1a,0 0 18px rgba(217,176,76,.5);background:#000;';
+
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/xmaTQRAnvD8';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
+
+    wrap.appendChild(iframe);
+
+    // Insertar al principio del grupo
+    var destino = grupo.querySelector('div') || grupo;
+    destino.insertBefore(wrap, destino.firstChild);
+  }
+
+  // ==== 2. Escudo del municipio en las notas de Noticias ====
+  function limpiarEscudosViejos(){
+    document.querySelectorAll('img.escudo-muni').forEach(function(img){
+      if((img.src || '').indexOf('71my2c') === -1) img.remove();
+    });
+  }
+
+  function ponerEscudo(d){
+    if(!d || d.id === 'nota-castro') return;
+    if(d.classList.contains('ultimo-momento')) return;
+    if(d.closest('.ultimo-momento')) return;
+    var sum = d.querySelector(':scope > summary.rel.deep') || d.querySelector(':scope > summary');
+    if(!sum) return;
+    var t = (sum.textContent || '').toUpperCase();
+    if(t.indexOf('ACCIDENTE FATAL') > -1) return;
+    if(sum.querySelector('.escudo-muni')) return;
+
+    var img = document.createElement('img');
+    img.className = 'escudo-muni';
+    img.src = ESCUDO;
+    img.alt = '';
+    img.style.cssText = 'position:absolute;right:-10px;top:50%;transform:translateY(-50%);width:120px;height:120px;opacity:.38;pointer-events:none;z-index:0;object-fit:contain;aspect-ratio:1/1;';
+    sum.style.position = 'relative';
+    sum.style.overflow = 'hidden';
+    sum.appendChild(img);
+  }
+
+  function recorrerNotas(){
+    var sec = document.getElementById('noticias');
+    if(!sec) return;
+    sec.querySelectorAll('details.pieza').forEach(ponerEscudo);
+  }
+
+  function ciclo(){
+    ponerVideoRene();
+    limpiarEscudosViejos();
+    recorrerNotas();
+  }
+
+  ciclo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 120) clearInterval(t);
+  }, 500);
+
+  // También cuando se abra una nota nueva
+  document.addEventListener('toggle', function(e){
+    if(e.target && e.target.tagName === 'DETAILS'){
+      setTimeout(ciclo, 100);
+    }
+  }, true);
+
+})();
+</script>
 </body>
 </html>
