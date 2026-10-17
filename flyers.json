@@ -74,6 +74,13 @@
       "segundos": 7,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
+    },
+    "dipalma": {
+      "img": "https://files.catbox.moe/pu6kh3.jpg",
+      "tieneVer": true,
+      "segundos": 8,
+      "textoVer": "📰 Ver la nota",
+      "destino": "hemeroteca"
     }
   }
 }
