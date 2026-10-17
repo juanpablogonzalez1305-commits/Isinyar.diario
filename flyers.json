@@ -82,6 +82,13 @@
       "segundos": 8,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
+    },
+    "lealtadnota": {
+      "img": "https://files.catbox.moe/n578p2.jpg",
+      "tieneVer": true,
+      "segundos": 8,
+      "textoVer": "📰 Ver la nota",
+      "destino": "noticias"
     }
   }
 }
