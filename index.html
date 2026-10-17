@@ -10616,5 +10616,92 @@ if(true) return;
 
 })();
     </script>
-</body>
+<script>
+(function(){
+  if(window._btnJsonBlindadoOK) return;
+  window._btnJsonBlindadoOK = 1;
+
+  var flyersMap = {};
+
+  // Lee la configuración del panel
+  fetch('./flyers.json?t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(cfg){
+      flyersMap = cfg.flyers || {};
+      vigilar();
+    })
+    .catch(function(e){ console.log('Error leyendo flyers.json', e); });
+
+  function vigilar(){
+    setInterval(function(){
+      var img = document.getElementById('cartel-flyer');
+      var btn = document.getElementById('cartel-ver');
+      if(!img || !btn) return;
+
+      var src = img.src || '';
+      var f = null;
+      
+      // Busca qué flyer está en pantalla ahora
+      for(var k in flyersMap){
+        if(src.indexOf(flyersMap[k].img) > -1){
+          f = flyersMap[k];
+          break;
+        }
+      }
+
+      // Si el flyer tiene botón configurado en el panel, lo muestra a la fuerza
+      if(f && f.tieneVer){
+        btn.style.setProperty('display', 'block', 'important');
+        btn.style.setProperty('visibility', 'visible', 'important');
+        if(btn.innerHTML !== f.textoVer) btn.innerHTML = f.textoVer;
+        btn.dataset.destino = f.destino || '';
+      } else {
+        btn.style.setProperty('display', 'none', 'important');
+      }
+    }, 200);
+  }
+
+  // Maneja el click del botón
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(!t) return;
+    var b = t.closest ? t.closest('#cartel-ver') : null;
+    if(!b) return;
+    
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    var dest = b.dataset.destino;
+    if(!dest) return;
+    
+    var overlay = document.getElementById('cartel-destacado');
+    if(overlay) overlay.classList.remove('visible');
+
+    if(dest === 'noticias'){
+      var r = document.getElementById('s-noticias');
+      if(r){ r.checked = true; r.dispatchEvent(new Event('change', {bubbles:true})); }
+      setTimeout(function(){ window.scrollTo(0,0); }, 250);
+      return;
+    }
+    if(dest === 'guia'){
+      var g = document.getElementById('s-guia');
+      if(g){ g.checked = true; g.dispatchEvent(new Event('change', {bubbles:true})); }
+      setTimeout(function(){ window.scrollTo(0,0); }, 250);
+      return;
+    }
+    var h = document.getElementById('s-historia');
+    if(h){ h.checked = true; h.dispatchEvent(new Event('change', {bubbles:true})); }
+    setTimeout(function(){
+      var labels = document.querySelectorAll('label');
+      for(var i = 0; i < labels.length; i++){
+        var txt = (labels[i].textContent || '').toUpperCase();
+        if(dest === 'hemeroteca' && txt.indexOf('HEMEROTECA') > -1){ labels[i].click(); break; }
+        if(dest === 'cultura-viva' && txt.indexOf('CULTURA VIVA') > -1){ labels[i].click(); break; }
+      }
+      window.scrollTo(0,0);
+    }, 250);
+  }, true);
+
+})();
+</script>
+        </body>
 </html>
