@@ -44,7 +44,7 @@
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
-      "segundos": 10
+      "segundos": 7
     },
     "lealtad": {
       "img": "https://files.catbox.moe/qtfoyi.jpg",
@@ -56,14 +56,14 @@
     "ecologica": {
       "img": "https://files.catbox.moe/btobdv.jpg",
       "tieneVer": false,
-      "segundos": 8
+      "segundos": 7
     },
     "guia": {
       "img": "https://files.catbox.moe/2sq36j.jpg",
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ Ver la guÃÂ­a",
       "destino": "guia",
-      "segundos": 10
+      "segundos": 7
     },
     "feriaesp": {
       "img": "https://files.catbox.moe/05uf5l.png",
