@@ -10915,5 +10915,22 @@ if(true) return;
   var t = setInterval(function(){ n++; poner(); if(n > 60) clearInterval(t); }, 500);
 })();
 </script>
+<style>
+/* Arreglo para que los textos de la Hemeroteca no se salgan del marco */
+.hemero .kick, 
+.hemero p, 
+.hemero h4, 
+.hemero h3 {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+.hemero .kick {
+  font-size: 0.75rem !important;
+  line-height: 1.5 !important;
+  display: block !important;
+  margin-bottom: 0.6rem !important;
+}
+</style>
 </body>
 </html>
