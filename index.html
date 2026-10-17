@@ -10990,5 +10990,40 @@ if(true) return;
   setInterval(aplicarEstilos, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._arreglarMembreteOK) return;
+  window._arreglarMembreteOK = 1;
+
+  function arreglarMembrete(){
+    // Busca la línea del membrete de la revista en todas las notas
+    document.querySelectorAll('.hemero .mast').forEach(function(mast){
+      // Hacemos que si no entra, baje de renglón
+      mast.style.setProperty('flex-wrap', 'wrap', 'important');
+      mast.style.setProperty('justify-content', 'center', 'important');
+      mast.style.setProperty('gap', '0.2rem 0.8rem', 'important'); 
+      mast.style.setProperty('max-width', '100%', 'important');
+      
+      // Achicamos un poquito las letras para que entre
+      mast.style.setProperty('font-size', '0.55rem', 'important');
+      
+      // Ajustamos el "DESCUBRIR" que es más grande
+      var b = mast.querySelector('b');
+      if(b) {
+        b.style.setProperty('font-size', '0.8rem', 'important');
+        b.style.setProperty('letter-spacing', '0.1em', 'important');
+      }
+      
+      // Ajustamos los textos de los costados (Noviembre de 1995 y Memorias)
+      mast.querySelectorAll('span').forEach(function(span){
+        span.style.setProperty('font-size', '0.55rem', 'important');
+      });
+    });
+  }
+
+  arreglarMembrete();
+  setInterval(arreglarMembrete, 500);
+})();
+</script>
 </body>
 </html>
