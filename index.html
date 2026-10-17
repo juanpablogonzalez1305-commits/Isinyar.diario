@@ -10541,5 +10541,80 @@ if(true) return;
   }, 500);
 })();
 </script>
- </body>
+ <script>
+(function(){
+  // Matar todos los scripts viejos del video
+  window._videoPortadaOK = 1;
+  window._videoPromoOK = 1;
+  window._staffVideoOK = 1;
+  window._staffVideoFinalOK = 1;
+  window._borrarVideosViejosOK = 1;
+  window._staffRebuildOK = 1;
+  window._videoStaffNuevoOK = 1;
+  window._videoStaffFinalOK = 1;
+  window._quitarHomenajeOK = 1;
+  window._staffFinal = 1;
+
+  // Limpiar TODOS los videos y sus contenedores cada 200 ms
+  function limpiarVideosViejos(){
+    // Buscar videos viejos por su link
+    document.querySelectorAll('video').forEach(function(v){
+      var src = '';
+      var source = v.querySelector('source');
+      if(source) src = source.src || '';
+      if(!src) src = v.src || '';
+      // Si NO es el video nuevo, borrarlo
+      if(src.indexOf('74lpvf') === -1){
+        v.remove();
+      }
+    });
+  }
+
+  function ponerVideoNuevo(){
+    var d = document.getElementById('nota-promo-portada');
+    if(!d) return;
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    // ¿Ya está el video nuevo?
+    var yaEsta = false;
+    cue.querySelectorAll('video').forEach(function(v){
+      var src = '';
+      var source = v.querySelector('source');
+      if(source) src = source.src || '';
+      if(!src) src = v.src || '';
+      if(src.indexOf('74lpvf') > -1) yaEsta = true;
+    });
+    if(yaEsta) return;
+
+    // Reconstruir todo el cuerpo
+    var H = '';
+    H += '<p class="meta" style="font-family:Fraunces,serif;font-style:italic;color:#c9a243;font-size:.85rem;margin:0 0 .6rem">Conocé quiénes hacemos DESCUBRIR.</p>';
+    H += '<div style="margin:.6rem 0;border:3px solid #c9a243;border-radius:16px;overflow:hidden;box-shadow:0 6px 0 #8a6a1a,0 0 18px rgba(217,176,76,.5);background:#000">';
+    H += '<video controls playsinline preload="metadata" style="width:100%;display:block;background:#000">';
+    H += '<source src="https://files.catbox.moe/74lpvf.mp4" type="video/mp4">';
+    H += 'Tu navegador no soporta la reproducción de video.';
+    H += '</video>';
+    H += '</div>';
+    H += '<p style="font-family:Fraunces,serif;font-style:italic;color:#e8c26a;font-size:.95rem;line-height:1.6">En <b>DESCUBRIR</b> encontrás las noticias de nuestra ciudad, la historia de Lules, el camino de la fe, la guía de servicios y toda la información útil para el día a día.</p>';
+
+    cue.innerHTML = H;
+  }
+
+  // Correr varias veces para ganarle a los scripts viejos
+  function ciclo(){
+    limpiarVideosViejos();
+    ponerVideoNuevo();
+  }
+  ciclo();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ciclo();
+    if(n > 200) clearInterval(t);
+  }, 250);
+
+})();
+    </script>
+</body>
 </html>
