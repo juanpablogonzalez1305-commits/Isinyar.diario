@@ -17,6 +17,7 @@ h2{font-size:1rem;margin:20px 0 10px;color:#8a6a1a;border-bottom:2px solid #c9a2
 .card .info{font-size:.75rem;color:#6b5a33;display:block;margin-top:2px}
 .card .dest{font-size:.7rem;background:#f4efe6;color:#8a6a1a;padding:2px 6px;border-radius:6px;font-weight:700}
 .card .dest.no{background:#f0e5d0;color:#8a6a1a}
+  .card .input-segundos{width:55px;padding:2px 4px;border:1px solid #c9a243;border-radius:6px;font-size:.8rem;text-align:center;background:#fffdf6;margin:0 2px}
 .card .acciones{display:flex;gap:6px;margin-left:auto}
 .card .acciones button{background:#f4efe6;border:1px solid #c9a243;border-radius:6px;padding:4px 8px;font-size:.75rem;cursor:pointer;color:#8a6a1a;font-weight:700}
 input[type=datetime-local],input[type=number],input[type=password],input[type=text],input[type=url],select{width:100%;padding:12px;border:2px solid #c9a243;border-radius:10px;font-size:1rem;background:#fffdf6;font-family:inherit}
@@ -173,11 +174,16 @@ function render(){
     var destClase = f.tieneVer ? 'dest' : 'dest no';
     var div = document.createElement('div');
     div.className = 'card';
-    div.innerHTML = '<label>' +
-      '<input type="checkbox" data-nombre="' + n + '"' + (activo ? ' checked' : '') + '>' +
-      '<span class="nombre">' + n + '<span class="info">' + (f.segundos || 8) + ' seg · <span class="' + destClase + '">' + dest + '</span></span></span>' +
-      '<span class="acciones"><button type="button" onclick="borrarFlyer(\'' + n + '\')">🗑️</button></span>' +
-      '</label>';
+div.innerHTML = '<label>' +
+  '<input type="checkbox" data-nombre="' + n + '"' + (activo ? ' checked' : '') + '>' +
+  '<span class="nombre">' + n +
+    '<span class="info">' +
+      '<input type="number" class="input-segundos" data-nombre="' + n + '" value="' + (f.segundos || 8) + '" min="1" max="120" onclick="event.preventDefault();event.stopPropagation();"> seg · ' +
+      '<span class="' + destClase + '">' + dest + '</span>' +
+    '</span>' +
+  '</span>' +
+  '<span class="acciones"><button type="button" onclick="event.preventDefault();borrarFlyer(\'' + n + '\')">🗑️</button></span>' +
+  '</label>';
     cont.appendChild(div);
   });
 
@@ -190,7 +196,12 @@ function render(){
 function guardar(){
   var t = getToken();
   if(!t){ setEstado('Falta el token', 'err'); return; }
-
+document.querySelectorAll('.input-segundos').forEach(function(inp){
+  var nombre = inp.getAttribute('data-nombre');
+  var val = parseInt(inp.value, 10);
+  if(CONFIG.flyers[nombre] && val > 0) CONFIG.flyers[nombre].segundos = val;
+});
+  
   var mostrar = [];
   document.querySelectorAll('#listaFlyers input[type=checkbox]').forEach(function(c){
     if(c.checked) mostrar.push(c.getAttribute('data-nombre'));
