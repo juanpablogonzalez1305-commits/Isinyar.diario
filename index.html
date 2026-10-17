@@ -10932,5 +10932,41 @@ if(true) return;
   margin-bottom: 0.6rem !important;
 }
 </style>
+<script>
+(function(){
+  if(window._fotoLealtad26OK) return;
+  window._fotoLealtad26OK = 1;
+
+  function ponerFoto(){
+    var d = document.getElementById('nota-lealtad-2026');
+    if(!d){ setTimeout(ponerFoto, 500); return; }
+    if(d.querySelector('.foto-lealtad26')) return;
+
+    var cue = d.querySelector('.cuerpo-in');
+    if(!cue) return;
+
+    var img = document.createElement('img');
+    img.className = 'foto-lealtad26';
+    img.src = 'https://files.catbox.moe/voghkq.png';
+    img.alt = 'Día de la Lealtad Peronista en el Hipódromo de Tucumán';
+    img.style.cssText = 'width:100%;border:2px solid #8a6a35;border-radius:10px;margin:.5rem 0 .8rem;box-shadow:0 4px 0 #d6cab0;display:block';
+
+    var meta = cue.querySelector('.meta');
+    if(meta && meta.parentNode){
+      meta.parentNode.insertBefore(img, meta.nextSibling);
+    } else {
+      cue.insertBefore(img, cue.firstChild);
+    }
+  }
+
+  ponerFoto();
+  var n = 0;
+  var t = setInterval(function(){
+    n++;
+    ponerFoto();
+    if(n > 60) clearInterval(t);
+  }, 500);
+})();
+</script>
 </body>
 </html>
