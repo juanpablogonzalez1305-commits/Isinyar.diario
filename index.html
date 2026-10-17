@@ -10616,14 +10616,17 @@ if(true) return;
 
 })();
     </script>
+
+    
+    e.preventDefault();
+    e.stopImmediatePropagation();
 <script>
 (function(){
-  if(window._btnJsonBlindadoOK) return;
-  window._btnJsonBlindadoOK = 1;
+  if(window._btnSuperBlindadoOK) return;
+  window._btnSuperBlindadoOK = 1;
 
   var flyersMap = {};
 
-  // Lee la configuración del panel
   fetch('./flyers.json?t=' + Date.now())
     .then(function(r){ return r.json(); })
     .then(function(cfg){
@@ -10641,19 +10644,27 @@ if(true) return;
       var src = img.src || '';
       var f = null;
       
-      // Busca qué flyer está en pantalla ahora
       for(var k in flyersMap){
         if(src.indexOf(flyersMap[k].img) > -1){
-          f = flyersMap[k];
-          break;
+          if(flyersMap[k].tieneVer || !f){
+            f = flyersMap[k];
+          }
+          if(f.tieneVer) break;
         }
       }
 
-      // Si el flyer tiene botón configurado en el panel, lo muestra a la fuerza
       if(f && f.tieneVer){
         btn.style.setProperty('display', 'block', 'important');
         btn.style.setProperty('visibility', 'visible', 'important');
-        if(btn.innerHTML !== f.textoVer) btn.innerHTML = f.textoVer;
+        
+        // Forzamos el texto limpio según el destino para evitar letras rotas
+        var textoLimpio = '📰 Ver la nota';
+        if(f.destino === 'hemeroteca') textoLimpio = '📰 Ver la nota en la Hemeroteca';
+        else if(f.destino === 'noticias') textoLimpio = '📰 Ver las noticias';
+        else if(f.destino === 'cultura-viva') textoLimpio = '🎭 Ver la nota completa';
+        else if(f.destino === 'guia') textoLimpio = '📚 Ver la guía';
+        
+        if(btn.innerHTML !== textoLimpio) btn.innerHTML = textoLimpio;
         btn.dataset.destino = f.destino || '';
       } else {
         btn.style.setProperty('display', 'none', 'important');
@@ -10661,7 +10672,6 @@ if(true) return;
     }, 200);
   }
 
-  // Maneja el click del botón
   document.addEventListener('click', function(e){
     var t = e.target;
     if(!t) return;
