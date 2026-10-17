@@ -10968,5 +10968,27 @@ if(true) return;
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._arreglarTextosHemerotecaOK) return;
+  window._arreglarTextosHemerotecaOK = 1;
+
+  function aplicarEstilos(){
+    // Busca todos los textos dentro de la hemeroteca
+    document.querySelectorAll('.hemero .kick, .hemero p, .hemero h4, .hemero h3').forEach(function(el){
+      // Fuerza que el texto baje de renglón si no entra
+      el.style.setProperty('white-space', 'normal', 'important');
+      el.style.setProperty('word-wrap', 'break-word', 'important');
+      el.style.setProperty('overflow-wrap', 'break-word', 'important');
+      el.style.setProperty('max-width', '100%', 'important');
+      el.style.setProperty('display', 'block', 'important');
+    });
+  }
+
+  // Ejecuta al cargar y luego cada 500ms por si aparece alguna nota nueva
+  aplicarEstilos();
+  setInterval(aplicarEstilos, 500);
+})();
+</script>
 </body>
 </html>
