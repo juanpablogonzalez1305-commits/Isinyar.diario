@@ -10839,5 +10839,81 @@ if(true) return;
   }, 500);
 })();
 </script>
+<script>
+(function(){
+  if(window._notaLealtad26OK) return;
+  window._notaLealtad26OK = 1;
+
+  function poner(){
+    var sec = document.getElementById('noticias');
+    if(!sec){ setTimeout(poner, 500); return; }
+    if(document.getElementById('nota-lealtad-2026')) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza';
+    d.id = 'nota-lealtad-2026';
+
+    var H = '';
+    H += '<summary class="rel deep">Lealtad Peronista: el PJ copa el Hipódromo con una convocatoria histórica<span class="chev">▼</span></summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<p class="meta">Sábado 17 de octubre de 2026 · Hipódromo de Tucumán.</p>';
+    H += '<p>El peronismo de Tucumán se prepara para vivir un Día de la Lealtad con una muestra de fuerza territorial. Bajo el lema <b>"Con tu familia y tu bandera"</b>, el Partido Justicialista (PJ) busca reunir a más de <b>30.000 militantes</b> en el Hipódromo de Tucumán.</p>';
+    H += '<p><b>Los horarios del encuentro:</b> Las puertas se abrirán a las <b>14:30</b> para recibir a los contingentes que llegarán desde todos los rincones de la provincia, y el acto central comenzará a las <b>16:00</b>.</p>';
+    H += '<p>La organización está a cargo de la estructura del ministro del Interior, <b>Darío Monteros</b>, y cuenta con el apoyo fundamental de la intendenta de Lules, <b>Marta Albarracín</b>, y del resto de los jefes municipales. El gobernador <b>Osvaldo Jaldo</b> será el principal orador, acompañado por el vicegobernador Miguel Acevedo y la intendenta de la Capital, Rossana Chahla.</p>';
+    H += '<p>La convocatoria, que se difundió en las últimas horas, es explícita: <i>"El pueblo tucumano vuelve a decir presente para celebrar el Día de la Lealtad Peronista"</i>. Y cierra con una frase que es un clásico del movimiento: <b>"Para un peronista no hay nada mejor que otro peronista"</b>.</p>';
+    H += '<p>El acto no solo conmemora una fecha fundacional, sino que también busca mostrar un oficialismo fuerte y unido, con la mirada puesta en las elecciones de mayo de 2027. La jornada contará con la presencia de intendentes, legisladores provinciales y nacionales, además de gremios y organizaciones sociales que se sumarán a la convocatoria.</p>';
+    H += '<button type="button" class="btn-voz-lealtad26" style="display:block;width:100%;margin:1rem 0 .3rem;padding:.7rem 1rem;border:2px solid #8a6a35;border-radius:12px;background:linear-gradient(180deg,#fffdf6,#efe7d4);font-family:Fraunces,serif;font-style:italic;font-weight:800;font-size:1rem;box-shadow:0 4px 0 #d6cab0;cursor:pointer;color:#171310">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+
+    d.innerHTML = H;
+
+    var primero = sec.querySelector('details');
+    if(primero && primero.parentNode === sec){
+      sec.insertBefore(d, primero);
+    } else {
+      sec.appendChild(d);
+    }
+
+    setTimeout(function(){
+      var b = d.querySelector('.btn-voz-lealtad26');
+      if(!b) return;
+      b.addEventListener('click', function(){
+        var s = window.speechSynthesis;
+        if(!s) return;
+        if(window._lealtad26Leyendo){ s.cancel(); window._lealtad26Leyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+        var bloques = [];
+        d.querySelectorAll('.cuerpo-in p').forEach(function(el){
+          var t = (el.textContent || '').replace(/Escuchar en voz alta/g,'').replace(/Detener lectura/g,'').replace(/\s+/g,' ').trim();
+          if(!t) return;
+          if(t.length > 200){
+            var partes = t.match(/[^.!?]+[.!?]+/g) || [t];
+            partes.forEach(function(pp){ if(pp.trim()) bloques.push({txt: pp.trim(), pausa: 500}); });
+          } else { bloques.push({txt: t, pausa: 900}); }
+        });
+        if(!bloques.length) return;
+        window._lealtad26Leyendo = true;
+        b.innerHTML = '⏸ Detener lectura';
+        s.cancel();
+        var idx = 0;
+        function hablar(){
+          if(!window._lealtad26Leyendo) return;
+          if(idx >= bloques.length){ window._lealtad26Leyendo = false; b.innerHTML = '🔊 Escuchar en voz alta'; return; }
+          var item = bloques[idx];
+          var u = new SpeechSynthesisUtterance(item.txt);
+          u.lang = 'es-AR'; u.rate = .92;
+          u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+          u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+          s.speak(u);
+        }
+        setTimeout(function(){ s.resume(); hablar(); }, 200);
+      });
+    }, 300);
+  }
+
+  poner();
+  var n = 0;
+  var t = setInterval(function(){ n++; poner(); if(n > 60) clearInterval(t); }, 500);
+})();
+</script>
 </body>
 </html>
