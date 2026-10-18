@@ -11027,6 +11027,119 @@ if(true) return;
 </script>
 <script>
 
+<script>
+(function(){
+    function ponerNotaMarta(){
+        // 1. Busca la sección de noticias exacta
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        // 2. Si ya existe la nota, no hace nada (evita duplicados)
+        if(document.getElementById('nota-marta')) return;
 
+        // 3. Crea el contenedor con el efecto de presión
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-marta';
+
+        // 4. Arma el HTML
+        var H = '';
+        H += '<summary class="rel deep">"La lealtad se demuestra con trabajo": el contundente mensaje de Marta Albarracín</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // JEFE: Acá abajo, cuando tenga el link de la foto, reemplace AQUI_VA_TU_LINK por el link de Catbox.
+        H += '<img src="AQUI_VA_TU_LINK" style="width:100%; border-radius:10px; margin-bottom:15px;" alt="Marta Albarracín y Jaldo">';
+        
+        H += '<p class="meta">Hoy · Día de la Lealtad Peronista</p>';
+        H += '<p><strong>La intendenta de San Isidro de Lules acompañará al gobernador Osvaldo Jaldo y al ministro del Interior, Darío Monteros, en el acto por el Día de la Lealtad Peronista. También estará presente el legislador Carlos Gallia.</strong></p>';
+        H += '<p>Hoy acompañé a nuestro Gobernador Osvaldo Jaldo, al Hipódromo de Tucumán, donde vivimos una jornada muy especial por el Día de la Lealtad Peronista. Fue emocionante reencontrarnos con tantos compañeros y compañeras, compartir abrazos y sentir ese cariño que nos une.</p>';
+        H += '<p>Querido Gobernador, siempre va a contar con mi acompañamiento, mi respeto y mi compromiso. Porque la lealtad no se demuestra solamente con palabras, sino estando presentes, trabajando juntos y acompañando también en los momentos difíciles.</p>';
+        
+        // Botón de voz
+        H += '<button type="button" class="btn-voz-marta" style="background:#c9a243;color:#000;padding:8px 15px;border:none;border-radius:5px;font-weight:bold;margin-top:10px;">🔊 Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        sec.appendChild(d);
+
+        // 5. Lógica de lectura en voz alta (copiada de su sistema)
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-marta');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                // Si ya está leyendo, lo detiene
+                if(window._martaLeyendo){
+                    s.cancel();
+                    window._martaLeyendo = false;
+                    b.innerHTML = '🔊 Escuchar en voz alta';
+                    return;
+                }
+
+                // Arma los bloques de texto para leer
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._martaLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._martaLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._martaLeyendo = false;
+                        b.innerHTML = '🔊 Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ 
+                        idx++; 
+                        setTimeout(hablar, item.pausa); 
+                    };
+                    u.onerror = function(){ 
+                        idx++; 
+                        setTimeout(hablar, item.pausa); 
+                    };
+                    
+                    s.speak(u);
+                }
+                
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+    }
+
+    // 6. Sistema de reintento (igual que en su código)
+    var n = 0;
+    function ciclo(){
+        n++;
+        ponerNotaMarta();
+        if(n < 40) setTimeout(ciclo, 800);
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', ciclo);
+    } else {
+        ciclo();
+    }
+    window.addEventListener('load', ciclo);
+})();
+</script>
         </body>
 </html>
