@@ -90,6 +90,13 @@
       "segundos": 8,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
+    },
+    "rené": {
+      "img": "https://files.catbox.moe/d3rrbs.jpg",
+      "tieneVer": true,
+      "segundos": 7,
+      "textoVer": "📰 Ver la nota",
+      "destino": "hemeroteca"
     }
   }
 }
