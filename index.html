@@ -11041,21 +11041,21 @@ if(true) return;
         H += '<summary class="rel deep">"La lealtad se demuestra con trabajo": el contundente mensaje de Marta Albarracín</summary>';
         H += '<div class="cuerpo-in">';
         
-        // FOTO CON MARCO DORADO FINO (Borde sólido de 2px, no doble)
-        H += '<img class="marco" src="https://files.catbox.moe/y51wji.png" style="width:100%; border: 2px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block;" alt="Marta Albarracín y Carlos Gallia">';
+        // FOTO CON EL MARCO ORIGINAL (4px double, el mismo tono y grosor que las otras)
+        H += '<img class="marco" src="https://files.catbox.moe/y51wji.png" style="width:100%; border: 4px double #c9a243; border-radius: 10px; margin-bottom:15px; padding: 3px; background: #fff;" alt="Marta Albarracín y Carlos Gallia">';
         
         H += '<p class="meta">Hoy · Día de la Lealtad Peronista</p>';
         H += '<p><strong>La intendenta de San Isidro de Lules acompañará al gobernador Osvaldo Jaldo y al ministro del Interior, Darío Monteros, en el acto por el Día de la Lealtad Peronista. También estará presente el legislador Carlos Gallia.</strong></p>';
         H += '<p>Hoy acompañé a nuestro Gobernador Osvaldo Jaldo, al Hipódromo de Tucumán, donde vivimos una jornada muy especial por el Día de la Lealtad Peronista. Fue emocionante reencontrarnos con tantos compañeros y compañeras, compartir abrazos y sentir ese cariño que nos une.</p>';
         H += '<p>Querido Gobernador, siempre va a contar con mi acompañamiento, mi respeto y mi compromiso. Porque la lealtad no se demuestra solamente con palabras, sino estando presentes, trabajando juntos y acompañando también en los momentos difíciles.</p>';
         
-        // BOTÓN DE VOZ CON RELIEVE Y FUENTE GRUESA (Sin borde dorado, fondo crema, sombras para efecto 3D)
-        H += '<button type="button" class="btn-voz-marta" style="display:block; width:100%; background:#fdf9ef; color:#171310; border:none; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.15), inset 0 1px 0 #ffffff; text-shadow: 1px 1px 0px rgba(255,255,255,0.8);">🗣️ Escuchar en voz alta</button>';
+        // BOTÓN CORREGIDO: Marco finito (1px), relieve (sombra externa e interna) y fuente gruesa
+        H += '<button type="button" class="btn-voz-marta" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
         
-        // POSICIÓN: Lo inserta justo antes de la primera nota existente
+        // Posicionamiento
         var primeraNota = sec.querySelector('.pieza');
         if (primeraNota) {
             sec.insertBefore(d, primeraNota);
