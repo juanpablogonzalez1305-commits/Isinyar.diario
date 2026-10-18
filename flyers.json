@@ -3,7 +3,9 @@
     "auvieux",
     "ecologica",
     "guia",
-    "dipalma"
+    "dipalma",
+    "rene2",
+    "madre"
   ],
   "inicio": "2026-10-18T00:00:00",
   "duracion_horas": 24,
@@ -94,14 +96,14 @@
     "rene2": {
       "img": "https://files.catbox.moe/mha3d8.jpg",
       "tieneVer": true,
-      "segundos": 10,
+      "segundos": 7,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
     "madre": {
       "img": "https://files.catbox.moe/d3rrbs.jpg",
       "tieneVer": false,
-      "segundos": 8
+      "segundos": 7
     }
   }
 }
