@@ -11250,22 +11250,8 @@ if(true) return;
 <script>
 (function(){
     function ponerNotaVictorAron(){
+        // Evita duplicados
         if(document.getElementById('nota-victor-aron')) return;
-
-        // Buscamos todos los botones (summary) de la página
-        var todosLosBotones = document.querySelectorAll('summary');
-        var botonHemeroteca = null;
-
-        // Recorremos para encontrar el que dice "Hemeroteca"
-        for(var i = 0; i < todosLosBotones.length; i++) {
-            if(todosLosBotones[i].textContent.includes('Hemeroteca')) {
-                botonHemeroteca = todosLosBotones[i];
-                break; // Lo encontramos, dejamos de buscar
-            }
-        }
-
-        // Si no lo encuentra, no hace nada (para no romper la página)
-        if(!botonHemeroteca) return;
 
         var d = document.createElement('details');
         d.className = 'pieza';
@@ -11275,8 +11261,8 @@ if(true) return;
         H += '<summary class="rel deep">Hemeroteca: Víctor Aron, el alma de un hombre que late al ritmo del tango (1996)</summary>';
         H += '<div class="cuerpo-in">';
         
-        // FOTO INTEGRADA CON MARCO SIMPLE
-        H += '<img class="marco" src="https://files.catbox.moe/ttitsr.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Víctor Aron en su programa de radio">';
+        // FOTO CON MARCO SIMPLE
+        H += '<img class="marco" src="https://files.catbox.moe/ttitsr.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Víctor Aron">';
         
         H += '<p class="meta">Abril de 1996 · Archivo Hemeroteca</p>';
         H += '<p><strong>Rescatamos de nuestro archivo de abril de 1996 la emotiva semblanza de Víctor Aron, un referente de la música popular y la cultura de nuestra ciudad, a través de las páginas de DESCUBRIR.</strong></p>';
@@ -11297,8 +11283,14 @@ if(true) return;
 
         d.innerHTML = H;
         
-        // LA MAGIA: Inserta la nota justo DESPUÉS del botón de Hemeroteca
-        botonHemeroteca.parentNode.insertBefore(d, botonHemeroteca.nextSibling);
+        // MAGIA: Busca TODAS las notas (.pieza) en la página, agarra la última y se pone debajo
+        var todasLasNotas = document.querySelectorAll('details.pieza');
+        if (todasLasNotas.length > 0) {
+            var ultimaNota = todasLasNotas[todasLasNotas.length - 1];
+            ultimaNota.parentNode.insertBefore(d, ultimaNota.nextSibling);
+        } else {
+            return; // Si no hay notas, no hace nada
+        }
 
         // Lógica de lectura
         setTimeout(function(){
@@ -11353,7 +11345,6 @@ if(true) return;
         }, 500);
     }
 
-    // Intentamos poner la nota varias veces (por si el sistema tarda en dibujar la Hemeroteca)
     var n = 0;
     function ciclo(){
         n++;
@@ -11368,6 +11359,6 @@ if(true) return;
     }
     window.addEventListener('load', ciclo);
 })();
-                               </script>
+</script>
         </body>
 </html>
