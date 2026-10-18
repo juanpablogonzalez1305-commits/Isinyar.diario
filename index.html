@@ -11025,43 +11025,43 @@ if(true) return;
   setInterval(arreglarMembrete, 500);
 })();
 </script>
-<script>
 
+
+ <script>
 (function(){
     function ponerNotaMarta(){
-        // 1. Busca la sección de noticias exacta
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        // 2. Si ya existe la nota, no hace nada (evita duplicados)
+        // Evita duplicados
         if(document.getElementById('nota-marta')) return;
 
-        // 3. Crea el contenedor con el efecto de presión
         var d = document.createElement('details');
         d.className = 'pieza';
         d.id = 'nota-marta';
 
-        // 4. Arma el HTML
         var H = '';
         H += '<summary class="rel deep">"La lealtad se demuestra con trabajo": el contundente mensaje de Marta Albarracín</summary>';
         H += '<div class="cuerpo-in">';
         
-        // JEFE: Acá abajo, cuando tenga el link de la foto, reemplace AQUI_VA_TU_LINK por el link de Catbox.
-        H += '<img src="AQUI_VA_TU_LINK" style="width:100%; border-radius:10px; margin-bottom:15px;" alt="Marta Albarracín y Jaldo">';
+        // FOTO INTEGRADA (Marta Albarracín y Carlos Gallia - Sin membrete adicional)
+        H += '<img src="https://files.catbox.moe/y51wji.png" style="width:100%; border-radius:10px; margin-bottom:15px;" alt="Marta Albarracín y Carlos Gallia">';
         
         H += '<p class="meta">Hoy · Día de la Lealtad Peronista</p>';
         H += '<p><strong>La intendenta de San Isidro de Lules acompañará al gobernador Osvaldo Jaldo y al ministro del Interior, Darío Monteros, en el acto por el Día de la Lealtad Peronista. También estará presente el legislador Carlos Gallia.</strong></p>';
         H += '<p>Hoy acompañé a nuestro Gobernador Osvaldo Jaldo, al Hipódromo de Tucumán, donde vivimos una jornada muy especial por el Día de la Lealtad Peronista. Fue emocionante reencontrarnos con tantos compañeros y compañeras, compartir abrazos y sentir ese cariño que nos une.</p>';
         H += '<p>Querido Gobernador, siempre va a contar con mi acompañamiento, mi respeto y mi compromiso. Porque la lealtad no se demuestra solamente con palabras, sino estando presentes, trabajando juntos y acompañando también en los momentos difíciles.</p>';
         
-        // Botón de voz
-        H += '<button type="button" class="btn-voz-marta" style="background:#c9a243;color:#000;padding:8px 15px;border:none;border-radius:5px;font-weight:bold;margin-top:10px;">🔊 Escuchar en voz alta</button>';
+        // BOTÓN CORREGIDO (Idéntico al del tilde verde: borde dorado, fondo crema, cursiva)
+        H += '<button type="button" class="btn-voz-marta" style="display:block; width:100%; background:#fdf9ef; color:#171310; border:2px solid #c9a243; border-radius:8px; padding:10px; font-weight:bold; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer;">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
-        sec.appendChild(d);
+        
+        // POSICIÓN CORREGIDA: insertBefore lo pone PRIMERO en la lista
+        sec.insertBefore(d, sec.firstChild);
 
-        // 5. Lógica de lectura en voz alta (copiada de su sistema)
+        // Lógica de lectura
         setTimeout(function(){
             var b = d.querySelector('.btn-voz-marta');
             if(!b) return;
@@ -11070,15 +11070,13 @@ if(true) return;
                 var s = window.speechSynthesis;
                 if(!s) return;
                 
-                // Si ya está leyendo, lo detiene
                 if(window._martaLeyendo){
                     s.cancel();
                     window._martaLeyendo = false;
-                    b.innerHTML = '🔊 Escuchar en voz alta';
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
                     return;
                 }
 
-                // Arma los bloques de texto para leer
                 var cue = d.querySelector('.cuerpo-in');
                 var bloques = [];
                 cue.querySelectorAll('p').forEach(function(el){
@@ -11098,7 +11096,7 @@ if(true) return;
                     if(!window._martaLeyendo) return;
                     if(idx >= bloques.length){
                         window._martaLeyendo = false;
-                        b.innerHTML = '🔊 Escuchar en voz alta';
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
                         return;
                     }
                     
@@ -11107,24 +11105,15 @@ if(true) return;
                     u.lang = 'es-AR';
                     u.rate = .92;
                     
-                    u.onend = function(){ 
-                        idx++; 
-                        setTimeout(hablar, item.pausa); 
-                    };
-                    u.onerror = function(){ 
-                        idx++; 
-                        setTimeout(hablar, item.pausa); 
-                    };
-                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
                     s.speak(u);
                 }
-                
                 setTimeout(function(){ s.resume(); hablar(); }, 300);
             });
         }, 500);
     }
 
-    // 6. Sistema de reintento (igual que en su código)
     var n = 0;
     function ciclo(){
         n++;
@@ -11139,6 +11128,6 @@ if(true) return;
     }
     window.addEventListener('load', ciclo);
 })();
-</script>
+ </script>               
         </body>
 </html>
