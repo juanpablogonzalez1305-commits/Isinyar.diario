@@ -35,11 +35,6 @@
       "destino": "hemeroteca",
       "segundos": 15
     },
-    "residuos": {
-      "img": "https://files.catbox.moe/q0uu1x.png",
-      "tieneVer": false,
-      "segundos": 8
-    },
     "artaza": {
       "img": "https://files.catbox.moe/a68tq3.jpg",
       "tieneVer": true,
