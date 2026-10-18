@@ -11247,5 +11247,116 @@ if(true) return;
     window.addEventListener('load', ciclo);
 })();
   </script>       
-</body>
+<script>
+(function(){
+    function ponerNotaVictorAron(){
+        // Buscamos la sección de Hemeroteca
+        var sec = document.getElementById('hemeroteca');
+        if(!sec) return;
+        
+        // Evita duplicados
+        if(document.getElementById('nota-victor-aron')) return;
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-victor-aron';
+
+        var H = '';
+        H += '<summary class="rel deep">Hemeroteca: Víctor Aron, el alma de un hombre que late al ritmo del tango (1996)</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // FOTO: Acá va el link de Catbox que me pase después
+        H += '<img class="marco" src="AQUI_VA_EL_LINK_DE_LA_FOTO_DE_VICTOR" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Víctor Aron en su programa de radio">';
+        
+        H += '<p class="meta">Abril de 1996 · Archivo Hemeroteca</p>';
+        H += '<p><strong>Rescatamos de nuestro archivo de abril de 1996 la emotiva semblanza de Víctor Aron, un referente de la música popular y la cultura de nuestra ciudad, a través de las páginas de DESCUBRIR.</strong></p>';
+        
+        H += '<p><em>(Nota publicada originalmente en abril de 1996)</em></p>';
+        
+        H += '<p>Cuando comenzamos con el hermoso proyecto de editar un periódico en nuestra ciudad, sabíamos de la sabiduría de los ancianos de la cultura y la alegría de su gente. Sin embargo, lo que nunca imaginamos fue la felicidad que sentiríamos con cada una de sus notas, al transcribir o al escuchar a nuestros ocasionales interlocutores. Es ir alimentando día a día ese orgullo íntimo de vivir en esta tierra.</p>';
+        
+        H += '<p><strong>Víctor Aron</strong> es un ejemplo del sentir de nuestra ciudad. Transcribir su nota nos lleva a sentir que tan fuerte es su vocación a la música popular, que se entronca en el amor a nuestra patria. Por ello, no nos queda más que decir: "Gracias Víctor Aron, por contribuir a que nos sintamos orgullosos de ser luleños".</p>';
+        
+        H += '<p>Todo esto está allí... En el embrujo que tiene la noche, cuando está salpicada de piedras preciosas, y en la luna cobriza y romántica que anda pintando con brochazos de oro, las fachadas humildes de los arrabales. Todo se conjuga en la temática de un tango: el amor, el odio, la ternura, la nostalgia, el dolor, la traición, la amistad y la gran ciudad. Con sus gentes, sus miedos, sus luces y sus sombras.</p>';
+        
+        H += '<p>Todo el misterio está en la reminiscencia tanguística de una leyenda de guapos orilleros, de tristes conventillos repletos de inmigrantes, del farol amarillento y del gringo orillero. Todo está allí... En el hombre y la mujer de la noche, en las cantinas y prostíbulos de la vuelta de Rocha... En el Cabaret, en el último paso, en la última milonga y en la copa vacía.</p>';
+        
+        // BOTÓN CON RELIEVE Y BORDE FINO
+        H += '<button type="button" class="btn-voz-victor" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // POSICIÓN: Lo agrega AL FINAL de la sección de Hemeroteca
+        sec.appendChild(d);
+
+        // Lógica de lectura
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-victor');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._victorLeyendo){
+                    s.cancel();
+                    window._victorLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._victorLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._victorLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._victorLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+    }
+
+    var n = 0;
+    function ciclo(){
+        n++;
+        ponerNotaVictorAron();
+        if(n < 40) setTimeout(ciclo, 800);
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', ciclo);
+    } else {
+        ciclo();
+    }
+    window.addEventListener('load', ciclo);
+})();
+</script>
+        </body>
 </html>
