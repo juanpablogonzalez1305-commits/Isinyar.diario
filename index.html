@@ -11025,5 +11025,78 @@ if(true) return;
   setInterval(arreglarMembrete, 500);
 })();
 </script>
-</body>
+<script>
+// --- NOTA MARTA ALBARRACÍN ---
+(function() {
+    if (window._notaMartaOK) return;
+    window._notaMartaOK = 1;
+
+    function ponerNotaMarta() {
+        if (document.getElementById('nota-marta-albarracin')) return;
+
+        var H = '';
+        // TÍTULO OPCIÓN 1 (El que usted eligió)
+        H += '<h2 style="color: #171310; font-size: 22px; margin-bottom: 15px;">"La lealtad se demuestra con trabajo": el contundente mensaje de Marta Albarracín en el Día de la Lealtad</h2>';
+        
+        // FOTO: Acá tiene que cambiar el link de ejemplo por el link real de la foto de Marta
+        H += '<img class="marco" src="https://files.catbox.moe/ejemplo.jpg" style="width:100%; border-radius:10px; margin-bottom:15px;" alt="Marta Albarracín y Jaldo">';
+        
+        H += '<p><strong>La intendenta de San Isidro de Lules acompañará al gobernador Osvaldo Jaldo y al ministro del Interior, Darío Monteros, en el acto por el Día de la Lealtad Peronista. También estará presente el legislador Carlos Gallia.</strong></p>';
+        H += '<p>Hoy acompañé a nuestro Gobernador Osvaldo Jaldo, al Hipódromo de Tucumán, donde vivimos una jornada muy especial por el Día de la Lealtad Peronista. Fue emocionante reencontrarnos con tantos compañeros y compañeras, compartir abrazos y sentir ese cariño que nos une.</p>';
+        H += '<p>Querido Gobernador, siempre va a contar con mi acompañamiento, mi respeto y mi compromiso. Porque la lealtad no se demuestra solamente con palabras, sino estando presentes, trabajando juntos y acompañando también en los momentos difíciles.</p>';
+        
+        H += '<button type="button" class="btn-voz-marta" style="background-color:#c9a243; color:#000; padding:10px 20px; border:none; border-radius:5px; font-weight:bold; margin-top:10px; margin-bottom:20px; cursor:pointer;">🔊 Escuchar nota</button>';
+
+        var article = document.createElement('article');
+        article.id = 'nota-marta-albarracin';
+        article.className = 'nota';
+        article.style.marginBottom = '30px';
+        article.innerHTML = H;
+
+        // Busca dónde insertar la nota (primera por defecto)
+        var contenedor = document.getElementById('lista-noticias') || document.querySelector('.noticias-container') || document.querySelector('main');
+        
+        if (contenedor) {
+            contenedor.insertBefore(article, contenedor.firstChild);
+            
+            setTimeout(function() {
+                var btn = article.querySelector('.btn-voz-marta');
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        var s = window.speechSynthesis;
+                        if (!s) return;
+                        
+                        if (window._martaLeyendo) {
+                            s.cancel();
+                            window._martaLeyendo = false;
+                            btn.innerHTML = '🔊 Escuchar nota';
+                            return;
+                        }
+                        
+                        var texto = "La lealtad verdadera se demuestra con compromiso y trabajo, afirmó Albarracín. La intendenta de San Isidro de Lules acompañará al gobernador Osvaldo Jaldo... Hoy acompañé a nuestro Gobernador... Querido Gobernador, siempre va a contar con mi acompañamiento...";
+                        var u = new SpeechSynthesisUtterance(texto);
+                        u.lang = 'es-AR';
+                        u.rate = 0.92;
+                        
+                        window._martaLeyendo = true;
+                        btn.innerHTML = '⏹️ Detener lectura';
+                        
+                        u.onend = function() {
+                            window._martaLeyendo = false;
+                            btn.innerHTML = '🔊 Escuchar nota';
+                        };
+                        s.speak(u);
+                    });
+                }
+            }, 1000);
+        } else {
+            document.body.insertBefore(article, document.body.firstChild);
+        }
+    }
+
+    ponerNotaMarta();
+    setTimeout(ponerNotaMarta, 1000);
+})();
+</script>
+        </body>
 </html>
