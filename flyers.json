@@ -4,7 +4,6 @@
     "ecologica",
     "guia",
     "dipalma",
-    "rene2",
     "madre"
   ],
   "inicio": "2026-10-18T00:00:00",
@@ -92,13 +91,6 @@
       "segundos": 8,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
-    },
-    "rene2": {
-      "img": "https://files.catbox.moe/mha3d8.jpg",
-      "tieneVer": true,
-      "segundos": 7,
-      "textoVer": "📰 Ver la nota",
-      "destino": "hemeroteca"
     },
     "madre": {
       "img": "https://files.catbox.moe/d3rrbs.jpg",
