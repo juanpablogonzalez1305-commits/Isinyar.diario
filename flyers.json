@@ -98,6 +98,13 @@
       "segundos": 8,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
+    },
+    "rene2": {
+      "img": "https://files.catbox.moe/mha3d8.jpg",
+      "tieneVer": true,
+      "segundos": 10,
+      "textoVer": "📰 Ver la nota",
+      "destino": "hemeroteca"
     }
   }
 }
