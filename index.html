@@ -11131,5 +11131,121 @@ if(true) return;
     window.addEventListener('load', ciclo);
 })();
 </script>                        
-        </body>
+<script>
+(function(){
+    function ponerNotaGallia(){
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        // Evita duplicados
+        if(document.getElementById('nota-gallia-lealtad')) return;
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-gallia-lealtad';
+
+        var H = '';
+        H += '<summary class="rel deep">Carlos Gallia destacó la lealtad peronista en el Hipódromo: "Defendiendo el trabajo y la justicia social"</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // FOTO CON MARCO SIMPLE Y FINO
+        H += '<img class="marco" src="https://files.catbox.moe/t18j3c.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Carlos Gallia">';
+        
+        H += '<p class="meta">Hoy · Día de la Lealtad Peronista</p>';
+        H += '<p><strong>El legislador tucumano se pronunció a través de sus redes sociales en el marco del Día de la Lealtad Peronista, respaldando la conducción del gobernador Osvaldo Jaldo durante la multitudinaria convocatoria en Tucumán, que superó las 50.000 personas.</strong></p>';
+        
+        H += '<p>En el marco de una jornada histórica para el peronismo provincial, el legislador <strong>Carlos Gallia</strong> se expresó institucionalmente a través de sus canales oficiales con motivo del <strong>Día de la Lealtad Peronista</strong>. Sus declaraciones coincidieron con la masiva convocatoria partidaria que se llevó a cabo en el <strong>Hipódromo de Tucumán</strong>, donde la concurrencia superó las 50.000 personas.</p>';
+        
+        H += '<p>A través de sus redes sociales, el referente luleño destacó una serie de puntos fundamentales que hacen a la identidad del movimiento y a la gestión actual:</p>';
+        
+        H += '<ul>';
+        H += '<li><strong>Compromiso con los trabajadores:</strong> Reivindicó a las y los trabajadores como los "protagonistas de una historia que transformó la Argentina".</li>';
+        H += '<li><strong>Justicia social y presencia estatal:</strong> Aseguró que la verdadera lealtad hacia el pueblo se debe expresar y demostrar de forma cotidiana, "defendiendo el trabajo, la justicia social y un Estado presente".</li>';
+        H += '<li><strong>Alineación política:</strong> En este sentido, <strong>Carlos Gallia</strong> acompañó los mensajes con un fuerte respaldo a la conducción y gestión del gobernador <strong>Osvaldo Jaldo</strong>, quien fue el orador principal en el multitudinario mitin que congregó a más de 50.000 militantes en el predio hípico de la capital.</li>';
+        H += '</ul>';
+        
+        // BOTÓN CON RELIEVE Y BORDE FINO
+        H += '<button type="button" class="btn-voz-gallia" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // POSICIÓN: Lo clava primero en la sección de noticias
+        var primeraNota = sec.querySelector('.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d);
+        }
+
+        // Lógica de lectura
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-gallia');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._galliaLeyendo){
+                    s.cancel();
+                    window._galliaLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                // Busca párrafos y elementos de lista para leer
+                cue.querySelectorAll('p, li').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._galliaLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._galliaLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._galliaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+    }
+
+    var n = 0;
+    function ciclo(){
+        n++;
+        ponerNotaGallia();
+        if(n < 40) setTimeout(ciclo, 800);
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', ciclo);
+    } else {
+        ciclo();
+    }
+    window.addEventListener('load', ciclo);
+})();
+  </script>       
+</body>
 </html>
