@@ -3,8 +3,7 @@
     "auvieux",
     "ecologica",
     "guia",
-    "dipalma",
-    "madre"
+    "dipalma"
   ],
   "inicio": "2026-10-18T00:00:00",
   "duracion_horas": 24,
@@ -91,11 +90,6 @@
       "segundos": 8,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
-    },
-    "madre": {
-      "img": "https://files.catbox.moe/d3rrbs.jpg",
-      "tieneVer": false,
-      "segundos": 7
     }
   }
 }
