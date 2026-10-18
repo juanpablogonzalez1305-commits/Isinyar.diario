@@ -1,10 +1,12 @@
 {
   "mostrar": [
     "auvieux",
+    "ecologica",
+    "guia",
     "dipalma",
-    "lealtadnota"
+    "rené"
   ],
-  "inicio": "2026-10-17T00:00:00",
+  "inicio": "2026-10-18T00:00:00",
   "duracion_horas": 24,
   "flyers": {
     "tango": {
@@ -55,14 +57,14 @@
     "ecologica": {
       "img": "https://files.catbox.moe/btobdv.jpg",
       "tieneVer": false,
-      "segundos": 7
+      "segundos": 5
     },
     "guia": {
       "img": "https://files.catbox.moe/2sq36j.jpg",
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ Ver la guÃÂ­a",
       "destino": "guia",
-      "segundos": 7
+      "segundos": 5
     },
     "feriaesp": {
       "img": "https://files.catbox.moe/05uf5l.png",
@@ -79,7 +81,7 @@
     "dipalma": {
       "img": "https://files.catbox.moe/pu6kh3.jpg",
       "tieneVer": true,
-      "segundos": 8,
+      "segundos": 5,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
