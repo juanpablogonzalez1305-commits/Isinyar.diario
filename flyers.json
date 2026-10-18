@@ -98,6 +98,11 @@
       "segundos": 7,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
+    },
+    "madre": {
+      "img": "https://files.catbox.moe/mha3d8.jpg",
+      "tieneVer": false,
+      "segundos": 7
     }
   }
 }
