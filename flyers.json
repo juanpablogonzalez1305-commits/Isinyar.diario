@@ -2,20 +2,20 @@
   "mostrar": [
     "tango",
     "auvieux",
+    "artaza",
     "ecologica",
     "guia",
     "dipalma",
     "lealtadnota",
-    "rené",
-    "madre"
+    "rené"
   ],
-  "inicio": "2026-10-18T00:00:00",
+  "inicio": "2026-10-19T00:00:00",
   "duracion_horas": 24,
   "flyers": {
     "tango": {
       "img": "https://files.catbox.moe/qxwpef.jpg",
       "tieneVer": true,
-      "segundos": 6,
+      "segundos": 5,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
@@ -29,7 +29,7 @@
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
-      "segundos": 6
+      "segundos": 5
     },
     "padres": {
       "img": "https://files.catbox.moe/tz6wq6.png",
@@ -43,7 +43,7 @@
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
-      "segundos": 7
+      "segundos": 5
     },
     "lealtad": {
       "img": "https://files.catbox.moe/qtfoyi.jpg",
@@ -79,21 +79,21 @@
     "dipalma": {
       "img": "https://files.catbox.moe/pu6kh3.jpg",
       "tieneVer": true,
-      "segundos": 6,
+      "segundos": 5,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
     "lealtadnota": {
       "img": "https://files.catbox.moe/n578p2.jpg",
       "tieneVer": true,
-      "segundos": 6,
+      "segundos": 5,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
     },
     "rené": {
       "img": "https://files.catbox.moe/d3rrbs.jpg",
       "tieneVer": true,
-      "segundos": 6,
+      "segundos": 5,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
