@@ -11,11 +11,11 @@
   "duracion_horas": 24,
   "flyers": {
     "tango": {
-      "img": "https://files.catbox.moe/62vlkj.png",
+      "img": "https://files.catbox.moe/qxwpef.jpg",
       "tieneVer": true,
-      "textoVer": "Ã°ÂÂÂ­ Ver la nota completa",
-      "destino": "cultura-viva",
-      "segundos": 8
+      "segundos": 5,
+      "textoVer": "📰 Ver la nota",
+      "destino": "hemeroteca"
     },
     "feria": {
       "img": "https://files.catbox.moe/s6g3yw.png",
