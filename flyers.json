@@ -2,6 +2,7 @@
   "mostrar": [
     "tango",
     "auvieux",
+    "lealtad",
     "ecologica",
     "guia",
     "dipalma",
@@ -49,7 +50,7 @@
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ° Ver las noticias",
       "destino": "noticias",
-      "segundos": 10
+      "segundos": 7
     },
     "ecologica": {
       "img": "https://files.catbox.moe/btobdv.jpg",
