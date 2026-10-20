@@ -101,6 +101,13 @@
       "img": "https://files.catbox.moe/mha3d8.jpg",
       "tieneVer": false,
       "segundos": 7
+    },
+    "distinción": {
+      "img": "https://files.catbox.moe/w4qbyu.jpg",
+      "tieneVer": true,
+      "segundos": 6,
+      "textoVer": "📰 Ver la nota",
+      "destino": "noticias"
     }
   }
 }
