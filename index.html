@@ -12263,5 +12263,125 @@ if(true) return;
     }, 500);
 })();
      </script>  
-    </body>
+ <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cajaInmigrantes = document.getElementById('nota-inmigrantes');
+        
+        if(cajaInmigrantes) {
+            clearInterval(timer); 
+            
+            if(document.getElementById('sub-nota-nasca')) return;
+
+            var subNota = document.createElement('details');
+            subNota.className = 'pieza';
+            subNota.id = 'sub-nota-nasca';
+            
+            // Ancho completo
+            subNota.style.marginTop = '15px';
+            subNota.style.marginLeft = '-15px'; 
+            subNota.style.marginRight = '-15px';
+            subNota.style.width = 'calc(100% + 30px)';
+
+            var H = '';
+            H += '<summary class="rel deep" style="background: #f4efe6; color: #6b5a33; border-color: #c9a243;">🇮🇹 Salvador Nasca: Pionero de la actividad hortícola en Lules</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">Noviembre de 1996 · Familia de Inmigrantes</p>';
+            H += '<p><strong><em>Salvador Nasca llegó a la Argentina en 1906. Con los biznietos de la 2ª generación, esta es la 5ª generación de la familia en San Isidro de Lules.</em></strong></p>';
+            
+            // Transcripción de la nota
+            H += '<p>El hecho de que Lules sea uno de los polos hortícolas de la provincia, supone haber recorrido un largo y difícil camino, donde las dificultades y sacrificios fueron superados por el tesón y el amor al trabajo.</p>';
+            
+            H += '<p>Esta ciudad nació con los Indios Lules, los Jesuitas, los Márquez, los Padillas, los Domínguez, los Cantón, con los inmigrantes que llegaron en busca de nuevos horizontes. Estos últimos fueron los pioneros del cambio, ellos forjaron esta actividad a tal punto que tomates y pimientos fueron los primeros mensajeros de Lules.</p>';
+            
+            H += '<p>Don Salvador Nasca llegó de Sicilia - Italia - en 1906. Poco tiempo después con su esposa Assunta y sus hijos José, Cayetano y María Gracia llegaron a Lules y se instalaron en una propiedad de Sinforosa Márquez, donde se sumaron a la acción de sus compatriotas que ya habían demostrado 400 has. en la zona de la Quebrada.</p>';
+            
+            H += '<p>Nació Vicente el único hijo Argentino, quien junto con Cayetano y sus hermanos fueron forjando su personalidad en un ambiente de laboriosidad, donde peones y patrones compartían la misma mesa.</p>';
+            
+            H += '<p>Cayetano vivió esa época de recambio intensamente ya que se dio entre sus 20 y 34 años, acá se definió su vocación gremialista. Hasta entonces los agricultores italianos y sus descendientes fieles a la tradición se mantenían aislados sin agruparse para defender sus intereses, pero la reivindicativa de los peones los obligó a asociarse.</p>';
+            
+            H += '<p>En 1919 Cayetano junto a otros agricultores creyeron conveniente la formación de una sociedad, se reunieron en casa de Antonio Guarino y asesorados por el procurador Augusto Mosna dieron nacimiento a la <strong>"Sociedad de Quinteros de Lules"</strong>, la institución existió hasta 1925 y fue cuna del gremialismo rural de Tucumán. Esta Sociedad no solo allanó el camino de los trabajadores, sino que también sirvió para discutir con las autoridades del Ferrocarril Central Córdoba el precio del transporte de los productos.</p>';
+            
+            H += '<p>En esta época (1924 hasta 1930) Cayetano se radicó en el Manantial donde administraba una finca de 8 hs. que su padre adquirió a Cecilio Hill.</p>';
+            
+            H += '<p>En 1939 intervinieron la fundación de la "Cooperativa Hortícola y Cirícola de Lules" y tiempo después en 1965 en la fundación de la "Cooperativa Hortícola y Frutícola La Luleña".</p>';
+            
+            H += '<p>La Ciencia aplicada al agro, también tuvo su apoyo. En 1928 cuando la cochinilla blanca afectó sus campos de Manantial, recurrió a la ciencia. William Cross le envió unas cajas con jaulas en las que se guardaban trozos de algo donde venía en azúcar, para mantener vivos los agentes de control de plagas que habían sido traídos de Australia. Las jaulas se abrieron en los naranjos y pocos días después la plaga se detuvo hasta que finalmente desapareció.</p>';
+            
+            H += '<p>Cayetano Nasca ejerció la presidencia de la Junta Parroquial y de la Comisión Pro-Templo "San Isidro Labrador" durante varios años y fue uno de los impulsores de la construcción del Hogar de Ancianos.</p>';
+            
+            H += '<p>Nació en Sicilia el 22 de Agosto de 1896, y falleció en esta Ciudad en 1978, este 22 de Agosto se cumplieron 100 años de su natalicio.</p>';
+            
+            H += '<button type="button" class="btn-voz-nasca" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            subNota.innerHTML = H;
+            
+            var cuerpoInmigrantes = cajaInmigrantes.querySelector('.cuerpo-in');
+            if(cuerpoInmigrantes) {
+                cuerpoInmigrantes.appendChild(subNota);
+            }
+
+            setTimeout(function(){
+                var b = subNota.querySelector('.btn-voz-nasca');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._nascaLeyendo){
+                        s.cancel();
+                        window._nascaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = subNota.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._nascaLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._nascaLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._nascaLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+ </script>  
+</body>
 </html>
