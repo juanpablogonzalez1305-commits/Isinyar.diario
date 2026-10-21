@@ -11487,5 +11487,44 @@ if(true) return;
     }
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        if(document.getElementById('nota-inmigrantes')) { clearInterval(timer); return; }
+        
+        // Buscamos la nota de Víctor Aron para usarla de ancla
+        var notaVictor = document.getElementById('nota-victor-aron');
+        
+        if(notaVictor) {
+            clearInterval(timer); 
+            
+            // Creamos el contenedor principal (La tecla 13)
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'nota-inmigrantes';
+
+            var H = '';
+            // El título principal (El botón que van a tocar)
+            H += '<summary class="rel deep">13 · Raíces de Lules: La Historia de los Inmigrantes que forjaron la ciudad</summary>';
+            
+            // El cuerpo donde van a ir los botones internos
+            H += '<div class="cuerpo-in">';
+            H += '<p style="font-style: italic; color: #6b5a33; margin-bottom: 15px;">Próximamente iremos agregando aquí los botones con las historias de las colectividades (Españoles, Italianos, Árabes y más).</p>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            // Lo insertamos justo después de Víctor Aron
+            notaVictor.parentNode.insertBefore(d, notaVictor.nextSibling);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
   </body>
 </html>
