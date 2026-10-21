@@ -12465,5 +12465,38 @@ if(true) return;
     }, 500);
 })();
 </script>
-</body>
+<script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos cualquier título o resumen que contenga estas palabras
+        var titulos = document.querySelectorAll('summary, h2, h3');
+        var notaObjetivo = null;
+        
+        for(var i=0; i < titulos.length; i++) {
+            if(titulos[i].textContent.includes('Lealtad Peronista') && titulos[i].textContent.includes('Hipódromo')) {
+                notaObjetivo = titulos[i];
+                break;
+            }
+        }
+        
+        if(notaObjetivo) {
+            clearInterval(timer);
+            // Buscamos la foto dentro de esa nota
+            var contenedor = notaObjetivo.parentNode;
+            var foto = contenedor.querySelector('img');
+            
+            if(foto) {
+                // Le cambiamos el link por su foto nueva
+                foto.src = 'img/Screenshot_20261018-062810_Facebook~2.jpg';
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
+                         </body>
 </html>
