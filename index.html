@@ -11323,5 +11323,103 @@ if(true) return;
     }, 500);
 })();
 </script>
-  </body>
+  <script>
+(function(){
+    function ponerNotaPremioSanJose(){
+        // Buscamos la caja exacta de la hemeroteca
+        var cont = document.getElementById('his-hemeroteca');
+        if(!cont) { setTimeout(ponerNotaPremioSanJose, 500); return; }
+        
+        // Evitamos duplicados
+        if(document.getElementById('nota-premio-san-jose')) return;
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-premio-san-jose';
+
+        var H = '';
+        H += '<summary class="rel deep">Orgullo Luleño: DESCUBRIR fue galardonado como "Mejor Periódico del Interior"</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // FOTO CON MARCO SIMPLE (Como pidió)
+        H += '<img class="marco" src="https://files.catbox.moe/mfza7y.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Premio San José - Archivo Descubrir">';
+        
+        H += '<p class="meta">Junio de 1996 · Archivo Hemeroteca</p>';
+        H += '<p><strong><em>"Este es un premio a toda la comunidad de Lules, nada se puede lograr sin la participación de muchos"</em></strong></p>';
+        H += '<p><em>(Nota publicada originalmente en junio de 1996)</em></p>';
+        
+        H += '<p>El 19 de mayo fue para nosotros un día muy importante. Como todo lo que trabajamos por un ideal, nunca habíamos anidado en nuestra mente el hecho de despertar dueños del recuerdo, buscando nuestra identidad.</p>';
+        
+        H += '<p>Obtener el premio San José al mejor periódico del interior fue una prueba más de que lo que es posible cuando se actúa con fe. No vamos a negar que el hecho de salir todos los meses es un trabajo arduo que quizás hasta llega a cansar, pero nos dio la posibilidad de seguir trabajando junto a nuestra familia.</p>';
+        
+        H += '<p>A nuestra comunidad, el agradecimiento por permitirnos transitar junto a ustedes esta historia y a nuestros amigos más cercanos. Un lugar muy especial en esta realidad que nos toca vivir tiene <strong>Víctor Aron</strong>, a quien respetamos y admiramos, saludamos por el logro con su programa <em>"Mano a Mano Usted el Tango... y Yo"</em>.</p>';
+        
+        H += '<p>A los anunciantes, a nuestros amigos y familiares de siempre muchas gracias. Saludamos a los Periódicos <strong>El Ciudadano</strong> y <strong>Alborada</strong>, que comparten con nosotros la responsabilidad y la alegría de demostrarle al interior.</p>';
+        
+        // BOTÓN CON RELIEVE (El que ya sabemos que funciona)
+        H += '<button type="button" class="btn-voz-premio" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // ¡LA MAGIA! prepend() lo pone como el PRIMER elemento de la lista, arriba de todo.
+        cont.prepend(d);
+
+        // Lógica de lectura
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-premio');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._premioLeyendo){
+                    s.cancel();
+                    window._premioLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._premioLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._premioLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._premioLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+    }
+
+    ponerNotaPremioSanJose();
+})();
+  </script>
+        </body>
 </html>
