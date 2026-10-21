@@ -12502,5 +12502,45 @@ if(true) return;
     }, 500);
 })();
 </script>
-                         </body>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de la municipalización por su ID exacto
+        var notaMuni = document.getElementById('nota-municipalizacion');
+        
+        if(notaMuni) {
+            clearInterval(timer);
+            var cuerpo = notaMuni.querySelector('.cuerpo-in');
+            
+            // Buscamos si ya pusimos la foto para no duplicarla
+            if(cuerpo && !cuerpo.querySelector('.foto-titino')) {
+                
+                // Buscamos el contenedor flexible donde están las dos fotos
+                var flexContainer = cuerpo.querySelector('div[style*="display:flex"]');
+                
+                if(flexContainer) {
+                    // Creamos un nuevo bloque de foto para Titino
+                    var nuevoDiv = document.createElement('div');
+                    nuevoDiv.style.flex = '1';
+                    nuevoDiv.style.textAlign = 'center';
+                    nuevoDiv.className = 'foto-titino';
+                    
+                    // Usamos el nombre que usted me confirmó
+                    nuevoDiv.innerHTML = '<img class="marco" src="img/titino.jpg" style="width:100%; border-radius:6px;"><span style="display:block;font-size:.7rem;color:#6b5a33;margin-top:5px;">Julio César "Titino" Rodríguez<br>Primer Intendente Constitucional</span>';
+                    
+                    // Lo agregamos al lado de la otra foto
+                    flexContainer.appendChild(nuevoDiv);
+                }
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>                      
+</body>
 </html>
