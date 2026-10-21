@@ -11327,18 +11327,26 @@ if(true) return;
 (function(){
     var intentos = 0;
     
-    // El "relojito" que revisa cada medio segundo si la caja ya se dibujó
     var timer = setInterval(function(){
         intentos++;
         
         // Si ya se pegó, apagamos el reloj
         if(document.getElementById('nota-premio-san-jose')) { clearInterval(timer); return; }
         
-        // Buscamos la caja de la hemeroteca
-        var cont = document.getElementById('his-hemeroteca');
+        // Buscamos la nota que dice "René Juárez" para usarla de ancla
+        var todasLasNotas = document.querySelectorAll('summary');
+        var notaRené = null;
         
-        if(cont) {
-            clearInterval(timer); // ¡La encontramos! Apagamos el reloj.
+        for(var i=0; i < todasLasNotas.length; i++) {
+            if(todasLasNotas[i].textContent.includes('René Juárez')) {
+                notaRené = todasLasNotas[i];
+                break;
+            }
+        }
+        
+        // Si encontramos a René Juárez, insertamos la nota justo arriba de él
+        if(notaRené) {
+            clearInterval(timer); // La encontramos, apagamos el reloj.
             
             var d = document.createElement('details');
             d.className = 'pieza';
@@ -11363,14 +11371,15 @@ if(true) return;
             
             H += '<p>A los anunciantes, a nuestros amigos y familiares de siempre muchas gracias. Saludamos a los Periódicos <strong>El Ciudadano</strong> y <strong>Alborada</strong>, que comparten con nosotros la responsabilidad y la alegría de demostrarle al interior.</p>';
             
-            // BOTÓN DE AUDIO
             H += '<button type="button" class="btn-voz-premio" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
             H += '</div>';
 
             d.innerHTML = H;
             
-            // ¡Lo pone PRIMERO, arriba de todo!
-            cont.prepend(d);
+            // LA MAGIA: notaRené.parentNode es la nota 1, su padre es la caja grande.
+            // Insertamos antes de la nota 1.
+            var notaRenéDetails = notaRené.parentNode; 
+            notaRenéDetails.parentNode.insertBefore(d, notaRenéDetails);
 
             // Lógica de lectura
             setTimeout(function(){
@@ -11425,8 +11434,8 @@ if(true) return;
             }, 500);
         }
         
-        // Si pasaron 15 segundos (30 intentos) y no la encontró, se frena para no colgar la página
-        if(intentos > 30) clearInterval(timer);
+        // Si pasaron 20 segundos y no la encontró, se frena.
+        if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
 </script>
