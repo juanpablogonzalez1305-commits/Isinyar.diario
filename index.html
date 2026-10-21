@@ -11912,5 +11912,125 @@ if(true) return;
     }, 500);
 })();
     </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cajaInmigrantes = document.getElementById('nota-inmigrantes');
+        
+        if(cajaInmigrantes) {
+            clearInterval(timer); 
+            
+            if(document.getElementById('sub-nota-failla')) return;
+
+            var subNota = document.createElement('details');
+            subNota.className = 'pieza';
+            subNota.id = 'sub-nota-failla';
+            
+            // Ancho completo
+            subNota.style.marginTop = '15px';
+            subNota.style.marginLeft = '-15px'; 
+            subNota.style.marginRight = '-15px';
+            subNota.style.width = 'calc(100% + 30px)';
+
+            var H = '';
+            H += '<summary class="rel deep" style="background: #f4efe6; color: #6b5a33; border-color: #c9a243;">🇮🇹 Familia Failla: "El Presidente Perón nos pagó el viaje"</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">Junio de 1996 · Familia de Inmigrantes</p>';
+            H += '<p><strong><em>Gaetano Failla y su familia, llegaron a la Argentina en 1954, la guerra había terminado. En Italia se trabajaba mucho y se ganaba poco.</em></strong></p>';
+            
+            // Transcripción de la nota
+            H += '<p>Gaetano Failla nació en Florida, Sicilia, Italia, el 14 de Septiembre de 1905. Cuando tenía 9 años se produjo la 1ª guerra mundial, y cuarenta cuando se dió la 2ª. No participó activamente de la misma porque era casado y tenía a sus padres a cargo.</p>';
+            
+            H += '<p>Llegué a la Argentina cuando tenía 49 años, "...Me vine de Italia porque el Presidente Perón nos pagaba el viaje, en Italia había terminado la guerra, se trabajaba mucho y no se ganaba bien.</p>';
+            
+            H += '<p>A este país llegué junto con mi esposa, Sofía Ríos que tenía 37 años y mis hijos Sebastián de 17, Mario de 13 y Santa de 11. Llegamos en el Barco Santa Fé, el viaje duró 23 días.</p>';
+            
+            H += '<p>Mi padre había venido en 1905, año en el que yo nací, pero no se acostumbró por lo que regresó pronto.</p>';
+            
+            H += '<p>Llegamos a Buenos Aires en 1954 y de allí nos vinimos a Lules. Estuvimos 6 meses en la Quinta de Zapulla, hasta que pudimos construir una casa, ya que al llegar compramos un lote.</p>';
+            
+            H += '<p>En Lules vivían mis primos Giarratana y Amenta, me dediqué a trabajar podando plantas de naranjas y limones, después vendí carbón, alfalfa y por último me dediqué a la compra y venta de citrus.</p>';
+            
+            H += '<p>Este país cuando llegué ofrecía mas trabajo, el comercio tenía más movimiento, la gente compraba más, había facilidades de pago la sola palabra bastaba para obtener créditos.</p>';
+            
+            H += '<p>A San Miguel de Tucumán nos íbamos en bicicletas, no había los peligros que hay hoy, la empresa de Omnibus El Provincial tenía pocas unidades. Además existía la empresa de ómnibus de Mussry que hacía los viajes Tucumán, Bella Vista, Lules.</p>';
+            
+            H += '<p>Las compras las hacíamos en La Ciudad y luego le dábamos las boletas al Sr. Defeliche que tenía un camión para hacer fletes.</p>';
+            
+            H += '<p>Volví a Italia 3 veces, en una de ellas junto con mi esposa, todos mis hijos también estuvieron allí, tengo en ese país una hermana de 82 años, hoy Italia tenemos orden que Argentina el sistema de seguridad para la gente de la tercera edad es totalmente gratuito, desde remedios hasta enfermeras para el cuidado de ellos."</p>';
+            
+            H += '<p>El 14 de Septiembre Gaetano Failla cumplirá 91 años, y entre sus recuerdos imborrables está la fiesta que le realizó la Asociación Siciliana de Tucumán festejando sus 58 años de casados el día 29 de Octubre de 1995.</p>';
+            
+            H += '<button type="button" class="btn-voz-failla" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            subNota.innerHTML = H;
+            
+            var cuerpoInmigrantes = cajaInmigrantes.querySelector('.cuerpo-in');
+            if(cuerpoInmigrantes) {
+                cuerpoInmigrantes.appendChild(subNota);
+            }
+
+            setTimeout(function(){
+                var b = subNota.querySelector('.btn-voz-failla');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._faillaLeyendo){
+                        s.cancel();
+                        window._faillaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = subNota.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._faillaLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._faillaLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._faillaLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
   </body>
 </html>
