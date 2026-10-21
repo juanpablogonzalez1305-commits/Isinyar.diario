@@ -12517,11 +12517,8 @@ if(true) return;
             var flexContainer = cuerpo.querySelector('div[style*="display:flex"]');
             
             if(flexContainer) {
-                // Buscamos la foto de Marta que ya estaba ahí para no perderla
-                var martaImg = flexContainer.querySelector('img');
-                var martaSrc = martaImg ? martaImg.src : 'img/Screenshot_20261018-062853_Facebook~2.jpg'; // Fallback
-
-                // RE-CONSTRUIMOS TODO EL BLOQUE ORDENADO
+                
+                // RE-CONSTRUIMOS TODO EL BLOQUE ORDENADO DESDE CERO
                 var H = '';
                 H += '<div style="display:flex; gap:15px; justify-content:center; align-items:flex-start; margin-bottom:20px;">';
 
@@ -12534,7 +12531,7 @@ if(true) return;
 
                 // --- COLUMNA DERECHA: MARTA ---
                 H += '<div style="flex:1; text-align:center;">';
-                H += '<img class="marco" src="' + martaSrc + '" style="width:100%; border:2px solid #c9a243; border-radius:8px; display:block; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">';
+                H += '<img class="marco" src="img/intendente.jpg" style="width:100%; border:2px solid #c9a243; border-radius:8px; display:block; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">';
                 H += '<span style="display:block; font-size:0.75rem; color:#6b5a33; margin-top:8px; font-weight:bold;">Marta Albarracín</span>';
                 H += '<span style="display:block; font-size:0.7rem; color:#6b5a33; line-height:1.2; margin-top:2px; font-style:italic;">Actual Intendente de San Isidro de Lules. Asumió sus funciones en el año 2023.</span>';
                 H += '</div>';
@@ -12549,6 +12546,6 @@ if(true) return;
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-                  </script>                      
+</script>                      
 </body>
 </html>
