@@ -12437,5 +12437,33 @@ if(true) return;
     }, 500);
 })();
    </script>
+<script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de Linares
+        var subNota = document.getElementById('sub-nota-linares');
+        
+        if(subNota) {
+            clearInterval(timer); 
+            
+            var cuerpo = subNota.querySelector('.cuerpo-in');
+            // Si ya tiene la foto, no hace nada
+            if(cuerpo && !cuerpo.querySelector('.foto-linares')) {
+                
+                // Usamos el nombre exacto que subió a la carpeta img
+                var imgHTML = '<img class="marco foto-linares" src="img/linares.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Familia Linares - Supermercado Seranil">';
+                
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 </body>
 </html>
