@@ -11444,5 +11444,44 @@ if(true) return;
     }, 500);
 })();
 </script>
-        </body>
+  <script>
+// --- DETECTOR DE NAVEGADOR INTERNO PARA INSTALAR LA APP ---
+(function(){
+    var ua = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // Detectamos si estamos en un navegador interno (WhatsApp, Instagram, Facebook, cámara, etc.)
+    var esNavegadorInterno = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1) || (ua.indexOf('Instagram') > -1) || (ua.indexOf('WhatsApp') > -1) || (ua.indexOf('Line') > -1);
+    
+    // Detectamos si ya está instalada (para no molestar si ya la tiene)
+    var yaInstalada = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    if(esNavegadorInterno && !yaInstalada) {
+        // Creamos el cartel flotante con el diseño de DESCUBRIR
+        var banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; background:rgba(21,17,13,0.98); border-top:3px solid #c9a243; padding:20px; z-index:9999999; text-align:center; box-shadow:0 -5px 15px rgba(0,0,0,0.8); display:flex; flex-direction:column; align-items:center; font-family:"Manrope", sans-serif;';
+        
+        var texto = '';
+        if(ua.match(/android/i)) {
+            texto = '<p style="color:#f4efe6; font-size:15px; margin-bottom:15px; line-height:1.4;">Para <b>instalar la App</b> de DESCUBRIR Lules en tu celular, tocá los <b>3 puntitos (⋮)</b> arriba a la derecha y elegí <b>"Abrir en Chrome"</b>.</p>';
+        } else if(ua.match(/iphone|ipad|ipod/i)) {
+            texto = '<p style="color:#f4efe6; font-size:15px; margin-bottom:15px; line-height:1.4;">Para <b>instalar la App</b> de DESCUBRIR Lules, tocá el botón <b>Compartir</b> (el cuadrado con la flecha) y elegí <b>"Agregar a Inicio"</b>.</p>';
+        } else {
+            texto = '<p style="color:#f4efe6; font-size:15px; margin-bottom:15px; line-height:1.4;">Para instalar la App, abrí este enlace en tu navegador principal.</p>';
+        }
+
+        var btnCerrar = document.createElement('button');
+        btnCerrar.innerHTML = 'Entendido';
+        btnCerrar.style.cssText = 'background:#c9a243; color:#171310; border:none; padding:8px 25px; border-radius:20px; font-weight:bold; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:1px;';
+
+        btnCerrar.onclick = function() {
+            banner.style.display = 'none';
+        };
+
+        banner.innerHTML = texto;
+        banner.appendChild(btnCerrar);
+        document.body.appendChild(banner);
+    }
+})();
+  </script>     
+  </body>
 </html>
