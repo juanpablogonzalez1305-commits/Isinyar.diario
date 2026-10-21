@@ -12154,5 +12154,114 @@ if(true) return;
     }, 500);
 })();
  </script>
-        </body>
+     <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cajaInmigrantes = document.getElementById('nota-inmigrantes');
+        
+        if(cajaInmigrantes) {
+            clearInterval(timer); 
+            
+            if(document.getElementById('sub-nota-atilio')) return;
+
+            var subNota = document.createElement('details');
+            subNota.className = 'pieza';
+            subNota.id = 'sub-nota-atilio';
+            
+            // Ancho completo
+            subNota.style.marginTop = '15px';
+            subNota.style.marginLeft = '-15px'; 
+            subNota.style.marginRight = '-15px';
+            subNota.style.width = 'calc(100% + 30px)';
+
+            var H = '';
+            H += '<summary class="rel deep" style="background: #f4efe6; color: #6b5a33; border-color: #c9a243;">🇮🇹 Atilio Col Bonifacio: "No hay límites para su afán creador"</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">Diciembre de 1995 · Empresas de Lules</p>';
+            
+            // Transcripción de la nota
+            H += '<p><strong>Hijo de inmigrantes italianos, fabricó cosechadoras continuas. En 1975, diseñó la máquina "Disachi" para el PRONDAT (Proyecto de Desarrollo Agrícola) diseñó y realizó esta máquina que cosechaba la caña de azúcar y en la actualidad son muy pocas las que se encuentran en funcionamiento.</strong></p>';
+            
+            H += '<p>Nació el 5 de junio de 1917 en la Provincia de Santa Fe. Casado con Oliva Alberto, cuatro hijos.</p>';
+            
+            H += '<p>A partir de los 18 años se dedicó a trabajar en talleres metalúrgicos, allí encontró campo fértil su vocación creando su propio taller para fabricar heladeras, triciclos, camiones, carrocerías, etc.</p>';
+            
+            H += '<p>Esto lo llevó a radicarse en San Miguel de Tucumán en 1967 y luego en esta ciudad. La empresa JAYA le dio la posibilidad de canalizar su creatividad para ellos diseñó máquinas cargadoras y cosechadoras integrales.</p>';
+            
+            H += '<p>A los 78 años recordó su infancia: "Con mis padres a los 10 años ya manejaba el sulky y a los 15 manejaba el camión de mi padre repartiendo la mercadería por los pueblos de Santa Fe".</p>';
+            
+            H += '<p>Fue un visionario que supo adaptarse a los cambios de la industria azucarera y mecánica de nuestra provincia, dejando un legado de ingenio y trabajo.</p>';
+            
+            H += '<button type="button" class="btn-voz-atilio" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            subNota.innerHTML = H;
+            
+            var cuerpoInmigrantes = cajaInmigrantes.querySelector('.cuerpo-in');
+            if(cuerpoInmigrantes) {
+                cuerpoInmigrantes.appendChild(subNota);
+            }
+
+            setTimeout(function(){
+                var b = subNota.querySelector('.btn-voz-atilio');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._atilioLeyendo){
+                        s.cancel();
+                        window._atilioLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = subNota.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._atilioLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._atilioLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._atilioLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+     </script>  
+    </body>
 </html>
