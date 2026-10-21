@@ -11526,5 +11526,124 @@ if(true) return;
     }, 500);
 })();
   </script>
-  </body>
+<script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la tecla principal de inmigrantes que creamos antes
+        var cajaInmigrantes = document.getElementById('nota-inmigrantes');
+        
+        if(cajaInmigrantes) {
+            clearInterval(timer); 
+            
+            // Evitamos duplicados
+            if(document.getElementById('sub-nota-espanoles')) return;
+
+            // Creamos el sub-botón
+            var subNota = document.createElement('details');
+            subNota.className = 'pieza'; // Le damos el mismo estilo
+            subNota.id = 'sub-nota-espanoles';
+            subNota.style.marginTop = '15px'; // Un pequeño margen para separarlo
+
+            var H = '';
+            H += '<summary class="rel deep" style="background: #f4efe6; color: #6b5a33; border-color: #c9a243;">🇪🇸 Los inmigrantes españoles que forjaron el progreso de Lules</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            // JEFE: Acá podés poner el link de Catbox de una foto de la panadería o de la familia si tenés. Si no, lo dejamos así por ahora.
+            // H += '<img class="marco" src="AQUI_VA_LA_FOTO" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Inmigrantes españoles">';
+            
+            H += '<p class="meta">Archivo Hemeroteca · Septiembre 1995 / Febrero 1997</p>';
+            H += '<p><em>(Notas publicadas originalmente en DESCUBRIR)</em></p>';
+            
+            H += '<p>Entre finales del siglo XIX y mediados del XX, miles de familias españolas cruzaron el océano en busca de un futuro mejor. Lules fue testigo y hogar de muchas de ellas. A través de los recuerdos de sus propios descendientes, rescatamos hoy las historias de dos familias que, con trabajo y sacrificio, dejaron una huella imborrable en nuestra ciudad.</p>';
+            
+            H += '<h4 style="color: #8a6a35; margin-top: 15px; margin-bottom: 5px;">El aroma del pan: La familia Martorell</h4>';
+            H += '<p>En 1927, Antonio Martorell llegó desde España y se instaló en San Miguel de Tucumán. Trabajó de vendedor de carne, guarda de tranvías y repartidor. Al conocer a Felipa Martínez, formaron una familia y se mudaron a La Ramada. Fue allí, como muchos de sus paisanos, donde sintió la vocación de hacer pan, empezando a elaborarlo en un horno de barro.</p>';
+            H += '<p>En el otoño de 1938, la familia llegó a Lules con sus cuatro hijos. Con la ayuda inestimable de unos paisanos amigos que les alquilaron un local en la calle San Martín 221, nació la panadería "La Flecha", bautizada así por un cartel improvisado con un pedazo de chapa con forma de flecha. Los hijos ayudaban en la venta callejera con un canasto en el brazo, iban a la escuela Sarmiento y jugaban a la pelota. Con el tiempo, y a fuerza de "trabajo, sacrificio y ahorro", compraron la propiedad, adquirieron un Ford "A" de 1932 y modernizaron la fábrica, iniciando una nueva era de panificación en Lules.</p>';
+            
+            H += '<h4 style="color: #8a6a35; margin-top: 15px; margin-bottom: 5px;">Raíces de ingenio: La familia López</h4>';
+            H += '<p>Otra historia de esfuerzo es la de José Manuel López, nacido en 1908, hijo de inmigrantes españoles que se radicaron en el Ingenio Reducción hacia 1887. A los 16 años, José Manuel empezó a trabajar en el Ingenio Mercedes. Allí conoció a Ana Argentina Ramos, con quien se casó el 30 de septiembre de 1933 en la iglesia San Isidro Labrador. Como por las elecciones no conseguían vehículos, el padre Miguel Resser los llevó él mismo en su auto hasta el altar.</p>';
+            H += '<p>José Manuel dejó el ingenio en 1943 para trabajar en Fronterita y luego en los ómnibus de pasajeros, jubilándose en 1971. Instalado en la calle Italia desde 1951, sus recuerdos nos devuelven a la Lules de antaño: la época en que no había puente sobre el río y se cruzaba en yuntas de bueyes; cuando la luz era a mechero y farol, hasta que Gianserra instaló la usina eléctrica en 1940; el agua de pozo y las noches de corso llenas de flores y murgas.</p>';
+            
+            H += '<p>Hoy, los apellidos Martorell y López son parte de la identidad de San Isidro de Lules. Son el reflejo de aquellos paisanos que, ayudándose entre sí, transformaron el sacrificio de dejar su tierra en el progreso de nuestra comunidad.</p>';
+            
+            // Botón de audio (con un id único para esta sub-nota)
+            H += '<button type="button" class="btn-voz-espanoles" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            subNota.innerHTML = H;
+            
+            // Lo insertamos DENTRO del cuerpo de la caja de inmigrantes
+            var cuerpoInmigrantes = cajaInmigrantes.querySelector('.cuerpo-in');
+            if(cuerpoInmigrantes) {
+                // Reemplazamos el texto de "Próximamente" si existe
+                var textoProx = cuerpoInmigrantes.querySelector('p');
+                if(textoProx && textoProx.textContent.includes('Próximamente')) {
+                    textoProx.style.display = 'none';
+                }
+                cuerpoInmigrantes.appendChild(subNota);
+            }
+
+            // Lógica del botón de audio
+            setTimeout(function(){
+                var b = subNota.querySelector('.btn-voz-espanoles');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._espanolesLeyendo){
+                        s.cancel();
+                        window._espanolesLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = subNota.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    // Leemos párrafos y los títulos h4 para que la lectura sea completa
+                    cue.querySelectorAll('p, h4').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._espanolesLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._espanolesLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._espanolesLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+                          </script>
+        </body>
 </html>
