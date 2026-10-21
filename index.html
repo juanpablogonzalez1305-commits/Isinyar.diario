@@ -11781,5 +11781,136 @@ if(true) return;
     }, 500);
 })();
       </script>  
-    </body>
+    <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cajaInmigrantes = document.getElementById('nota-inmigrantes');
+        
+        if(cajaInmigrantes) {
+            clearInterval(timer); 
+            
+            if(document.getElementById('sub-nota-linares')) return;
+
+            var subNota = document.createElement('details');
+            subNota.className = 'pieza';
+            subNota.id = 'sub-nota-linares';
+            
+            // Ancho completo
+            subNota.style.marginTop = '15px';
+            subNota.style.marginLeft = '-15px'; 
+            subNota.style.marginRight = '-15px';
+            subNota.style.width = 'calc(100% + 30px)';
+
+            var H = '';
+            H += '<summary class="rel deep" style="background: #f4efe6; color: #6b5a33; border-color: #c9a243;">🇪🇸 Supermercado Seranil: La historia de la familia Linares</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">Octubre de 1995 · Empresas de Lules</p>';
+            
+            // Transcripción de la nota
+            H += '<p>Juan Emilio René Linares (33) casado dos hijos Andrea Carolina y Marcos Adrián, cursó la escuela primaria en la escuela Domingo F. Sarmiento, y egresó como Perito Mercantil del Instituto Ex Salcedo.</p>';
+            
+            H += '<p>Pertenece a la tercera generación de comerciantes de la familia Linares. <strong>Mi abuelo Miguel Angel Linares llegó de España a Lules en 1911, mi abuela María de Gracia Prado también era española, ella llegó en el año 1913.</strong></p>';
+            
+            H += '<p>La actividad comercial en esta ciudad comenzó con la venta del carbón y la leña, con uno de los primeros camiones que hubo en Lules. En 1917 nació mi padre Miguel Angel Linares (78) quien continuó con la actividad comercial, en el mismo ramo. Ellos traían el carbón y la leña de Santiago.</p>';
+            
+            H += '<p>En 1936 el negocio había crecido, me contó mi padre que en esa época viajaban a San Miguel de Tucumán en jardinera y que usaban el revolver en la cintura.</p>';
+            
+            H += '<p>En 1960 mi padre inauguró el negocio de la calle Libertad 125 (donde actualmente funciona el Corralón). A partir de entonces se comenzó con el ramo comestibles, ya que hasta esa época solo se vendía: maíz, alfalfa, melaza y afrecho.</p>';
+            
+            H += '<p>En el rubro materiales de construcción, ingresaron por casualidad, mis padres habían comprado materiales para construir la casa, y al verlos la gente les preguntaba por ellos con intenciones de comprarlos. El negocio se llamaba Almacén de Ramos Generales Linares, nombre que cambió cuando construimos el Súper.</p>';
+            
+            H += '<p>En el año 1986 separaron los rubros, Corralón por un lado y Súper por otro. Acá comienza una nueva historia, el super pasa a ser de mi propiedad y a él me dedico con gran empeño.</p>';
+            
+            H += '<p>El cambio de nombre del negocio se debió a la necesidad de diferenciarlo del corralón, como la idea era que no se pierda totalmente el nombre tradicional se me ocurrió ponerle el apellido al revés. Así nació el Supermercado Seranil.</p>';
+            
+            H += '<p>El 9 de setiembre de 1986, se inauguró éste que vendría a ser el primer súper de Lules, tenía 17 metros de largo por el mismo ancho que hoy tiene. En 1988 realicé una ampliación llevando el súper a los 27 metros, allí instalé la carnicería y un depósito en la parte superior.</p>';
+            
+            H += '<p>En 1993 inauguramos la elaboración propia de pan, contando con hornos rotativos, siendo uno de los pioneros en esta forma de elaboración (es el único súper que posee panificación propia).</p>';
+            
+            H += '<p>Este negocio fue uno de los primeros que comenzó a trabajar con tarjetas de crédito en el año 1987, en esta primera época el 10% de la venta se realizaba con tarjetas, hoy ese porcentaje es del 60%. Este también fue el primer súper que realizó sorteos para los clientes, y acá funciona el servicio del correo privado Andreani.</p>';
+            
+            H += '<p>Recuerdo que cuando íbamos a inaugurar cerramos una semana para realizar los preparativos, pero el sacrificio valió puesto que todo fue un éxito.</p>';
+            
+            H += '<p>Recibimos mucha ayuda de proveedores, crédito del Banco, y el apoyo de mucha gente. Dentro de mis proyectos futuros, esta el de ampliar rubros, cambiar maquinarias y una serie de sueños que poco a poco van aflorando y que el trabajo constante y la dedicación se encargarán de que se conviertan en realidad.</p>';
+            
+            H += '<p>De mi época de niño recuerdo la forma como se trabajaba, los clientes tenían una libreta cuya única garantía de pago era la palabra. La mercadería se compraba por bolsa. Los días domingos mis padre y hermanos trabajaban en el negocio preparando las listas para realizar el reparto en: Monte Grande la Montañita, San Pablo, García Fernández y Potrero de las Tablas.</p>';
+            
+            H += '<p>En mis recuerdos mas gratos se presenta la imagen de mi madre, Estela Auvieux, hija de uno de los primeros taxistas de Lules. Fue ella quien me enseñó a vivir rectamente y a trabajar. En sus horas libres se dedicaba a la cría del gusano de seda.</p>';
+            
+            H += '<p>También de ella recuerdo que mientras atendía el negocio, tejía bellezas para sus nietos. La ternura para tratar a los niños es algo que también está grabado en mi mente, cosas que quizás solo se llega a valorar cuando uno las pierde.</p>';
+            
+            H += '<p>De mis padres recuerdo el permanente sacrificio, mi madre murió joven a los 47 años cuando yo cursaba el primer año del colegio secundario.</p>';
+            
+            H += '<button type="button" class="btn-voz-linares" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            subNota.innerHTML = H;
+            
+            var cuerpoInmigrantes = cajaInmigrantes.querySelector('.cuerpo-in');
+            if(cuerpoInmigrantes) {
+                cuerpoInmigrantes.appendChild(subNota);
+            }
+
+            setTimeout(function(){
+                var b = subNota.querySelector('.btn-voz-linares');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._linaresLeyendo){
+                        s.cancel();
+                        window._linaresLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = subNota.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._linaresLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._linaresLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._linaresLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+    </script>
+  </body>
 </html>
