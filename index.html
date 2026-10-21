@@ -12032,5 +12032,127 @@ if(true) return;
     }, 500);
 })();
   </script>
-  </body>
+ <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cajaInmigrantes = document.getElementById('nota-inmigrantes');
+        
+        if(cajaInmigrantes) {
+            clearInterval(timer); 
+            
+            if(document.getElementById('sub-nota-abdala')) return;
+
+            var subNota = document.createElement('details');
+            subNota.className = 'pieza';
+            subNota.id = 'sub-nota-abdala';
+            
+            // Ancho completo
+            subNota.style.marginTop = '15px';
+            subNota.style.marginLeft = '-15px'; 
+            subNota.style.marginRight = '-15px';
+            subNota.style.width = 'calc(100% + 30px)';
+
+            var H = '';
+            H += '<summary class="rel deep" style="background: #f4efe6; color: #6b5a33; border-color: #c9a243;">🇱🇧 Familia Abdala: "Argentina era ese país del que todos hablaban"</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">Abril de 1996 · Familia de Inmigrantes</p>';
+            H += '<p><strong><em>Jacinto Abdala nació en el Líbano en 1897. Llegó a la Argentina en 1930 y se radicó en Lules en 1934.</em></strong></p>';
+            
+            // Transcripción de la nota
+            H += '<p>Jacinto Abdala 98 años, nació el 15 de Agosto de 1897, en Meinfe-dom cerca de Navatia en el Líbano. Su padre murió en la primera guerra mundial, el mismo año murió su madre.</p>';
+            
+            H += '<p>Con sus hermanos se dedicaban a la agricultura, eran chacareros sembraban lentejas, cebada y trigo. Criaban vacas, ovejas y cultivaban la huerta familiar, obtenían la leche y elaboraban manteca, queso y cuajada.</p>';
+            
+            H += '<p>Un día comentó que llegaron a este país se sintió atraído por lo que comentaban sus paisanos, que volvían de una Argentina de Paz, donde parecía que todos eran de una misma familia, y donde el que quería trabajar progresaba, esto quedaba demostrado con los paisanos que volvían a su patria con dinero y encaraban el progreso en su país.</p>';
+            
+            H += '<p>"En 1930 vendí mis vacas, mis ovejas, mis bueyes mi tierra y me embarqué a este país. 18 días demoró el barco en llegar a Montevideo, tres meses viví allí, me dediqué a vender prendas, ganaba muy bien pero mi sueño era venir a la Argentina. Y mi sueño se cumplió, Argentina era ese país del que todos hablaban, la mejor nación de la tierra, la envidiaban a todos, se decía el que quiera vivir en paz vaya a la Argentina, aquí todos formábamos una sola familia."</p>';
+            
+            H += '<p>Llegué a la Plata donde me dediqué a la cosecha del maíz, cuando esta terminaba veníamos a Tucumán a la cosecha de la caña de azúcar y a Córdoba a la cosecha del trigo.</p>';
+            
+            H += '<p>En el año 1934 volví a Tucumán y me instalé en Lules. En esa época esta hoy hermosa ciudad era una pequeña villa, la calle de paseo iba de la estación hasta Sallan, el medio de transporte mas usado era el Tren y comenzaba a circular en esa época un ómnibus "chiquito de Halle" no había calles pavimentadas, estas eran de tierra.</p>';
+            
+            H += '<p>Los paisanos que ya vivían acá, eran Alejandro Yeye, Ale Masmud, Manuel Apas, Abdo Brahín, Jacinto Sidan, Amado Jalil, Salomón y Sallan entre otros.</p>';
+            
+            H += '<p>Desde que llegué me dediqué al comercio aunque mi sueño fue siempre la agricultura, pero para dedicarse a ésta había que tener mas capital. Mi primer negocio lo puse en Clodomiro Hilet re e Italia en 1934, esta propiedad se la compra a la familia Sallan.</p>';
+            
+            H += '<p>En el año 1940 me casé con María Naife Ale, hija de José Ale un paisano que llegó de mi pueblo y que yo conocí acá. Este me dijo como Ud. vive solo y yo doy mi hija para que se case, ella tenía 14 años y yo 43, ya cumplimos 56 años de casados.</p>';
+            
+            H += '<p>Cerca de donde yo vivía todo era cañaveral, solo existía la casa de Roque y donde actualmente vive la familia Rivas. Después de 10 años me cambié a la Villa Nueva, frente a Ahuali. Allí prosperé mucho con mi negocio, eran épocas en que se veía el dinero, cuando el Ingenio pagaba Lules se convertía en una verdadera feria. Eran épocas de gloria, la gente tenía trabajo y había alegría. En el año 1955 me trasladé a donde hoy vivo.</p>';
+            
+            H += '<p>Nunca regresé a mi patria. Costó mucho el desarraigo, uno no conocía el idioma ni las costumbres, extrañaba muchísimo mi tierra, pero en estos 66 años que viví acá aprendí a querer a este país como a mi verdadera patria.</p>';
+            
+            H += '<p>Hoy me causa mucho dolor ver lo que en ella pasa. No es la Argentina floreciente que descubrí en 1930 o la que viví durante mi época en la Villa Nueva."</p>';
+            
+            H += '<button type="button" class="btn-voz-abdala" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            subNota.innerHTML = H;
+            
+            var cuerpoInmigrantes = cajaInmigrantes.querySelector('.cuerpo-in');
+            if(cuerpoInmigrantes) {
+                cuerpoInmigrantes.appendChild(subNota);
+            }
+
+            setTimeout(function(){
+                var b = subNota.querySelector('.btn-voz-abdala');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._abdalaLeyendo){
+                        s.cancel();
+                        window._abdalaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = subNota.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._abdalaLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._abdalaLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._abdalaLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+ </script>
+        </body>
 </html>
