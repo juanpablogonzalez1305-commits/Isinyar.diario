@@ -109,6 +109,13 @@
       "segundos": 6,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
+    },
+    "descubrir": {
+      "img": "https://files.catbox.moe/im6929.jpg",
+      "tieneVer": true,
+      "segundos": 10,
+      "textoVer": "📰 Ver la nota",
+      "destino": "hemeroteca"
     }
   }
 }
