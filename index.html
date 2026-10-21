@@ -12409,5 +12409,33 @@ if(true) return;
     }, 500);
 })();
 </script>
-    </body>
+   <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de Martorell
+        var subNota = document.getElementById('sub-nota-martorell');
+        
+        if(subNota) {
+            clearInterval(timer); 
+            
+            var cuerpo = subNota.querySelector('.cuerpo-in');
+            // Si ya tiene la foto, no hace nada
+            if(cuerpo && !cuerpo.querySelector('.foto-martorell')) {
+                
+                // Acá usamos el nombre que usted puso en la carpeta img
+                var imgHTML = '<img class="marco foto-martorell" src="img/marorell.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Familia Martorell - Panadería La Flecha">';
+                
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+   </script>
+</body>
 </html>
