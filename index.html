@@ -12383,5 +12383,31 @@ if(true) return;
     }, 500);
 })();
  </script>  
-</body>
+<script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var subNota = document.getElementById('sub-nota-lopez');
+        
+        if(subNota) {
+            clearInterval(timer); 
+            
+            var cuerpo = subNota.querySelector('.cuerpo-in');
+            if(cuerpo && !cuerpo.querySelector('.foto-lopez')) {
+                
+                // Acá le puse el nombre exacto que me mostró en la foto
+                var imgHTML = '<img class="marco foto-lopez" src="img/Screenshot_20261021-151127_Fotos~2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Manuel López y Argentina Ramos">';
+                
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
+    </body>
 </html>
