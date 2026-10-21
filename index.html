@@ -11533,27 +11533,27 @@ if(true) return;
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos la tecla principal de inmigrantes que creamos antes
         var cajaInmigrantes = document.getElementById('nota-inmigrantes');
         
         if(cajaInmigrantes) {
             clearInterval(timer); 
             
-            // Evitamos duplicados
             if(document.getElementById('sub-nota-espanoles')) return;
 
-            // Creamos el sub-botón
             var subNota = document.createElement('details');
-            subNota.className = 'pieza'; // Le damos el mismo estilo
+            subNota.className = 'pieza';
             subNota.id = 'sub-nota-espanoles';
-            subNota.style.marginTop = '15px'; // Un pequeño margen para separarlo
+            
+            // --- ACÁ ESTÁ LA MAGIA DEL ANCHO COMPLETO ---
+            subNota.style.marginTop = '15px';
+            subNota.style.marginLeft = '-15px'; 
+            subNota.style.marginRight = '-15px';
+            subNota.style.width = 'calc(100% + 30px)';
+            // --------------------------------------------
 
             var H = '';
             H += '<summary class="rel deep" style="background: #f4efe6; color: #6b5a33; border-color: #c9a243;">🇪🇸 Los inmigrantes españoles que forjaron el progreso de Lules</summary>';
             H += '<div class="cuerpo-in">';
-            
-            // JEFE: Acá podés poner el link de Catbox de una foto de la panadería o de la familia si tenés. Si no, lo dejamos así por ahora.
-            // H += '<img class="marco" src="AQUI_VA_LA_FOTO" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Inmigrantes españoles">';
             
             H += '<p class="meta">Archivo Hemeroteca · Septiembre 1995 / Febrero 1997</p>';
             H += '<p><em>(Notas publicadas originalmente en DESCUBRIR)</em></p>';
@@ -11570,16 +11570,13 @@ if(true) return;
             
             H += '<p>Hoy, los apellidos Martorell y López son parte de la identidad de San Isidro de Lules. Son el reflejo de aquellos paisanos que, ayudándose entre sí, transformaron el sacrificio de dejar su tierra en el progreso de nuestra comunidad.</p>';
             
-            // Botón de audio (con un id único para esta sub-nota)
             H += '<button type="button" class="btn-voz-espanoles" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
             H += '</div>';
 
             subNota.innerHTML = H;
             
-            // Lo insertamos DENTRO del cuerpo de la caja de inmigrantes
             var cuerpoInmigrantes = cajaInmigrantes.querySelector('.cuerpo-in');
             if(cuerpoInmigrantes) {
-                // Reemplazamos el texto de "Próximamente" si existe
                 var textoProx = cuerpoInmigrantes.querySelector('p');
                 if(textoProx && textoProx.textContent.includes('Próximamente')) {
                     textoProx.style.display = 'none';
@@ -11587,7 +11584,6 @@ if(true) return;
                 cuerpoInmigrantes.appendChild(subNota);
             }
 
-            // Lógica del botón de audio
             setTimeout(function(){
                 var b = subNota.querySelector('.btn-voz-espanoles');
                 if(!b) return;
@@ -11605,7 +11601,6 @@ if(true) return;
 
                     var cue = subNota.querySelector('.cuerpo-in');
                     var bloques = [];
-                    // Leemos párrafos y los títulos h4 para que la lectura sea completa
                     cue.querySelectorAll('p, h4').forEach(function(el){
                         var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
                         if(!t) return;
@@ -11644,6 +11639,6 @@ if(true) return;
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-                          </script>
+</script>
         </body>
 </html>
