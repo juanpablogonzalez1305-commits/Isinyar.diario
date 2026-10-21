@@ -11330,10 +11330,8 @@ if(true) return;
     var timer = setInterval(function(){
         intentos++;
         
-        // Si ya se pegó, apagamos el reloj
         if(document.getElementById('nota-premio-san-jose')) { clearInterval(timer); return; }
         
-        // Buscamos la nota que dice "René Juárez" para usarla de ancla
         var todasLasNotas = document.querySelectorAll('summary');
         var notaRené = null;
         
@@ -11344,9 +11342,8 @@ if(true) return;
             }
         }
         
-        // Si encontramos a René Juárez, insertamos la nota justo arriba de él
         if(notaRené) {
-            clearInterval(timer); // La encontramos, apagamos el reloj.
+            clearInterval(timer); 
             
             var d = document.createElement('details');
             d.className = 'pieza';
@@ -11356,32 +11353,41 @@ if(true) return;
             H += '<summary class="rel deep">Orgullo Luleño: DESCUBRIR fue galardonado como "Mejor Periódico del Interior"</summary>';
             H += '<div class="cuerpo-in">';
             
-            // FOTO CON MARCO SIMPLE
             H += '<img class="marco" src="https://files.catbox.moe/mfza7y.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Premio San José - Archivo Descubrir">';
             
             H += '<p class="meta">Junio de 1996 · Archivo Hemeroteca</p>';
             H += '<p><strong><em>"Este es un premio a toda la comunidad de Lules, nada se puede lograr sin la participación de muchos"</em></strong></p>';
             H += '<p><em>(Nota publicada originalmente en junio de 1996)</em></p>';
             
-            H += '<p>El 19 de mayo fue para nosotros un día muy importante. Como todo lo que trabajamos por un ideal, nunca habíamos anidado en nuestra mente el hecho de despertar dueños del recuerdo, buscando nuestra identidad.</p>';
+            // TEXTO COMPLETO RESTITUIDO
+            H += '<p>El 19 de mayo fue para nosotros un día muy importante, como todo lo que trabajamos por un ideal, nunca habíamos anidado en nuestra mente el hecho de despertar dueños del recuerdo, buscando nuestra identidad, conversar con aquellos que mucho hicieron por nuestra ciudad, o recordar con respeto y cariño a muchos de los que ya no se encuentran con nosotros, no daría otras alegrías más, como fue la de obtener el premio San José al mejor periódico del interior.</p>';
             
-            H += '<p>Obtener el premio San José al mejor periódico del interior fue una prueba más de que lo que es posible cuando se actúa con fe. No vamos a negar que el hecho de salir todos los meses es un trabajo arduo que quizás hasta llega a cansar, pero nos dio la posibilidad de seguir trabajando junto a nuestra familia.</p>';
+            H += '<p>Este periódico para nosotros fue una prueba más de lo que es posible cuando se actúa con fe, no vamos a negar que el hecho de salir todos los meses, es un trabajo arduo que quizás hasta llega a cansar, pero nos dio la posibilidad de seguir trabajando junto a nuestra familia, sintiendo por ello una unidad más íntima, también nos ayudó a comprender que las banalidades no pueden ocupar sitios en nuestro corazón, comprender y respetar, admirarse y admirar con humildad, es el camino que nos lleva a la felicidad.</p>';
             
-            H += '<p>A nuestra comunidad, el agradecimiento por permitirnos transitar junto a ustedes esta historia y a nuestros amigos más cercanos. Un lugar muy especial en esta realidad que nos toca vivir tiene <strong>Víctor Aron</strong>, a quien respetamos y admiramos, saludamos por el logro con su programa <em>"Mano a Mano Usted el Tango... y Yo"</em>.</p>';
+            H += '<p>Agradecemos a la productora San José, por habernos distinguido con este premio, ello nos produjo una gran felicidad, este reconocimiento a nuestra labor cimentó el hecho de que el camino trazado para llegar al objetivo, es el correcto, de que nuestros días y noches de dedicación no fueron en vano, nuestro compromiso a partir de hoy es mayor.</p>';
             
-            H += '<p>A los anunciantes, a nuestros amigos y familiares de siempre muchas gracias. Saludamos a los Periódicos <strong>El Ciudadano</strong> y <strong>Alborada</strong>, que comparten con nosotros la responsabilidad y la alegría de demostrarle al interior.</p>';
+            H += '<p>A nuestra comunidad el agradecimiento por permitirnos transitar junto a ustedes esta historia y a nuestros amigos más cercanos a aquellos que conocía este proyecto mucho antes de su lanzamiento, como Carlos Paez, Jorgelina Segura, Nelly Guerra, Mónica Sale, Coco Gonzalez, quienes nos alentaron a hacerlo realidad muchas Gracias.</p>';
+            
+            H += '<p>A nuestros amigos que nos alentaron permanentemente, como Titino y Carlos Rodriguez, Ramón Moyano, El Padre Miguel, René Juarez, Raúl Chain, Elena Auvieux, Los Hermanos Artaza, Rosa Salomón, Nelly Ortali, Carlos Liistro, Tito Haille, Julio Villagra, Victor Mapis y Sra, Pina y Miguel Martorell, René Linares, Miguel Pedraza, Manuel Caro, Victor Aron, Estela de Alves, Mary Talasino, Berta Benegas, Mercedes Pereyra, Negro Benegas, Rossana Santos y tantos otros que hoy se nos escapan de la memoria.</p>';
+            
+            H += '<p>A los anunciantes, a nuestros amigos y familiares de siempre muchas gracias, compartimos junto a todos este reconocimiento.</p>';
+            
+            H += '<p>Un lugar muy especial en esta realidad que nos toca vivir, ocupa, Foto Estudio Córdoba, que aporta toda su profesionalidad, para este Periódicos, al igual que Hugo Berettoni con quienes comenzamos desde el primer número y hoy compartimos este galardón.</p>';
+            
+            H += '<p>A Víctor Aron, a quien respetamos y admiramos su profesionalidad, saludamos por el logro con su programa, "Mano a Mano Usted el Tango.... y Yo".</p>';
+            
+            H += '<p>A los que nos hicieron llegar notas de felicitaciones, a la Comisión de Defensa del Usuario, al Concejo Deliberante, a la Municipalidad, por el reconocimiento y por declarar a este Periódicos de interés municipal, muchas gracias, no los defraudaremos por haber confiado en nosotros.</p>';
+            
+            H += '<p>Saludamos a los Periódicos El Ciudadano y Alborada que comparten con nosotros la tarea, la responsabilidad y la alegría de demostrarle al interior.</p>';
             
             H += '<button type="button" class="btn-voz-premio" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
             H += '</div>';
 
             d.innerHTML = H;
             
-            // LA MAGIA: notaRené.parentNode es la nota 1, su padre es la caja grande.
-            // Insertamos antes de la nota 1.
             var notaRenéDetails = notaRené.parentNode; 
             notaRenéDetails.parentNode.insertBefore(d, notaRenéDetails);
 
-            // Lógica de lectura
             setTimeout(function(){
                 var b = d.querySelector('.btn-voz-premio');
                 if(!b) return;
@@ -11434,7 +11440,6 @@ if(true) return;
             }, 500);
         }
         
-        // Si pasaron 20 segundos y no la encontró, se frena.
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
