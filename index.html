@@ -12468,29 +12468,33 @@ if(true) return;
 <script>
 (function(){
     var intentos = 0;
+    
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos cualquier título o resumen que contenga estas palabras
-        var titulos = document.querySelectorAll('summary, h2, h3');
-        var notaObjetivo = null;
+        // Buscamos todas las notas
+        var notas = document.querySelectorAll('.pieza');
+        var notaLealtad = null;
         
-        for(var i=0; i < titulos.length; i++) {
-            if(titulos[i].textContent.includes('Lealtad Peronista') && titulos[i].textContent.includes('Hipódromo')) {
-                notaObjetivo = titulos[i];
+        // Buscamos la nota que tenga este título exacto
+        for(var i=0; i < notas.length; i++) {
+            if(notas[i].textContent.includes('Lealtad Peronista') && notas[i].textContent.includes('convocatoria histórica')) {
+                notaLealtad = notas[i];
                 break;
             }
         }
         
-        if(notaObjetivo) {
+        if(notaLealtad) {
             clearInterval(timer);
-            // Buscamos la foto dentro de esa nota
-            var contenedor = notaObjetivo.parentNode;
-            var foto = contenedor.querySelector('img');
+            var cuerpo = notaLealtad.querySelector('.cuerpo-in');
             
-            if(foto) {
-                // Le cambiamos el link por su foto nueva
-                foto.src = 'img/Screenshot_20261018-062810_Facebook~2.jpg';
+            // Si encontramos el cuerpo y NO tiene la clase foto-lealtad, se la inyectamos
+            if(cuerpo && !cuerpo.querySelector('.foto-lealtad')) {
+                
+                // Fíjese que acá le digo que INSERTE la imagen, no que la reemplace
+                var imgHTML = '<img class="marco foto-lealtad" src="img/Screenshot_20261018-062810_Facebook~2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Multitud en el Hipódromo">';
+                
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
             }
         }
         
