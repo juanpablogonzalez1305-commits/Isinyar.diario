@@ -12545,5 +12545,44 @@ if(true) return;
     }, 500);
 })();
 </script>                      
-</body>
+<script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var notas = document.querySelectorAll('details.pieza');
+        var notaEmprendedores = null;
+        
+        for(var i=0; i < notas.length; i++) {
+            if(notas[i].textContent.includes('Emprendedores de Lules')) {
+                notaEmprendedores = notas[i];
+                break;
+            }
+        }
+        
+        if(notaEmprendedores) {
+            clearInterval(timer);
+            var cuerpo = notaEmprendedores.querySelector('.cuerpo-in');
+            
+            if(cuerpo && !cuerpo.querySelector('.foto-emprendedores')) {
+                
+                // 1. BORRAMOS cualquier imagen vieja que esté en esta nota (para que no choque con Catbox)
+                var fotosViejas = cuerpo.querySelectorAll('img');
+                fotosViejas.forEach(function(foto) {
+                    foto.remove(); 
+                });
+
+                // 2. INSERTAMOS la nueva imagen de GitHub
+                var imgHTML = '<img class="marco foto-emprendedores" src="img/logoemprendedores.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Emprendedores de Lules">';
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
+            </body>
 </html>
