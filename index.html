@@ -12584,5 +12584,45 @@ if(true) return;
     }, 500);
 })();
 </script>
-            </body>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var notas = document.querySelectorAll('details.pieza');
+        var notaGallia = null;
+        
+        // Buscamos la nota que hable de Gallia y la Sesión Ordinaria
+        for(var i=0; i < notas.length; i++) {
+            if(notas[i].textContent.includes('Sesión Ordinaria') && notas[i].textContent.includes('Gallia')) {
+                notaGallia = notas[i];
+                break;
+            }
+        }
+        
+        if(notaGallia) {
+            clearInterval(timer);
+            var cuerpo = notaGallia.querySelector('.cuerpo-in');
+            
+            if(cuerpo && !cuerpo.querySelector('.foto-camara')) {
+                
+                // 1. Limpiamos fotos viejas (para no chocar con Catbox)
+                var fotosViejas = cuerpo.querySelectorAll('img');
+                fotosViejas.forEach(function(foto) {
+                    foto.remove(); 
+                });
+
+                // 2. Insertamos la nueva foto de GitHub
+                var imgHTML = '<img class="marco foto-camara" src="img/camaradiputados.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Gallia en la Sesión Ordinaria">';
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>         
+</body>
 </html>
