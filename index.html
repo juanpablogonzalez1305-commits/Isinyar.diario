@@ -12858,7 +12858,40 @@ if(true) return;
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-    </script>                   
+    </script>   
+     <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la sub-nota de Atilio por su ID
+        var subNota = document.getElementById('sub-nota-atilio');
+        
+        if(subNota) {
+            clearInterval(timer); 
+            
+            var cuerpo = subNota.querySelector('.cuerpo-in');
+            // Si ya tiene la foto, no hace nada
+            if(cuerpo && !cuerpo.querySelector('.foto-atilio')) {
+                
+                // 1. Limpiamos fotos viejas por si hay algún fantasma
+                var fotosViejas = cuerpo.querySelectorAll('img');
+                fotosViejas.forEach(function(foto) {
+                    foto.remove(); 
+                });
+
+                // 2. Insertamos la nueva foto
+                var imgHTML = '<img class="marco foto-atilio" src="img/col.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Atilio Col Bonifacio">';
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>                  
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
