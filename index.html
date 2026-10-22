@@ -12668,38 +12668,6 @@ if(true) return;
 })();
    </script>                                                       
 <script>
-(function(){
-    var intentos = 0;
-    
-    // Este relojito va a revisar 60 veces (30 segundos) para estar 100% seguro de que le gana a la lentitud de la página
-    var timer = setInterval(function(){
-        intentos++;
-        
-        // Buscamos la nota del premio por su ID exacto
-        var notaPremio = document.getElementById('nota-premio-san-jose');
-        
-        if(notaPremio) {
-            clearInterval(timer);
-            var cuerpo = notaPremio.querySelector('.cuerpo-in');
-            
-            // Si encontramos la caja de texto y no tiene la foto, se la clavamos
-            if(cuerpo && !cuerpo.querySelector('.foto-sanjose')) {
-                
-                // 1. Limpiamos por si hay alguna foto fantasma
-                var fotosViejas = cuerpo.querySelectorAll('img');
-                fotosViejas.forEach(function(foto) {
-                    foto.remove(); 
-                });
 
-                // 2. Insertamos la nueva foto
-                var imgHTML = '<img class="marco foto-sanjose" src="img/sanjosehemero.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Premio San José al Mejor Periódico del Interior">';
-                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
-            }
-        }
-        
-        if(intentos > 60) clearInterval(timer);
-    }, 500);
-})();
-</script>
   </body>
 </html>
