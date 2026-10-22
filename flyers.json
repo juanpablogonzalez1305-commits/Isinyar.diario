@@ -3,7 +3,7 @@
     "distinción",
     "descubrir"
   ],
-  "inicio": "2026-10-21T00:00:00",
+  "inicio": "2026-10-22T00:00:00",
   "duracion_horas": 24,
   "flyers": {
     "tango": {
@@ -99,14 +99,14 @@
     "distinción": {
       "img": "img/file_00000000b8d0820ea14e86356064ac4b.png",
       "tieneVer": true,
-      "segundos": 10,
+      "segundos": 5,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
     },
     "descubrir": {
       "img": "img/descubrir.jpg",
       "tieneVer": true,
-      "segundos": 10,
+      "segundos": 5,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     }
