@@ -9625,12 +9625,20 @@ H += '</div>';
     // Crear el bloque del video del staff (va primero, arriba del otro)
     var wrapStaff = document.createElement('div');
     wrapStaff.style.cssText = 'margin:.6rem 0;border:3px solid #c9a243;border-radius:16px;overflow:hidden;box-shadow:0 6px 0 #8a6a1a,0 0 18px rgba(217,176,76,.5);background:#000';
+var videoStaff = document.createElement('video');
+videoStaff.controls = true;
+videoStaff.playsInline = true;
+videoStaff.setAttribute('playsinline', '');
+videoStaff.preload = 'metadata';
+videoStaff.style.cssText = 'width:100%;display:block';
 
-var videoStaff = document.createElement('iframe');
-videoStaff.src = 'https://www.youtube.com/embed/ir3...';
-    videoStaff.style.cssText = 'width:100%; aspect-ratio:16/9; border:none; border-radius:8px; margin-bottom:15px; border:3px solid #c9a243;';
-videoStaff.allowFullscreen = true;
+var sourceStaff = document.createElement('source');
+sourceStaff.src = 'https://files.catbox.moe/q0ohuw.mp4';
+sourceStaff.type = 'video/mp4';
+
+videoStaff.appendChild(sourceStaff);
 wrapStaff.appendChild(videoStaff);
+
 
     // Insertarlo antes del primer div de video (el de "Quiénes somos")
     var primerVideoDiv = cue.querySelector('div[style*="border:3px solid #c9a243"]');
