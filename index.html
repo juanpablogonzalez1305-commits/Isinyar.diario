@@ -12665,7 +12665,104 @@ if(true) return;
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-   </script>                                                       
+  </script>   
+  <script>
+(function(){
+    function ponerNotaTurismo(){
+        // Buscamos la sección de noticias
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-turismo')) return;
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-turismo';
+
+        var H = '';
+        // Acá va el título elegido
+        H += '<summary class="rel deep">"Una gratísima impresión": La belleza y el patrimonio de Lules brillaron ante nuevos visitantes</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">Hoy · Turismo en Lules</p>';
+        
+        H += '<p>Durante la mañana de hoy, la Dirección de Turismo recibió la visita de alumnos del Colegio Sagrado Corazón y de turistas provenientes de la provincia de Buenos Aires, quienes recorrieron distintos atractivos de la ciudad.</p>';
+        
+        H += '<p>Las guías turísticas dependientes de esta Dirección brindaron información sobre la historia, la cultura y el valor de cada lugar, enriqueciendo la experiencia de los visitantes.</p>';
+        
+        H += '<p>A través de estas visitas, los participantes pudieron conocer y apreciar la belleza de Lules, sus paisajes y su riqueza histórica, llevándose una gratísima impresión de nuestra ciudad.</p>';
+        
+        H += '<p>Estas experiencias contribuyen a fortalecer la promoción turística local y a difundir el patrimonio cultural que distingue a Lules.</p>';
+        
+        H += '<button type="button" class="btn-voz-turismo" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo ponemos primero en las noticias
+        sec.insertBefore(d, sec.firstChild);
+
+        // Lógica de lectura
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-turismo');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._turismoLeyendo){
+                    s.cancel();
+                    window._turismoLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._turismoLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._turismoLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._turismoLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+    }
+
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        ponerNotaTurismo();
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
