@@ -13,11 +13,6 @@
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
-    "feria": {
-      "img": "https://files.catbox.moe/s6g3yw.png",
-      "tieneVer": false,
-      "segundos": 8
-    },
     "auvieux": {
       "img": "https://files.catbox.moe/vfnxib.png",
       "tieneVer": true,
