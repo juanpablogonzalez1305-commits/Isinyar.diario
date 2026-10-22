@@ -1,13 +1,5 @@
 {
   "mostrar": [
-    "tango",
-    "auvieux",
-    "artaza",
-    "ecologica",
-    "guia",
-    "dipalma",
-    "lealtadnota",
-    "rené",
     "distinción",
     "descubrir"
   ],
@@ -107,7 +99,7 @@
     "distinción": {
       "img": "img/file_00000000b8d0820ea14e86356064ac4b.png",
       "tieneVer": true,
-      "segundos": 6,
+      "segundos": 10,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
     },
