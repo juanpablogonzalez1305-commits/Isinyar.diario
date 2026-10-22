@@ -12657,5 +12657,47 @@ if(true) return;
     }, 500);
 })();
 </script>
-                                                           </body>
+   <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos todas las notas
+        var notas = document.querySelectorAll('details.pieza');
+        var notaCastro = null;
+        
+        // Buscamos la nota que mencione al Locomotora o a Castro
+        for(var i=0; i < notas.length; i++) {
+            if(notas[i].textContent.includes('Locomotora') || notas[i].textContent.includes('Jorge "Locomotora"')) {
+                notaCastro = notas[i];
+                break;
+            }
+        }
+        
+        if(notaCastro) {
+            clearInterval(timer);
+            var cuerpo = notaCastro.querySelector('.cuerpo-in');
+            
+            // Si encontramos el cuerpo y no tiene la foto, se la inyectamos
+            if(cuerpo && !cuerpo.querySelector('.foto-locomotora')) {
+                
+                // 1. Limpiamos fotos viejas
+                var fotosViejas = cuerpo.querySelectorAll('img');
+                fotosViejas.forEach(function(foto) {
+                    foto.remove(); 
+                });
+
+                // 2. Insertamos la nueva foto de GitHub
+                var imgHTML = '<img class="marco foto-locomotora" src="img/locomotora.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Jorge Locomotora Castro">';
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+   </script>                                                       
+</body>
 </html>
