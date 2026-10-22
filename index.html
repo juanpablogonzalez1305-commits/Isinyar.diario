@@ -12793,6 +12793,39 @@ if(true) return;
     }, 500);
 })();
   </script>
+        <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la sub-nota de Failla por su ID
+        var subNota = document.getElementById('sub-nota-failla');
+        
+        if(subNota) {
+            clearInterval(timer); 
+            
+            var cuerpo = subNota.querySelector('.cuerpo-in');
+            // Si ya tiene la foto, no hace nada
+            if(cuerpo && !cuerpo.querySelector('.foto-failla')) {
+                
+                // 1. Limpiamos fotos viejas por si hay algún fantasma
+                var fotosViejas = cuerpo.querySelectorAll('img');
+                fotosViejas.forEach(function(foto) {
+                    foto.remove(); 
+                });
+
+                // 2. Insertamos la nueva foto (con el nombre exacto que me pasó: .png)
+                var imgHTML = '<img class="marco foto-failla" src="img/failla.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Familia Failla">';
+                cuerpo.insertAdjacentHTML('afterbegin', imgHTML);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+        </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
