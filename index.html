@@ -12769,6 +12769,30 @@ if(true) return;
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos todas las notas
+        var notas = document.querySelectorAll('details.pieza');
+        
+        for(var i=0; i < notas.length; i++) {
+            // Si el texto de la nota contiene estas palabras, la borramos
+            if(notas[i].textContent.includes('Fiesta de la Virgen') || notas[i].textContent.includes('Invitación')) {
+                
+                notas[i].remove(); // ¡Pum! Desaparece de la pantalla.
+                clearInterval(timer); // Apagamos el buscador.
+                break;
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
