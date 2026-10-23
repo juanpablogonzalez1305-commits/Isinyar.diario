@@ -1,17 +1,22 @@
 {
   "mostrar": [
+    "tango",
+    "auvieux",
+    "artaza",
+    "guia",
     "dipalma",
+    "rené",
     "distinción",
     "descubrir",
     "feriadom"
   ],
-  "inicio": "2026-10-22T00:00:00",
+  "inicio": "2026-10-23T00:00:00",
   "duracion_horas": 24,
   "flyers": {
     "tango": {
       "img": "https://files.catbox.moe/qxwpef.jpg",
       "tieneVer": true,
-      "segundos": 5,
+      "segundos": 4,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
@@ -20,7 +25,7 @@
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
-      "segundos": 5
+      "segundos": 4
     },
     "padres": {
       "img": "https://files.catbox.moe/tz6wq6.png",
@@ -34,7 +39,7 @@
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ° Ver la nota en la Hemeroteca",
       "destino": "hemeroteca",
-      "segundos": 5
+      "segundos": 4
     },
     "lealtad": {
       "img": "https://files.catbox.moe/qtfoyi.jpg",
@@ -53,7 +58,7 @@
       "tieneVer": true,
       "textoVer": "Ã°ÂÂÂ Ver la guÃÂ­a",
       "destino": "guia",
-      "segundos": 5
+      "segundos": 4
     },
     "ferianota": {
       "img": "https://files.catbox.moe/05uf5l.png",
@@ -65,7 +70,7 @@
     "dipalma": {
       "img": "https://files.catbox.moe/pu6kh3.jpg",
       "tieneVer": true,
-      "segundos": 5,
+      "segundos": 4,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
@@ -79,7 +84,7 @@
     "rené": {
       "img": "https://files.catbox.moe/d3rrbs.jpg",
       "tieneVer": true,
-      "segundos": 5,
+      "segundos": 4,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
@@ -91,21 +96,21 @@
     "distinción": {
       "img": "img/file_00000000b8d0820ea14e86356064ac4b.png",
       "tieneVer": true,
-      "segundos": 5,
+      "segundos": 4,
       "textoVer": "📰 Ver la nota",
       "destino": "noticias"
     },
     "descubrir": {
       "img": "img/descubrir.jpg",
       "tieneVer": true,
-      "segundos": 5,
+      "segundos": 4,
       "textoVer": "📰 Ver la nota",
       "destino": "hemeroteca"
     },
     "feriadom": {
       "img": "https://files.catbox.moe/x0eb8y.jpg",
       "tieneVer": false,
-      "segundos": 5
+      "segundos": 4
     }
   }
 }
