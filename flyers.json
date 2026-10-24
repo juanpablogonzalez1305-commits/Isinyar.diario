@@ -3,6 +3,7 @@
     "tango",
     "auvieux",
     "artaza",
+    "ecologica",
     "guia",
     "dipalma",
     "rené",
@@ -10,7 +11,7 @@
     "descubrir",
     "feriadom"
   ],
-  "inicio": "2026-10-23T00:00:00",
+  "inicio": "2026-10-24T00:00:00",
   "duracion_horas": 24,
   "flyers": {
     "tango": {
@@ -51,7 +52,7 @@
     "ecologica": {
       "img": "https://files.catbox.moe/btobdv.jpg",
       "tieneVer": false,
-      "segundos": 5
+      "segundos": 4
     },
     "guia": {
       "img": "https://files.catbox.moe/2sq36j.jpg",
