@@ -13055,15 +13055,23 @@ if(true) return;
         
         if(document.getElementById('nota-antartida')) { clearInterval(timer); return; }
 
+        // EL ESCUDO INVISIBLE: Ocultamos la imagen del escudo SOLO en esta nota
+        var estilo = document.createElement('style');
+        estilo.innerHTML = `
+            #nota-antartida img.escudo-muni { display: none !important; opacity: 0 !important; }
+            #nota-antartida summary { background-image: none !important; }
+        `;
+        document.head.appendChild(estilo);
+
         var d = document.createElement('details');
         d.className = 'pieza';
         d.id = 'nota-antartida';
 
         var H = '';
         
-        // Usamos SOLO la clase "rel" para que el JS del escudo no la detecte.
-        // Le agregamos un borde lindo por inline style para que no quede "pelada".
-        H += '<summary class="rel" style="border: 2px solid #c9a243; border-radius: 10px; padding: 15px; background-color: #fdf9ef;">Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
+        // Usamos class="rel deep" para que herede TODO el diseño original de las notas.
+        // NO usamos estilos inline para que no se arme el doble marco.
+        H += '<summary class="rel deep">Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
         H += '<div class="cuerpo-in">';
         
         H += '<p class="meta">Informe Especial · Antártida Argentina</p>';
@@ -13148,7 +13156,7 @@ if(true) return;
         clearInterval(timer);
     }, 500);
 })();
-      </script>
+          </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
