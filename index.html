@@ -13043,7 +13043,7 @@ if(true) return;
     }, 500);
 })();
   </script>
-<script>
+  <script>
 (function(){
     var intentos = 0;
     
@@ -13061,16 +13061,9 @@ if(true) return;
 
         var H = '';
         
-        // EL TRUCO MAESTRO: Un estilo propio que anula la imagen de la muni
-        H += '<style>';
-        H += '#nota-antartida summary { background-image: none !important; background: linear-gradient(135deg, #fdf9ef, #f4efe6) !important; color: #171310 !important; border: 2px solid #c9a243; border-radius: 10px; padding: 15px; font-weight: bold; }';
-        H += '</style>';
-
-        H += '<summary>Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
+        // Sin "deep" para que no tenga el sello de la muni
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">▶ Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
         H += '<div class="cuerpo-in">';
-        
-        // ESPACIO PARA LA FOTO (Por si luego sube una)
-        // H += '<img class="marco" src="img/antartida.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Base Esperanza">';
         
         H += '<p class="meta">Informe Especial · Antártida Argentina</p>';
         H += '<p><strong>En el extremo nordeste de la península antártica, entre glaciares, ráfagas de viento polar y pingüineras, se erige un poblado único en su tipo: la Base Antártica Esperanza.</strong></p>';
@@ -13091,10 +13084,14 @@ if(true) return;
 
         d.innerHTML = H;
         
-        // Posicionar al final de las noticias
-        sec.appendChild(d); 
+        // CORREGIDO: Lo inserta PRIMERO, arriba de todo
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
 
-        // Lógica de lectura en voz alta
         setTimeout(function(){
             var b = d.querySelector('.btn-voz-antartida');
             if(!b) return;
@@ -13149,7 +13146,7 @@ if(true) return;
         clearInterval(timer);
     }, 500);
 })();
-</script>
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
