@@ -13043,7 +13043,112 @@ if(true) return;
     }, 500);
 })();
   </script>
+<script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-antartida')) { clearInterval(timer); return; }
 
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-antartida';
+
+        var H = '';
+        
+        // Usamos SOLO la clase "rel" para que el JS del escudo no la detecte.
+        // Le agregamos un borde lindo por inline style para que no quede "pelada".
+        H += '<summary class="rel" style="border: 2px solid #c9a243; border-radius: 10px; padding: 15px; background-color: #fdf9ef;">Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">Informe Especial · Antártida Argentina</p>';
+        H += '<p><strong>En el extremo nordeste de la península antártica, entre glaciares, ráfagas de viento polar y pingüineras, se erige un poblado único en su tipo: la Base Antártica Esperanza.</strong></p>';
+        
+        H += '<p>Fundada en 1952, este asentamiento argentino mantiene una particularidad que la distingue de cualquier otra estación del continente blanco: es la única base militar y científica del mundo diseñada para albergar de manera permanente a familias completas en dotaciones anuales.</p>';
+        
+        H += '<p>Ubicada a más de 3.000 kilómetros de Buenos Aires y a unos 1.100 de Ushuaia, Base Esperanza alberga la Escuela Provincial N° 38 “Presidente Raúl Ricardo Alfonsín”. Dependiente de la provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur, la institución funciona desde 1978 e imparte educación a nivel inicial, primario y tutorías para el secundario a distancia.</p>';
+        
+        H += '<h4 style="color: #8a6a35; margin-top: 15px; margin-bottom: 5px;">Un día a día marcado por el clima</h4>';
+        H += '<p>La cotidianeidad para los niños y docentes que habitan la base exige un ritmo particular. Las aulas funcionan como plurigrado, agrupando a alumnos de distintas edades en un mismo espacio de aprendizaje, dado que la población escolar varía cada año.</p>';
+        
+        H += '<p>Durante los meses invernales, el horario de salida escolar se adelanta para evitar la exposición al frío extremo y la oscuridad absoluta. A diferencia de lo que podría suponerse, las clases no se suspenden por la nieve o el frío, sino por las intensas ráfagas de viento que caracterizan a la bahía. En esos días, los alumnos continúan sus actividades mediante tareas programadas o contacto virtual desde sus viviendas.</p>';
+        
+        H += '<p>Además de ser un pilar fundamental del ejercicio de soberanía y desarrollo científico en la Antártida, Base Esperanza guarda también un hito histórico: en 1978 presenció el nacimiento de Emilio Marcos Palma, el primer ser humano nacido en el continente antártico.</p>';
+        
+        H += '<button type="button" class="btn-voz-antartida" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-antartida');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._antartidaLeyendo){
+                    s.cancel();
+                    window._antartidaLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p, h4').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._antartidaLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._antartidaLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._antartidaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+      </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
