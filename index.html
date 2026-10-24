@@ -13043,7 +13043,7 @@ if(true) return;
     }, 500);
 })();
   </script>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     
@@ -13060,10 +13060,16 @@ if(true) return;
         d.id = 'nota-antartida';
 
         var H = '';
-        H += '<summary class="rel deep" style="background-image: none !important; background-color: #f4efe6; color: #171310;">Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
+        
+        // EL TRUCO MAESTRO: Un estilo propio que anula la imagen de la muni
+        H += '<style>';
+        H += '#nota-antartida summary { background-image: none !important; background: linear-gradient(135deg, #fdf9ef, #f4efe6) !important; color: #171310 !important; border: 2px solid #c9a243; border-radius: 10px; padding: 15px; font-weight: bold; }';
+        H += '</style>';
+
+        H += '<summary>Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
         H += '<div class="cuerpo-in">';
         
-        // ESPACIO PARA LA FOTO (Si luego sube una, borre estas barras // y ponga el nombre)
+        // ESPACIO PARA LA FOTO (Por si luego sube una)
         // H += '<img class="marco" src="img/antartida.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Base Esperanza">';
         
         H += '<p class="meta">Informe Especial · Antártida Argentina</p>';
@@ -13085,13 +13091,8 @@ if(true) return;
 
         d.innerHTML = H;
         
-        // Posicionar primero en la sección de Noticias
-        var primeraNota = sec.querySelector('details.pieza');
-        if (primeraNota) {
-            sec.insertBefore(d, primeraNota);
-        } else {
-            sec.appendChild(d); 
-        }
+        // Posicionar al final de las noticias
+        sec.appendChild(d); 
 
         // Lógica de lectura en voz alta
         setTimeout(function(){
@@ -13148,7 +13149,7 @@ if(true) return;
         clearInterval(timer);
     }, 500);
 })();
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
