@@ -13157,6 +13157,48 @@ if(true) return;
     }, 500);
 })();
           </script>
+                                   <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de la Antártida que ya está creada
+        var nota = document.getElementById('nota-antartida');
+        
+        if(nota) {
+            var cuerpo = nota.querySelector('.cuerpo-in');
+            
+            // Evitamos que se dupliquen si recargamos la página
+            if(cuerpo && !cuerpo.querySelector('.fotos-inyectadas')) {
+                
+                var meta = cuerpo.querySelector('.meta'); // La fecha
+                var boton = cuerpo.querySelector('.btn-voz-antartida'); // El botón de audio
+
+                // Creamos la primera foto
+                var img1 = document.createElement('img');
+                img1.src = 'img/base1.png';
+                img1.className = 'marco fotos-inyectadas';
+                img1.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+                
+                // Creamos la segunda foto
+                var img2 = document.createElement('img');
+                img2.src = 'img/baseesperanza2.png';
+                img2.className = 'marco fotos-inyectadas';
+                img2.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+
+                // Las insertamos en los lugares exactos
+                if(meta) meta.after(img1); // Primera foto después de la fecha
+                if(boton) boton.before(img2); // Segunda foto antes del botón de audio
+            }
+            clearInterval(timer); // Apagamos el reloj
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+                                   </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
