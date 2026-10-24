@@ -13043,7 +13043,7 @@ if(true) return;
     }, 500);
 })();
   </script>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     
@@ -13055,14 +13055,33 @@ if(true) return;
         
         if(document.getElementById('nota-antartida')) { clearInterval(timer); return; }
 
+        // --- EL FRANCOTIRADOR CSS ---
+        // Esto ataca directamente a esta nota y le dice "¡No al sello y no al marco raro!"
+        var estiloLimpio = document.createElement('style');
+        estiloLimpio.innerHTML = `
+            #nota-antartida summary {
+                background-image: none !important;
+                background-color: #fdf9ef !important;
+                border: 1px solid #c9a243 !important;
+                box-shadow: none !important;
+                color: #171310 !important;
+                padding: 15px !important;
+                border-radius: 10px !important;
+            }
+            #nota-antartida summary::before, 
+            #nota-antartida summary::after {
+                display: none !important;
+            }
+        `;
+        document.head.appendChild(estiloLimpio);
+
         var d = document.createElement('details');
         d.className = 'pieza';
         d.id = 'nota-antartida';
 
         var H = '';
-        
-        // Sin "deep" para que no tenga el sello de la muni
-        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">▶ Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
+        // Le sacamos la clase "rel" y "deep" por las dudas, y lo dejamos solo como summary
+        H += '<summary>▶ Base Esperanza: Cómo es la vida en el fin del mundo, donde las familias argentinas tienen su propia escuela</summary>';
         H += '<div class="cuerpo-in">';
         
         H += '<p class="meta">Informe Especial · Antártida Argentina</p>';
@@ -13084,7 +13103,7 @@ if(true) return;
 
         d.innerHTML = H;
         
-        // CORREGIDO: Lo inserta PRIMERO, arriba de todo
+        // Lo inserta PRIMERO
         var primeraNota = sec.querySelector('details.pieza');
         if (primeraNota) {
             sec.insertBefore(d, primeraNota);
@@ -13146,7 +13165,7 @@ if(true) return;
         clearInterval(timer);
     }, 500);
 })();
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
