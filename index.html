@@ -13199,6 +13199,107 @@ if(true) return;
     }, 500);
 })();
                                    </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-tafiviejo')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-tafiviejo';
+
+        var H = '';
+        
+        // Usamos "rel deep" para que lleve el sello de agua de la municipalidad
+        H += '<summary class="rel deep">"35 años de lealtad": Tafí Viejo vivió una multitudinaria fiesta popular con más de 4.000 personas</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">Hoy · Tafí Viejo</p>';
+        
+        H += '<p><strong>Una verdadera fiesta popular y una muestra impresionante de unidad se vivió en la ciudad de Tafí Viejo durante el festejo por el 35° aniversario de la Agrupación 17 de Octubre, bajo la conducción de su presidente Alejandro Martínez y su vicepresidente Alejandro Martínez (h).</strong></p>';
+        
+        H += '<p>El evento, que llevó el lema "35 años de lealtad", contó con una gran convocatoria que reunió a cerca de 4000 personas, consolidando un espacio de encuentro y apoyo mutuo.</p>';
+        
+        H += '<p>De la celebración participó todo el gran equipo que integra la lista <strong>Tucumán para la Victoria</strong>, encabezada por los candidatos a legisladores: Pancho Serra, Andrea Amado, <strong>Carlos Gallia</strong>, Pancho Caliba, Nancy Bulacio, Alejandro Martínez (H) y muchos otros compañeros y compañeras que trabajan día a día por nuestra provincia.</p>';
+        
+        H += '<p>Desde DESCUBRIR Lules extendemos las felicitaciones a toda la Agrupación 17 de Octubre, a su comisión directiva y a cada vecino y vecina que se acercó a celebrar y brindar su apoyo en esta jornada histórica. ¡A seguir trabajando más unidos que nunca!</p>';
+        
+        H += '<button type="button" class="btn-voz-tafiviejo" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-tafiviejo');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._tafiviejoLeyendo){
+                    s.cancel();
+                    window._tafiviejoLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._tafiviejoLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._tafiviejoLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._tafiviejoLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
