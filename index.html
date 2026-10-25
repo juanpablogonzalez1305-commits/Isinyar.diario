@@ -13373,23 +13373,33 @@ if(true) return;
             var cuerpoComercios = botonComercios.nextElementSibling;
             if(!cuerpoComercios) return;
 
-            // Limpiamos el contenido viejo
             cuerpoComercios.innerHTML = ''; 
 
-            // --- CREAMOS LA PISTA DEL CARRUSEL ---
             var contenedorCarrusel = document.createElement('div');
             contenedorCarrusel.id = 'carrusel-comercios';
-            
-            // Estilos para que se desplace hacia la derecha suavemente
             contenedorCarrusel.style.cssText = 'display: flex; overflow-x: auto; gap: 15px; padding: 10px 5px 20px 5px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;';
 
-            // Función para crear cada tarjeta de auspiciante
-            function crearTarjeta(nombre, direccion, telefono, mapa) {
+            // --- 1. TARJETA DE VENTAS (Primera en aparecer) ---
+            var tarjetaVenta = document.createElement('div');
+            tarjetaVenta.style.cssText = 'min-width: 280px; max-width: 280px; scroll-snap-align: center; text-align: center; background: #1a1510; border: 2px solid #c9a243; border-radius: 12px; padding: 25px 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center;';
+            
+            var HV = '';
+            // Logo de Descubrir
+            HV += '<img src="img/logodescubrircomercio.png" style="width: 120px; margin-bottom: 15px;" alt="Descubrir Lules">';
+            HV += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#c9a243; font-size:22px; margin-bottom:10px; font-weight:900;">¿Querés ser parte?</h3>';
+            HV += '<p style="color:#f4efe6; font-size:14px; margin-bottom:20px; line-height:1.4;">Sumá tu comercio y aparecé en el diario digital más importante de la ciudad.</p>';
+            HV += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:12px 20px; border-radius:25px; text-decoration:none; font-weight:bold; font-size:15px; display:inline-flex; align-items:center; box-shadow:0 4px 10px rgba(0,0,0,0.3);">💬 Sumarme ahora</a>';
+            
+            tarjetaVenta.innerHTML = HV;
+            contenedorCarrusel.appendChild(tarjetaVenta);
+
+            // --- 2. FUNCIÓN PARA CREAR TARJETAS DE COMERCIOS ---
+            function crearTarjeta(nombre, direccion, telefono, mapa, imagen) {
                 var d = document.createElement('div');
                 d.style.cssText = 'min-width: 280px; max-width: 280px; scroll-snap-align: center; text-align: center; background: #fdf9ef; border: 1px solid #c9a243; border-radius: 12px; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
                 
                 var H = '';
-                H += '<img src="img/tiendaformato.jpg" style="width:100%; height:auto; display:block; border-radius:8px; margin-bottom:10px;" alt="' + nombre + '">';
+                H += '<img src="' + imagen + '" style="width:100%; height:auto; display:block; border-radius:8px; margin-bottom:10px;" alt="' + nombre + '">';
                 H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:18px; margin-bottom:4px; font-weight:900;">' + nombre + '</h3>';
                 H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:13px; margin-bottom:10px;">' + direccion + '</p>';
                 H += '<div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">';
@@ -13401,17 +13411,15 @@ if(true) return;
                 return d;
             }
 
-            // Insertamos 3 tarjetas de prueba (la misma tienda 3 veces para ver el efecto)
-            contenedorCarrusel.appendChild(crearTarjeta('Tienda Holística y Deco', 'Barrio 300 viviendas<br>Manzana L casa 12', '5493813627881', 'https://maps.app.goo.gl/SmoKZWC8Bh3VkVHZ8'));
-            contenedorCarrusel.appendChild(crearTarjeta('Auspiciante 2 (Ejemplo)', 'Calle Falsa 123', '5493810000000', 'https://maps.google.com'));
-            contenedorCarrusel.appendChild(crearTarjeta('Auspiciante 3 (Ejemplo)', 'Av. Siempre Viva 742', '5493811111111', 'https://maps.google.com'));
+            // --- 3. TARJETA DE LA TIENDA HOLÍSTICA ---
+            contenedorCarrusel.appendChild(crearTarjeta('Tienda Holística y Deco', 'Barrio 300 viviendas<br>Manzana L casa 12', '5493813627881', 'https://maps.app.goo.gl/SmoKZWC8Bh3VkVHZ8', 'img/tiendaformato.jpg'));
 
             cuerpoComercios.appendChild(contenedorCarrusel);
 
-            // --- AGREGAMOS EL TEXTO DE AYUDA (Desliza) ---
+            // --- TEXTO DE AYUDA ---
             var textoAyuda = document.createElement('div');
             textoAyuda.style.cssText = 'text-align: center; color: #c9a243; font-size: 13px; font-style: italic; margin-top: -10px; margin-bottom: 15px; font-weight: bold;';
-            textoAyuda.innerHTML = '👉 Desliza para ver más auspiciantes';
+            textoAyuda.innerHTML = '👉 Desliza para ver los auspiciantes';
             cuerpoComercios.appendChild(textoAyuda);
         }
         
