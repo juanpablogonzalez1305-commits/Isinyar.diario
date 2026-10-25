@@ -13379,27 +13379,22 @@ if(true) return;
             d.className = 'pieza';
             d.id = 'auspiciante-tienda-holistica';
             
-            // ACÁ REDUJIMOS EL TAMAÑO: max-width de 320px a 240px, padding de 15 a 10, márgenes más chicos.
-            d.style.cssText = 'background:#fdf9ef; border:2px solid #c9a243; border-radius:10px; padding:10px; margin:10px auto; max-width:240px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1);';
+            // Ampliamos un poquito el ancho a 280px y dejamos el marco exterior de la tarjeta
+            d.style.cssText = 'background:#fdf9ef; border:2px solid #c9a243; border-radius:10px; padding:12px; margin:15px auto; max-width:280px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1);';
 
             var H = '';
-            // Imagen achicada automáticamente al ancho de la tarjeta
-            H += '<img src="img/grok_1792819000814.jpg" style="width:100%; border-radius:6px; margin:0 auto 10px auto; display:block; border:1px solid #e0d5b8;" alt="Tienda holística y Deco">';
+            // ACÁ LE SACAMOS EL BORDE A LA IMAGEN (border: none) para que ocupe todo el ancho
+            H += '<img src="img/grok_1792819000814.jpg" style="width:100%; border-radius:6px; margin:0 auto 12px auto; display:block;" alt="Tienda holística y Deco">';
             
-            // Título más chico (16px)
-            H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:16px; margin-bottom:2px; font-weight:900;">Tienda holística y Deco</h3>';
+            H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:18px; margin-bottom:4px; font-weight:900;">Tienda holística y Deco</h3>';
             
-            // Dirección más chica (12px)
-            H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:12px; margin-bottom:10px;">Barrio 300 viviendas<br>Manzana L casa 12</p>';
+            H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:13px; margin-bottom:12px;">Barrio 300 viviendas<br>Manzana L casa 12</p>';
             
-            // Botones más chicos y pegados
-            H += '<div style="display:flex; gap:5px; justify-content:center; flex-wrap:wrap;">';
+            H += '<div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">';
             
-            // WhatsApp
-            H += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:6px 10px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:11px; display:inline-flex; align-items:center; box-shadow:0 2px 3px rgba(0,0,0,0.2);">💬 WhatsApp</a>';
+            H += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:8px 12px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:12px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">💬 WhatsApp</a>';
             
-            // Maps
-            H += '<a href="https://www.google.com/maps/search/?api=1&query=Barrio+300+viviendas+manzana+L+casa+12+Lules+Tucuman" target="_blank" style="background:#171310; color:#fdf9ef; padding:6px 10px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:11px; display:inline-flex; align-items:center; box-shadow:0 2px 3px rgba(0,0,0,0.2);">📍 Cómo llegar</a>';
+            H += '<a href="https://www.google.com/maps/search/?api=1&query=Barrio+300+viviendas+manzana+L+casa+12+Lules+Tucuman" target="_blank" style="background:#171310; color:#fdf9ef; padding:8px 12px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:12px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">📍 Cómo llegar</a>';
             
             H += '</div>';
 
