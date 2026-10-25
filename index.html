@@ -13348,67 +13348,73 @@ if(true) return;
     }, 500);
 })();
   </script>
-    <script>
+<script>
 (function(){
     var intentos = 0;
     
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos la sección de Guía 
-        var secGuia = document.getElementById('guia');
+        // Buscamos todos los botones de la página
+        var botones = document.querySelectorAll('summary');
+        var botonComercios = null;
         
-        if(secGuia) {
+        // Encontramos el que dice "Comercios adheridos"
+        for(var i=0; i < botones.length; i++) {
+            if(botones[i].textContent.includes('Comercios adheridos')) {
+                botonComercios = botones[i];
+                break;
+            }
+        }
+        
+        if(botonComercios) {
             clearInterval(timer); 
             
-            // 1. Evitamos duplicados
+            // Evitamos duplicados
             if(document.getElementById('auspiciante-tienda-holistica')) return;
 
-            // 2. ELIMINAMOS EL AVISO PREDETERMINADO
-            // Buscamos el primer elemento que esté dentro de la sección y lo ocultamos
-            var avisoPredeterminado = secGuia.querySelector('div');
-            if(avisoPredeterminado && avisoPredeterminado.id !== 'auspiciante-tienda-holistica') {
-                avisoPredeterminado.style.display = 'none'; 
-            }
+            // Entramos al cuerpo de la tecla de comercios
+            var cuerpoComercios = botonComercios.nextElementSibling;
+            if(!cuerpoComercios) return;
 
-            // 3. CREAMOS LA TARJETA DEL AUSPICIANTE
+            // 1. LIMPIAMOS EL TEXTO PREDETERMINADO
+            cuerpoComercios.innerHTML = ''; 
+
+            // 2. CREAMOS LA TARJETA DEL AUSPICIANTE (Más chica y prolija)
             var d = document.createElement('div');
             d.className = 'pieza';
             d.id = 'auspiciante-tienda-holistica';
-            // Estilos de la tarjeta para que quede elegante y centrada
-            d.style.cssText = 'background:#fdf9ef; border:2px solid #c9a243; border-radius:12px; padding:20px; margin:20px auto; max-width:400px; text-align:center; box-shadow:0 6px 15px rgba(0,0,0,0.1);';
+            // Estilos de la tarjeta: centrada, más chica, con marco dorado
+            d.style.cssText = 'background:#fdf9ef; border:2px solid #c9a243; border-radius:12px; padding:15px; margin:15px auto; max-width:320px; text-align:center; box-shadow:0 4px 8px rgba(0,0,0,0.1);';
 
             var H = '';
-            // Imagen del flyer
-            H += '<img src="img/grok_1792819000814.jpg" style="width:100%; border-radius:8px; margin-bottom:15px; display:block; border:1px solid #e0d5b8;" alt="Tienda holística y Deco">';
+            // Imagen achicada (max-width 280px)
+            H += '<img src="img/grok_1792819000814.jpg" style="width:100%; max-width:280px; border-radius:8px; margin:0 auto 15px auto; display:block; border:1px solid #e0d5b8;" alt="Tienda holística y Deco">';
             
-            // Nombre con letra elegante (estilo Fraunces/Serif)
-            H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:24px; margin-bottom:5px; font-weight:900; letter-spacing: 0.5px;">Tienda holística y Deco</h3>';
+            // Nombre con letra elegante
+            H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:20px; margin-bottom:5px; font-weight:900;">Tienda holística y Deco</h3>';
             
             // Dirección
-            H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:16px; margin-bottom:20px;">Barrio 300 viviendas<br>Manzana L casa 12</p>';
+            H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:14px; margin-bottom:15px;">Barrio 300 viviendas<br>Manzana L casa 12</p>';
             
-            // BOTONES DE ACCIÓN
-            H += '<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">';
-            
-            // Botón de WhatsApp (Usando el número real con código de país)
-            H += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:12px 20px; border-radius:25px; text-decoration:none; font-weight:bold; font-size:15px; display:inline-flex; align-items:center; box-shadow:0 3px 6px rgba(0,0,0,0.2);">💬 WhatsApp</a>';
-            
-            // Botón de Cómo Llegar (Abre Google Maps)
-            H += '<a href="https://www.google.com/maps/search/?api=1&query=Barrio+300+viviendas+manzana+L+casa+12+Lules+Tucuman" target="_blank" style="background:#171310; color:#fdf9ef; padding:12px 20px; border-radius:25px; text-decoration:none; font-weight:bold; font-size:15px; display:inline-flex; align-items:center; box-shadow:0 3px 6px rgba(0,0,0,0.2);">📍 Cómo llegar</a>';
-            
+            // BOTONES
+            H += '<div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">';
+            // WhatsApp
+            H += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:10px 15px; border-radius:20px; text-decoration:none; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">💬 WhatsApp</a>';
+            // Maps
+            H += '<a href="https://www.google.com/maps/search/?api=1&query=Barrio+300+viviendas+manzana+L+casa+12+Lules+Tucuman" target="_blank" style="background:#171310; color:#fdf9ef; padding:10px 15px; border-radius:20px; text-decoration:none; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">📍 Cómo llegar</a>';
             H += '</div>';
 
             d.innerHTML = H;
             
-            // Lo insertamos arriba de todo en la sección de guía (después de los botones de categorías si hay)
-            secGuia.appendChild(d);
+            // Lo insertamos DENTRO del cuerpo de la tecla (ahora está cerrada y se abrirá al tocar)
+            cuerpoComercios.appendChild(d);
         }
         
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-    </script>                     
+</script>                     
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
