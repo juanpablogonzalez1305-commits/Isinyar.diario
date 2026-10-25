@@ -13355,11 +13355,9 @@ if(true) return;
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos todos los botones de la página
         var botones = document.querySelectorAll('summary');
         var botonComercios = null;
         
-        // Encontramos el que dice "Comercios adheridos"
         for(var i=0; i < botones.length; i++) {
             if(botones[i].textContent.includes('Comercios adheridos')) {
                 botonComercios = botones[i];
@@ -13370,51 +13368,50 @@ if(true) return;
         if(botonComercios) {
             clearInterval(timer); 
             
-            // Evitamos duplicados
             if(document.getElementById('auspiciante-tienda-holistica')) return;
 
-            // Entramos al cuerpo de la tecla de comercios
             var cuerpoComercios = botonComercios.nextElementSibling;
             if(!cuerpoComercios) return;
 
-            // 1. LIMPIAMOS EL TEXTO PREDETERMINADO
             cuerpoComercios.innerHTML = ''; 
 
-            // 2. CREAMOS LA TARJETA DEL AUSPICIANTE (Más chica y prolija)
             var d = document.createElement('div');
             d.className = 'pieza';
             d.id = 'auspiciante-tienda-holistica';
-            // Estilos de la tarjeta: centrada, más chica, con marco dorado
-            d.style.cssText = 'background:#fdf9ef; border:2px solid #c9a243; border-radius:12px; padding:15px; margin:15px auto; max-width:320px; text-align:center; box-shadow:0 4px 8px rgba(0,0,0,0.1);';
+            
+            // ACÁ REDUJIMOS EL TAMAÑO: max-width de 320px a 240px, padding de 15 a 10, márgenes más chicos.
+            d.style.cssText = 'background:#fdf9ef; border:2px solid #c9a243; border-radius:10px; padding:10px; margin:10px auto; max-width:240px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1);';
 
             var H = '';
-            // Imagen achicada (max-width 280px)
-            H += '<img src="img/grok_1792819000814.jpg" style="width:100%; max-width:280px; border-radius:8px; margin:0 auto 15px auto; display:block; border:1px solid #e0d5b8;" alt="Tienda holística y Deco">';
+            // Imagen achicada automáticamente al ancho de la tarjeta
+            H += '<img src="img/grok_1792819000814.jpg" style="width:100%; border-radius:6px; margin:0 auto 10px auto; display:block; border:1px solid #e0d5b8;" alt="Tienda holística y Deco">';
             
-            // Nombre con letra elegante
-            H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:20px; margin-bottom:5px; font-weight:900;">Tienda holística y Deco</h3>';
+            // Título más chico (16px)
+            H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:16px; margin-bottom:2px; font-weight:900;">Tienda holística y Deco</h3>';
             
-            // Dirección
-            H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:14px; margin-bottom:15px;">Barrio 300 viviendas<br>Manzana L casa 12</p>';
+            // Dirección más chica (12px)
+            H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:12px; margin-bottom:10px;">Barrio 300 viviendas<br>Manzana L casa 12</p>';
             
-            // BOTONES
-            H += '<div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">';
+            // Botones más chicos y pegados
+            H += '<div style="display:flex; gap:5px; justify-content:center; flex-wrap:wrap;">';
+            
             // WhatsApp
-            H += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:10px 15px; border-radius:20px; text-decoration:none; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">💬 WhatsApp</a>';
+            H += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:6px 10px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:11px; display:inline-flex; align-items:center; box-shadow:0 2px 3px rgba(0,0,0,0.2);">💬 WhatsApp</a>';
+            
             // Maps
-            H += '<a href="https://www.google.com/maps/search/?api=1&query=Barrio+300+viviendas+manzana+L+casa+12+Lules+Tucuman" target="_blank" style="background:#171310; color:#fdf9ef; padding:10px 15px; border-radius:20px; text-decoration:none; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">📍 Cómo llegar</a>';
+            H += '<a href="https://www.google.com/maps/search/?api=1&query=Barrio+300+viviendas+manzana+L+casa+12+Lules+Tucuman" target="_blank" style="background:#171310; color:#fdf9ef; padding:6px 10px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:11px; display:inline-flex; align-items:center; box-shadow:0 2px 3px rgba(0,0,0,0.2);">📍 Cómo llegar</a>';
+            
             H += '</div>';
 
             d.innerHTML = H;
             
-            // Lo insertamos DENTRO del cuerpo de la tecla (ahora está cerrada y se abrirá al tocar)
             cuerpoComercios.appendChild(d);
         }
         
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-</script>                     
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
