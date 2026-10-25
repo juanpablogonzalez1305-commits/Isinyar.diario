@@ -13368,44 +13368,57 @@ if(true) return;
         if(botonComercios) {
             clearInterval(timer); 
             
-            if(document.getElementById('auspiciante-tienda-holistica')) return;
+            if(document.getElementById('carrusel-comercios')) return;
 
             var cuerpoComercios = botonComercios.nextElementSibling;
             if(!cuerpoComercios) return;
 
+            // Limpiamos el contenido viejo
             cuerpoComercios.innerHTML = ''; 
 
-            var d = document.createElement('div');
-            d.id = 'auspiciante-tienda-holistica';
+            // --- CREAMOS LA PISTA DEL CARRUSEL ---
+            var contenedorCarrusel = document.createElement('div');
+            contenedorCarrusel.id = 'carrusel-comercios';
             
-            // Ancho ideal para que quede vistoso pero no ocupe toda la pantalla
-            d.style.cssText = 'margin:15px auto; max-width:320px; text-align:center;';
+            // Estilos para que se desplace hacia la derecha suavemente
+            contenedorCarrusel.style.cssText = 'display: flex; overflow-x: auto; gap: 15px; padding: 10px 5px 20px 5px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;';
 
-            var H = '';
-            // La imagen respeta su formato 4:5 de forma natural
-            H += '<img src="img/tiendaformato.jpg" style="width:100%; height:auto; display:block; border-radius:8px; margin-bottom:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" alt="Tienda holística y Deco">';
-            
-            H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:20px; margin-bottom:4px; font-weight:900;">Tienda holística y Deco</h3>';
-            
-            H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:14px; margin-bottom:12px;">Barrio 300 viviendas<br>Manzana L casa 12</p>';
-            
-            H += '<div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">';
-            
-            H += '<a href="https://wa.me/5493813627881" target="_blank" style="background:#25D366; color:#fff; padding:10px 15px; border-radius:20px; text-decoration:none; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">💬 WhatsApp</a>';
-            
-            H += '<a href="https://maps.app.goo.gl/SmoKZWC8Bh3VkVHZ8" target="_blank" style="background:#171310; color:#fdf9ef; padding:10px 15px; border-radius:20px; text-decoration:none; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.2);">🧭 Cómo llegar</a>';
-            
-            H += '</div>';
+            // Función para crear cada tarjeta de auspiciante
+            function crearTarjeta(nombre, direccion, telefono, mapa) {
+                var d = document.createElement('div');
+                d.style.cssText = 'min-width: 280px; max-width: 280px; scroll-snap-align: center; text-align: center; background: #fdf9ef; border: 1px solid #c9a243; border-radius: 12px; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
+                
+                var H = '';
+                H += '<img src="img/tiendaformato.jpg" style="width:100%; height:auto; display:block; border-radius:8px; margin-bottom:10px;" alt="' + nombre + '">';
+                H += '<h3 style="font-family:\'Fraunces\', Georgia, serif; font-style:italic; color:#171310; font-size:18px; margin-bottom:4px; font-weight:900;">' + nombre + '</h3>';
+                H += '<p style="font-family:\'Fraunces\', Georgia, serif; color:#6b5a33; font-size:13px; margin-bottom:10px;">' + direccion + '</p>';
+                H += '<div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">';
+                H += '<a href="https://wa.me/' + telefono + '" target="_blank" style="background:#25D366; color:#fff; padding:8px 12px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:12px; display:inline-flex; align-items:center;">💬 WhatsApp</a>';
+                H += '<a href="' + mapa + '" target="_blank" style="background:#171310; color:#fdf9ef; padding:8px 12px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:12px; display:inline-flex; align-items:center;">🧭 Cómo llegar</a>';
+                H += '</div>';
+                
+                d.innerHTML = H;
+                return d;
+            }
 
-            d.innerHTML = H;
-            
-            cuerpoComercios.appendChild(d);
+            // Insertamos 3 tarjetas de prueba (la misma tienda 3 veces para ver el efecto)
+            contenedorCarrusel.appendChild(crearTarjeta('Tienda Holística y Deco', 'Barrio 300 viviendas<br>Manzana L casa 12', '5493813627881', 'https://maps.app.goo.gl/SmoKZWC8Bh3VkVHZ8'));
+            contenedorCarrusel.appendChild(crearTarjeta('Auspiciante 2 (Ejemplo)', 'Calle Falsa 123', '5493810000000', 'https://maps.google.com'));
+            contenedorCarrusel.appendChild(crearTarjeta('Auspiciante 3 (Ejemplo)', 'Av. Siempre Viva 742', '5493811111111', 'https://maps.google.com'));
+
+            cuerpoComercios.appendChild(contenedorCarrusel);
+
+            // --- AGREGAMOS EL TEXTO DE AYUDA (Desliza) ---
+            var textoAyuda = document.createElement('div');
+            textoAyuda.style.cssText = 'text-align: center; color: #c9a243; font-size: 13px; font-style: italic; margin-top: -10px; margin-bottom: 15px; font-weight: bold;';
+            textoAyuda.innerHTML = '👉 Desliza para ver más auspiciantes';
+            cuerpoComercios.appendChild(textoAyuda);
         }
         
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-      </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
