@@ -13449,8 +13449,7 @@ contenedorCarrusel.appendChild(crearTarjeta('Divas Maquillajes', 'Consultar ubic
         H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Lula da Silva es reelecto en Brasil: Venció a Flávio Bolsonaro en una histórica remontada</summary>';
         H += '<div class="cuerpo-in">';
         
-        H += '<p class="meta">Hoy · Internacional · Brasil</p>';
-        
+H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';        
         H += '<p><strong>El actual presidente de Brasil, Luiz Inácio Lula da Silva, fue reelecto este domingo tras imponerse en la segunda vuelta electoral al senador Flávio Bolsonaro, hijo del expresidente Jair Bolsonaro.</strong></p>';
         
         H += '<p>Según los datos oficiales del Tribunal Superior Electoral, Lula obtuvo el 51,76% de los votos válidos frente al 48,24% de su adversario. Se trata de una remontada histórica, ya que en la primera vuelta del 4 de octubre, Flávio Bolsonaro había quedado en primer lugar con el 47,03% de los sufragios, mientras que Lula alcanzó el 45,16%.</p>';
@@ -13559,6 +13558,30 @@ contenedorCarrusel.appendChild(crearTarjeta('Divas Maquillajes', 'Consultar ubic
                 }
             }
             clearInterval(timer); // Apagamos el reloj
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var nota = document.getElementById('nota-lula');
+        if(nota) {
+            clearInterval(timer);
+            
+            // 1. Buscamos la imagen del escudo que se inyectó y la destruimos
+            var escudo = nota.querySelector('.escudo-muni');
+            if(escudo) escudo.remove();
+            
+            // 2. Por las dudas, ocultamos cualquier imagen de escudo que se llegue a cargar
+            var estilo = document.createElement('style');
+            estilo.innerHTML = '#nota-lula img.escudo-muni { display: none !important; opacity: 0 !important; }';
+            document.head.appendChild(estilo);
         }
         
         if(intentos > 40) clearInterval(timer);
