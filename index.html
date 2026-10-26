@@ -13720,7 +13720,6 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
 (function(){
     var intentos = 0;
     
-    // Un reloj que revisa la pantalla cada 1 segundo
     var timer = setInterval(function(){
         intentos++;
         
@@ -13728,15 +13727,14 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
         var notaLula = document.getElementById('nota-lula');
         if(notaLula) {
             var summaryLula = notaLula.querySelector('summary');
-            // Si ya tiene la bandera de Brasil, no hacemos nada
+            // Si aún no tiene la bandera de Brasil, buscamos el escudo de la muni
             if(summaryLula && !summaryLula.querySelector('.bandera-brasil')) {
-                
-                // Buscamos si el escudo de la muni ya se puso
-                var escudoMuni = summaryLula.querySelector('.escudo-muni');
+                var escudoMuni = summaryLula.querySelector('img.escudo-muni');
                 if(escudoMuni) {
-                    // ¡Lo cambiamos por la bandera!
+                    // ¡CAMBIAZO! Le cambiamos la foto y le ponemos un tamaño fijo
                     escudoMuni.src = 'img/bandera-brasil.png';
-                    escudoMuni.className = 'escudo-muni bandera-brasil'; // Le ponemos una clase nueva
+                    escudoMuni.classList.add('bandera-brasil');
+                    escudoMuni.style.cssText = 'width:100px !important; height:100px !important; opacity:0.15 !important; position:absolute; right:-8px; top:50%; transform:translateY(-50%); pointer-events:none;';
                 }
             }
         }
@@ -13746,18 +13744,19 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
         if(notaAntartida) {
             var summaryAntartida = notaAntartida.querySelector('summary');
             if(summaryAntartida && !summaryAntartida.querySelector('.bandera-argentina')) {
-                
-                var escudoMuniAnt = summaryAntartida.querySelector('.escudo-muni');
+                var escudoMuniAnt = summaryAntartida.querySelector('img.escudo-muni');
                 if(escudoMuniAnt) {
+                    // ¡CAMBIAZO! Le cambiamos la foto y le ponemos un tamaño fijo
                     escudoMuniAnt.src = 'img/bandera-argentina.png';
-                    escudoMuniAnt.className = 'escudo-muni bandera-argentina';
+                    escudoMuniAnt.classList.add('bandera-argentina');
+                    escudoMuniAnt.style.cssText = 'width:100px !important; height:100px !important; opacity:0.15 !important; position:absolute; right:-8px; top:50%; transform:translateY(-50%); pointer-events:none;';
                 }
             }
         }
         
-        // Si pasaron 60 segundos (60 intentos), se frena para no colgar la página
+        // Revisa durante 30 segundos y se detiene
         if(intentos > 60) clearInterval(timer);
-    }, 1000);
+    }, 500);
 })();
 </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
