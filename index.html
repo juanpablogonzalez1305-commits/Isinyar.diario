@@ -14215,6 +14215,28 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
               </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var nota = document.getElementById('nota-collodi');
+        
+        if(nota) {
+            // Buscamos el contenedor de la foto vieja y lo destruimos
+            var fotoVieja = nota.querySelector('.foto-pinocho');
+            if(fotoVieja) {
+                fotoVieja.remove();
+            }
+            clearInterval(timer);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
