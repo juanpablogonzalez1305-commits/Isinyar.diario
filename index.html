@@ -13716,6 +13716,55 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
     }, 500);
 })();
   </script>
+                       <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // --- 1. SELLO DE BRASIL (Nota de Lula) ---
+        var notaLula = document.getElementById('nota-lula');
+        if(notaLula && !notaLula.dataset.selloListo) {
+            var summaryLula = notaLula.querySelector('summary');
+            if(summaryLula) {
+                // Borramos el escudo de la muni si es que se coló
+                var escudoLula = summaryLula.querySelector('.escudo-muni');
+                if(escudoLula) escudoLula.remove();
+                
+                // Inyectamos la bandera de Brasil
+                var imgBrasil = document.createElement('img');
+                imgBrasil.src = 'img/bandera-brasil.png';
+                imgBrasil.className = 'escudo-muni'; // Usamos la misma clase para que se posicione igual
+                imgBrasil.style.cssText = 'position:absolute; right:-8px; top:50%; transform:translateY(-50%); width:100px; height:100px; opacity:0.15; pointer-events:none; z-index:0;';
+                summaryLula.appendChild(imgBrasil);
+                
+                notaLula.dataset.selloListo = '1'; // Marcamos que ya está listo para no duplicar
+            }
+        }
+
+        // --- 2. SELLO DE ARGENTINA (Nota de la Antártida) ---
+        var notaAntartida = document.getElementById('nota-antartida');
+        if(notaAntartida && !notaAntartida.dataset.selloListo) {
+            var summaryAntartida = notaAntartida.querySelector('summary');
+            if(summaryAntartida) {
+                var escudoAntartida = summaryAntartida.querySelector('.escudo-muni');
+                if(escudoAntartida) escudoAntartida.remove();
+                
+                var imgArgentina = document.createElement('img');
+                imgArgentina.src = 'img/bandera-argentina.png';
+                imgArgentina.className = 'escudo-muni';
+                imgArgentina.style.cssText = 'position:absolute; right:-8px; top:50%; transform:translateY(-50%); width:100px; height:100px; opacity:0.15; pointer-events:none; z-index:0;';
+                summaryAntartida.appendChild(imgArgentina);
+                
+                notaAntartida.dataset.selloListo = '1';
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+                       </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
