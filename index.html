@@ -13723,39 +13723,33 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
     var timer = setInterval(function(){
         intentos++;
         
-        // 1. BUSCAMOS LA NOTA DE BRASIL (Lula)
+        // 1. LE PONEMOS LA BANDERA AL TÍTULO DE LULA
         var notaLula = document.getElementById('nota-lula');
         if(notaLula) {
             var summaryLula = notaLula.querySelector('summary');
-            // Si aún no tiene la bandera de Brasil, buscamos el escudo de la muni
-            if(summaryLula && !summaryLula.querySelector('.bandera-brasil')) {
-                var escudoMuni = summaryLula.querySelector('img.escudo-muni');
-                if(escudoMuni) {
-                    // ¡CAMBIAZO! Le cambiamos la foto y le ponemos un tamaño fijo
-                    escudoMuni.src = 'img/bandera-brasil.png';
-                    escudoMuni.classList.add('bandera-brasil');
-                    escudoMuni.style.cssText = 'width:100px !important; height:100px !important; opacity:0.15 !important; position:absolute; right:-8px; top:50%; transform:translateY(-50%); pointer-events:none;';
-                }
+            if(summaryLula && !summaryLula.innerHTML.includes('🇧🇷')) {
+                // Borramos el escudo de la muni
+                var escudo = summaryLula.querySelector('.escudo-muni');
+                if(escudo) escudo.remove();
+                
+                // Le agregamos la bandera al texto del título
+                summaryLula.innerHTML = '🇧🇷 ' + summaryLula.innerHTML;
             }
         }
 
-        // 2. BUSCAMOS LA NOTA DE LA ANTÁRTIDA
+        // 2. LE PONEMOS LA BANDERA AL TÍTULO DE LA ANTÁRTIDA
         var notaAntartida = document.getElementById('nota-antartida');
         if(notaAntartida) {
             var summaryAntartida = notaAntartida.querySelector('summary');
-            if(summaryAntartida && !summaryAntartida.querySelector('.bandera-argentina')) {
-                var escudoMuniAnt = summaryAntartida.querySelector('img.escudo-muni');
-                if(escudoMuniAnt) {
-                    // ¡CAMBIAZO! Le cambiamos la foto y le ponemos un tamaño fijo
-                    escudoMuniAnt.src = 'img/bandera-argentina.png';
-                    escudoMuniAnt.classList.add('bandera-argentina');
-                    escudoMuniAnt.style.cssText = 'width:100px !important; height:100px !important; opacity:0.15 !important; position:absolute; right:-8px; top:50%; transform:translateY(-50%); pointer-events:none;';
-                }
+            if(summaryAntartida && !summaryAntartida.innerHTML.includes('🇦🇷')) {
+                var escudoAnt = summaryAntartida.querySelector('.escudo-muni');
+                if(escudoAnt) escudoAnt.remove();
+                
+                summaryAntartida.innerHTML = '🇦🇷 ' + summaryAntartida.innerHTML;
             }
         }
         
-        // Revisa durante 30 segundos y se detiene
-        if(intentos > 60) clearInterval(timer);
+        if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
 </script>
