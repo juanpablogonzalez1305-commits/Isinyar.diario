@@ -13943,6 +13943,111 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
     }, 500);
 })();
   </script>
+    <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-escrituras')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-escrituras';
+
+        var H = '';
+        
+        // Usamos "rel deep" para que lleve el sello de agua de la municipalidad
+        H += '<summary class="rel deep">Marta Albarracín junto a Jaldo: Familias luleñas recibieron las escrituras de sus hogares</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">Hoy · Gestión Municipal · Lules</p>';
+        
+        H += '<p><strong>La intendente Marta Albarracín participó, junto al gobernador Osvaldo Jaldo y el interventor del Instituto Provincial de la Vivienda, Arq. Hugo Cabral, del acto de entrega de escrituras a familias de distintos departamentos de Tucumán, entre ellas vecinos de San Isidro de Lules.</strong></p>';
+        
+        // --- PRIMERA FOTO ---
+        H += '<img class="marco" src="img/Martavivi1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Entrega de escrituras">';
+        
+        H += '<p>Esta entrega representa un paso fundamental para brindar seguridad jurídica y tranquilidad a las familias beneficiarias, que hoy cuentan con la documentación de sus hogares, avanzando en la concreción del sueño de la casa propia.</p>';
+        
+        // --- SEGUNDA FOTO ---
+        H += '<img class="marco" src="img/Martavivi2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Familias luleñas con sus escrituras">';
+        
+        H += '<p>La entrega de títulos de propiedad es una de las políticas de Estado que mayor impacto tiene en la vida de los vecinos, ya que garantiza la tenencia legal de los inmuebles y les permite a las familias planificar su futuro con la certeza de tener un techo propio.</p>';
+        
+        H += '<button type="button" class="btn-voz-escrituras" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-escrituras');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._escriturasLeyendo){
+                    s.cancel();
+                    window._escriturasLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._escriturasLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._escriturasLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._escriturasLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+    </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
