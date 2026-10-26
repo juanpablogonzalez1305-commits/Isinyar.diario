@@ -13753,6 +13753,164 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-collodi')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-collodi';
+
+        var H = '';
+        
+        // Sin "deep" para que no lleve el escudo de la muni
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Un día como hoy: La historia real de cómo Carlo Collodi creó a Pinocho para un diario infantil</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">25 de Octubre de 2026 · Efemérides</p>';
+        
+        H += '<p><strong>Un 26 de octubre de 1890, en la ciudad de Florencia, fallecía Carlo Collodi, el escritor italiano que le dio vida a uno de los personajes más universales de la literatura infantil: Pinocho.</strong></p>';
+        
+        H += '<p>Lo que muchos no saben es que la historia del famoso muñeco de madera no nació como un libro, sino que fue publicada por entregas en el suplemento infantil del diario "Il Giornale dei Bambini" a partir de 1880. La historia tuvo un éxito tan rotundo que en 1883 se recopiló y publicó como libro [citation:12].</p>';
+        
+        H += '<p>Collodi, cuyo nombre real era Carlo Lorenzini, era un periodista y escritor que se dedicó a la literatura infantil. Su obra trascendió las fronteras de Italia y se convirtió en un clásico que, con el paso del tiempo, fue adaptado al cine, al teatro y a la televisión, llegando a millones de niños en todo el mundo.</p>';
+        
+        H += '<p>Su legado es un ejemplo de cómo una historia contada por partes en un medio gráfico puede convertirse en un clásico eterno. Y nos recuerda que, a veces, las historias más grandes comienzan con pequeños capítulos.</p>';
+        
+        H += '<button type="button" class="btn-voz-collodi" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-collodi');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._collodiLeyendo){
+                    s.cancel();
+                    window._collodiLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._collodiLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._collodiLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._collodiLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de Collodi
+        var nota = document.getElementById('nota-collodi');
+        
+        if(nota) {
+            var cuerpo = nota.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados si recargamos
+            if(cuerpo && !cuerpo.querySelector('.foto-pinocho')) {
+                
+                var parrafos = cuerpo.querySelectorAll('p');
+                
+                // --- 1. CREAMOS LA IMAGEN CON SU EPÍGRAFE ---
+                var contenedorFoto = document.createElement('div');
+                contenedorFoto.className = 'foto-pinocho';
+                contenedorFoto.style.cssText = 'margin: 20px 0; text-align: center;';
+
+                var img = document.createElement('img');
+                img.src = 'img/pinocho.png';
+                img.style.cssText = 'width:100%; max-width:300px; border: 2px solid #c9a243; border-radius: 8px; display: block; margin: 0 auto; padding: 3px; background: #fff;';
+                img.alt = 'Ilustración original de Pinocho de 1883';
+
+                var epigrafe = document.createElement('p');
+                epigrafe.style.cssText = 'font-size: 12px; color: #6b5a33; font-style: italic; margin-top: 8px; line-height: 1.2; text-align: center;';
+                epigrafe.innerHTML = 'Ilustración original de Enrico Mazzanti para la primera edición del libro en 1883. Un estilo muy distinto al que nos acostumbró la gráfica moderna de Disney.';
+
+                contenedorFoto.appendChild(img);
+                contenedorFoto.appendChild(epigrafe);
+
+                // La insertamos después del primer párrafo
+                if(parrafos.length > 1) {
+                    parrafos[1].after(contenedorFoto); 
+                }
+
+                // --- 2. AGREGAMOS UN PÁRRAFO FINAL SOBRE LA EVOLUCIÓN ---
+                var nuevoParrafo = document.createElement('p');
+                nuevoParrafo.innerHTML = 'Es fascinante ver cómo la imagen de Pinocho mutó con el tiempo. Lo que hoy conocemos como el clásico ratón de dibujos animados, en 1883 era un muñeco de madera de aspecto más rústico y hasta un poco más oscuro, tal como lo imaginó Collodi para las páginas del diario.';
+                
+                // Lo insertamos antes del botón de audio
+                var boton = cuerpo.querySelector('.btn-voz-collodi');
+                if(boton) {
+                    boton.before(nuevoParrafo);
+                }
+            }
+            clearInterval(timer); // Apagamos el reloj
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
