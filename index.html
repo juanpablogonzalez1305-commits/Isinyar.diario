@@ -13588,6 +13588,30 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la foto actual de la nota de Lula
+        var fotoLula = document.querySelector('#nota-lula img');
+        
+        if(fotoLula) {
+            clearInterval(timer);
+            
+            // Si la foto no es la nueva, le cambiamos el link
+            if(fotoLula.src.indexOf('Lula2.png') === -1) {
+                fotoLula.src = 'img/Lula2.png';
+                fotoLula.alt = 'Lula da Silva Presidente';
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
