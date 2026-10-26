@@ -14152,25 +14152,22 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
       </script>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos la nota de Mía
         var nota = document.getElementById('nota-sociales-mia');
         
         if(nota) {
             var cuerpo = nota.querySelector('.cuerpo-in');
             
-            // Evitamos duplicados si recargamos
             if(cuerpo && !cuerpo.querySelector('.fotos-mia')) {
                 
                 var parrafos = cuerpo.querySelectorAll('p');
                 
-                // Función para crear cada imagen con su marco
                 function crearImagen(src, alt) {
                     var img = document.createElement('img');
                     img.src = src;
@@ -14180,31 +14177,29 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
                     return img;
                 }
 
-                // 1. Foto 1 después del primer párrafo (el de la introducción)
+                // Foto 1 después del primer párrafo
                 if(parrafos.length > 1) {
                     parrafos[1].after(crearImagen('img/mia1.jpg', 'Mía González Alicata'));
                 }
                 
-                // 2. Foto 2 después del segundo párrafo (el de la fiesta)
+                // Foto 2 después del segundo párrafo
                 if(parrafos.length > 2) {
                     parrafos[2].after(crearImagen('img/mia2.jpg', 'Invitados en los 15 de Mía'));
                 }
 
-                // 3. Fotos 4 y 5 juntas antes del último párrafo (el de cierre)
+                // Fotos 4 y 5 juntas antes del último párrafo (pero ahora una abajo de la otra)
                 if(parrafos.length > 3) {
                     var boton = cuerpo.querySelector('.btn-voz-sociales');
                     if(boton) {
-                        // Creamos un contenedor para que las dos últimas fotos queden una al lado de la otra
+                        // Contenedor de la galería en columna (vertical)
                         var galeria = document.createElement('div');
-                        galeria.style.cssText = 'display:flex; gap:10px; margin:15px 0;';
+                        galeria.style.cssText = 'display:flex; flex-direction:column; gap:10px; margin:15px 0;';
                         
                         var img4 = crearImagen('img/mia4.jpg', 'Mía y sus amigos');
-                        img4.style.margin = '0'; // Quitamos margen para que encajen bien
-                        img4.style.flex = '1';
+                        img4.style.margin = '0'; 
                         
                         var img5 = crearImagen('img/mia5.jpg', 'Festejos de los 15');
                         img5.style.margin = '0';
-                        img5.style.flex = '1';
 
                         galeria.appendChild(img4);
                         galeria.appendChild(img5);
@@ -14213,13 +14208,13 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
                     }
                 }
             }
-            clearInterval(timer); // Apagamos el reloj
+            clearInterval(timer); 
         }
         
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-  </script>
+              </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
