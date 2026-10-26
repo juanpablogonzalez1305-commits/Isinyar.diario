@@ -13911,6 +13911,38 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    // Este reloj revisa la página durante 20 segundos
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de Pinocho
+        var nota = document.getElementById('nota-collodi');
+        
+        if(nota) {
+            var summary = nota.querySelector('summary');
+            
+            if(summary) {
+                // Buscamos el escudo de la muni y lo destruimos
+                var escudo = summary.querySelector('.escudo-muni');
+                if(escudo) {
+                    escudo.remove(); // ¡Pum! Desaparece.
+                }
+                
+                // Por si el sistema lo vuelve a poner, forzamos que no se vea
+                var estilo = document.createElement('style');
+                estilo.innerHTML = '#nota-collodi summary img.escudo-muni { display: none !important; opacity: 0 !important; }';
+                document.head.appendChild(estilo);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
