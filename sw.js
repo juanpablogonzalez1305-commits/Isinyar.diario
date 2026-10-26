@@ -1,4 +1,4 @@
-const CACHE_NAME = 'descubrir-v35';
+const CACHE_NAME = 'descubrir-v36';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
