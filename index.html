@@ -13716,55 +13716,50 @@ H += '<p class="meta">25 de Octubre de 2026 · Internacional · Brasil</p>';
     }, 500);
 })();
   </script>
-                       <script>
+<script>
 (function(){
     var intentos = 0;
     
+    // Un reloj que revisa la pantalla cada 1 segundo
     var timer = setInterval(function(){
         intentos++;
         
-        // --- 1. SELLO DE BRASIL (Nota de Lula) ---
+        // 1. BUSCAMOS LA NOTA DE BRASIL (Lula)
         var notaLula = document.getElementById('nota-lula');
-        if(notaLula && !notaLula.dataset.selloListo) {
+        if(notaLula) {
             var summaryLula = notaLula.querySelector('summary');
-            if(summaryLula) {
-                // Borramos el escudo de la muni si es que se coló
-                var escudoLula = summaryLula.querySelector('.escudo-muni');
-                if(escudoLula) escudoLula.remove();
+            // Si ya tiene la bandera de Brasil, no hacemos nada
+            if(summaryLula && !summaryLula.querySelector('.bandera-brasil')) {
                 
-                // Inyectamos la bandera de Brasil
-                var imgBrasil = document.createElement('img');
-                imgBrasil.src = 'img/bandera-brasil.png';
-                imgBrasil.className = 'escudo-muni'; // Usamos la misma clase para que se posicione igual
-                imgBrasil.style.cssText = 'position:absolute; right:-8px; top:50%; transform:translateY(-50%); width:100px; height:100px; opacity:0.15; pointer-events:none; z-index:0;';
-                summaryLula.appendChild(imgBrasil);
-                
-                notaLula.dataset.selloListo = '1'; // Marcamos que ya está listo para no duplicar
+                // Buscamos si el escudo de la muni ya se puso
+                var escudoMuni = summaryLula.querySelector('.escudo-muni');
+                if(escudoMuni) {
+                    // ¡Lo cambiamos por la bandera!
+                    escudoMuni.src = 'img/bandera-brasil.png';
+                    escudoMuni.className = 'escudo-muni bandera-brasil'; // Le ponemos una clase nueva
+                }
             }
         }
 
-        // --- 2. SELLO DE ARGENTINA (Nota de la Antártida) ---
+        // 2. BUSCAMOS LA NOTA DE LA ANTÁRTIDA
         var notaAntartida = document.getElementById('nota-antartida');
-        if(notaAntartida && !notaAntartida.dataset.selloListo) {
+        if(notaAntartida) {
             var summaryAntartida = notaAntartida.querySelector('summary');
-            if(summaryAntartida) {
-                var escudoAntartida = summaryAntartida.querySelector('.escudo-muni');
-                if(escudoAntartida) escudoAntartida.remove();
+            if(summaryAntartida && !summaryAntartida.querySelector('.bandera-argentina')) {
                 
-                var imgArgentina = document.createElement('img');
-                imgArgentina.src = 'img/bandera-argentina.png';
-                imgArgentina.className = 'escudo-muni';
-                imgArgentina.style.cssText = 'position:absolute; right:-8px; top:50%; transform:translateY(-50%); width:100px; height:100px; opacity:0.15; pointer-events:none; z-index:0;';
-                summaryAntartida.appendChild(imgArgentina);
-                
-                notaAntartida.dataset.selloListo = '1';
+                var escudoMuniAnt = summaryAntartida.querySelector('.escudo-muni');
+                if(escudoMuniAnt) {
+                    escudoMuniAnt.src = 'img/bandera-argentina.png';
+                    escudoMuniAnt.className = 'escudo-muni bandera-argentina';
+                }
             }
         }
         
-        if(intentos > 40) clearInterval(timer);
-    }, 500);
+        // Si pasaron 60 segundos (60 intentos), se frena para no colgar la página
+        if(intentos > 60) clearInterval(timer);
+    }, 1000);
 })();
-                       </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
