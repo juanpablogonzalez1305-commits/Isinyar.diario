@@ -13529,6 +13529,43 @@ contenedorCarrusel.appendChild(crearTarjeta('Divas Maquillajes', 'Consultar ubic
     }, 500);
 })();
                             </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de Lula
+        var nota = document.getElementById('nota-lula');
+        
+        if(nota) {
+            var cuerpo = nota.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados si recargamos
+            if(cuerpo && !cuerpo.querySelector('.foto-lula')) {
+                
+                var parrafos = cuerpo.querySelectorAll('p');
+                
+                // Creamos la imagen
+                var img = document.createElement('img');
+                img.src = 'img/brasil.png';
+                img.className = 'marco foto-lula';
+                img.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+                img.alt = 'Lula da Silva';
+                
+                // La insertamos después del primer párrafo fuerte (el índice 1, porque el 0 es el meta)
+                if(parrafos.length > 1) {
+                    parrafos[1].after(img); 
+                }
+            }
+            clearInterval(timer); // Apagamos el reloj
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
