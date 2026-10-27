@@ -14286,6 +14286,47 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota del Premio San José
+        var nota = document.getElementById('nota-premio-san-jose');
+        
+        if(nota) {
+            var cuerpo = nota.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados si recargamos la página
+            if(cuerpo && !cuerpo.querySelector('.foto-papas')) {
+                
+                var parrafos = cuerpo.querySelectorAll('p');
+                
+                // Creamos la imagen
+                var img = document.createElement('img');
+                img.src = 'img/papáymamá.jpg';
+                img.className = 'marco foto-papas';
+                img.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+                img.alt = 'Familia Martorell';
+                
+                // La insertamos a la mitad de la nota. 
+                // Si hay muchos párrafos, la ponemos en el medio (por ejemplo, después del párrafo 3)
+                if(parrafos.length > 3) {
+                    parrafos[3].after(img); 
+                } else if (parrafos.length > 1) {
+                    // Si la nota es más corta, la ponemos después del primer párrafo
+                    parrafos[1].after(img);
+                }
+            }
+            clearInterval(timer); // Apagamos el reloj
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+               </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
