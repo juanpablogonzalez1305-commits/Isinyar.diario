@@ -14420,6 +14420,60 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
                </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la caja de la portada
+        var portada = document.getElementById('portada');
+        var keys = portada ? portada.querySelector('.keys') : null;
+        
+        if(portada && keys) {
+            clearInterval(timer);
+            
+            if(document.getElementById('nuevo-quienes-somos')) return;
+
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'nuevo-quienes-somos';
+
+            // BOTÓN CON EL ESTILO ORIGINAL (Sin la clase "deep" para que no lleve sello)
+            var H = '';
+            H += '<summary class="rel" style="background: linear-gradient(160deg, #241c12, #15110d); color: #ffd87a; border: 3px solid #c9a243; border-radius: 20px; padding: 1.15rem 1.3rem; font-family: \'Fraunces\', serif; font-weight: 900; font-size: 1.1rem; text-align: center; cursor: pointer;">';
+            H += '📺 QUIÉNES SOMOS · Un diario hecho en Lules, para Lules';
+            H += '</summary>';
+            
+            H += '<div class="cuerpo-in">';
+            H += '<p class="meta">Conocé quiénes hacemos DESCUBRIR.</p>';
+            
+            // EL VIDEO (Acordate de cambiar el link)
+            H += '<div style="margin:20px 0; border: 3px solid #c9a243; border-radius: 12px; overflow: hidden; background: #000;">';
+            H += '<video controls playsinline preload="metadata" style="width:100%; display:block;">';
+            H += '<source src="AQUI_VA_EL_LINK_DEL_VIDEO" type="video/mp4">';
+            H += 'Tu navegador no soporta la reproducción de video.';
+            H += '</video>';
+            H += '</div>';
+
+            H += '<p>En <strong>DESCUBRIR</strong> encontrás las noticias de nuestra ciudad, la historia de Lules, el camino de la fe, la guía de servicios y toda la información que necesitás, con la calidad y el compromiso que nos caracteriza.</p>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            // Lo insertamos debajo de las 4 tarjetas grandes
+            if(keys.nextSibling) {
+                portada.insertBefore(d, keys.nextSibling);
+            } else {
+                portada.appendChild(d);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
