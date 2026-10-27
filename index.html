@@ -14437,33 +14437,45 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
 
             // --- EL TRUCO DEL RELIEVE ---
             // Le decimos a la página: "Para esta nota, usá el relieve original pero SIN el escudo"
-            var estilo = document.createElement('style');
-            estilo.innerHTML = `
-                #nuevo-quienes-somos summary.rel {
-                    margin-top: 25px !important; 
-                    border: 2px solid #c9a243 !important;
-                    border-radius: 20px !important;
-                    background: linear-gradient(160deg, #241c12, #15110d) !important;
-                    color: #ffd87a !important;
-                    font-family: 'Fraunces', serif !important;
-                    font-weight: 900 !important;
-                    padding: 1.15rem 1.3rem !important;
-                    text-align: center !important;
-                    cursor: pointer !important;
-                    box-shadow: 
-                        0 0 0 1px rgba(255,240,190,.35) inset, 
-                        0 0 0 4px #15110d inset, 
-                        0 0 0 5px #8a6a1a inset, 
-                        0 8px 0 0 #8a6a1a, 
-                        0 22px 34px -12px rgba(0,0,0,.75), 
-                        0 0 18px rgba(217,176,76,.55) !important;
-                }
-                /* Ocultamos cualquier escudo de la muni que se quiera colar */
-                #nuevo-quienes-somos summary img.escudo-muni {
-                    display: none !important;
-                }
-            `;
-            document.head.appendChild(estilo);
+var estilo = document.createElement('style');
+estilo.innerHTML = `
+    /* Hacemos que el contenedor general sea transparente para que no se vea el fondo blanco */
+    #nuevo-quienes-somos {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    #nuevo-quienes-somos summary.rel {
+        margin-top: 25px !important; 
+        border: 2px solid #c9a243 !important;
+        border-radius: 20px !important;
+        background: linear-gradient(160deg, #241c12, #15110d) !important;
+        color: #ffd87a !important;
+        font-family: 'Fraunces', serif !important;
+        font-weight: 900 !important;
+        padding: 1.15rem 1.3rem !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        box-shadow: 
+            0 0 0 1px rgba(255,240,190,.35) inset, 
+            0 0 0 4px #15110d inset, 
+            0 0 0 5px #8a6a1a inset, 
+            0 8px 0 0 #8a6a1a, 
+            0 22px 34px -12px rgba(0,0,0,.75), 
+            0 0 18px rgba(217,176,76,.55) !important;
+    }
+    /* Ocultamos cualquier escudo de la muni que se quiera colar */
+    #nuevo-quienes-somos summary img.escudo-muni {
+        display: none !important;
+    }
+    /* Le damos el fondo oscuro al cuerpo del texto */
+    #nuevo-quienes-somos .cuerpo-in {
+        background-color: #15110d !important;
+        border-radius: 0 0 20px 20px !important;
+    }
+`;
+document.head.appendChild(estilo);
 
             var d = document.createElement('details');
             d.className = 'pieza';
