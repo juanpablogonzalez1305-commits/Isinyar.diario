@@ -14420,7 +14420,95 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
                </script>
+<script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el contenedor de la portada para insertar el botón
+        var portada = document.getElementById('portada');
+        var keys = portada ? portada.querySelector('.keys') : null;
+        
+        if(portada && keys) {
+            clearInterval(timer);
+            
+            if(document.getElementById('nuevo-quienes-somos')) return;
 
+            // 1. CREAMOS LOS ESTILOS (Para que quede con relieve y sin fondo blanco)
+            var estilo = document.createElement('style');
+            estilo.innerHTML = `
+                #nuevo-quienes-somos {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                    margin-top: 25px !important;
+                }
+                #nuevo-quienes-somos summary.rel {
+                    border: 2px solid #c9a243 !important;
+                    border-radius: 20px !important;
+                    background: linear-gradient(160deg, #241c12, #15110d) !important;
+                    color: #ffd87a !important;
+                    font-family: 'Fraunces', serif !important;
+                    font-weight: 900 !important;
+                    padding: 1.15rem 1.3rem !important;
+                    text-align: center !important;
+                    cursor: pointer !important;
+                    box-shadow: 
+                        0 0 0 1px rgba(255,240,190,.35) inset, 
+                        0 0 0 4px #15110d inset, 
+                        0 0 0 5px #8a6a1a inset, 
+                        0 8px 0 0 #8a6a1a, 
+                        0 22px 34px -12px rgba(0,0,0,.75), 
+                        0 0 18px rgba(217,176,76,.55) !important;
+                }
+                #nuevo-quienes-somos summary img.escudo-muni {
+                    display: none !important;
+                }
+                #nuevo-quienes-somos .cuerpo-in {
+                    background-color: #15110d !important;
+                    border-radius: 0 0 20px 20px !important;
+                }
+            `;
+            document.head.appendChild(estilo);
+
+            // 2. CREAMOS EL BOTÓN Y EL VIDEO
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'nuevo-quienes-somos';
+
+            var H = '';
+            // Título (sin el televisor viejo)
+            H += '<summary class="rel deep">📱 QUIÉNES SOMOS · Un diario hecho en Lules, para Lules</summary>';
+            
+            H += '<div class="cuerpo-in">';
+            
+            // Acá va tu video de Catbox
+            H += '<div style="margin:20px 0; border: 2px solid #c9a243; border-radius: 12px; overflow: hidden; background: #000;">';
+            H += '<video controls playsinline preload="metadata" style="width:100%; display:block;">';
+            H += '<source src="https://files.catbox.moe/eufbeg.mp4" type="video/mp4">';
+            H += 'Tu navegador no soporta la reproducción de video.';
+            H += '</video>';
+            H += '</div>';
+
+            H += '<p style="color: #f4efe6; font-size: 15px; line-height: 1.5;">En <strong>DESCUBRIR</strong> encontrás las noticias de nuestra ciudad, la historia de Lules, el camino de la fe, la guía de servicios y toda la información que necesitás, con la calidad y el compromiso que nos caracteriza.</p>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            // Insertamos el botón justo debajo de las 4 tarjetas grandes
+            if(keys.nextSibling) {
+                portada.insertBefore(d, keys.nextSibling);
+            } else {
+                portada.appendChild(d);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
