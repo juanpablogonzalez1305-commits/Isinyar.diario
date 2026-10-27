@@ -14509,6 +14509,54 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var botonQuienes = document.getElementById('nuevo-quienes-somos');
+        
+        if(botonQuienes) {
+            var cuerpo = botonQuienes.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados
+            if(cuerpo && !cuerpo.querySelector('.video-quienes-youtube')) {
+                
+                // 1. Limpiamos el contenedor viejo de Catbox si quedó
+                var videoViejo = cuerpo.querySelector('.video-quienes');
+                if(videoViejo) videoViejo.remove();
+
+                // 2. Creamos el contenedor del video de YouTube (Formato Short)
+                var divVideo = document.createElement('div');
+                divVideo.className = 'video-quienes-youtube';
+                divVideo.style.cssText = 'margin:20px auto; width:100%; max-width:320px; border: 2px solid #c9a243; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 9 / 16;';
+
+                // 3. El Iframe de YouTube
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube.com/embed/qo3ZvJ9-e4I';
+                iframe.style.cssText = 'width:100%; height:100%; border:none;';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.allowFullscreen = true;
+
+                divVideo.appendChild(iframe);
+
+                // 4. Lo insertamos antes del texto de "En DESCUBRIR..."
+                var primerParrafo = cuerpo.querySelector('p');
+                if(primerParrafo) {
+                    primerParrafo.before(divVideo);
+                } else {
+                    cuerpo.appendChild(divVideo);
+                }
+            }
+            clearInterval(timer); 
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
