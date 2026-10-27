@@ -14354,6 +14354,47 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la caja de "Quiénes Somos"
+        var cajaQuienes = document.getElementById('nota-promo-portada');
+        
+        if(cajaQuienes) {
+            // 1. Buscamos CUALQUIER etiqueta de video que haya
+            var videos = cajaQuienes.querySelectorAll('video, iframe');
+            
+            videos.forEach(function(v) {
+                v.pause(); // Detenemos la reproducción
+                v.removeAttribute('src'); // Le quitamos la fuente
+                v.style.display = 'none'; // Lo hacemos invisible
+            });
+
+            // 2. Buscamos el contenedor del recuadro donde está el video y lo ocultamos
+            var contenedorVideo = cajaQuienes.querySelector('div[style*="margin:.6rem"]');
+            if(contenedorVideo) {
+                contenedorVideo.style.display = 'none';
+            }
+
+            // 3. Por si las dudas, ocultamos cualquier imagen que diga VIDMA (la marca de agua del video)
+            var imagenes = cajaQuienes.querySelectorAll('img');
+            imagenes.forEach(function(img) {
+                if(img.src.includes('vidma') || img.alt.includes('vidma')) {
+                    img.style.display = 'none';
+                }
+            });
+
+            clearInterval(timer); // Apagamos el reloj
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
