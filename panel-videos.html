@@ -16,31 +16,46 @@
         .card button{padding:6px 12px;border:none;border-radius:5px;cursor:pointer;font-weight:bold}
         .btn-rojo{background:#e74c3c;color:#fff}
         .btn-verde{background:#25D366;color:#fff}
-        .btn-guardar{background:#c9a243;color:#171310;width:100%;padding:15px;font-size:1.1rem;margin-top:20px}
+        .btn-guardar{background:#c9a243;color:#171310;width:100%;padding:15px;font-size:1.1rem;margin-top:20px;font-weight:bold;border:none;border-radius:5px;cursor:pointer}
         .alerta{padding:10px;border-radius:5px;margin-bottom:20px;font-weight:bold;text-align:center}
         .alerta-on{background:#d4edda;color:#155724}
         .alerta-off{background:#f8d7da;color:#721c24}
+        #loginBox { background:#fff; padding:15px; border:2px solid #c9a243; border-radius:12px; margin-bottom:20px; text-align:center; }
     </style>
 </head>
 <body>
     <h1>Panel de Videos · DESCUBRIR</h1>
 
-    <div id="estadoGlobal" class="alerta alerta-off">Cargando estado...</div>
+    <!-- CAJITA PARA EL TOKEN -->
+    <div id="loginBox">
+        <label style="font-weight:bold; display:block; margin-bottom:10px;">Pega tu Token de GitHub aquí:</label>
+        <input type="text" id="inputToken" placeholder="ghp_..." style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; font-size:16px;">
+        <button onclick="iniciarPanel()" style="background:#c9a243; color:#171010; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">Cargar Panel</button>
+    </div>
 
-    <div id="listaVideos"></div>
-
-    <button class="btn-guardar" onclick="guardarCambios()">💾 Guardar todos los cambios</button>
+    <!-- CONTENIDO DEL PANEL (Oculto hasta cargar) -->
+    <div id="panelContenido" style="display:none;">
+        <div id="estadoGlobal" class="alerta alerta-off">Cargando estado...</div>
+        <div id="listaVideos"></div>
+        <button class="btn-guardar" onclick="guardarCambios()">💾 Guardar todos los cambios</button>
+    </div>
 
     <script>
-        const token = document.getElementById('inputToken').value;
-if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
-        if(!token) { alert("Se necesita el token para funcionar"); }
-        
+        let token = "";
         const repo = "juanpablogonzalez1305-commits/Isinyar.diario";
         const archivo = "videos.json";
         const apiUrl = `https://api.github.com/repos/${repo}/contents/${archivo}`;
         let SHA = null;
         let config = {};
+
+        function iniciarPanel() {
+            token = document.getElementById('inputToken').value.trim();
+            if(!token) { alert("Por favor, pega el token primero."); return; }
+            
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('panelContenido').style.display = 'block';
+            cargarConfig();
+        }
 
         async function cargarConfig() {
             try {
@@ -53,7 +68,7 @@ if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
                 config = contenido;
                 render();
             } catch(e) {
-                document.getElementById('estadoGlobal').innerText = "Error al cargar la configuración.";
+                document.getElementById('estadoGlobal').innerText = "Error al cargar. Verificá el token.";
             }
         }
 
@@ -61,7 +76,6 @@ if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
             const cont = document.getElementById('listaVideos');
             cont.innerHTML = '';
             
-            // Estado general
             const estado = document.getElementById('estadoGlobal');
             if(config.mostrar_videos) {
                 estado.className = 'alerta alerta-on';
@@ -71,7 +85,6 @@ if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
                 estado.innerText = '⏸️ MODO FLYERS ACTIVADO (Los videos están ocultos)';
             }
 
-            // Botón para cambiar el estado general
             const btnEstado = document.createElement('button');
             btnEstado.className = 'btn-guardar';
             btnEstado.style.marginBottom = '20px';
@@ -82,11 +95,9 @@ if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
             };
             cont.appendChild(btnEstado);
 
-            // Lista de videos
             config.lista.forEach((video, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                
                 card.innerHTML = `
                     <label><input type="checkbox" ${video.activo ? 'checked' : ''} onchange="config.lista[${index}].activo = this.checked"> Video ${index + 1}</label>
                     <input type="text" value="${video.titulo}" placeholder="Título del video" onchange="config.lista[${index}].titulo = this.value">
@@ -99,7 +110,6 @@ if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
                 cont.appendChild(card);
             });
 
-            // Botón para agregar un video nuevo
             const btnAgregar = document.createElement('button');
             btnAgregar.className = 'btn-verde';
             btnAgregar.innerText = '+ Agregar video';
@@ -108,12 +118,7 @@ if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
             btnAgregar.style.fontSize = '1.1rem';
             btnAgregar.style.marginTop = '10px';
             btnAgregar.onclick = () => {
-                config.lista.push({
-                    id: "video" + Date.now(),
-                    titulo: "Nuevo video",
-                    youtube_id: "",
-                    activo: true
-                });
+                config.lista.push({ id: "video" + Date.now(), titulo: "Nuevo video", youtube_id: "", activo: true });
                 render();
             };
             cont.appendChild(btnAgregar);
@@ -151,13 +156,6 @@ if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
                 alert("Error al guardar. Revisá el token.");
             }
         }
-
-        if(token) cargarConfig();
     </script>
 </body>
-    <div style="background:#fff; padding:15px; border:2px solid #c9a243; border-radius:12px; margin-bottom:20px; text-align:center;">
-    <label style="font-weight:bold; display:block; margin-bottom:10px;">Pega tu Token de GitHub aquí:</label>
-    <input type="text" id="inputToken" placeholder="ghp_..." style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; font-size:16px;">
-    <button onclick="cargarConfig()" style="background:#c9a243; color:#171010; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">Cargar Panel</button>
-    </div>
 </html>
