@@ -32,7 +32,8 @@
     <button class="btn-guardar" onclick="guardarCambios()">💾 Guardar todos los cambios</button>
 
     <script>
-        const token = prompt("Ingresá tu Token de GitHub para editar:");
+        const token = document.getElementById('inputToken').value;
+if(!token) { alert("Por favor, ingresa el token antes de guardar."); return; }
         if(!token) { alert("Se necesita el token para funcionar"); }
         
         const repo = "juanpablogonzalez1305-commits/Isinyar.diario";
@@ -154,4 +155,9 @@
         if(token) cargarConfig();
     </script>
 </body>
+    <div style="background:#fff; padding:15px; border:2px solid #c9a243; border-radius:12px; margin-bottom:20px; text-align:center;">
+    <label style="font-weight:bold; display:block; margin-bottom:10px;">Pega tu Token de GitHub aquí:</label>
+    <input type="text" id="inputToken" placeholder="ghp_..." style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; font-size:16px;">
+    <button onclick="cargarConfig()" style="background:#c9a243; color:#171010; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">Cargar Panel</button>
+    </div>
 </html>
