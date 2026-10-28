@@ -14555,6 +14555,67 @@ H += '<p style="color: #ffd87a; font-family: Georgia, serif; font-style: italic;
     }, 500);
 })();
   </script>
+                    <script>
+(function(){
+    // Esperamos a que la página cargue
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el contenedor donde van los flyers o la sección principal
+        var portada = document.getElementById('portada');
+        
+        if(portada) {
+            clearInterval(timer);
+            
+            // Leemos el archivo videos.json
+            fetch('./videos.json?t=' + Date.now())
+            .then(function(r){ return r.json(); })
+            .then(function(cfg){
+                // Si el modo video NO está activado, no hacemos nada
+                if(!cfg.mostrar_videos) return;
+                
+                // Si está activado, buscamos los videos activos
+                var videosActivos = cfg.lista.filter(function(v){ return v.activo && v.youtube_id; });
+                if(!videosActivos.length) return;
+
+                // 1. OCULTAMOS LOS FLYERS (si existen)
+                // (Esto depende de cómo esté armado tu diario, pero buscamos los carteles flotantes)
+                var carteles = document.querySelectorAll('.cartel-flyer, #cartel-overlay, .flyer-popup');
+                carteles.forEach(function(c){ c.style.display = 'none'; });
+
+                // 2. CREAMOS LA CAJA DE VIDEOS
+                if(document.getElementById('caja-videos-portada')) return;
+                
+                var caja = document.createElement('div');
+                caja.id = 'caja-videos-portada';
+                caja.style.cssText = 'margin: 20px auto; max-width: 400px; background: #1a1510; border: 2px solid #c9a243; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);';
+
+                var H = '';
+                H += '<h3 style="color: #c9a243; font-family: Georgia, serif; font-size: 20px; margin-bottom: 15px;">📺 Videos Destacados</h3>';
+                
+                // Agregamos cada video
+                videosActivos.forEach(function(v){
+                    H += '<div style="margin-bottom: 20px;">';
+                    H += '<p style="color: #f4efe6; font-size: 14px; margin-bottom: 5px;">' + v.titulo + '</p>';
+                    H += '<div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid #c9a243;">'; // Formato Short vertical
+                    H += '<iframe src="https://www.youtube.com/embed/' + v.youtube_id + '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>';
+                    H += '</div>';
+                    H += '</div>';
+                });
+                
+                caja.innerHTML = H;
+                
+                // Insertamos la caja arriba de todo en la portada
+                portada.insertBefore(caja, portada.firstChild);
+            })
+            .catch(function(e){ console.log('Error cargando videos:', e); });
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+                    </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
