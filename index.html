@@ -14658,6 +14658,34 @@ btnCerrar.onclick = function() {
     .catch(function(e){ console.log('Error:', e); });
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos todas las notas de la sección de Noticias
+        var notas = document.querySelectorAll('details.pieza');
+        
+        for(var i=0; i < notas.length; i++) {
+            var textoNota = notas[i].textContent.toLowerCase();
+            
+            // Si el título o el texto mencionan a la Intendenta en estas notas específicas, las ocultamos
+            if(
+                textoNota.includes('marta albarracín') || 
+                textoNota.includes('escrituras a familias') || 
+                textoNota.includes('la lealtad se demuestra con trabajo') ||
+                textoNota.includes('intendente marta')
+            ) {
+                notas[i].style.display = 'none'; // La hacemos invisible de la vista del público
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
