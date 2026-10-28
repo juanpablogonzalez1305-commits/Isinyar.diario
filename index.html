@@ -14622,6 +14622,36 @@ H += '<p style="color: #ffd87a; font-family: Georgia, serif; font-style: italic;
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    // Este código revisa si el modo video está activo
+    fetch('./videos.json?t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(cfg){
+        // Si el modo video está activado, destruimos los flyers de raíz
+        if(cfg.mostrar_videos) {
+            
+            // Usamos un "relojito" para estar seguros de que los flyers ya se cargaron
+            var intentos = 0;
+            var timer = setInterval(function(){
+                intentos++;
+                
+                // Buscamos el contenedor principal del flyer
+                var cartel = document.getElementById('cartel-destacado');
+                if(cartel) {
+                    // Le decimos que se vaya a la mierda (o sea, que se oculte)
+                    cartel.style.display = 'none !important'; 
+                    cartel.style.visibility = 'hidden';
+                    cartel.style.opacity = '0';
+                }
+                
+                if(intentos > 20) clearInterval(timer);
+            }, 500);
+        }
+    })
+    .catch(function(e){ console.log('Error:', e); });
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
