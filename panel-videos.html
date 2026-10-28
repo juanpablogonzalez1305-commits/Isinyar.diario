@@ -48,15 +48,28 @@
         let SHA = null;
         let config = {};
 
-        function iniciarPanel() {
-            token = document.getElementById('inputToken').value.trim();
-            if(!token) { alert("Por favor, pega el token primero."); return; }
-            
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('panelContenido').style.display = 'block';
-            cargarConfig();
-        }
+function iniciarPanel() {
+    let inputVal = document.getElementById('inputToken').value.trim();
+    
+    // Si no hay nada en el input, buscamos en la memoria
+    if(!inputVal) {
+        inputVal = localStorage.getItem('tokenVideos');
+    }
+    
+    if(!inputVal) { alert("Por favor, pega el token primero."); return; }
+    
+    // Guardamos el token para la próxima
+    localStorage.setItem('tokenVideos', inputVal);
+    token = inputVal;
 
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('panelContenido').style.display = 'block';
+    cargarConfig();
+}
+// Autocompletar el input si ya hay token guardado
+if(localStorage.getItem('tokenVideos')) {
+    document.getElementById('inputToken').value = localStorage.getItem('tokenVideos');
+}
         async function cargarConfig() {
             try {
                 const res = await fetch(`${apiUrl}?t=${Date.now()}`, {
