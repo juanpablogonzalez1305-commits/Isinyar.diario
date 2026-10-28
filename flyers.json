@@ -1,20 +1,11 @@
 {
   "mostrar": [
-    "tango",
-    "auvieux",
-    "artaza",
-    "ecologica",
-    "guia",
-    "dipalma",
-    "rené",
-    "distinción",
     "descubrir",
     "secciones",
-    "descargapp",
-    "qr"
+    "descargapp"
   ],
-  "inicio": "2026-10-26T00:00:00",
-  "duracion_horas": 48,
+  "inicio": "2026-10-28T00:00:00",
+  "duracion_horas": 24,
   "flyers": {
     "tango": {
       "img": "https://files.catbox.moe/qxwpef.jpg",
