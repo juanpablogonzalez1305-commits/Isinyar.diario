@@ -14562,56 +14562,60 @@ H += '<p style="color: #ffd87a; font-family: Georgia, serif; font-style: italic;
     var timer = setInterval(function(){
         intentos++;
         
-        var portada = document.getElementById('portada');
-        // Buscamos las 4 tarjetas grandes (clase .keys) para insertar el video debajo de ellas
-        var keys = portada ? portada.querySelector('.keys') : null;
-        
-        if(portada && keys) {
-            clearInterval(timer);
+        // Esperamos a que el cuerpo de la página esté listo
+        if(document.body) {
             
             fetch('./videos.json?t=' + Date.now())
             .then(function(r){ return r.json(); })
             .then(function(cfg){
-                if(!cfg.mostrar_videos) return;
+                // Si el modo video está apagado, no hacemos nada (se muestran los flyers normales)
+                if(!cfg.mostrar_videos) { clearInterval(timer); return; }
                 
                 var videosActivos = cfg.lista.filter(function(v){ return v.activo && v.youtube_id; });
-                if(!videosActivos.length) return;
+                if(!videosActivos.length) { clearInterval(timer); return; }
 
-                // Ocultar flyers
+                // 1. Ocultamos los flyers originales
                 var carteles = document.querySelectorAll('.cartel-flyer, #cartel-overlay, .flyer-popup');
                 carteles.forEach(function(c){ c.style.display = 'none'; });
 
-                if(document.getElementById('caja-videos-portada')) return;
+                // 2. Creamos el Pop-up del video
+                if(document.getElementById('popup-video')) { clearInterval(timer); return; }
                 
-                // CREAMOS LA CAJA DE VIDEOS (Más chica y elegante)
-                var caja = document.createElement('div');
-                caja.id = 'caja-videos-portada';
-                // max-width: 280px para que no ocupe toda la pantalla
-                caja.style.cssText = 'margin: 20px auto; max-width: 280px; background: #1a1510; border: 2px solid #c9a243; border-radius: 12px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);';
+                var overlay = document.createElement('div');
+                overlay.id = 'popup-video';
+                overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; box-sizing:border-box;';
 
-                var H = '';
-                H += '<h3 style="color: #c9a243; font-family: Georgia, serif; font-size: 16px; margin-bottom: 10px;">📺 Videos Destacados</h3>';
+                var contenedorVideo = document.createElement('div');
+                // Tamaño del video vertical (estilo Short)
+                contenedorVideo.style.cssText = 'width:100%; max-width:320px; border:3px solid #c9a243; border-radius:12px; overflow:hidden; background:#000; box-shadow:0 0 20px rgba(201,162,67,0.5); aspect-ratio:9/16; margin-bottom:20px; position:relative;';
                 
-                videosActivos.forEach(function(v){
-                    H += '<div style="margin-bottom: 10px;">';
-                    H += '<p style="color: #f4efe6; font-size: 12px; margin-bottom: 5px;">' + v.titulo + '</p>';
-                    // Formato vertical (Short) pero más chico
-                    H += '<div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid #c9a243;">'; 
-                    H += '<iframe src="https://www.youtube.com/embed/' + v.youtube_id + '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>';
-                    H += '</div>';
-                    H += '</div>';
-                });
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube.com/embed/' + videosActivos[0].youtube_id;
+                iframe.style.cssText = 'width:100%; height:100%; border:none;';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.allowFullscreen = true;
                 
-                caja.innerHTML = H;
+                contenedorVideo.appendChild(iframe);
+
+                // Botón para cerrar el popup
+                var btnCerrar = document.createElement('button');
+                btnCerrar.innerText = '✕ Cerrar y ver el diario';
+                btnCerrar.style.cssText = 'background:#c9a243; color:#171310; border:none; padding:12px 25px; border-radius:25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.5);';
                 
-                // ¡EL CAMBIO DE POSICIÓN! Lo insertamos debajo de las 4 tarjetas grandes, no arriba de todo.
-                if(keys.nextSibling) {
-                    portada.insertBefore(caja, keys.nextSibling);
-                } else {
-                    portada.appendChild(caja);
-                }
+                btnCerrar.onclick = function() {
+                    overlay.style.display = 'none';
+                };
+
+                overlay.appendChild(contenedorVideo);
+                overlay.appendChild(btnCerrar);
+                document.body.appendChild(overlay);
+
+                clearInterval(timer); 
             })
-            .catch(function(e){ console.log('Error cargando videos:', e); });
+            .catch(function(e){ 
+                console.log('Error cargando videos:', e); 
+                clearInterval(timer);
+            });
         }
         
         if(intentos > 40) clearInterval(timer);
