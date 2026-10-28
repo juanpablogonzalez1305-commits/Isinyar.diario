@@ -14686,6 +14686,33 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
   </script>
+        <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. Buscamos todas las imágenes que tengan la clase del escudo de la muni
+        var escudos = document.querySelectorAll('img.escudo-muni');
+        
+        if(escudos.length > 0) {
+            // 2. Los destruimos a todos
+            escudos.forEach(function(escudo) {
+                escudo.remove();
+            });
+            
+            // 3. Le decimos al sistema que no los vuelva a poner
+            var estilo = document.createElement('style');
+            estilo.innerHTML = 'img.escudo-muni { display: none !important; opacity: 0 !important; }';
+            document.head.appendChild(estilo);
+        }
+        
+        // Si pasaron 20 segundos, se detiene
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+        </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
