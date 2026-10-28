@@ -14602,9 +14602,15 @@ H += '<p style="color: #ffd87a; font-family: Georgia, serif; font-style: italic;
                 btnCerrar.innerText = '✕ Cerrar y ver el diario';
                 btnCerrar.style.cssText = 'background:#c9a243; color:#171310; border:none; padding:12px 25px; border-radius:25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.5);';
                 
-                btnCerrar.onclick = function() {
-                    overlay.style.display = 'none';
-                };
+btnCerrar.onclick = function() {
+    overlay.style.display = 'none';
+    var iframe = overlay.querySelector('iframe');
+    if(iframe) {
+        iframe.src = '';
+        iframe.remove();
+    }
+    overlay.remove();
+};
 
                 overlay.appendChild(contenedorVideo);
                 overlay.appendChild(btnCerrar);
