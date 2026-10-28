@@ -1,0 +1,11 @@
+{
+  "mostrar_videos": false,
+  "lista": [
+    {
+      "id": "video1",
+      "titulo": "Video de prueba",
+      "youtube_id": "qo3ZvJ9-e4I",
+      "activo": true
+    }
+  ]
+}
