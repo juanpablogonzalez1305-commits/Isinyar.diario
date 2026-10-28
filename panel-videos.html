@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Videos · DESCUBRIR</title>
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:system-ui,-apple-system,sans-serif;background:#f4efe6;color:#171310;padding:20px}
+        h1{font-family:Georgia,serif;font-size:1.5rem;color:#171310;text-align:center;margin-bottom:20px}
+        .card{background:#fff;border:2px solid #c9a243;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+        .card label{display:flex;align-items:center;gap:10px;font-weight:bold;margin-bottom:10px}
+        .card input[type=text]{width:100%;padding:8px;border:1px solid #ccc;border-radius:5px;margin-bottom:10px}
+        .card .info{font-size:.8rem;color:#6b5a33;margin-top:5px}
+        .card .acciones{display:flex;gap:10px;margin-top:10px}
+        .card button{padding:6px 12px;border:none;border-radius:5px;cursor:pointer;font-weight:bold}
+        .btn-rojo{background:#e74c3c;color:#fff}
+        .btn-verde{background:#25D366;color:#fff}
+        .btn-guardar{background:#c9a243;color:#171310;width:100%;padding:15px;font-size:1.1rem;margin-top:20px}
+        .alerta{padding:10px;border-radius:5px;margin-bottom:20px;font-weight:bold;text-align:center}
+        .alerta-on{background:#d4edda;color:#155724}
+        .alerta-off{background:#f8d7da;color:#721c24}
+    </style>
+</head>
+<body>
+    <h1>Panel de Videos · DESCUBRIR</h1>
+
+    <div id="estadoGlobal" class="alerta alerta-off">Cargando estado...</div>
+
+    <div id="listaVideos"></div>
+
+    <button class="btn-guardar" onclick="guardarCambios()">💾 Guardar todos los cambios</button>
+
+    <script>
+        const token = prompt("Ingresá tu Token de GitHub para editar:");
+        if(!token) { alert("Se necesita el token para funcionar"); }
+        
+        const repo = "juanpablogonzalez1305-commits/Isinyar.diario";
+        const archivo = "videos.json";
+        const apiUrl = `https://api.github.com/repos/${repo}/contents/${archivo}`;
+        let SHA = null;
+        let config = {};
+
+        async function cargarConfig() {
+            try {
+                const res = await fetch(`${apiUrl}?t=${Date.now()}`, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                const data = await res.json();
+                SHA = data.sha;
+                const contenido = JSON.parse(atob(data.content.replace(/\n/g, '')));
+                config = contenido;
+                render();
+            } catch(e) {
+                document.getElementById('estadoGlobal').innerText = "Error al cargar la configuración.";
+            }
+        }
+
+        function render() {
+            const cont = document.getElementById('listaVideos');
+            cont.innerHTML = '';
+            
+            // Estado general
+            const estado = document.getElementById('estadoGlobal');
+            if(config.mostrar_videos) {
+                estado.className = 'alerta alerta-on';
+                estado.innerText = '✅ MODO VIDEO ACTIVADO (Los flyers están ocultos)';
+            } else {
+                estado.className = 'alerta alerta-off';
+                estado.innerText = '⏸️ MODO FLYERS ACTIVADO (Los videos están ocultos)';
+            }
+
+            // Botón para cambiar el estado general
+            const btnEstado = document.createElement('button');
+            btnEstado.className = 'btn-guardar';
+            btnEstado.style.marginBottom = '20px';
+            btnEstado.innerText = config.mostrar_videos ? 'Activar Modo Flyers' : 'Activar Modo Video';
+            btnEstado.onclick = () => {
+                config.mostrar_videos = !config.mostrar_videos;
+                render();
+            };
+            cont.appendChild(btnEstado);
+
+            // Lista de videos
+            config.lista.forEach((video, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                card.innerHTML = `
+                    <label><input type="checkbox" ${video.activo ? 'checked' : ''} onchange="config.lista[${index}].activo = this.checked"> Video ${index + 1}</label>
+                    <input type="text" value="${video.titulo}" placeholder="Título del video" onchange="config.lista[${index}].titulo = this.value">
+                    <input type="text" value="${video.youtube_id}" placeholder="ID de YouTube (ej: qo3ZvJ9-e4I)" onchange="config.lista[${index}].youtube_id = this.value">
+                    <div class="info">ID de YouTube: es lo que va después de "watch?v=" o "shorts/"</div>
+                    <div class="acciones">
+                        <button class="btn-rojo" onclick="borrarVideo(${index})">🗑️ Borrar</button>
+                    </div>
+                `;
+                cont.appendChild(card);
+            });
+
+            // Botón para agregar un video nuevo
+            const btnAgregar = document.createElement('button');
+            btnAgregar.className = 'btn-verde';
+            btnAgregar.innerText = '+ Agregar video';
+            btnAgregar.style.width = '100%';
+            btnAgregar.style.padding = '15px';
+            btnAgregar.style.fontSize = '1.1rem';
+            btnAgregar.style.marginTop = '10px';
+            btnAgregar.onclick = () => {
+                config.lista.push({
+                    id: "video" + Date.now(),
+                    titulo: "Nuevo video",
+                    youtube_id: "",
+                    activo: true
+                });
+                render();
+            };
+            cont.appendChild(btnAgregar);
+        }
+
+        function borrarVideo(index) {
+            if(confirm("¿Borrar este video?")) {
+                config.lista.splice(index, 1);
+                render();
+            }
+        }
+
+        async function guardarCambios() {
+            const nuevoContenido = JSON.stringify(config, null, 2);
+            const base64 = btoa(unescape(encodeURIComponent(nuevoContenido)));
+            
+            const res = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Actualización de videos desde el panel',
+                    content: base64,
+                    sha: SHA
+                })
+            });
+            
+            if(res.ok) {
+                const data = await res.json();
+                SHA = data.content.sha;
+                alert("¡Cambios guardados con éxito!");
+            } else {
+                alert("Error al guardar. Revisá el token.");
+            }
+        }
+
+        if(token) cargarConfig();
+    </script>
+</body>
+</html>
