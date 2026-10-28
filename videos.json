@@ -1,5 +1,5 @@
 {
-  "mostrar_videos": false,
+  "mostrar_videos": true,
   "lista": [
     {
       "id": "video1",
