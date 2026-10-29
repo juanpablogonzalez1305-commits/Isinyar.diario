@@ -14664,8 +14664,154 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
 </script>   
+<style>
+    /* Animación de ondas expansivas */
+    @keyframes ondaDorada {
+        0% { box-shadow: 0 0 0 0 rgba(201,162,67, 0.8), inset 0 0 0 1px rgba(255,240,190,.35); }
+        70% { box-shadow: 0 0 0 20px rgba(201,162,67, 0), inset 0 0 0 1px rgba(255,240,190,.35); }
+        100% { box-shadow: 0 0 0 0 rgba(201,162,67, 0), inset 0 0 0 1px rgba(255,240,190,.35); }
+    }
 
+    #boton-efemerides {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 20px auto !important;
+        max-width: 350px !important; 
+        width: 90% !important; 
+    }
 
+    #boton-efemerides summary {
+        /* Forzamos la estructura de fila */
+        display: flex !important;
+        flex-direction: row !important; 
+        align-items: center !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        gap: 15px !important;
+        
+        background: linear-gradient(160deg, #241c12, #15110d) !important;
+        border: 3px solid #c9a243 !important;
+        border-radius: 20px !important;
+        padding: 15px 20px !important;
+        cursor: pointer !important;
+        
+        /* Aplicamos la animación de ondas */
+        animation: ondaDorada 2s infinite !important;
+    }
+
+    /* Forzamos el ícono a la izquierda */
+    .efemerides-icono {
+        width: 50px !important;
+        height: 50px !important;
+        border: 2px solid #c9a243 !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background: rgba(201,162,67,0.1) !important;
+        flex-shrink: 0 !important; /* Evita que se achique */
+        margin: 0 !important; 
+    }
+
+    .efemerides-icono svg {
+        width: 28px !important;
+        height: 28px !important;
+        stroke: #ffd87a !important;
+        fill: none !important;
+        stroke-width: 2 !important;
+    }
+
+    /* Forzamos el bloque de texto a la derecha */
+    .efemerides-textos {
+        display: flex !important;
+        flex-direction: column !important;
+        text-align: left !important;
+        flex-grow: 1 !important; /* Ocupa el resto del espacio */
+        margin: 0 !important;
+    }
+
+    .efemerides-titulo {
+        font-family: 'Fraunces', serif !important;
+        color: #ffd87a !important;
+        font-size: 1.2rem !important;
+        font-weight: 900 !important;
+        margin: 0 0 2px 0 !important;
+        text-align: left !important;
+    }
+
+    .efemerides-desc {
+        color: #ffd87a !important;
+        font-size: 0.8rem !important;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+
+    #boton-efemerides .cuerpo-in {
+        background-color: #15110d !important;
+        border-radius: 0 0 20px 20px !important;
+        padding: 15px !important;
+        border: 3px solid #c9a243 !important;
+        border-top: none !important;
+        color: #f4efe6 !important;
+    }
+</style>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var portada = document.getElementById('portada');
+        var keys = portada ? portada.querySelector('.keys') : null;
+        
+        if(portada && keys) {
+            clearInterval(timer);
+            
+            if(document.getElementById('boton-efemerides')) return;
+
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'boton-efemerides';
+
+            var H = '';
+            
+            H += '<summary>';
+            H += '<div class="efemerides-icono">';
+            H += '<svg viewBox="0 0 24 24">';
+            H += '<path d="M5 2h14"></path>';
+            H += '<path d="M5 22h14"></path>';
+            H += '<path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path>';
+            H += '<path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path>';
+            H += '</svg>';
+            H += '</div>';
+            
+            H += '<div class="efemerides-textos">';
+            H += '<h3 class="efemerides-titulo">Efemérides</h3>';
+            H += '<p class="efemerides-desc">Un viaje por la historia y la cultura.</p>';
+            H += '</div>';
+            
+            H += '</summary>';
+            
+            H += '<div class="cuerpo-in">';
+            H += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">En esta sección recordamos los hechos que marcaron la historia del deporte, la cultura y el periodismo mundial.</p>';
+            H += '<p style="color: #c9a243; font-size: 13px; font-style: italic; text-align: center;">Próximamente iremos agregando las notas de efemérides aquí.</p>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            if(keys.nextSibling) {
+                portada.insertBefore(d, keys.nextSibling);
+            } else {
+                portada.appendChild(d);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
