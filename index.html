@@ -14420,6 +14420,7 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
                </script>
+
 <script>
 (function(){
     var intentos = 0;
@@ -14427,25 +14428,25 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos el contenedor de la portada para insertar el botón
+        // Buscamos la portada y las 4 tarjetas grandes
         var portada = document.getElementById('portada');
         var keys = portada ? portada.querySelector('.keys') : null;
         
         if(portada && keys) {
             clearInterval(timer);
             
-            if(document.getElementById('nuevo-quienes-somos')) return;
+            if(document.getElementById('boton-efemerides')) return;
 
-            // 1. CREAMOS LOS ESTILOS (Para que quede con relieve y sin fondo blanco)
+            // 1. ESTILO (Igual al que le gustaba)
             var estilo = document.createElement('style');
             estilo.innerHTML = `
-                #nuevo-quienes-somos {
+                #boton-efemerides {
                     background: transparent !important;
                     border: none !important;
                     box-shadow: none !important;
                     margin-top: 25px !important;
                 }
-                #nuevo-quienes-somos summary.rel {
+                #boton-efemerides summary.rel {
                     border: 2px solid #c9a243 !important;
                     border-radius: 20px !important;
                     background: linear-gradient(160deg, #241c12, #15110d) !important;
@@ -14463,36 +14464,34 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
                         0 22px 34px -12px rgba(0,0,0,.75), 
                         0 0 18px rgba(217,176,76,.55) !important;
                 }
-                #nuevo-quienes-somos summary img.escudo-muni {
-                    display: none !important;
-                }
-                #nuevo-quienes-somos .cuerpo-in {
+                #boton-efemerides .cuerpo-in {
                     background-color: #15110d !important;
                     border-radius: 0 0 20px 20px !important;
                 }
             `;
             document.head.appendChild(estilo);
 
-            // 2. CREAMOS EL BOTÓN Y EL VIDEO
+            // 2. CREAMOS EL BOTÓN
             var d = document.createElement('details');
             d.className = 'pieza';
-            d.id = 'nuevo-quienes-somos';
+            d.id = 'boton-efemerides';
 
             var H = '';
-            // Título (sin el televisor viejo)
-            H += '<summary class="rel deep">✨ QUIÉNES SOMOS · Un diario hecho en Lules, para Lules</summary>';
+            
+            // TÍTULO NUEVO
+            H += '<summary class="rel deep">✨ EFEMÉRIDES · Un viaje por la historia y la cultura</summary>';
             
             H += '<div class="cuerpo-in">';
             
-            // Acá va tu video de Catbox
-            H += '<div style="margin:20px 0; border: 2px solid #c9a243; border-radius: 12px; overflow: hidden; background: #000;">';
-            H += '<video controls playsinline preload="metadata" style="width:100%; display:block;">';
-            H += '<source src="https://files.catbox.moe/eufbeg.mp4" type="video/mp4">';
-            H += 'Tu navegador no soporta la reproducción de video.';
-            H += '</video>';
+            // Texto de presentación
+            H += '<p style="color: #f4efe6; font-size: 15px; line-height: 1.5; margin-bottom: 15px;">En esta sección recordamos los hechos que marcaron la historia del deporte, la cultura y el periodismo mundial. Un repaso por los días que no olvidamos.</p>';
+            
+            // ACÁ VAMOS A PONER LOS BOTONES DE LAS NOTAS (Pulitzer, Deportes, etc.)
+            // Por ahora no ponemos nada, lo hacemos en el paso 3.
+            H += '<p style="color: #c9a243; font-size: 13px; font-style: italic; text-align: center;">Próximamente iremos agregando las notas de efemérides aquí.</p>';
+            
             H += '</div>';
 
-H += '<p style="color: #ffd87a; font-family: Georgia, serif; font-style: italic; font-size: 16px; line-height: 1.6; text-align: center; margin-top: 10px;">En <strong>DESCUBRIR</strong> encontrás las noticias de nuestra ciudad, la historia de Lules, el camino de la fe, la guía de servicios y toda la información que necesitás, con la calidad y el compromiso que nos caracteriza.</p>';
             d.innerHTML = H;
             
             // Insertamos el botón justo debajo de las 4 tarjetas grandes
@@ -14507,54 +14506,6 @@ H += '<p style="color: #ffd87a; font-family: Georgia, serif; font-style: italic;
     }, 500);
 })();
 </script>
-  <script>
-(function(){
-    var intentos = 0;
-    
-    var timer = setInterval(function(){
-        intentos++;
-        
-        var botonQuienes = document.getElementById('nuevo-quienes-somos');
-        
-        if(botonQuienes) {
-            var cuerpo = botonQuienes.querySelector('.cuerpo-in');
-            
-            // Evitamos duplicados
-            if(cuerpo && !cuerpo.querySelector('.video-quienes-youtube')) {
-                
-                // 1. Limpiamos el contenedor viejo de Catbox si quedó
-                var videoViejo = cuerpo.querySelector('.video-quienes');
-                if(videoViejo) videoViejo.remove();
-
-                // 2. Creamos el contenedor del video de YouTube (Formato Short)
-                var divVideo = document.createElement('div');
-                divVideo.className = 'video-quienes-youtube';
-                divVideo.style.cssText = 'margin:20px auto; width:100%; max-width:320px; border: 2px solid #c9a243; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 9 / 16;';
-
-                // 3. El Iframe de YouTube
-                var iframe = document.createElement('iframe');
-                iframe.src = 'https://www.youtube.com/embed/qo3ZvJ9-e4I';
-                iframe.style.cssText = 'width:100%; height:100%; border:none;';
-                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-                iframe.allowFullscreen = true;
-
-                divVideo.appendChild(iframe);
-
-                // 4. Lo insertamos antes del texto de "En DESCUBRIR..."
-                var primerParrafo = cuerpo.querySelector('p');
-                if(primerParrafo) {
-                    primerParrafo.before(divVideo);
-                } else {
-                    cuerpo.appendChild(divVideo);
-                }
-            }
-            clearInterval(timer); 
-        }
-        
-        if(intentos > 40) clearInterval(timer);
-    }, 500);
-})();
-  </script>
 <script>
 (function(){
     var intentos = 0;
