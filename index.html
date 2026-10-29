@@ -14233,33 +14233,7 @@ H += '<p class="meta">26 de Octubre de 2026 · Gestión Municipal · Lules</p>';
     }, 500);
 })();
                </script>
-  <script>
-(function(){
-    var intentos = 0;
-    
-    var timer = setInterval(function(){
-        intentos++;
-        
-        // Buscamos la caja de "Quiénes Somos"
-        var cajaQuienes = document.getElementById('nota-promo-portada');
-        
-        if(cajaQuienes) {
-            // Buscamos el contenedor del video dentro de esa caja y lo destruimos
-            var videoViejo = cajaQuienes.querySelector('video');
-            var iframeViejo = cajaQuienes.querySelector('iframe'); 
-            var divVideo = cajaQuienes.querySelector('div[style*="margin:.6rem"]'); // El recuadro que lo contiene
 
-            if(videoViejo) videoViejo.remove();
-            if(iframeViejo) iframeViejo.remove();
-            if(divVideo) divVideo.remove(); // Borramos el marco donde estaba el video
-
-            clearInterval(timer); // Apagamos el reloj
-        }
-        
-        if(intentos > 40) clearInterval(timer);
-    }, 500);
-})();
-  </script>
   <script>
 (function(){
     var intentos = 0;
