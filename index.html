@@ -14884,6 +14884,51 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
  </script>
+          <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. OCULTAR LAS NOTAS ORIGINALES DE LA SECCIÓN DE NOTICIAS
+        var notasOcultar = ['nota-deporte', 'nota-pulitzer', 'nota-collodi'];
+        
+        notasOcultar.forEach(function(id) {
+            var nota = document.getElementById(id);
+            if(nota) {
+                nota.style.display = 'none'; // Las hacemos invisibles en Noticias
+            }
+        });
+
+        // 2. ESTILIZAR LOS SUB-BOTONES DE EFEMÉRIDES (Fondo claro)
+        var subBotones = document.querySelectorAll('#boton-efemerides .sub-efemerides');
+        
+        if(subBotones.length > 0 && !subBotones[0].dataset.arreglado) {
+            subBotones.forEach(function(sub) {
+                // Al summary le ponemos el fondo claro (como las notas de Noticias)
+                var summary = sub.querySelector('summary');
+                if(summary) {
+                    summary.style.background = '#fdf9ef';
+                    summary.style.color = '#171310';
+                    summary.style.borderRadius = '8px';
+                    summary.style.border = '1px solid #c9a243';
+                }
+                
+                // Al cuerpo le dejamos el fondo oscuro, pero le sacamos el borde duro
+                var cuerpo = sub.querySelector('.cuerpo-sub');
+                if(cuerpo) {
+                    cuerpo.style.borderRadius = '0 0 8px 8px';
+                }
+                
+                sub.dataset.arreglado = '1';
+            });
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
