@@ -14840,6 +14840,42 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
   </script>
+       <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de Pulitzer
+        var nota = document.getElementById('nota-pulitzer');
+        
+        if(nota) {
+            var cuerpo = nota.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados
+            if(cuerpo && !cuerpo.querySelector('.foto-pulitzer')) {
+                
+                var img = document.createElement('img');
+                img.src = 'img/pulitzer.png';
+                img.className = 'marco foto-pulitzer';
+                img.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+                img.alt = 'Joseph Pulitzer';
+
+                var meta = cuerpo.querySelector('.meta');
+                if(meta) {
+                    meta.after(img); // La insertamos después de la fecha
+                } else {
+                    cuerpo.insertAdjacentHTML('afterbegin', img); // Si no hay fecha, la ponemos al principio
+                }
+            }
+            clearInterval(timer); 
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+       </script> 
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
