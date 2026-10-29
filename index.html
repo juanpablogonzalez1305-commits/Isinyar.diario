@@ -14820,6 +14820,70 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
   </script>
+ <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el botón de Efemérides que ya creamos
+        var botonEfemerides = document.getElementById('boton-efemerides');
+        
+        if(botonEfemerides) {
+            clearInterval(timer);
+            
+            var cuerpo = botonEfemerides.querySelector('.cuerpo-in');
+            
+            // Si ya tiene los botones, no hace nada
+            if(cuerpo && !cuerpo.querySelector('.sub-efemerides')) {
+                
+                // Limpiamos el texto de "Próximamente"
+                cuerpo.innerHTML = '';
+
+                // Función para crear cada sub-botón (con su título completo)
+                function crearSubBoton(titulo, idNota) {
+                    var d = document.createElement('details');
+                    d.className = 'pieza sub-efemerides';
+                    d.style.marginTop = '10px';
+                    d.style.background = '#1f1a15';
+                    d.style.border = '1px solid #6b5a33';
+                    d.style.borderRadius = '8px';
+
+                    var H = '';
+                    H += '<summary style="padding: 10px 15px; color: #ffd87a; font-family: \'Fraunces\', serif; font-size: 0.95rem; font-weight: bold; cursor: pointer;">' + titulo + '</summary>';
+                    H += '<div class="cuerpo-sub" style="padding: 15px; background: #15110d;">';
+                    
+                    // Buscamos el contenido de la nota original y lo clonamos acá
+                    var notaOriginal = document.getElementById(idNota);
+                    if(notaOriginal) {
+                        var cuerpoOriginal = notaOriginal.querySelector('.cuerpo-in');
+                        if(cuerpoOriginal) {
+                            H += cuerpoOriginal.innerHTML;
+                        } else {
+                            H += '<p style="color: #f4efe6;">Contenido no disponible.</p>';
+                        }
+                    } else {
+                        H += '<p style="color: #f4efe6;">Nota en construcción.</p>';
+                    }
+                    
+                    H += '</div>';
+
+                    d.innerHTML = H;
+                    cuerpo.appendChild(d);
+                }
+
+                // Creamos los tres botones con sus títulos completos originales
+                crearSubBoton('29 de Octubre: River levantaba su primera Libertadores y Ginóbili debutaba en la NBA', 'nota-deporte');
+                crearSubBoton('29 de Octubre · Un día como hoy: La huella de Joseph Pulitzer', 'nota-pulitzer');
+                crearSubBoton('Un día como hoy: La historia real de cómo Carlo Collodi creó a Pinocho', 'nota-collodi');
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+ </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
