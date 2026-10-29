@@ -14936,6 +14936,86 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
 </script>
+    <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var portada = document.getElementById('portada');
+        var keys = portada ? portada.querySelector('.keys') : null;
+        
+        if(portada && keys) {
+            clearInterval(timer);
+            
+            if(document.getElementById('boton-efemerides')) return;
+
+            // Estilos con el relieve de los otros botones
+            var estilo = document.createElement('style');
+            estilo.innerHTML = `
+                #boton-efemerides {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                    margin-top: 25px !important;
+                }
+                #boton-efemerides summary.rel {
+                    border: 2px solid #c9a243 !important;
+                    border-radius: 20px !important;
+                    background: linear-gradient(160deg, #241c12, #15110d) !important;
+                    color: #ffd87a !important;
+                    font-family: 'Fraunces', serif !important;
+                    font-weight: 900 !important;
+                    padding: 1.15rem 1.3rem !important;
+                    text-align: center !important;
+                    cursor: pointer !important;
+                    box-shadow: 
+                        0 0 0 1px rgba(255,240,190,.35) inset, 
+                        0 0 0 4px #15110d inset, 
+                        0 0 0 5px #8a6a1a inset, 
+                        0 8px 0 0 #8a6a1a, 
+                        0 22px 34px -12px rgba(0,0,0,.75), 
+                        0 0 18px rgba(217,176,76,.55) !important;
+                }
+                #boton-efemerides .cuerpo-in {
+                    background-color: #15110d !important;
+                    border-radius: 0 0 20px 20px !important;
+                }
+            `;
+            document.head.appendChild(estilo);
+
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'boton-efemerides';
+
+            var H = '';
+            
+            // EL EMOJI NUEVO (📜 Pergamino)
+            H += '<summary class="rel deep">📜 EFEMÉRIDES · Un viaje por la historia y la cultura</summary>';
+            
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p style="color: #f4efe6; font-size: 15px; line-height: 1.5; margin-bottom: 15px;">En esta sección recordamos los hechos que marcaron la historia del deporte, la cultura y el periodismo mundial. Un repaso por los días que no olvidamos.</p>';
+            
+            // Espacio para las futuras notas de efemérides
+            H += '<p style="color: #c9a243; font-size: 13px; font-style: italic; text-align: center;">Próximamente iremos agregando las notas de efemérides aquí.</p>';
+            
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            if(keys.nextSibling) {
+                portada.insertBefore(d, keys.nextSibling);
+            } else {
+                portada.appendChild(d);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+      </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
