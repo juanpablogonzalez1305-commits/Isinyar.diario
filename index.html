@@ -14842,36 +14842,32 @@ btnCerrar.onclick = function() {
                 cuerpo.innerHTML = '';
 
                 // Función para crear cada sub-botón (con su título completo)
-                function crearSubBoton(titulo, idNota) {
-                    var d = document.createElement('details');
-                    d.className = 'pieza sub-efemerides';
-                    d.style.marginTop = '10px';
-                    d.style.background = '#1f1a15';
-                    d.style.border = '1px solid #6b5a33';
-                    d.style.borderRadius = '8px';
+function crearSubBoton(titulo, idNota) {
+    var d = document.createElement('details');
+    d.className = 'pieza sub-efemerides';
+    d.style.marginTop = '10px';
+    d.style.background = '#1f1a15';
+    d.style.border = '1px solid #c9a243';
+    d.style.borderRadius = '8px';
 
-                    var H = '';
-                    H += '<summary style="padding: 10px 15px; color: #ffd87a; font-family: \'Fraunces\', serif; font-size: 0.95rem; font-weight: bold; cursor: pointer;">' + titulo + '</summary>';
-                    H += '<div class="cuerpo-sub" style="padding: 15px; background: #15110d;">';
-                    
-                    // Buscamos el contenido de la nota original y lo clonamos acá
-                    var notaOriginal = document.getElementById(idNota);
-                    if(notaOriginal) {
-                        var cuerpoOriginal = notaOriginal.querySelector('.cuerpo-in');
-                        if(cuerpoOriginal) {
-                            H += cuerpoOriginal.innerHTML;
-                        } else {
-                            H += '<p style="color: #f4efe6;">Contenido no disponible.</p>';
-                        }
-                    } else {
-                        H += '<p style="color: #f4efe6;">Nota en construcción.</p>';
-                    }
-                    
-                    H += '</div>';
+    var H = '';
+    // Título en dorado y visible
+    H += '<summary style="padding: 12px 15px; color: #ffd87a !important; font-family: \'Fraunces\', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">' + titulo + '</summary>';
+    H += '<div class="cuerpo-sub" style="padding: 15px; background: #15110d;">';
+    
+    var notaOriginal = document.getElementById(idNota);
+    if(notaOriginal) {
+        var cuerpoOriginal = notaOriginal.querySelector('.cuerpo-in');
+        if(cuerpoOriginal) {
+            H += cuerpoOriginal.innerHTML;
+        }
+    }
+    
+    H += '</div>';
 
-                    d.innerHTML = H;
-                    cuerpo.appendChild(d);
-                }
+    d.innerHTML = H;
+    cuerpo.appendChild(d);
+}
 
                 // Creamos los tres botones con sus títulos completos originales
                 crearSubBoton('29 de Octubre: River levantaba su primera Libertadores y Ginóbili debutaba en la NBA', 'nota-deporte');
