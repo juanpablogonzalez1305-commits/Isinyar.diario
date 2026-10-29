@@ -14957,6 +14957,39 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. OCULTAR EL BOTÓN DE QUIÉNES SOMOS QUE VOLVIÓ A APARECER
+        var botonViejo = document.getElementById('nota-promo-portada') || document.getElementById('nuevo-quienes-somos');
+        if(botonViejo) {
+            botonViejo.style.display = 'none';
+            botonViejo.remove();
+        }
+
+        // 2. ARREGLAR EL ICONO DE EFEMÉRIDES
+        var iconoEfemerides = document.querySelector('#boton-efemerides .efemerides-icono-circulo');
+        if(iconoEfemerides && !iconoEfemerides.dataset.arreglado) {
+            
+            // Le cambiamos la forma a cuadrado redondeado (igual a los otros)
+            iconoEfemerides.style.borderRadius = '15px'; // En vez de 50% (redondo)
+            
+            // Le agregamos el efecto de "onda" y brillo
+            iconoEfemerides.style.boxShadow = '0 0 15px rgba(201,162,67,0.8), inset 0 0 10px rgba(201,162,67,0.4)';
+            iconoEfemerides.style.border = '2px solid #c9a243';
+            
+            // Le decimos que ya está arreglado para no repetir
+            iconoEfemerides.dataset.arreglado = '1';
+        }
+
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
