@@ -14935,6 +14935,26 @@ crearSubBoton('La historia de Pinocho', 'nota-collodi');
     }, 500);
 })();
   </script>
+     <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos todos los botones de audio que están DENTRO de la sección de Efemérides
+        var botonesAudio = document.querySelectorAll('#boton-efemerides .btn-voz-deporte, #boton-efemerides .btn-voz-pulitzer, #boton-efemerides .btn-voz-collodi');
+        
+        if(botonesAudio.length > 0) {
+            botonesAudio.forEach(function(boton) {
+                boton.style.display = 'none'; // Los hacemos desaparecer
+            });
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+     </script>               
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
