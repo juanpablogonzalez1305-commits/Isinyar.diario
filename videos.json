@@ -15,14 +15,20 @@
     },
     {
       "id": "video1793175592401",
-      "titulo": "MunicipalizaciÃÂ³n ",
+      "titulo": "MunicipalizaciÃÂÃÂ³n ",
       "youtube_id": "3pzhkX_fQKc",
       "activo": false
     },
     {
       "id": "video1793255933976",
-      "titulo": "Presentación2",
+      "titulo": "PresentaciÃ³n2",
       "youtube_id": "GihRMWsswOM",
+      "activo": false
+    },
+    {
+      "id": "video1793305527730",
+      "titulo": "Nuevo video",
+      "youtube_id": "JgVz9a-2JyA",
       "activo": true
     }
   ]
