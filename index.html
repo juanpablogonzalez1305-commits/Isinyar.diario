@@ -14990,6 +14990,168 @@ btnCerrar.onclick = function() {
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. OCULTAR EL BOTÓN DE QUIÉNES SOMOS QUE VOLVIÓ A APARECER
+        var botonViejo = document.getElementById('nota-promo-portada') || document.getElementById('nuevo-quienes-somos');
+        if(botonViejo) {
+            botonViejo.style.display = 'none';
+            botonViejo.remove();
+        }
+
+        // 2. CREAR EL BOTÓN DE EFEMÉRIDES
+        var portada = document.getElementById('portada');
+        var keys = portada ? portada.querySelector('.keys') : null;
+        
+        if(portada && keys) {
+            clearInterval(timer);
+            
+            if(document.getElementById('boton-efemerides')) return;
+
+            var estilo = document.createElement('style');
+            estilo.innerHTML = `
+                /* Animación de ondas (Copia exacta de la que usan los otros) */
+                @keyframes ondaEfemerides {
+                    0% { box-shadow: 0 0 0 0 rgba(201,162,67, 0.7); }
+                    70% { box-shadow: 0 0 0 10px rgba(201,162,67, 0); }
+                    100% { box-shadow: 0 0 0 0 rgba(201,162,67, 0); }
+                }
+
+                #boton-efemerides {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                    margin-top: 20px !important;
+                    margin-bottom: 20px !important;
+                }
+
+                #boton-efemerides summary {
+                    display: flex !important;
+                    align-items: center !important;
+                    text-align: left !important;
+                    gap: 15px !important;
+                    background: linear-gradient(160deg, #241c12, #15110d) !important;
+                    border: 3px solid #c9a243 !important;
+                    border-radius: 20px !important;
+                    padding: 15px 20px !important;
+                    cursor: pointer !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    box-sizing: border-box !important;
+                    
+                    box-shadow: 
+                        0 0 0 1px rgba(255,240,190,.35) inset, 
+                        0 0 0 4px #15110d inset, 
+                        0 0 0 5px #8a6a1a inset, 
+                        0 8px 0 0 #8a6a1a, 
+                        0 22px 34px -12px rgba(0,0,0,.75), 
+                        0 0 18px rgba(217,176,76,.55) !important;
+                }
+
+                /* El marco del ícono (cuadrado redondeado) CON ONDAS PERMANENTES */
+                .efemerides-icono {
+                    width: 50px;
+                    height: 50px;
+                    border: 2px solid #c9a243;
+                    border-radius: 12px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: rgba(201,162,67,0.1);
+                    flex-shrink: 0;
+                    animation: ondaEfemerides 2s infinite !important; /* ACÁ ESTÁ LA MAGIA */
+                }
+
+                /* El SVG en color dorado (RELoj de arena) */
+                .efemerides-icono svg {
+                    width: 28px;
+                    height: 28px;
+                    stroke: #ffd87a;
+                    fill: none;
+                    stroke-width: 2;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+
+                .efemerides-textos {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .efemerides-titulo {
+                    font-family: 'Fraunces', serif;
+                    color: #ffd87a !important; /* AMARILLO */
+                    font-size: 1.3rem;
+                    font-weight: 900;
+                    margin: 0 0 2px 0 !important;
+                }
+
+                .efemerides-desc {
+                    color: #ffd87a !important; /* AMARILLO */
+                    font-size: 0.85rem;
+                    margin: 0 !important;
+                    font-weight: normal;
+                }
+
+                #boton-efemerides .cuerpo-in {
+                    background-color: #15110d !important;
+                    border-radius: 0 0 20px 20px !important;
+                    padding: 15px !important;
+                    border: 3px solid #c9a243 !important;
+                    border-top: none !important;
+                    color: #f4efe6;
+                }
+            `;
+            document.head.appendChild(estilo);
+
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'boton-efemerides';
+
+            var H = '';
+            
+            H += '<summary>';
+            
+            H += '<div class="efemerides-icono">';
+            // EL ICONO DEL RELOJ DE ARENA (SVG)
+            H += '<svg viewBox="0 0 24 24">';
+            H += '<path d="M5 2h14"></path>';
+            H += '<path d="M5 22h14"></path>';
+            H += '<path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path>';
+            H += '<path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path>';
+            H += '</svg>';
+            H += '</div>';
+            
+            H += '<div class="efemerides-textos">';
+            H += '<h3 class="efemerides-titulo">Efemérides</h3>';
+            H += '<p class="efemerides-desc">Un viaje por la historia y la cultura.</p>';
+            H += '</div>';
+            
+            H += '</summary>';
+            
+            H += '<div class="cuerpo-in">';
+            H += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">En esta sección recordamos los hechos que marcaron la historia del deporte, la cultura y el periodismo mundial.</p>';
+            H += '<p style="color: #c9a243; font-size: 13px; font-style: italic; text-align: center;">Próximamente iremos agregando las notas de efemérides aquí.</p>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            if(keys.nextSibling) {
+                portada.insertBefore(d, keys.nextSibling);
+            } else {
+                portada.appendChild(d);
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
