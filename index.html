@@ -14880,9 +14880,47 @@ function crearSubBoton(titulo, idNota) {
     cuerpo.appendChild(d);
 }
 
-                // Creamos los tres botones con sus títulos completos originales
-crearSubBoton('29 de Octubre: River y Ginóbili', 'nota-deporte');
-crearSubBoton('29 de Octubre: Joseph Pulitzer', 'nota-pulitzer');
+               // Creamos los tres botones con sus títulos completos originales
+              <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        if(cuerpoEfemerides) {
+            clearInterval(timer);
+            
+            if(document.getElementById('sub-queen')) return;
+
+            // --- NOTA DE QUEEN ---
+            var H = '';
+            H += '<summary style="padding: 12px 15px; color: #ffd87a !important; font-family: \'Fraunces\', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">31 de Octubre: El día que Queen cambió la historia de la música con "Bohemian Rhapsody"</summary>';
+            H += '<div style="padding: 15px; background: #15110d;">';
+            H += '<p class="meta" style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">31 de Octubre de 2026 · Efemérides</p>';
+            
+            // Espacio para la foto de Queen (subir a img/queen.png o .jpg)
+            H += '<img class="marco" src="img/queen.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Queen - Bohemian Rhapsody">';
+            
+            H += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Un 31 de octubre de 1975, la banda británica Queen lanzaba "Bohemian Rhapsody", una canción que rompió todos los moldes y se convirtió en un himno eterno.</strong></p>';
+            H += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">La historia cuenta que la discográfica no quería editarla como simple porque duraba casi 6 minutos, algo impensado para la época. Sin embargo, la genialidad de Freddie Mercury y la apuesta de la banda lograron que se convirtiera en un éxito rotundo, permaneciendo 9 semanas en el primer puesto del ranking británico.</p>';
+            H += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Hoy, a casi 50 años de su lanzamiento, "Bohemian Rhapsody" sigue sonando en todo el mundo y es considerada una de las mejores canciones de la historia.</p>';
+            H += '</div>';
+
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'sub-queen';
+            d.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d.innerHTML = H;
+            cuerpoEfemerides.appendChild(d);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
             }
         }
         
