@@ -14987,7 +14987,8 @@ crearSubBoton('29 de Octubre: Joseph Pulitzer', 'nota-pulitzer');
             H1 += '</div>';
 
             d1.innerHTML = H1;
-            sec.insertBefore(d1, sec.firstChild);
+          var primeraNota1 = sec.querySelector('details.pieza');
+if(primeraNota1) sec.insertBefore(d1, primeraNota1); else sec.appendChild(d1);
         }
 
         // --- 2. NOTA DE ALFONSÍN ---
@@ -15007,7 +15008,8 @@ crearSubBoton('29 de Octubre: Joseph Pulitzer', 'nota-pulitzer');
             H2 += '</div>';
 
             d2.innerHTML = H2;
-            sec.insertBefore(d2, sec.firstChild);
+          var primeraNota2 = sec.querySelector('details.pieza');
+if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         }
         
         if(intentos > 40) clearInterval(timer);
