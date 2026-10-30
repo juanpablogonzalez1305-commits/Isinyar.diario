@@ -14954,7 +14954,66 @@ crearSubBoton('29 de Octubre: Joseph Pulitzer', 'nota-pulitzer');
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-     </script>               
+     </script>     
+    <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-maradona-news') && document.getElementById('nota-alfonsin-news')) {
+            clearInterval(timer); 
+            return; 
+        }
+
+        // --- 1. NOTA DE MARADONA ---
+        if(!document.getElementById('nota-maradona-news')) {
+            var d1 = document.createElement('details');
+            d1.className = 'pieza';
+            d1.id = 'nota-maradona-news';
+
+            var H1 = '';
+            H1 += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">30 de Octubre: El día que nació Diego Armando Maradona</summary>';
+            H1 += '<div class="cuerpo-in">';
+            H1 += '<p class="meta">30 de Octubre de 2026 · Deportes</p>';
+            H1 += '<p><strong>Un 30 de octubre de 1960, en el barrio de Villa Fiorito, nacía Diego Armando Maradona, el futbolista que marcaría para siempre la historia del deporte argentino y mundial.</strong></p>';
+            H1 += '<img class="marco" src="img/maradona.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Diego Maradona">';
+            H1 += '<p>Desde sus inicios en Argentinos Juniors hasta la consagración en el Mundial de México 1986, Maradona se convirtió en un símbolo de talento, rebeldía y pasión. Su zurda mágica y su personalidad arrolladora lo transformaron en un ídolo popular que trascendió las canchas.</p>';
+            H1 += '<p>Hoy, a más de sesenta años de su nacimiento, su figura sigue vigente en el corazón de los argentinos.</p>';
+            H1 += '</div>';
+
+            d1.innerHTML = H1;
+            sec.insertBefore(d1, sec.firstChild);
+        }
+
+        // --- 2. NOTA DE ALFONSÍN ---
+        if(!document.getElementById('nota-alfonsin-news')) {
+            var d2 = document.createElement('details');
+            d2.className = 'pieza';
+            d2.id = 'nota-alfonsin-news';
+
+            var H2 = '';
+            H2 += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">30 de Octubre: Día de la Recuperación de la Democracia en Argentina</summary>';
+            H2 += '<div class="cuerpo-in">';
+            H2 += '<p class="meta">30 de Octubre de 2026 · Política</p>';
+            H2 += '<p><strong>El 30 de octubre de 1983, tras siete años de dictadura militar, los argentinos volvieron a las urnas y eligieron a Raúl Ricardo Alfonsín como presidente.</strong></p>';
+            H2 += '<img class="marco" src="img/alfonsin.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Raúl Alfonsín">';
+            H2 += '<p>Aquel día marcó el retorno definitivo de la democracia. La fórmula de la Unión Cívica Radical, integrada por Alfonsín y Víctor Martínez, se impuso con casi el 52% de los votos, abriendo una nueva etapa de derechos y libertades.</p>';
+            H2 += '<p>Hoy recordamos esa jornada histórica como el Día de la Recuperación de la Democracia, un pilar fundamental de nuestra vida institucional.</p>';
+            H2 += '</div>';
+
+            d2.innerHTML = H2;
+            sec.insertBefore(d2, sec.firstChild);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
