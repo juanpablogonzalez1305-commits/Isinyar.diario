@@ -15233,6 +15233,52 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota del Salcedo
+        var notaSalcedo = document.getElementById('nota-salcedo');
+        
+        if(notaSalcedo) {
+            var cuerpo = notaSalcedo.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados si recargamos
+            if(cuerpo && !cuerpo.querySelector('.foto-salcedo')) {
+                
+                // Creamos la imagen
+                var img = document.createElement('img');
+                img.src = 'img/salcedo.png';
+                img.className = 'marco foto-salcedo';
+                img.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+                img.alt = 'Instituto Padre Manuel Ballesteros';
+
+                // Buscamos el párrafo que dice "Espacio para la foto 1" y lo reemplazamos
+                var textos = cuerpo.querySelectorAll('p');
+                var reemplazado = false;
+                
+                textos.forEach(function(p) {
+                    if(p.textContent.includes('Espacio para la foto 1')) {
+                        p.replaceWith(img); // Reemplazamos el texto por la imagen
+                        reemplazado = true;
+                    }
+                });
+
+                // Si por alguna razón no encontró el texto, la ponemos al principio
+                if(!reemplazado) {
+                    cuerpo.insertAdjacentHTML('afterbegin', img.outerHTML);
+                }
+            }
+            clearInterval(timer); 
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
