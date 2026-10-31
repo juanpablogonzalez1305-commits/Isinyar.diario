@@ -15163,6 +15163,119 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la caja de la Hemeroteca
+        var contHemeroteca = document.getElementById('his-hemeroteca');
+        
+        if(contHemeroteca) {
+            clearInterval(timer);
+            
+            if(document.getElementById('nota-salcedo')) return;
+
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'nota-salcedo';
+
+            var H = '';
+            H += '<summary class="rel deep">Hemeroteca: 33 años al servicio de la educación, la obra del Padre Manuel Ballesteros</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">Septiembre de 1995 · Periódico DESCUBRIR</p>';
+            
+            H += '<p><strong>Veintitrés promociones pasaron por las aulas de este instituto, que nació por el cariño de un grupo de dirigentes de esta ciudad, enmarcados en la lucha de un visionario, como lo fue el Padre Manuel Ballesteros Romero.</strong></p>';
+            
+            // ESPACIO PARA LA PRIMERA FOTO (AQUÍ VA LA FOTO DE LA FACHADA O DEL PADRE)
+            H += '<p style="text-align:center; color:#6b5a33; font-style:italic; margin:15px 0;">[Espacio para la foto 1: La fachada del instituto o el Padre Ballesteros]</p>';
+            
+            H += '<p>Inmortalizar en el bronce el recuerdo de la vida de un sacerdote ejemplar, es rendirle homenaje a las virtudes cristianas y múltiples talentos de uno de los ministros de la Iglesia Católica. Pero el Padre Manuel se inmortalizó en sus obras.</p>';
+            H += '<p>Cuántos gracias a su amor pudieron cursar estudios secundarios, cuántos niños asistieron a la Escuela Villa del Carmen, a cuántos ancianos cobijó el hogar "San Isidro Labrador". Por ello continuar con su obra es un sentimiento de gratitud que debe enaltecernos.</p>';
+            
+            H += '<h4 style="color: #8a6a35; margin-top: 15px; margin-bottom: 5px;">Breve historia de los Institutos secundarios de Lules</h4>';
+            H += '<p>El 23 de abril de 1962, abría sus puertas el Instituto Dean Francisco de Salcedo, su objetivo era el de colaborar en la Educación de las nuevas generaciones de esta ciudad. Muchos jóvenes pasaron a lo largo de estos treinta y tres años, muchos de ellos vieron como el colegio crecía día tras día, como el esfuerzo se traducía en obras.</p>';
+            H += '<p>En 1978, comenzó a funcionar el instituto Padre Manuel Ballesteros, sección Bachiller en horarios nocturnos, en 1980 el instituto Agrotécnico "20 de Junio" se trasladó al local de Zoilo Domínguez 179, en 1983 se creó el nivel terciario. En 1992, el Instituto Dean Francisco de Salcedo, pasó a llamarse Padre Manuel Ballesteros sección Comercial, como un justiciero homenaje a su fundador.</p>';
+            
+            // ESPACIO PARA LA SEGUNDA FOTO (AQUÍ VA LA FOTO DE LAS ALUMNAS O LAS COMPUTADORAS)
+            H += '<p style="text-align:center; color:#6b5a33; font-style:italic; margin:15px 0;">[Espacio para la foto 2: Alumnas en el laboratorio o la sala de computación]</p>';
+            
+            H += '<h4 style="color: #8a6a35; margin-top: 15px; margin-bottom: 5px;">La nueva realidad</h4>';
+            H += '<p>Actualmente 12 aulas están afectadas al funcionamiento educacional. Con la compra de un inmueble en calle Elías Cantón, comenzó a funcionar el Gabinete Psicopedagógico. Este es atendido por profesionales responsables, que con su trabajo apoyan el crecimiento de los jóvenes en el área de aprendizaje e integración familiar.</p>';
+            H += '<p>La biblioteca se mantiene abierta de 7.30 a 23 hs., cuenta con elementos necesarios para la enseñanza de la geometría, una mapoteca, una hemeroteca y 1500 libros del nivel medio y terciario. La Sala de Mecanografía cuenta con 24 máquinas para el nivel comercial. La Sala de Computación cuenta con ocho computadoras pertenecientes al Instituto Agrotécnico. El Laboratorio cuenta con los elementos necesarios para una correcta y completa enseñanza de la química. La cocina y comedor pertenece al Instituto Agrotécnico, y concurren al mismo entre 25 y 30 alumnos.</p>';
+            
+            H += '<p><strong>Otros adelantos:</strong> Se adquirieron reflectores para la cancha, un grupo electrógeno de 14 KVA, con lo que se terminaron los problemas existentes por los frecuentes cortes de energía eléctrica. Se cuenta también con un escenario desarmable y graduable de 20 m2.</p>';
+            
+            H += '<p><strong>Un nuevo proyecto:</strong> El colegio encaró como objetivo prioritario, el de trabajar para techar la cancha. El proyecto fue realizado por el Departamento Técnico de la Municipalidad, y se prevé cubrir 720,30 m2 de superficie. La estructura será de hierro ángulo y redondo, con vigas de compresión y tensores en cruz. El Ministerio de Asuntos Sociales, por gestión del Legislador Sergio Díaz Ricci, donó 70 chapas. El futuro prevé un gran sacrificio para alcanzar la meta prefijada, pero con el apoyo de la comunidad, cualquier meta es posible.</p>';
+            
+            H += '<button type="button" class="btn-voz-salcedo" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            // Lo insertamos al final de la Hemeroteca
+            contHemeroteca.appendChild(d);
+
+            // Lógica de lectura en voz alta
+            setTimeout(function(){
+                var b = d.querySelector('.btn-voz-salcedo');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._salcedoLeyendo){
+                        s.cancel();
+                        window._salcedoLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = d.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p, h4').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._salcedoLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._salcedoLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._salcedoLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
