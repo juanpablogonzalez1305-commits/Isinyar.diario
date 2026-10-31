@@ -15279,6 +15279,52 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
   </script>
+                         <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota del Salcedo
+        var notaSalcedo = document.getElementById('nota-salcedo');
+        
+        if(notaSalcedo) {
+            var cuerpo = notaSalcedo.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados
+            if(cuerpo && !cuerpo.querySelector('.foto-compus')) {
+                
+                var img = document.createElement('img');
+                img.src = 'img/compus.png';
+                img.className = 'marco foto-compus';
+                img.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+                img.alt = 'Sala de Computación del Instituto';
+
+                // Buscamos el texto del espacio 2 y lo reemplazamos
+                var textos = cuerpo.querySelectorAll('p');
+                var reemplazado = false;
+                
+                textos.forEach(function(p) {
+                    if(p.textContent.includes('Espacio para la foto 2')) {
+                        p.replaceWith(img);
+                        reemplazado = true;
+                    }
+                });
+
+                // Si no lo encuentra, la ponemos antes del botón de audio
+                if(!reemplazado) {
+                    var boton = cuerpo.querySelector('.btn-voz-salcedo');
+                    if(boton) boton.before(img);
+                }
+            }
+            clearInterval(timer); 
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+                         </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
