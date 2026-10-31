@@ -15109,6 +15109,44 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
           </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        // Si el botón existe y no tiene la nota de Queen
+        if(cuerpoEfemerides && !cuerpoEfemerides.querySelector('.sub-queen')) {
+            clearInterval(timer);
+            
+            // --- NOTA DE QUEEN ---
+            var d = document.createElement('details');
+            d.className = 'pieza sub-queen';
+            d.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            
+            var H = '';
+            H += '<summary style="padding: 12px 15px; color: #ffd87a !important; font-family: \'Fraunces\', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">31 de Octubre: El día que Queen cambió la historia de la música</summary>';
+            H += '<div style="padding: 15px; background: #15110d;">';
+            H += '<p style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">31 de Octubre de 2026 · Efemérides</p>';
+            
+            // Foto de Queen (queen.png)
+            H += '<img class="marco" src="img/queen.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Queen">';
+            
+            H += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Un 31 de octubre de 1975, Queen lanzaba "Bohemian Rhapsody", una canción que rompió todos los moldes.</strong></p>';
+            H += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">La historia cuenta que la discográfica no quería editarla porque duraba casi 6 minutos, pero la genialidad de Freddie Mercury la convirtió en un himno eterno.</p>';
+            H += '</div>';
+            
+            d.innerHTML = H;
+            cuerpoEfemerides.appendChild(d);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
