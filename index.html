@@ -15141,6 +15141,28 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el párrafo de presentación dentro de Efemérides
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        if(cuerpoEfemerides) {
+            var parrafos = cuerpoEfemerides.querySelectorAll('p');
+            parrafos.forEach(function(p) {
+                if(p.textContent.includes('En esta sección recordamos los hechos')) {
+                    p.style.display = 'none'; // Lo ocultamos
+                    p.remove(); // O lo borramos directamente
+                }
+            });
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
