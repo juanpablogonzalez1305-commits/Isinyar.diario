@@ -15435,6 +15435,54 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
     </script>
+          <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de Brown
+        var notaBrown = document.getElementById('nota-brown');
+        
+        if(notaBrown) {
+            var cuerpo = notaBrown.querySelector('.cuerpo-in');
+            
+            // Evitamos duplicados
+            if(cuerpo && !cuerpo.querySelector('.foto-brown')) {
+                
+                // Función para crear cada imagen
+                function crearImagen(src, alt) {
+                    var img = document.createElement('img');
+                    img.src = src;
+                    img.className = 'marco foto-brown';
+                    img.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+                    img.alt = alt;
+                    return img;
+                }
+
+                // Buscamos los párrafos de texto reservado
+                var parrafos = cuerpo.querySelectorAll('p');
+                
+                parrafos.forEach(function(p) {
+                    if(p.textContent.includes('Espacio para la foto 1')) {
+                        p.replaceWith(crearImagen('img/fiesta1.jpg', 'Fiesta de la Familia Brown'));
+                    }
+                    if(p.textContent.includes('Espacio para la foto 2')) {
+                        p.replaceWith(crearImagen('img/fiesta2.jpg', 'Egresados Promoción 2026'));
+                    }
+                    if(p.textContent.includes('Espacio para la foto 3')) {
+                        p.replaceWith(crearImagen('img/fiesta3.jpg', 'Presentación Uniforme 2027'));
+                    }
+                });
+            }
+            clearInterval(timer); 
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+          </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
