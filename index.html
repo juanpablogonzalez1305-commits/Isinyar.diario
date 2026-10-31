@@ -15163,21 +15163,30 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
   </script>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos la caja de la Hemeroteca
-        var contHemeroteca = document.getElementById('his-hemeroteca');
+        // Buscamos TODAS las notas de la página
+        var todasLasNotas = document.querySelectorAll('details.pieza');
         
-        if(contHemeroteca) {
-            clearInterval(timer);
+        // Buscamos la nota de los Inmigrantes (la última que tenemos) para usarla de ancla
+        var notaAncla = null;
+        
+        for(var i=0; i < todasLasNotas.length; i++) {
+            if(todasLasNotas[i].textContent.includes('Raíces de Lules')) {
+                notaAncla = todasLasNotas[i];
+                break;
+            }
+        }
+        
+        // Si encontramos el ancla y NO existe la nota del Salcedo, la insertamos
+        if(notaAncla && !document.getElementById('nota-salcedo')) {
+            clearInterval(timer); 
             
-            if(document.getElementById('nota-salcedo')) return;
-
             var d = document.createElement('details');
             d.className = 'pieza';
             d.id = 'nota-salcedo';
@@ -15190,7 +15199,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             
             H += '<p><strong>Veintitrés promociones pasaron por las aulas de este instituto, que nació por el cariño de un grupo de dirigentes de esta ciudad, enmarcados en la lucha de un visionario, como lo fue el Padre Manuel Ballesteros Romero.</strong></p>';
             
-            // ESPACIO PARA LA PRIMERA FOTO (AQUÍ VA LA FOTO DE LA FACHADA O DEL PADRE)
+            // ESPACIO PARA LA PRIMERA FOTO
             H += '<p style="text-align:center; color:#6b5a33; font-style:italic; margin:15px 0;">[Espacio para la foto 1: La fachada del instituto o el Padre Ballesteros]</p>';
             
             H += '<p>Inmortalizar en el bronce el recuerdo de la vida de un sacerdote ejemplar, es rendirle homenaje a las virtudes cristianas y múltiples talentos de uno de los ministros de la Iglesia Católica. Pero el Padre Manuel se inmortalizó en sus obras.</p>';
@@ -15200,7 +15209,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             H += '<p>El 23 de abril de 1962, abría sus puertas el Instituto Dean Francisco de Salcedo, su objetivo era el de colaborar en la Educación de las nuevas generaciones de esta ciudad. Muchos jóvenes pasaron a lo largo de estos treinta y tres años, muchos de ellos vieron como el colegio crecía día tras día, como el esfuerzo se traducía en obras.</p>';
             H += '<p>En 1978, comenzó a funcionar el instituto Padre Manuel Ballesteros, sección Bachiller en horarios nocturnos, en 1980 el instituto Agrotécnico "20 de Junio" se trasladó al local de Zoilo Domínguez 179, en 1983 se creó el nivel terciario. En 1992, el Instituto Dean Francisco de Salcedo, pasó a llamarse Padre Manuel Ballesteros sección Comercial, como un justiciero homenaje a su fundador.</p>';
             
-            // ESPACIO PARA LA SEGUNDA FOTO (AQUÍ VA LA FOTO DE LAS ALUMNAS O LAS COMPUTADORAS)
+            // ESPACIO PARA LA SEGUNDA FOTO
             H += '<p style="text-align:center; color:#6b5a33; font-style:italic; margin:15px 0;">[Espacio para la foto 2: Alumnas en el laboratorio o la sala de computación]</p>';
             
             H += '<h4 style="color: #8a6a35; margin-top: 15px; margin-bottom: 5px;">La nueva realidad</h4>';
@@ -15216,66 +15225,14 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 
             d.innerHTML = H;
             
-            // Lo insertamos al final de la Hemeroteca
-            contHemeroteca.appendChild(d);
-
-            // Lógica de lectura en voz alta
-            setTimeout(function(){
-                var b = d.querySelector('.btn-voz-salcedo');
-                if(!b) return;
-                
-                b.addEventListener('click', function(){
-                    var s = window.speechSynthesis;
-                    if(!s) return;
-                    
-                    if(window._salcedoLeyendo){
-                        s.cancel();
-                        window._salcedoLeyendo = false;
-                        b.innerHTML = '🗣️ Escuchar en voz alta';
-                        return;
-                    }
-
-                    var cue = d.querySelector('.cuerpo-in');
-                    var bloques = [];
-                    cue.querySelectorAll('p, h4').forEach(function(el){
-                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
-                        if(!t) return;
-                        bloques.push({txt: t, pausa: 300});
-                    });
-
-                    if(!bloques.length) return;
-                    
-                    window._salcedoLeyendo = true;
-                    b.innerHTML = '⏹️ Detener lectura';
-                    s.cancel();
-                    
-                    var idx = 0;
-                    function hablar(){
-                        if(!window._salcedoLeyendo) return;
-                        if(idx >= bloques.length){
-                            window._salcedoLeyendo = false;
-                            b.innerHTML = '🗣️ Escuchar en voz alta';
-                            return;
-                        }
-                        
-                        var item = bloques[idx];
-                        var u = new SpeechSynthesisUtterance(item.txt);
-                        u.lang = 'es-AR';
-                        u.rate = .92;
-                        
-                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
-                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
-                        s.speak(u);
-                    }
-                    setTimeout(function(){ s.resume(); hablar(); }, 300);
-                });
-            }, 500);
+            // LA MAGIA: Lo insertamos justo DESPUÉS de la nota de Inmigrantes
+            notaAncla.parentNode.insertBefore(d, notaAncla.nextSibling);
         }
         
-        if(intentos > 40) clearInterval(timer);
+        if(intentos > 80) clearInterval(timer); // Le damos 40 segundos de margen
     }, 500);
 })();
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
