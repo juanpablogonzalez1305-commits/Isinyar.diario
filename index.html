@@ -15359,6 +15359,66 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el cuerpo del botón de Efemérides
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        if(cuerpoEfemerides) {
+            clearInterval(timer);
+            
+            if(document.getElementById('sub-sabella')) return;
+
+            // --- 1. NOTA DE SABELLA ---
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.id = 'sub-sabella';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            
+            var H1 = '';
+            H1 += '<summary style="padding: 12px 15px; color: #ffd87a !important; font-family: \'Fraunces\', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">5 de Noviembre: El día que nació Alejandro "Pachorra" Sabella</summary>';
+            H1 += '<div style="padding: 15px; background: #15110d;">';
+            H1 += '<p style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">5 de Noviembre de 2026 · Deportes</p>';
+            
+            // FOTO DE SABELLA (img/sabella.png o .jpg)
+            H1 += '<img class="marco" src="img/sabella.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Alejandro Sabella">';
+            
+            H1 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Un 5 de noviembre de 1954 nacía en La Plata Alejandro "Pachorra" Sabella, el técnico que llevó a la Selección Argentina a la final del Mundial de Brasil 2014.</strong></p>';
+            H1 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Como jugador brilló en Estudiantes de La Plata y como entrenador dejó una huella imborrable en el fútbol argentino, siendo recordado por su caballerosidad, su inteligencia táctica y su compromiso con la camiseta.</p>';
+            H1 += '</div>';
+            d1.innerHTML = H1;
+            cuerpoEfemerides.appendChild(d1);
+
+            // --- 2. NOTA DE HOMERO EXPÓSITO ---
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.id = 'sub-exposito';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            
+            var H2 = '';
+            H2 += '<summary style="padding: 12px 15px; color: #ffd87a !important; font-family: \'Fraunces\', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">5 de Noviembre: Homero Expósito y la poesía que se hizo tango</summary>';
+            H2 += '<div style="padding: 15px; background: #15110d;">';
+            H2 += '<p style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">5 de Noviembre de 2026 · Cultura</p>';
+            
+            // FOTO DE EXPÓSITO (img/exposito.png o .jpg)
+            H2 += '<img class="marco" src="img/exposito.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Homero Expósito">';
+            
+            H2 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>El 5 de noviembre de 1918 nacía Homero Expósito, uno de los letristas de tango más importantes de la historia argentina.</strong></p>';
+            H2 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Autor de clásicos inolvidables como "Naranjo en flor", "Farol" y "Trenzas", supo retratar como pocos el alma de los barrios y la melancolía del tango. Su poesía sigue vigente y emociona a generaciones.</p>';
+            H2 += '</div>';
+            d2.innerHTML = H2;
+            cuerpoEfemerides.appendChild(d2);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
