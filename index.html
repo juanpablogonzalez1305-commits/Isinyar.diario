@@ -15503,13 +15503,22 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 })();
                        </script>
 <style>
-    #grilla-farmacias-nueva {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important; /* 3 columnas */
+    /* Carrusel horizontal */
+    .scroll-farmacias-nuevo {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
         gap: 10px !important;
-        padding: 10px 0 !important;
+        padding-bottom: 15px !important;
+        scroll-snap-type: x mandatory !important;
     }
-    #grilla-farmacias-nueva .dia-semana {
+    .columna-dia {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-width: 130px;
+    }
+    .columna-dia .dia-semana {
         background: #171310 !important;
         color: #fdf9ef !important;
         padding: 10px !important;
@@ -15518,30 +15527,61 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         font-weight: bold !important;
         font-size: 12px !important;
     }
-    #grilla-farmacias-nueva .tarjeta-farmacia {
+    .columna-dia .tarjeta-farmacia {
         background: #fdf9ef !important;
         border: 1px solid #c9a243 !important;
         border-radius: 12px !important;
-        padding: 10px !important;
+        padding: 15px 10px !important;
         text-align: center !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        min-height: 110px !important;
+        height: 120px !important;
+    }
+
+    /* EL BOTÓN CON RELIEVE */
+    .btn-brujula-relieve {
+        display: inline-block;
+        background: #fdf9ef;
+        border: 1px solid #c9a243;
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 0 #c9a243, 0 5px 5px rgba(0,0,0,0.2); /* Efecto 3D */
+        transition: all 0.1s;
+        margin: 0 auto;
+    }
+    /* Efecto al tocar el botón */
+    .btn-brujula-relieve:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 0 #c9a243, 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    /* ANIMACIÓN DE PALPITACIÓN */
+    @keyframes pulsarBrujula {
+        0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
+        50% { transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(201,162,67,0.8)); }
+        100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
+    }
+    /* La brújula SVG que late */
+    .btn-brujula-relieve svg {
+        width: 24px; 
+        height: 24px; 
+        stroke: #c9a243; 
+        fill: none; 
+        stroke-width: 2;
+        animation: pulsarBrujula 1.5s infinite ease-in-out !important;
     }
 </style>
   <script>
 (function(){
     var intentos = 0;
-    
     var timer = setInterval(function(){
         intentos++;
         
-        // 1. Buscamos la caja de Farmacias
         var secciones = document.querySelectorAll('details.pieza');
         var cajaFarmacias = null;
-        
         for(var i=0; i < secciones.length; i++) {
             if(secciones[i].textContent.includes('Farmacias de turno')) {
                 cajaFarmacias = secciones[i];
@@ -15549,91 +15589,95 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             }
         }
         
-        if(cajaFarmacias && !cajaFarmacias.dataset.noviembreArreglado) {
+        if(cajaFarmacias && !cajaFarmacias.dataset.noviembreOK) {
             clearInterval(timer);
             
-            // 2. Cambiamos el título
+            // 1. Cambiamos el título
             var titulo = cajaFarmacias.querySelector('summary');
-            if(titulo) {
-                titulo.innerHTML = titulo.innerHTML.replace(/Octubre 2026/g, 'Noviembre 2026');
-            }
+            if(titulo) titulo.innerHTML = titulo.innerHTML.replace(/Octubre 2026/g, 'Noviembre 2026');
             
-            // 3. Buscamos la grilla vieja para reemplazarla
             var grillaVieja = cajaFarmacias.querySelector('.scroll') || cajaFarmacias.querySelector('div[style*="overflow"]');
             
             if(grillaVieja) {
-                // 4. RESCATAMOS LOS LINKS QUE YA ESTÁN EN LA PÁGINA
-                var linksGuardados = {};
+                // 2. Rescatamos los links
+                var links = {};
                 document.querySelectorAll('a').forEach(function(a) {
                     if(a.href && a.href.includes('maps.app.goo.gl')) {
-                        var textoAbuelo = a.parentElement.textContent.toLowerCase();
-                        if(textoAbuelo.includes('pilar')) linksGuardados['pilar'] = a.href;
-                        if(textoAbuelo.includes('geder')) linksGuardados['geder'] = a.href;
-                        if(textoAbuelo.includes('brahmin')) linksGuardados['brahmin'] = a.href;
-                        if(textoAbuelo.includes('isidro')) linksGuardados['san isidro'] = a.href;
-                        if(textoAbuelo.includes('santa rita')) linksGuardados['santa rita'] = a.href;
-                        if(textoAbuelo.includes('julio')) linksGuardados['9 de julio'] = a.href;
-                        if(textoAbuelo.includes('nobel')) linksGuardados['nobel'] = a.href;
-                        if(textoAbuelo.includes('libertad')) linksGuardados['libertad'] = a.href;
-                        if(textoAbuelo.includes('jose')) linksGuardados['san jose'] = a.href;
-                        if(textoAbuelo.includes('central')) linksGuardados['central'] = a.href;
-                        if(textoAbuelo.includes('martinez')) linksGuardados['martinez'] = a.href;
-                        if(textoAbuelo.includes('hygeia')) linksGuardados['hygeia'] = a.href;
-                        if(textoAbuelo.includes('turi')) linksGuardados['turi'] = a.href;
-                        if(textoAbuelo.includes('martin')) linksGuardados['san martin'] = a.href;
-                        if(textoAbuelo.includes('condor')) linksGuardados['condor'] = a.href;
+                        var txt = a.parentElement.textContent.toLowerCase();
+                        if(txt.includes('pilar')) links['pilar'] = a.href;
+                        if(txt.includes('geder')) links['geder'] = a.href;
+                        if(txt.includes('brahmin')) links['brahmin'] = a.href;
+                        if(txt.includes('isidro')) links['san isidro'] = a.href;
+                        if(txt.includes('santa rita')) links['santa rita'] = a.href;
+                        if(txt.includes('julio')) links['9 de julio'] = a.href;
+                        if(txt.includes('nobel')) links['nobel'] = a.href;
+                        if(txt.includes('libertad')) links['libertad'] = a.href;
+                        if(txt.includes('jose')) links['san jose'] = a.href;
+                        if(txt.includes('central')) links['central'] = a.href;
+                        if(txt.includes('martinez')) links['martinez'] = a.href;
+                        if(txt.includes('hygeia')) links['hygeia'] = a.href;
+                        if(txt.includes('turi')) links['turi'] = a.href;
+                        if(txt.includes('martin')) links['san martin'] = a.href;
+                        if(txt.includes('condor')) links['condor'] = a.href;
                     }
                 });
 
-                // 5. CREAMOS EL NUEVO CONTENEDOR CON EL ID DE LA GRILLA
-                var nuevaGrilla = document.createElement('div');
-                nuevaGrilla.id = 'grilla-farmacias-nueva';
-                grillaVieja.parentNode.replaceChild(nuevaGrilla, grillaVieja);
+                // 3. Creamos el contenedor flex
+                var nuevoScroll = document.createElement('div');
+                nuevoScroll.className = 'scroll-farmacias-nuevo';
+                grillaVieja.parentNode.replaceChild(nuevoScroll, grillaVieja);
 
-                // 6. AGREGAMOS LOS ENCABEZADOS DE LOS DÍAS
-                var dias = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
-                dias.forEach(function(d) {
-                    var div = document.createElement('div');
-                    div.className = 'dia-semana';
-                    div.textContent = d;
-                    nuevaGrilla.appendChild(div);
-                });
-
-                // 7. ESPACIOS VACÍOS (6 porque Nov 1 cae domingo)
-                for(var j=0; j<6; j++) {
-                    nuevaGrilla.appendChild(document.createElement('div'));
-                }
-
-                // 8. LISTA DE FARMACIAS (1 al 30 de Noviembre)
-                var farmaciasNov = [
-                    'Pilar', 'Geder', 'Brahmin', 'San Isidro', 'Santa Rita', '9 de Julio', 'Nobel', 'Libertad', 'San José', 'Central', 'Martínez', 'Hygeia', 'Turi', 'San Martín', 'Cóndor',
-                    'Pilar', 'Geder', 'Brahmin', 'San Isidro', 'Santa Rita', '9 de Julio', 'Nobel', 'Libertad', 'San José', 'Central', 'Martínez', 'Hygeia', 'Turi', 'San Martín', 'Cóndor'
+                // 4. Estructura del calendario
+                var columnas = [
+                    { dia: 'LUNES', fechas: [2, 9, 16, 23, 30] },
+                    { dia: 'MARTES', fechas: [3, 10, 17, 24] },
+                    { dia: 'MIÉRCOLES', fechas: [4, 11, 18, 25] },
+                    { dia: 'JUEVES', fechas: [5, 12, 19, 26] },
+                    { dia: 'VIERNES', fechas: [6, 13, 20, 27] },
+                    { dia: 'SÁBADO', fechas: [7, 14, 21, 28] },
+                    { dia: 'DOMINGO', fechas: [1, 8, 15, 22, 29] }
                 ];
 
-                // 9. CREAMOS LAS TARJETAS
-                farmaciasNov.forEach(function(nombre, index) {
-                    var diaNum = index + 1;
-                    var busq = nombre.toLowerCase();
-                    var link = linksGuardados[busq] || '#'; 
+                var nombres = ['pilar','geder','brahmin','san isidro','santa rita','9 de julio','nobel','libertad','san jose','central','martinez','hygeia','turi','san martin','condor'];
+                var contadorNombres = 0;
 
-                    var card = document.createElement('div');
-                    card.className = 'tarjeta-farmacia';
+                // 5. Creamos las columnas y tarjetas
+                columnas.forEach(function(col) {
+                    var colDiv = document.createElement('div');
+                    colDiv.className = 'columna-dia';
                     
-                    var H = '';
-                    H += '<span style="font-size:16px; font-weight:900; color:#171310;">' + diaNum + '</span>';
-                    H += '<span style="font-size:12px; color:#171310; font-weight:bold; margin:5px 0;">' + nombre + '</span>';
-                    H += '<a href="' + link + '" target="_blank" style="display:inline-block; margin:0 auto; text-decoration:none;">';
-                    H += '<svg viewBox="0 0 24 24" style="width:20px; height:20px; stroke:#c9a243; fill:none; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
-                    H += '</a>';
-                    
-                    card.innerHTML = H;
-                    nuevaGrilla.appendChild(card);
+                    var header = document.createElement('div');
+                    header.className = 'dia-semana';
+                    header.textContent = col.dia;
+                    colDiv.appendChild(header);
+
+                    col.fechas.forEach(function(numFecha) {
+                        var nombreFarm = nombres[contadorNombres % nombres.length];
+                        contadorNombres++;
+                        var linkUrl = links[nombreFarm] || '#';
+
+                        var card = document.createElement('div');
+                        card.className = 'tarjeta-farmacia';
+                        
+                        var H = '';
+                        H += '<span style="font-family:\'Fraunces\', serif; font-size:16px; font-weight:900; color:#171310;">' + numFecha + '</span>';
+                        H += '<span style="font-size:13px; color:#171310; font-weight:bold; margin:5px 0; text-transform:capitalize;">' + nombreFarm + '</span>';
+                        
+                        // ACÁ APLICAMOS LA CLASE DEL BOTÓN CON RELIEVE
+                        H += '<a href="' + linkUrl + '" target="_blank" class="btn-brujula-relieve">';
+                        H += '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
+                        H += '</a>';
+                        
+                        card.innerHTML = H;
+                        colDiv.appendChild(card);
+                    });
+
+                    nuevoScroll.appendChild(colDiv);
                 });
 
-                cajaFarmacias.dataset.noviembreArreglado = '1';
+                cajaFarmacias.dataset.noviembreOK = '1';
             }
         }
-        
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
