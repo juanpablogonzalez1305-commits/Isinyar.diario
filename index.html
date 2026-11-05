@@ -15502,7 +15502,36 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
                        </script>
-<script>
+<style>
+    #grilla-farmacias-nueva {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important; /* 3 columnas */
+        gap: 10px !important;
+        padding: 10px 0 !important;
+    }
+    #grilla-farmacias-nueva .dia-semana {
+        background: #171310 !important;
+        color: #fdf9ef !important;
+        padding: 10px !important;
+        border-radius: 10px !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        font-size: 12px !important;
+    }
+    #grilla-farmacias-nueva .tarjeta-farmacia {
+        background: #fdf9ef !important;
+        border: 1px solid #c9a243 !important;
+        border-radius: 12px !important;
+        padding: 10px !important;
+        text-align: center !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        min-height: 110px !important;
+    }
+</style>
+  <script>
 (function(){
     var intentos = 0;
     
@@ -15520,8 +15549,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             }
         }
         
-        // Si encontramos la caja y no está actualizada a noviembre
-        if(cajaFarmacias && !cajaFarmacias.dataset.noviembreListo) {
+        if(cajaFarmacias && !cajaFarmacias.dataset.noviembreArreglado) {
             clearInterval(timer);
             
             // 2. Cambiamos el título
@@ -15530,108 +15558,86 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                 titulo.innerHTML = titulo.innerHTML.replace(/Octubre 2026/g, 'Noviembre 2026');
             }
             
-            var grilla = cajaFarmacias.querySelector('.scroll') || cajaFarmacias.querySelector('div[style*="overflow"]');
+            // 3. Buscamos la grilla vieja para reemplazarla
+            var grillaVieja = cajaFarmacias.querySelector('.scroll') || cajaFarmacias.querySelector('div[style*="overflow"]');
             
-            if(grilla) {
-                // 3. SALVAMOS LOS LINKS (Antes de borrar nada)
+            if(grillaVieja) {
+                // 4. RESCATAMOS LOS LINKS QUE YA ESTÁN EN LA PÁGINA
                 var linksGuardados = {};
-                var tarjetasViejas = grilla.querySelectorAll('.cel');
-                
-                tarjetasViejas.forEach(function(tarjeta) {
-                    var link = tarjeta.querySelector('a');
-                    var texto = tarjeta.textContent.toLowerCase();
-                    
-                    if(link && link.href && link.href.includes('maps')) {
-                        if(texto.includes('pilar')) linksGuardados['pilar'] = link.href;
-                        if(texto.includes('gede')) linksGuardados['geder'] = link.href;
-                        if(texto.includes('brahmin')) linksGuardados['brahmin'] = link.href;
-                        if(texto.includes('isidro')) linksGuardados['san isidro'] = link.href;
-                        if(texto.includes('santa rita')) linksGuardados['santa rita'] = link.href;
-                        if(texto.includes('julio')) linksGuardados['9 de julio'] = link.href;
-                        if(texto.includes('nobel')) linksGuardados['nobel'] = link.href;
-                        if(texto.includes('libertad')) linksGuardados['libertad'] = link.href;
-                        if(texto.includes('jose')) linksGuardados['san jose'] = link.href;
-                        if(texto.includes('central')) linksGuardados['central'] = link.href;
-                        if(texto.includes('martinez')) linksGuardados['martinez'] = link.href;
-                        if(texto.includes('hygeia')) linksGuardados['hygeia'] = link.href;
-                        if(texto.includes('turi')) linksGuardados['turi'] = link.href;
-                        if(texto.includes('martin')) linksGuardados['san martin'] = link.href;
-                        if(texto.includes('condor')) linksGuardados['condor'] = link.href;
+                document.querySelectorAll('a').forEach(function(a) {
+                    if(a.href && a.href.includes('maps.app.goo.gl')) {
+                        var textoAbuelo = a.parentElement.textContent.toLowerCase();
+                        if(textoAbuelo.includes('pilar')) linksGuardados['pilar'] = a.href;
+                        if(textoAbuelo.includes('geder')) linksGuardados['geder'] = a.href;
+                        if(textoAbuelo.includes('brahmin')) linksGuardados['brahmin'] = a.href;
+                        if(textoAbuelo.includes('isidro')) linksGuardados['san isidro'] = a.href;
+                        if(textoAbuelo.includes('santa rita')) linksGuardados['santa rita'] = a.href;
+                        if(textoAbuelo.includes('julio')) linksGuardados['9 de julio'] = a.href;
+                        if(textoAbuelo.includes('nobel')) linksGuardados['nobel'] = a.href;
+                        if(textoAbuelo.includes('libertad')) linksGuardados['libertad'] = a.href;
+                        if(textoAbuelo.includes('jose')) linksGuardados['san jose'] = a.href;
+                        if(textoAbuelo.includes('central')) linksGuardados['central'] = a.href;
+                        if(textoAbuelo.includes('martinez')) linksGuardados['martinez'] = a.href;
+                        if(textoAbuelo.includes('hygeia')) linksGuardados['hygeia'] = a.href;
+                        if(textoAbuelo.includes('turi')) linksGuardados['turi'] = a.href;
+                        if(textoAbuelo.includes('martin')) linksGuardados['san martin'] = a.href;
+                        if(textoAbuelo.includes('condor')) linksGuardados['condor'] = a.href;
                     }
                 });
 
-                // 4. LIMPIAMOS LA GRILLA
-                grilla.innerHTML = '';
-                
-                // 5. ENCABEZADOS DE DÍAS
-                var dias = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
+                // 5. CREAMOS EL NUEVO CONTENEDOR CON EL ID DE LA GRILLA
+                var nuevaGrilla = document.createElement('div');
+                nuevaGrilla.id = 'grilla-farmacias-nueva';
+                grillaVieja.parentNode.replaceChild(nuevaGrilla, grillaVieja);
+
+                // 6. AGREGAMOS LOS ENCABEZADOS DE LOS DÍAS
+                var dias = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
                 dias.forEach(function(d) {
                     var div = document.createElement('div');
-                    div.className = 'dia';
+                    div.className = 'dia-semana';
                     div.textContent = d;
-                    div.style.cssText = 'background:#171310; color:#fdf9ef; padding:10px; border-radius:10px; text-align:center; font-weight:bold; margin-bottom:10px; font-size:12px;';
-                    grilla.appendChild(div);
+                    nuevaGrilla.appendChild(div);
                 });
-                
-                // 6. ESPACIOS VACÍOS (6, porque Nov 1 es Domingo)
+
+                // 7. ESPACIOS VACÍOS (6 porque Nov 1 cae domingo)
                 for(var j=0; j<6; j++) {
-                    var vacio = document.createElement('div');
-                    vacio.className = 'cel v';
-                    vacio.style.cssText = 'min-width:120px; border:1px dashed #ccc; border-radius:12px; height:120px; opacity:0.3;';
-                    grilla.appendChild(vacio);
+                    nuevaGrilla.appendChild(document.createElement('div'));
                 }
-                
-                // 7. LISTA DE FARMACIAS DE NOVIEMBRE
-                var nombresNov = [
+
+                // 8. LISTA DE FARMACIAS (1 al 30 de Noviembre)
+                var farmaciasNov = [
                     'Pilar', 'Geder', 'Brahmin', 'San Isidro', 'Santa Rita', '9 de Julio', 'Nobel', 'Libertad', 'San José', 'Central', 'Martínez', 'Hygeia', 'Turi', 'San Martín', 'Cóndor',
                     'Pilar', 'Geder', 'Brahmin', 'San Isidro', 'Santa Rita', '9 de Julio', 'Nobel', 'Libertad', 'San José', 'Central', 'Martínez', 'Hygeia', 'Turi', 'San Martín', 'Cóndor'
                 ];
-                
-                // 8. CREAMOS LAS TARJETAS CON LOS LINKS SALVADOS
-                nombresNov.forEach(function(nombre, index) {
+
+                // 9. CREAMOS LAS TARJETAS
+                farmaciasNov.forEach(function(nombre, index) {
                     var diaNum = index + 1;
                     var busq = nombre.toLowerCase();
-                    
-                    var link = '#';
-                    if (busq.includes('pilar')) link = linksGuardados['pilar'] || '#';
-                    else if (busq.includes('geder')) link = linksGuardados['geder'] || '#';
-                    else if (busq.includes('brahmin')) link = linksGuardados['brahmin'] || '#';
-                    else if (busq.includes('isidro')) link = linksGuardados['san isidro'] || '#';
-                    else if (busq.includes('santa rita')) link = linksGuardados['santa rita'] || '#';
-                    else if (busq.includes('julio')) link = linksGuardados['9 de julio'] || '#';
-                    else if (busq.includes('nobel')) link = linksGuardados['nobel'] || '#';
-                    else if (busq.includes('libertad')) link = linksGuardados['libertad'] || '#';
-                    else if (busq.includes('jose')) link = linksGuardados['san jose'] || '#';
-                    else if (busq.includes('central')) link = linksGuardados['central'] || '#';
-                    else if (busq.includes('martinez')) link = linksGuardados['martinez'] || '#';
-                    else if (busq.includes('hygeia')) link = linksGuardados['hygeia'] || '#';
-                    else if (busq.includes('turi')) link = linksGuardados['turi'] || '#';
-                    else if (busq.includes('martin')) link = linksGuardados['san martin'] || '#';
-                    else if (busq.includes('condor')) link = linksGuardados['condor'] || '#';
+                    var link = linksGuardados[busq] || '#'; 
 
                     var card = document.createElement('div');
-                    card.className = 'cel';
-                    card.style.cssText = 'min-width:120px; background:#fdf9ef; border:1px solid #c9a243; border-radius:12px; padding:15px 10px; text-align:center; box-shadow:0 4px 6px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between; height:120px;';
+                    card.className = 'tarjeta-farmacia';
                     
                     var H = '';
-                    H += '<span class="n" style="font-family:\'Fraunces\', serif; font-size:16px; font-weight:900; color:#171310;">' + diaNum + '</span>';
-                    H += '<span style="font-size:13px; color:#171310; font-weight:bold; margin:5px 0;">' + nombre + '</span>';
+                    H += '<span style="font-size:16px; font-weight:900; color:#171310;">' + diaNum + '</span>';
+                    H += '<span style="font-size:12px; color:#171310; font-weight:bold; margin:5px 0;">' + nombre + '</span>';
                     H += '<a href="' + link + '" target="_blank" style="display:inline-block; margin:0 auto; text-decoration:none;">';
-                    H += '<svg viewBox="0 0 24 24" style="width:24px; height:24px; stroke:#c9a243; fill:none; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
+                    H += '<svg viewBox="0 0 24 24" style="width:20px; height:20px; stroke:#c9a243; fill:none; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
                     H += '</a>';
                     
                     card.innerHTML = H;
-                    grilla.appendChild(card);
+                    nuevaGrilla.appendChild(card);
                 });
-                
-                cajaFarmacias.dataset.noviembreListo = '1';
+
+                cajaFarmacias.dataset.noviembreArreglado = '1';
             }
         }
         
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-</script>
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
