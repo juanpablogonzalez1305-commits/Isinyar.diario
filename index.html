@@ -15719,6 +15719,38 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos los botones de la brújula que acabamos de crear
+        var botones = document.querySelectorAll('.btn-brujula');
+        
+        if(botones.length > 0) {
+            botones.forEach(function(btn) {
+                // Si el botón tiene el SVG viejo, lo borramos
+                var svgViejo = btn.querySelector('svg');
+                if(svgViejo) {
+                    svgViejo.remove();
+                }
+                
+                // Si no tiene el emoji, se lo inyectamos
+                if(!btn.querySelector('.emoji-brujula')) {
+                    var emoji = document.createElement('span');
+                    emoji.className = 'emoji-brujula';
+                    emoji.innerHTML = '🧭';
+                    btn.appendChild(emoji);
+                }
+            });
+            clearInterval(timer); // Apagamos el reloj porque ya hizo el cambio
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
