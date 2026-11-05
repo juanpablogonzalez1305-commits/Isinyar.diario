@@ -15503,75 +15503,100 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 })();
                        </script>
 <style>
-    /* Carrusel horizontal */
-    .scroll-farmacias-nuevo {
+    /* Contenedor deslizable */
+    .scroll-farmacias-final {
         display: flex !important;
-        flex-direction: row !important;
         overflow-x: auto !important;
-        gap: 10px !important;
-        padding-bottom: 15px !important;
+        gap: 15px !important;
+        padding: 10px 0 20px 0 !important;
         scroll-snap-type: x mandatory !important;
     }
-    .columna-dia {
+    
+    /* Columnas (Lunes, Martes...) */
+    .col-farmacia {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        min-width: 130px;
+        min-width: 110px;
+        max-width: 110px;
     }
-    .columna-dia .dia-semana {
+
+    /* El encabezado negro tipo píldora */
+    .col-farmacia .header-dia {
         background: #171310 !important;
         color: #fdf9ef !important;
-        padding: 10px !important;
-        border-radius: 10px !important;
+        padding: 8px 5px !important;
+        border-radius: 20px !important; /* Bordes bien redondeados */
         text-align: center !important;
-        font-weight: bold !important;
-        font-size: 12px !important;
+        font-weight: 800 !important;
+        font-size: 11px !important;
+        letter-spacing: 0.5px;
     }
-    .columna-dia .tarjeta-farmacia {
+
+    /* La tarjeta de la farmacia */
+    .tarjeta-farm-final {
         background: #fdf9ef !important;
         border: 1px solid #c9a243 !important;
         border-radius: 12px !important;
-        padding: 15px 10px !important;
-        text-align: center !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        padding: 10px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        height: 120px !important;
+        height: 105px !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
     }
 
-    /* EL BOTÓN CON RELIEVE */
-    .btn-brujula-relieve {
-        display: inline-block;
+    /* La fecha (arriba a la izquierda) */
+    .tarjeta-farm-final .fecha-num {
+        font-family: 'Fraunces', serif;
+        font-size: 15px;
+        font-weight: 900;
+        color: #6b5a33;
+        align-self: flex-start;
+    }
+
+    /* El nombre (centrado) */
+    .tarjeta-farm-final .nombre-farm {
+        font-family: 'Fraunces', serif;
+        font-size: 13px;
+        font-weight: 900;
+        color: #171310;
+        text-align: center;
+        margin: 5px 0;
+        line-height: 1.1;
+    }
+
+    /* El botón de la brújula con relieve */
+    .btn-brujula-farm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background: #fdf9ef;
-        border: 1px solid #c9a243;
-        padding: 6px 12px;
+        border: 2px solid #c9a243;
         border-radius: 8px;
+        padding: 4px 0;
         text-decoration: none;
-        box-shadow: 0 4px 0 #c9a243, 0 5px 5px rgba(0,0,0,0.2); /* Efecto 3D */
-        transition: all 0.1s;
-        margin: 0 auto;
-    }
-    /* Efecto al tocar el botón */
-    .btn-brujula-relieve:active {
-        transform: translateY(4px);
-        box-shadow: 0 0 0 #c9a243, 0 1px 2px rgba(0,0,0,0.2);
+        box-shadow: inset 0 -3px 0 rgba(201,162,67,0.3), 0 2px 4px rgba(0,0,0,0.1); /* Efecto relieve */
+        margin-top: auto;
     }
 
-    /* ANIMACIÓN DE PALPITACIÓN */
-    @keyframes pulsarBrujula {
-        0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
-        50% { transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(201,162,67,0.8)); }
-        100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
-    }
-    /* La brújula SVG que late */
-    .btn-brujula-relieve svg {
-        width: 24px; 
-        height: 24px; 
-        stroke: #c9a243; 
-        fill: none; 
+    /* La brújula SVG */
+    .btn-brujula-farm svg {
+        width: 22px;
+        height: 22px;
+        stroke: #c9a243;
+        fill: none;
         stroke-width: 2;
-        animation: pulsarBrujula 1.5s infinite ease-in-out !important;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        animation: latidoBrujula 1.5s infinite !important; /* Animación de latido */
+    }
+
+    /* Animación del latido */
+    @keyframes latidoBrujula {
+        0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
+        50% { transform: scale(1.15); filter: drop-shadow(0 0 5px rgba(201,162,67,0.6)); }
+        100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
     }
 </style>
   <script>
@@ -15581,25 +15606,25 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         intentos++;
         
         var secciones = document.querySelectorAll('details.pieza');
-        var cajaFarmacias = null;
+        var caja = null;
         for(var i=0; i < secciones.length; i++) {
             if(secciones[i].textContent.includes('Farmacias de turno')) {
-                cajaFarmacias = secciones[i];
+                caja = secciones[i];
                 break;
             }
         }
         
-        if(cajaFarmacias && !cajaFarmacias.dataset.noviembreOK) {
+        if(caja && !caja.dataset.farmFinal) {
             clearInterval(timer);
             
             // 1. Cambiamos el título
-            var titulo = cajaFarmacias.querySelector('summary');
+            var titulo = caja.querySelector('summary');
             if(titulo) titulo.innerHTML = titulo.innerHTML.replace(/Octubre 2026/g, 'Noviembre 2026');
             
-            var grillaVieja = cajaFarmacias.querySelector('.scroll') || cajaFarmacias.querySelector('div[style*="overflow"]');
+            var grillaVieja = caja.querySelector('.scroll') || caja.querySelector('div[style*="overflow"]');
             
             if(grillaVieja) {
-                // 2. Rescatamos los links
+                // 2. Rescatamos los links (Buscamos en toda la página)
                 var links = {};
                 document.querySelectorAll('a').forEach(function(a) {
                     if(a.href && a.href.includes('maps.app.goo.gl')) {
@@ -15622,12 +15647,12 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                     }
                 });
 
-                // 3. Creamos el contenedor flex
+                // 3. Creamos el contenedor
                 var nuevoScroll = document.createElement('div');
-                nuevoScroll.className = 'scroll-farmacias-nuevo';
+                nuevoScroll.className = 'scroll-farmacias-final';
                 grillaVieja.parentNode.replaceChild(nuevoScroll, grillaVieja);
 
-                // 4. Estructura del calendario
+                // 4. Estructura de Noviembre (Dom 1, Lun 2...)
                 var columnas = [
                     { dia: 'LUNES', fechas: [2, 9, 16, 23, 30] },
                     { dia: 'MARTES', fechas: [3, 10, 17, 24] },
@@ -15638,33 +15663,36 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                     { dia: 'DOMINGO', fechas: [1, 8, 15, 22, 29] }
                 ];
 
-                var nombres = ['pilar','geder','brahmin','san isidro','santa rita','9 de julio','nobel','libertad','san jose','central','martinez','hygeia','turi','san martin','condor'];
-                var contadorNombres = 0;
+                // Diccionario de nombres basado en la foto del cuaderno
+                var nombresPorDia = {
+                    1: 'pilar', 2: 'geder', 3: 'brahmin', 4: 'san isidro', 5: 'santa rita', 6: '9 de julio', 7: 'nobel',
+                    8: 'libertad', 9: 'san jose', 10: 'central', 11: 'martinez', 12: 'hygeia', 13: 'turi', 14: 'san martin',
+                    15: 'condor', 16: 'pilar', 17: 'geder', 18: 'brahmin', 19: 'san isidro', 20: 'santa rita', 21: '9 de julio',
+                    22: 'nobel', 23: 'libertad', 24: 'san jose', 25: 'central', 26: 'martinez', 27: 'hygeia', 28: 'turi',
+                    29: 'san martin', 30: 'condor'
+                };
 
-                // 5. Creamos las columnas y tarjetas
+                // 5. Armamos las columnas
                 columnas.forEach(function(col) {
                     var colDiv = document.createElement('div');
-                    colDiv.className = 'columna-dia';
+                    colDiv.className = 'col-farmacia';
                     
                     var header = document.createElement('div');
-                    header.className = 'dia-semana';
+                    header.className = 'header-dia';
                     header.textContent = col.dia;
                     colDiv.appendChild(header);
 
                     col.fechas.forEach(function(numFecha) {
-                        var nombreFarm = nombres[contadorNombres % nombres.length];
-                        contadorNombres++;
-                        var linkUrl = links[nombreFarm] || '#';
+                        var nombre = nombresPorDia[numFecha];
+                        var link = links[nombre] || '#';
 
                         var card = document.createElement('div');
-                        card.className = 'tarjeta-farmacia';
+                        card.className = 'tarjeta-farm-final';
                         
                         var H = '';
-                        H += '<span style="font-family:\'Fraunces\', serif; font-size:16px; font-weight:900; color:#171310;">' + numFecha + '</span>';
-                        H += '<span style="font-size:13px; color:#171310; font-weight:bold; margin:5px 0; text-transform:capitalize;">' + nombreFarm + '</span>';
-                        
-                        // ACÁ APLICAMOS LA CLASE DEL BOTÓN CON RELIEVE
-                        H += '<a href="' + linkUrl + '" target="_blank" class="btn-brujula-relieve">';
+                        H += '<span class="fecha-num">' + numFecha + '</span>';
+                        H += '<span class="nombre-farm">' + nombre + '</span>';
+                        H += '<a href="' + link + '" target="_blank" class="btn-brujula-farm">';
                         H += '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
                         H += '</a>';
                         
@@ -15675,7 +15703,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                     nuevoScroll.appendChild(colDiv);
                 });
 
-                cajaFarmacias.dataset.noviembreOK = '1';
+                caja.dataset.farmFinal = '1';
             }
         }
         if(intentos > 40) clearInterval(timer);
