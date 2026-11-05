@@ -15503,7 +15503,6 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 })();
                        </script>
 
-
 <style>
     /* Contenedor con scroll */
     .contenedor-calendario {
@@ -15512,23 +15511,23 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         padding-bottom: 15px !important;
     }
 
-    /* La grilla de 7 columnas */
+    /* La grilla de 7 columnas - AGRANDAMOS EL ANCHO MINIMO */
     .calendario-grid {
         display: grid !important;
         grid-template-columns: repeat(7, 1fr) !important; 
-        gap: 8px !important; /* Un poco más de espacio entre tarjetas */
-        min-width: 650px !important; /* Forzamos a que las tarjetas sean más anchas */
+        gap: 10px !important; 
+        min-width: 800px !important; /* Más ancho para que entren más grandes */
     }
 
-    /* Encabezados de días (Efecto píldora ovalada) */
+    /* Encabezados de días (LUN, MAR...) - AGRANDAMOS LA LETRA */
     .header-dia {
         background: #171310 !important;
         color: #fdf9ef !important;
         text-align: center !important;
-        font-size: 12px !important;
+        font-size: 15px !important; /* Letra más grande */
         font-weight: bold !important;
-        padding: 10px 0 !important;
-        border-radius: 20px !important; /* Bordes bien ovalados */
+        padding: 12px 0 !important;
+        border-radius: 25px !important; 
     }
 
     /* Cajas vacías */
@@ -15538,64 +15537,62 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         background: transparent !important;
     }
 
-    /* Tarjeta de la farmacia */
+    /* Tarjeta de la farmacia - AGRANDAMOS EL ALTO Y EL PADDING */
     .tarjeta-farm {
         background: #fdf9ef !important;
         border: 1.5px solid #c9a243 !important;
         border-radius: 12px !important;
-        padding: 12px 8px !important;
+        padding: 15px 10px !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: space-between !important;
-        min-height: 125px !important; /* Tarjetas más altas */
+        min-height: 145px !important; /* Tarjetas más altas */
         box-shadow: 0 3px 6px rgba(0,0,0,0.08) !important;
     }
 
-    /* La fecha */
+    /* La fecha - AGRANDAMOS */
     .tarjeta-farm .fecha-num {
         font-family: 'Fraunces', serif !important;
-        font-size: 16px !important;
+        font-size: 18px !important; 
         font-weight: 900 !important;
         color: #6b5a33 !important;
         align-self: flex-start !important;
     }
 
-    /* El nombre de la farmacia */
+    /* El nombre de la farmacia - AGRANDAMOS */
     .tarjeta-farm .nombre-farm {
         font-family: 'Fraunces', serif !important;
-        font-size: 14px !important;
+        font-size: 15px !important; 
         font-weight: 900 !important;
         color: #171310 !important;
         text-align: center !important;
         text-transform: capitalize !important;
         line-height: 1.2 !important;
-        margin: 6px 0 !important;
+        margin: 8px 0 !important;
         word-break: break-word !important; 
     }
 
-    /* El botón de la brújula con relieve */
+    /* El botón de la brújula - BORDE OSCURO Y MÁS GRANDE */
     .btn-brujula {
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
         background: #fdf9ef !important;
-        border: 2px solid #c9a243 !important;
+        border: 2px solid #171310 !important; /* CAMBIADO A OSCURO */
         border-radius: 8px !important;
-        padding: 6px !important;
+        padding: 8px !important;
         width: 100% !important;
         box-sizing: border-box !important;
         text-decoration: none !important;
-        box-shadow: inset 0 -3px 0 rgba(201,162,67,0.4) !important;
+        box-shadow: inset 0 -3px 0 rgba(23,19,16,0.2) !important; /* Relieve oscuro */
     }
 
-    /* La brújula SVG (más grande) */
-    .btn-brujula svg {
-        width: 22px !important;
-        height: 22px !important;
-        stroke: #c9a243 !important;
-        fill: none !important;
-        stroke-width: 2 !important;
+    /* El emoji de la brújula - AGRANDADO */
+    .btn-brujula .emoji-brujula {
+        font-size: 26px !important; /* Brújula mucho más grande */
+        line-height: 1 !important;
+        display: inline-block !important;
         animation: latirBrujula 1.5s infinite !important; 
     }
 
