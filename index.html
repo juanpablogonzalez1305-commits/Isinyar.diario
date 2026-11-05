@@ -15606,7 +15606,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
     }
 </style>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
@@ -15631,14 +15631,19 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             var grillaVieja = caja.querySelector('.scroll') || caja.querySelector('div[style*="overflow"]');
             
             if(grillaVieja) {
-                // 2. Rescatamos los links
+                // 2. Rescatamos los links limpiando tildes
+                function limpiarTexto(texto) {
+                    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                }
+
                 var links = {};
                 document.querySelectorAll('a').forEach(function(a) {
                     if(a.href && a.href.includes('maps.app.goo.gl')) {
-                        var txt = a.parentElement.textContent.toLowerCase();
+                        var txt = limpiarTexto(a.parentElement.textContent);
+                        
                         if(txt.includes('pilar')) links['pilar'] = a.href;
                         if(txt.includes('geder')) links['geder'] = a.href;
-                        if(txt.includes('brahmin')) links['brahmin'] = a.href;
+                        if(txt.includes('brahim')) links['brahim'] = a.href;
                         if(txt.includes('isidro')) links['san isidro'] = a.href;
                         if(txt.includes('santa rita')) links['santa rita'] = a.href;
                         if(txt.includes('julio')) links['9 de julio'] = a.href;
@@ -15647,14 +15652,14 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                         if(txt.includes('jose')) links['san jose'] = a.href;
                         if(txt.includes('central')) links['central'] = a.href;
                         if(txt.includes('martinez')) links['martinez'] = a.href;
-                        if(txt.includes('hygeia')) links['hygeia'] = a.href;
+                        if(txt.includes('hygeia') || txt.includes('hygueia')) links['hygeia'] = a.href;
                         if(txt.includes('turi')) links['turi'] = a.href;
                         if(txt.includes('martin')) links['san martin'] = a.href;
                         if(txt.includes('condor')) links['condor'] = a.href;
                     }
                 });
 
-                // 3. Creamos el contenedor y la grilla
+                // 3. Creamos la grilla
                 var contenedorScroll = document.createElement('div');
                 contenedorScroll.className = 'contenedor-calendario';
                 
@@ -15664,7 +15669,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                 contenedorScroll.appendChild(nuevaGrilla);
                 grillaVieja.parentNode.replaceChild(contenedorScroll, grillaVieja);
 
-                // 4. Encabezados de días
+                // 4. Encabezados
                 var diasSemana = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
                 diasSemana.forEach(function(dia) {
                     var h = document.createElement('div');
@@ -15673,31 +15678,34 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                     nuevaGrilla.appendChild(h);
                 });
 
-                // 5. 6 espacios vacíos (Nov 1 es domingo)
+                // 5. 6 espacios vacíos
                 for (var i = 0; i < 6; i++) {
                     var v = document.createElement('div');
                     v.className = 'celda-vacia';
                     nuevaGrilla.appendChild(v);
                 }
 
-                // 6. Nombres de farmacias
-                var nombres = ['pilar', 'geder', 'brahmin', 'san isidro', 'santa rita', '9 de julio', 'nobel', 'libertad', 'san jose', 'central', 'martinez', 'hygeia', 'turi', 'san martin', 'condor'];
-
-                // 7. Creamos las 30 tarjetas
+                // 6. Nombres corregidos
+                var nombres = [
+                    'Pilar', 'Geder', 'Brahim', 'San Isidro', 'Santa Rita', '9 de Julio', 'Nobel', 'Libertad', 'San José', 'Central', 'Martínez', 'Hygeia', 'Turi', 'San Martín', 'Cóndor'
+                ];
+                
+                // 7. Creamos las tarjetas
                 for (var dia = 1; dia <= 30; dia++) {
                     var indexNombre = (dia - 1) % 15;
-                    var nombreFarm = nombres[indexNombre];
-                    var linkUrl = links[nombreFarm] || '#';
+                    var nombreMostrar = nombres[indexNombre];
+                    
+                    var busquedaLink = limpiarTexto(nombreMostrar);
+                    var linkUrl = links[busquedaLink] || '#';
 
                     var card = document.createElement('div');
                     card.className = 'tarjeta-farm';
                     
                     var H = '';
                     H += '<span class="fecha-num">' + dia + '</span>';
-                    H += '<span class="nombre-farm">' + nombreFarm + '</span>';
+                    H += '<span class="nombre-farm">' + nombreMostrar + '</span>';
                     H += '<a href="' + linkUrl + '" target="_blank" class="btn-brujula">';
-                    // ACÁ ESTÁ EL EMOJI EN VEZ DEL SVG
-                    H += '<span class="emoji-brujula">🧭</span>';
+                    H += '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
                     H += '</a>';
                     
                     card.innerHTML = H;
@@ -15710,7 +15718,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
