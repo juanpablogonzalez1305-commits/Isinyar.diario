@@ -15419,6 +15419,59 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
   </script>
+    <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sabellaInyectada = false;
+        var expositoInyectada = false;
+
+        // --- 1. INYECTAR FOTO DE SABELLA ---
+        var subSabella = document.getElementById('sub-sabella');
+        if(subSabella && !subSabella.querySelector('.foto-sabella')) {
+            var cuerpoSabella = subSabella.querySelector('div');
+            if(cuerpoSabella) {
+                var imgSabella = document.createElement('img');
+                imgSabella.src = 'img/sabella.jpg'; // <--- Cambiar a .jpg si es necesario
+                imgSabella.className = 'marco foto-sabella';
+                imgSabella.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;';
+                imgSabella.alt = 'Alejandro Sabella';
+                
+                var metaSabella = cuerpoSabella.querySelector('p');
+                if(metaSabella) metaSabella.after(imgSabella);
+                sabellaInyectada = true;
+            }
+        }
+
+        // --- 2. INYECTAR FOTO DE EXPÓSITO ---
+        var subExposito = document.getElementById('sub-exposito');
+        if(subExposito && !subExposito.querySelector('.foto-exposito')) {
+            var cuerpoExposito = subExposito.querySelector('div');
+            if(cuerpoExposito) {
+                var imgExposito = document.createElement('img');
+                imgExposito.src = 'img/exposito.jpg'; // <--- Cambiar a .jpg si es necesario
+                imgExposito.className = 'marco foto-exposito';
+                imgExposito.style.cssText = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;';
+                imgExposito.alt = 'Homero Expósito';
+                
+                var metaExposito = cuerpoExposito.querySelector('p');
+                if(metaExposito) metaExposito.after(imgExposito);
+                expositoInyectada = true;
+            }
+        }
+
+        // Si ambas fotos ya se inyectaron, apagamos el reloj
+        if(sabellaInyectada && expositoInyectada) {
+            clearInterval(timer);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+    </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
