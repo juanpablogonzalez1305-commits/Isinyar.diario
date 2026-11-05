@@ -15502,7 +15502,136 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
                        </script>
+<script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. Buscamos la caja de Farmacias
+        var secciones = document.querySelectorAll('details.pieza');
+        var cajaFarmacias = null;
+        
+        for(var i=0; i < secciones.length; i++) {
+            if(secciones[i].textContent.includes('Farmacias de turno')) {
+                cajaFarmacias = secciones[i];
+                break;
+            }
+        }
+        
+        // Si encontramos la caja y no está actualizada a noviembre
+        if(cajaFarmacias && !cajaFarmacias.dataset.noviembreListo) {
+            clearInterval(timer);
+            
+            // 2. Cambiamos el título
+            var titulo = cajaFarmacias.querySelector('summary');
+            if(titulo) {
+                titulo.innerHTML = titulo.innerHTML.replace(/Octubre 2026/g, 'Noviembre 2026');
+            }
+            
+            var grilla = cajaFarmacias.querySelector('.scroll') || cajaFarmacias.querySelector('div[style*="overflow"]');
+            
+            if(grilla) {
+                // 3. SALVAMOS LOS LINKS (Antes de borrar nada)
+                var linksGuardados = {};
+                var tarjetasViejas = grilla.querySelectorAll('.cel');
+                
+                tarjetasViejas.forEach(function(tarjeta) {
+                    var link = tarjeta.querySelector('a');
+                    var texto = tarjeta.textContent.toLowerCase();
+                    
+                    if(link && link.href && link.href.includes('maps')) {
+                        if(texto.includes('pilar')) linksGuardados['pilar'] = link.href;
+                        if(texto.includes('gede')) linksGuardados['geder'] = link.href;
+                        if(texto.includes('brahmin')) linksGuardados['brahmin'] = link.href;
+                        if(texto.includes('isidro')) linksGuardados['san isidro'] = link.href;
+                        if(texto.includes('santa rita')) linksGuardados['santa rita'] = link.href;
+                        if(texto.includes('julio')) linksGuardados['9 de julio'] = link.href;
+                        if(texto.includes('nobel')) linksGuardados['nobel'] = link.href;
+                        if(texto.includes('libertad')) linksGuardados['libertad'] = link.href;
+                        if(texto.includes('jose')) linksGuardados['san jose'] = link.href;
+                        if(texto.includes('central')) linksGuardados['central'] = link.href;
+                        if(texto.includes('martinez')) linksGuardados['martinez'] = link.href;
+                        if(texto.includes('hygeia')) linksGuardados['hygeia'] = link.href;
+                        if(texto.includes('turi')) linksGuardados['turi'] = link.href;
+                        if(texto.includes('martin')) linksGuardados['san martin'] = link.href;
+                        if(texto.includes('condor')) linksGuardados['condor'] = link.href;
+                    }
+                });
 
+                // 4. LIMPIAMOS LA GRILLA
+                grilla.innerHTML = '';
+                
+                // 5. ENCABEZADOS DE DÍAS
+                var dias = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
+                dias.forEach(function(d) {
+                    var div = document.createElement('div');
+                    div.className = 'dia';
+                    div.textContent = d;
+                    div.style.cssText = 'background:#171310; color:#fdf9ef; padding:10px; border-radius:10px; text-align:center; font-weight:bold; margin-bottom:10px; font-size:12px;';
+                    grilla.appendChild(div);
+                });
+                
+                // 6. ESPACIOS VACÍOS (6, porque Nov 1 es Domingo)
+                for(var j=0; j<6; j++) {
+                    var vacio = document.createElement('div');
+                    vacio.className = 'cel v';
+                    vacio.style.cssText = 'min-width:120px; border:1px dashed #ccc; border-radius:12px; height:120px; opacity:0.3;';
+                    grilla.appendChild(vacio);
+                }
+                
+                // 7. LISTA DE FARMACIAS DE NOVIEMBRE
+                var nombresNov = [
+                    'Pilar', 'Geder', 'Brahmin', 'San Isidro', 'Santa Rita', '9 de Julio', 'Nobel', 'Libertad', 'San José', 'Central', 'Martínez', 'Hygeia', 'Turi', 'San Martín', 'Cóndor',
+                    'Pilar', 'Geder', 'Brahmin', 'San Isidro', 'Santa Rita', '9 de Julio', 'Nobel', 'Libertad', 'San José', 'Central', 'Martínez', 'Hygeia', 'Turi', 'San Martín', 'Cóndor'
+                ];
+                
+                // 8. CREAMOS LAS TARJETAS CON LOS LINKS SALVADOS
+                nombresNov.forEach(function(nombre, index) {
+                    var diaNum = index + 1;
+                    var busq = nombre.toLowerCase();
+                    
+                    var link = '#';
+                    if (busq.includes('pilar')) link = linksGuardados['pilar'] || '#';
+                    else if (busq.includes('geder')) link = linksGuardados['geder'] || '#';
+                    else if (busq.includes('brahmin')) link = linksGuardados['brahmin'] || '#';
+                    else if (busq.includes('isidro')) link = linksGuardados['san isidro'] || '#';
+                    else if (busq.includes('santa rita')) link = linksGuardados['santa rita'] || '#';
+                    else if (busq.includes('julio')) link = linksGuardados['9 de julio'] || '#';
+                    else if (busq.includes('nobel')) link = linksGuardados['nobel'] || '#';
+                    else if (busq.includes('libertad')) link = linksGuardados['libertad'] || '#';
+                    else if (busq.includes('jose')) link = linksGuardados['san jose'] || '#';
+                    else if (busq.includes('central')) link = linksGuardados['central'] || '#';
+                    else if (busq.includes('martinez')) link = linksGuardados['martinez'] || '#';
+                    else if (busq.includes('hygeia')) link = linksGuardados['hygeia'] || '#';
+                    else if (busq.includes('turi')) link = linksGuardados['turi'] || '#';
+                    else if (busq.includes('martin')) link = linksGuardados['san martin'] || '#';
+                    else if (busq.includes('condor')) link = linksGuardados['condor'] || '#';
+
+                    var card = document.createElement('div');
+                    card.className = 'cel';
+                    card.style.cssText = 'min-width:120px; background:#fdf9ef; border:1px solid #c9a243; border-radius:12px; padding:15px 10px; text-align:center; box-shadow:0 4px 6px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between; height:120px;';
+                    
+                    var H = '';
+                    H += '<span class="n" style="font-family:\'Fraunces\', serif; font-size:16px; font-weight:900; color:#171310;">' + diaNum + '</span>';
+                    H += '<span style="font-size:13px; color:#171310; font-weight:bold; margin:5px 0;">' + nombre + '</span>';
+                    H += '<a href="' + link + '" target="_blank" style="display:inline-block; margin:0 auto; text-decoration:none;">';
+                    H += '<svg viewBox="0 0 24 24" style="width:24px; height:24px; stroke:#c9a243; fill:none; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
+                    H += '</a>';
+                    
+                    card.innerHTML = H;
+                    grilla.appendChild(card);
+                });
+                
+                cajaFarmacias.dataset.noviembreListo = '1';
+            }
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
