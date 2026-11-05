@@ -15472,6 +15472,36 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
     </script>
+                       <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. Buscamos todas las imágenes que estén rotas o vacías dentro de Efemérides
+        var imagenesRotas = document.querySelectorAll('#boton-efemerides img');
+        
+        imagenesRotas.forEach(function(img) {
+            // Si la imagen no tiene el atributo src, o su src está vacío, o el archivo no carga (naturalWidth = 0)
+            if(!img.src || img.src === '' || img.src.includes('undefined') || img.naturalWidth === 0) {
+                // La destruimos
+                img.remove(); 
+            }
+        });
+
+        // 2. También borramos cualquier texto gris de reserva que haya quedado suelto
+        var parrafos = document.querySelectorAll('#boton-efemerides p');
+        parrafos.forEach(function(p) {
+            if(p.textContent.includes('Espacio para la foto') || p.textContent.includes('Aquí va la foto')) {
+                p.remove();
+            }
+        });
+
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+                       </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
