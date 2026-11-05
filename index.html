@@ -15504,86 +15504,76 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                        </script>
 
 <style>
-    /* La tira horizontal donde van las tarjetas */
-    .turnero-horizontal {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        gap: 12px !important;
-        padding: 10px 0 20px 0 !important;
-        scroll-snap-type: x mandatory !important;
+    /* La grilla de 3 columnas */
+    .grilla-farmacias {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important; /* 3 columnas */
+        gap: 10px !important;
+        padding: 10px 0 !important;
     }
 
-    /* La tarjeta de cada día */
-    .tarjeta-turno {
-        min-width: 120px !important;
-        max-width: 120px !important;
+    /* La tarjeta de cada farmacia */
+    .tarjeta-farm {
         background: #fdf9ef !important;
         border: 1.5px solid #c9a243 !important;
         border-radius: 12px !important;
-        padding: 12px 10px !important;
+        padding: 10px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        height: 130px !important;
-        scroll-snap-align: start !important;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.08) !important;
+        height: 115px !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
     }
 
-    /* El número de la fecha */
-    .tarjeta-turno .fecha-num {
+    /* La fecha (arriba a la izquierda) */
+    .tarjeta-farm .fecha-num {
         font-family: 'Fraunces', serif !important;
-        font-size: 16px !important;
+        font-size: 15px !important;
         font-weight: 900 !important;
-        color: #6b5a33 !important; /* Color marrón oscuro */
-        text-align: left !important;
-        display: block !important;
+        color: #6b5a33 !important;
+        align-self: flex-start !important;
     }
 
     /* El nombre de la farmacia */
-    .tarjeta-turno .nombre-farm {
+    .tarjeta-farm .nombre-farm {
         font-family: 'Fraunces', serif !important;
-        font-size: 14px !important;
+        font-size: 13px !important;
         font-weight: 900 !important;
         color: #171310 !important;
         text-align: center !important;
-        text-transform: capitalize !important; /* Primera letra mayúscula */
-        line-height: 1.2 !important;
+        text-transform: capitalize !important;
+        line-height: 1.1 !important;
         margin: 5px 0 !important;
     }
 
     /* El botón de la brújula con relieve */
-    .btn-brujula-turno {
+    .btn-brujula {
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
         background: #fdf9ef !important;
         border: 2px solid #c9a243 !important;
         border-radius: 8px !important;
-        padding: 6px 0 !important;
+        padding: 5px 0 !important;
         text-decoration: none !important;
-        /* El relieve: sombra oscura abajo y luz arriba */
         box-shadow: inset 0 -3px 0 rgba(201,162,67,0.4), 0 2px 4px rgba(0,0,0,0.1) !important;
         margin-top: auto !important;
     }
 
     /* La brújula SVG */
-    .btn-brujula-turno svg {
-        width: 24px !important;
-        height: 24px !important;
+    .btn-brujula svg {
+        width: 22px !important;
+        height: 22px !important;
         stroke: #c9a243 !important;
         fill: none !important;
         stroke-width: 2 !important;
-        stroke-linecap: round !important;
-        stroke-linejoin: round !important;
-        /* El latido */
-        animation: latidoTurno 1.5s infinite !important; 
+        animation: latirBrujula 1.5s infinite !important; 
     }
 
-    /* Animación del latido */
-    @keyframes latidoTurno {
+    /* El latido */
+    @keyframes latirBrujula {
         0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
-        50% { transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(201,162,67,0.8)); }
+        50% { transform: scale(1.15); filter: drop-shadow(0 0 5px rgba(201,162,67,0.8)); }
         100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(201,162,67,0)); }
     }
 </style>
@@ -15602,7 +15592,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             }
         }
         
-        if(caja && !caja.dataset.turneroOK) {
+        if(caja && !caja.dataset.grillaOK) {
             clearInterval(timer);
             
             // 1. Cambiamos el título
@@ -15635,42 +15625,42 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
                     }
                 });
 
-                // 3. Creamos el contenedor
-                var nuevoScroll = document.createElement('div');
-                nuevoScroll.className = 'turnero-horizontal';
-                grillaVieja.parentNode.replaceChild(nuevoScroll, grillaVieja);
+                // 3. Creamos el contenedor (la grilla)
+                var nuevaGrilla = document.createElement('div');
+                nuevaGrilla.className = 'grilla-farmacias';
+                grillaVieja.parentNode.replaceChild(nuevaGrilla, grillaVieja);
 
-                // 4. Lista exacta de nombres (Ciclo de 15 días según la foto)
+                // 4. Lista de nombres rotativa (15 días)
                 var nombres = ['pilar', 'geder', 'brahmin', 'san isidro', 'santa rita', '9 de julio', 'nobel', 'libertad', 'san jose', 'central', 'martinez', 'hygeia', 'turi', 'san martin', 'condor'];
 
-                // 5. Creamos las 30 tarjetas del 1 al 30
+                // 5. Creamos las tarjetas del 1 al 30
                 for (var dia = 1; dia <= 30; dia++) {
-                    // Calculamos qué nombre toca (el ciclo se reinicia cada 15 días)
+                    // Calculamos el nombre
                     var indexNombre = (dia - 1) % 15;
                     var nombreFarm = nombres[indexNombre];
                     var linkUrl = links[nombreFarm] || '#';
 
                     var card = document.createElement('div');
-                    card.className = 'tarjeta-turno';
+                    card.className = 'tarjeta-farm';
                     
                     var H = '';
                     H += '<span class="fecha-num">' + dia + '</span>';
                     H += '<span class="nombre-farm">' + nombreFarm + '</span>';
-                    H += '<a href="' + linkUrl + '" target="_blank" class="btn-brujula-turno">';
+                    H += '<a href="' + linkUrl + '" target="_blank" class="btn-brujula">';
                     H += '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>';
                     H += '</a>';
                     
                     card.innerHTML = H;
-                    nuevoScroll.appendChild(card);
+                    nuevaGrilla.appendChild(card);
                 }
 
-                caja.dataset.turneroOK = '1';
+                caja.dataset.grillaOK = '1';
             }
         }
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-                          </script>
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
