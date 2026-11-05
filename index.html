@@ -15502,6 +15502,43 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
                        </script>
+          <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. Buscamos el título de Octubre y lo cambiamos a Noviembre
+        var titulos = document.querySelectorAll('summary, h2, h3');
+        titulos.forEach(function(t) {
+            if(t.textContent.includes('Octubre 2026')) {
+                t.innerHTML = t.innerHTML.replace('Octubre 2026', 'Noviembre 2026');
+            }
+        });
+
+        // 2. Buscamos el "molde" de las farmacias (el que dice var OCT=[...])
+        // Como está dentro de un script, lo buscamos en el código fuente
+        if(!window._noviembreActualizado) {
+            var scripts = document.querySelectorAll('script');
+            
+            scripts.forEach(function(script) {
+                if(script.textContent.includes('var OCT=[')) {
+                    
+                    // ACÁ ESTÁ LA MAGIA: Reemplazamos el molde de octubre por el de noviembre
+                    var nuevoMolde = "var OCT=[[\"pilar\",1],[\"geder\",2],[\"brahmin\",3],[\"san isidro\",4],[\"santa rita\",5],[\"9 de julio\",6],[\"nobel y maria auxiliadora\",7],[\"libertad\",8],[\"san jose y ybril\",9],[\"central\",10],[\"martinez\",11],[\"hygeia\",12],[\"turi\",13],[\"san martin\",14],[\"condor\",15],[\"pilar\",16],[\"geder\",17],[\"brahmin\",18],[\"san isidro\",19],[\"santa rita\",20],[\"9 de julio\",21],[\"nobel y maria auxiliadora\",22],[\"libertad\",23],[\"san jose y ybril\",24],[\"central\",25],[\"martinez\",26],[\"hygeia\",27],[\"turi\",28],[\"san martin\",29],[\"condor\",30]];";
+                    
+                    script.textContent = script.textContent.replace(/var OCT=\[.*?\];/, nuevoMolde);
+                    
+                    window._noviembreActualizado = true;
+                }
+            });
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+              </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
