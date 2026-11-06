@@ -3,7 +3,7 @@
   "lista": [
     {
       "id": "1793939898241",
-      "nombre": "HolÃÂ­stica ",
+      "nombre": "HolÃÂÃÂ­stica ",
       "imagen": "img/tiendaausp.jpg",
       "activo": true
     },
@@ -29,6 +29,12 @@
       "id": "1793991248734",
       "nombre": "Municipalidad ",
       "imagen": "img/lulesausp.jpg",
+      "activo": true
+    },
+    {
+      "id": "1793992046432",
+      "nombre": "Descubrir YouTube ",
+      "imagen": "img/descubrirausp.jpg",
       "activo": true
     }
   ]
