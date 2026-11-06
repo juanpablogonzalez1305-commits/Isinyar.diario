@@ -15754,42 +15754,48 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         position: relative;
         width: 95% !important;
         max-width: 400px;
-        height: 180px; 
-        margin: 15px auto 25px auto !important; /* Más margen abajo para separar del menú */
+        /* Ajustamos el alto para que quede como el reproductor de YouTube */
+        height: 220px; 
+        margin: 15px auto 25px auto !important; 
         
-        /* DOBLE MARCO SOBERBIO */
+        /* ACÁ ESTÁ EL MARCO IDÉNTICO AL VIDEO */
         border: 2px solid #c9a243 !important;
         border-radius: 15px;
         box-shadow: 
-            0 0 0 3px #15110d inset, /* Línea oscura interna */
-            0 0 0 5px #c9a243 inset, /* Segundo marco dorado interno */
-            0 5px 15px rgba(0,0,0,0.5); /* Sombra hacia afuera */
+            0 0 0 3px #15110d inset, /* Primera línea interna oscura */
+            0 0 0 5px #c9a243 inset, /* Segunda línea interna dorada */
+            0 8px 20px rgba(0,0,0,0.6); /* Sombra exterior */
             
         overflow: hidden;
-        background: #000;
+        background: #000; /* Fondo negro para que no se noten los bordes si el flyer es angosto */
     }
 
+    /* Título de la vitrina */
     #vitrina-auspiciantes::before {
         content: "AUSPICIANTES";
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        background: rgba(0,0,0,0.8);
+        background: rgba(0,0,0,0.85);
         color: #ffd87a;
         font-size: 11px;
         text-align: center;
-        padding: 5px 0;
+        padding: 6px 0;
         z-index: 10;
         letter-spacing: 3px;
         font-weight: bold;
-        border-bottom: 1px solid #c9a243; /* Línea dorada fina debajo del texto */
+        border-bottom: 1px solid #c9a243;
     }
 
+    /* La imagen del auspiciante */
     .auspiciante-slide {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        object-fit: cover; 
+        
+        /* LA MAGIA PARA QUE NO SE CORTEN: */
+        object-fit: contain; 
+        
         opacity: 0;
         transition: opacity 1.5s ease-in-out; 
     }
