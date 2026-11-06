@@ -15750,53 +15750,42 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 })();
   </script>
 <style>
+    /* El título afuera del marco */
+    .titulo-auspiciantes {
+        text-align: center;
+        color: #c9a243;
+        font-family: 'Fraunces', serif;
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: 3px;
+        margin: 20px 0 10px 0;
+        text-transform: uppercase;
+    }
+
     #vitrina-auspiciantes {
         position: relative;
         width: 95% !important;
         max-width: 400px;
-        /* HACEMOS EL MARCO MÁS ALTO PARA QUE LA FOTO ENTRE MEJOR */
-        height: 260px; 
-        margin: 15px auto 25px auto !important; 
+        height: 200px; /* Un poco más bajo ahora que el título está afuera */
+        margin: 0 auto 25px auto !important; 
         
-        /* EL MARCO IDÉNTICO AL DE YOUTUBE */
+        /* MARCO FINO Y ELEGANTE TIPO YOUTUBE */
         border: 2px solid #c9a243 !important;
-        border-radius: 22px !important; /* Más redondeado */
+        border-radius: 15px !important; 
         box-shadow: 
-            0 0 0 4px #15110d, /* Línea gruesa oscura externa */
-            0 0 0 6px #c9a243, /* Línea dorada externa */
-            0 10px 25px rgba(0,0,0,0.6) !important; /* Sombra profunda */
+            0 0 0 3px #15110d, /* Borde interno oscuro */
+            0 4px 15px rgba(0,0,0,0.5) !important; /* Sombra suave */
             
         overflow: hidden;
-        background: #15110d;
-    }
-
-    /* Título de la vitrina */
-    #vitrina-auspiciantes::before {
-        content: "AUSPICIANTES";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
-        color: #ffd87a;
-        font-size: 12px;
-        text-align: center;
-        padding: 10px 0;
-        z-index: 10;
-        letter-spacing: 3px;
-        font-weight: 900;
-        pointer-events: none; /* Para que no moleste con los clics */
+        background: #000;
     }
 
     /* La imagen del auspiciante */
     .auspiciante-slide {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        
-        /* LA MAGIA PARA QUE LLENE EL MARCO SIN DEJAR BORDES NEGROS */
-        object-fit: cover; 
-        object-position: center; /* Centra la imagen */
-        
+        object-fit: contain; /* Usamos contain para que no se recorte el flyer vertical */
+        object-position: center;
         opacity: 0;
         transition: opacity 1s ease-in-out; 
     }
@@ -15805,18 +15794,29 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         opacity: 1;
     }
 </style>
-<script>
+  <script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos el contenedor del logo (masthead)
+        // Buscamos el logo (masthead)
         var logo = document.querySelector('.masthead');
         
         if(logo && !document.getElementById('vitrina-auspiciantes')) {
             clearInterval(timer);
             
+            // 1. Creamos el contenedor general (para el título + el marco)
+            var wrapper = document.createElement('div');
+            wrapper.style.cssText = 'width: 100%; display: flex; flex-direction: column; align-items: center;';
+
+            // 2. Creamos el Título afuera
+            var titulo = document.createElement('div');
+            titulo.className = 'titulo-auspiciantes';
+            titulo.textContent = 'Auspiciantes';
+            wrapper.appendChild(titulo);
+            
+            // 3. Creamos la Vitrina (el marco)
             var vitrina = document.createElement('div');
             vitrina.id = 'vitrina-auspiciantes';
             
@@ -15826,10 +15826,12 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             H += '<img src="img/casagrande.jpg" class="auspiciante-slide" alt="Casa Grande">';
             
             vitrina.innerHTML = H;
+            wrapper.appendChild(vitrina);
             
-            // LA MAGIA: Lo insertamos JUSTO DESPUÉS del logo
-            logo.parentNode.insertBefore(vitrina, logo.nextSibling);
+            // 4. Insertamos TODO el bloque debajo del logo
+            logo.parentNode.insertBefore(wrapper, logo.nextSibling);
             
+            // 5. Lógica de rotación
             var slides = vitrina.querySelectorAll('.auspiciante-slide');
             var currentSlide = 0;
             
@@ -15843,7 +15845,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-</script>
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
