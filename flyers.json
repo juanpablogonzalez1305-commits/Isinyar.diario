@@ -1,7 +1,6 @@
 {
   "mostrar": [
-    "holística",
-    "dimaria"
+    "holística"
   ],
   "inicio": "2026-11-05T00:00:00",
   "duracion_horas": 24,
@@ -127,11 +126,6 @@
     },
     "holística": {
       "img": "https://files.catbox.moe/zrbyue.jpg",
-      "tieneVer": false,
-      "segundos": 4
-    },
-    "dimaria": {
-      "img": "https://files.catbox.moe/5elekr.jpg",
       "tieneVer": false,
       "segundos": 4
     }
