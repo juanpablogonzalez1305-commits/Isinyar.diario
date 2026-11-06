@@ -15750,23 +15750,24 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 })();
   </script>
 <style>
-    /* 1. TÍTULO CON LETRA OSCURA Y CONTORNO DORADO */
+    /* 1. TÍTULO IMPONENTE (Dorado con contorno negro grueso) */
     .titulo-auspiciantes {
         text-align: center;
-        color: #171310; /* Letra oscura */
+        color: #ffd87a; /* Dorado brillante */
         font-family: 'Fraunces', serif;
-        font-size: 22px; /* Un poquito más grande */
+        font-size: 26px; /* Bastante más grande */
         font-weight: 900;
-        letter-spacing: 4px;
-        margin: 15px 0 10px 0; 
+        letter-spacing: 5px;
+        margin: 15px 0 15px 0; 
         text-transform: uppercase;
         
-        /* CONTORNO DORADO Y SOMBRA SUAVE */
-        -webkit-text-stroke: 1.5px #c9a243; 
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.6); 
+        /* Contorno negro fuerte y sombra */
+        -webkit-text-stroke: 1.5px #171310; 
+        text-shadow: 3px 3px 0px #171310, 
+                     2px 2px 5px rgba(0,0,0,0.8); 
     }
 
-    /* 2. EL MARCO IDÉNTICO AL DE YOUTUBE */
+    /* 2. EL MARCO TRIPLE IMPONENTE */
     #vitrina-auspiciantes {
         position: relative;
         width: 95% !important;
@@ -15774,14 +15775,17 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         height: 200px; 
         margin: 0 auto 20px auto !important; 
         
-        /* MARCO DE TRES CAPAS (Dorado - Oscuro - Dorado) */
-        border: 3px solid #c9a243 !important; 
+        /* El borde dorado principal */
+        border: 4px solid #c9a243 !important; 
         border-radius: 16px !important; 
         
+        /* Los anillos externos para simular el marco grueso de YouTube */
+        outline: 2px solid #15110d;
+        outline-offset: 2px;
+        
         box-shadow: 
-            0 0 0 2px #15110d inset, /* La línea oscura entre los dos dorados */
-            0 0 0 3px #c9a243 inset, /* El borde dorado fino interior */
-            0 8px 20px rgba(0,0,0,0.6) !important; /* La sombra suave exterior */
+            0 0 0 5px #c9a243, /* Anillo dorado exterior */
+            0 8px 25px rgba(0,0,0,0.8); /* Sombra profunda */
             
         overflow: hidden;
         background: #000;
@@ -15795,6 +15799,9 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         object-position: center;
         opacity: 0;
         transition: opacity 1s ease-in-out; 
+        /* Para que la foto no tape el borde interno */
+        padding: 4px; 
+        box-sizing: border-box;
     }
 
     .auspiciante-slide.active {
