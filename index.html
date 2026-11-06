@@ -15804,10 +15804,10 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos el menú de navegación (la barra de Noticias, Historia, etc.)
-        var navBar = document.querySelector('.topbar');
+        // Buscamos el contenedor del logo (masthead)
+        var logo = document.querySelector('.masthead');
         
-        if(navBar && !document.getElementById('vitrina-auspiciantes')) {
+        if(logo && !document.getElementById('vitrina-auspiciantes')) {
             clearInterval(timer);
             
             var vitrina = document.createElement('div');
@@ -15820,8 +15820,8 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
             
             vitrina.innerHTML = H;
             
-            // LA MAGIA: Lo insertamos justo ANTES de la barra de navegación
-            navBar.parentNode.insertBefore(vitrina, navBar);
+            // LA MAGIA: Lo insertamos JUSTO DESPUÉS del logo
+            logo.parentNode.insertBefore(vitrina, logo.nextSibling);
             
             var slides = vitrina.querySelectorAll('.auspiciante-slide');
             var currentSlide = 0;
