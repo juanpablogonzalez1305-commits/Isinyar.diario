@@ -1,5 +1,11 @@
 {
-  "mostrar": [],
+  "mostrar": [
+    "tango",
+    "artaza",
+    "descubrir",
+    "secciones",
+    "descargapp"
+  ],
   "inicio": "2026-11-05T00:00:00",
   "duracion_horas": 24,
   "flyers": {
