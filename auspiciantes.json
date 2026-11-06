@@ -3,9 +3,9 @@
   "lista": [
     {
       "id": "1",
-      "nombre": "Tienda HolÃ­stica y Deco",
+      "nombre": "Tienda HolÃÂ­stica y Deco",
       "imagen": "img/tiendaformato.jpg",
-      "activo": true
+      "activo": false
     },
     {
       "id": "2",
@@ -15,8 +15,26 @@
     },
     {
       "id": "3",
-      "nombre": "Casa Grande - Familia GonzÃ¡lez",
+      "nombre": "Casa Grande - Familia GonzÃÂ¡lez",
       "imagen": "img/casagrande.jpg",
+      "activo": false
+    },
+    {
+      "id": "1793939898241",
+      "nombre": "Holística ",
+      "imagen": "img/tiendaausp.jpg",
+      "activo": true
+    },
+    {
+      "id": "1793939936872",
+      "nombre": "DM",
+      "imagen": "img/dmausp.jpg",
+      "activo": true
+    },
+    {
+      "id": "1793939994126",
+      "nombre": "Mollar",
+      "imagen": "img/mollarausp.jpg",
       "activo": true
     }
   ]
