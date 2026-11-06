@@ -14682,28 +14682,29 @@ btnCerrar.onclick = function() {
         width: 90% !important; 
     }
 
-    #boton-efemerides summary {
-        display: flex !important;
-        flex-direction: row !important; 
-        align-items: center !important;
-        justify-content: flex-start !important;
-        text-align: left !important;
-        gap: 15px !important;
-        
-        background: linear-gradient(160deg, #241c12, #15110d) !important;
-        border: 3px solid #c9a243 !important;
-        border-radius: 20px !important;
-        padding: 15px 20px !important;
-        cursor: pointer !important;
-        
-        /* ACÁ ESTÁ EL RELIEVE (La parte amarilla de abajo) */
-  box-shadow: 
-    inset 0 0 0 1px rgba(255,240,190,.35), 
-    inset 0 0 0 4px #15110d, 
-    inset 0 0 0 5px #8a6a1a, 
-    0 8px 0 0 #c9a243, 
-    0 15px 20px rgba(0,0,0,0.6) !important;
-    }
+#boton-efemerides summary {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    gap: 15px !important;
+
+    background: linear-gradient(160deg, #241c12, #15110d) !important;
+    border: 3px solid #c9a243 !important;
+    border-radius: 20px !important;
+    padding: 15px 20px !important;
+    cursor: pointer !important;
+    
+    /* ACÁ ESTÁ EL EFECTO DE CURVA Y RELIEVE */
+    box-shadow: 
+        0 0 0 1px rgba(255,240,190,.35) inset, 
+        0 0 0 4px #15110d inset, 
+        0 0 0 5px #8a6a1a inset, 
+        0 8px 0 0 #8a6a1a, 
+        0 22px 34px -12px rgba(0,0,0,.75), 
+        0 0 18px rgba(217,176,76,.55) !important;
+}
 
     /* El ícono con la ONDA DE AGUA */
     .efemerides-icono {
