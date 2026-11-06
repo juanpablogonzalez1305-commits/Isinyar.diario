@@ -15766,15 +15766,15 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         position: relative;
         width: 95% !important;
         max-width: 400px;
-        height: 200px; /* Un poco más bajo ahora que el título está afuera */
+        height: 200px; 
         margin: 0 auto 25px auto !important; 
         
         /* MARCO FINO Y ELEGANTE TIPO YOUTUBE */
         border: 2px solid #c9a243 !important;
         border-radius: 15px !important; 
         box-shadow: 
-            0 0 0 3px #15110d, /* Borde interno oscuro */
-            0 4px 15px rgba(0,0,0,0.5) !important; /* Sombra suave */
+            0 0 0 3px #15110d, 
+            0 4px 15px rgba(0,0,0,0.5) !important; 
             
         overflow: hidden;
         background: #000;
@@ -15784,7 +15784,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     .auspiciante-slide {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        object-fit: contain; /* Usamos contain para que no se recorte el flyer vertical */
+        object-fit: contain; 
         object-position: center;
         opacity: 0;
         transition: opacity 1s ease-in-out; 
@@ -15800,38 +15800,37 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos el logo (masthead)
         var logo = document.querySelector('.masthead');
         
         if(logo && !document.getElementById('vitrina-auspiciantes')) {
             clearInterval(timer);
             
-            // 1. Creamos el contenedor general (para el título + el marco)
+            // 1. Contenedor general
             var wrapper = document.createElement('div');
             wrapper.style.cssText = 'width: 100%; display: flex; flex-direction: column; align-items: center;';
 
-            // 2. Creamos el Título afuera
+            // 2. El título (AFUERA)
             var titulo = document.createElement('div');
             titulo.className = 'titulo-auspiciantes';
             titulo.textContent = 'Auspiciantes';
             wrapper.appendChild(titulo);
             
-            // 3. Creamos la Vitrina (el marco)
+            // 3. El marco (ADENTRO)
             var vitrina = document.createElement('div');
             vitrina.id = 'vitrina-auspiciantes';
             
             var H = '';
             H += '<img src="img/tiendaformato.jpg" class="auspiciante-slide active" alt="Tienda Holística">';
             H += '<img src="img/divasmaquillajes.jpg" class="auspiciante-slide" alt="Divas Maquillajes">';
-            H += '<img src="img/casagrande.jpg" class="auspiciante-slide" alt="Casa Grande">';
+            H += '<img src="img/casagrande.jpg" class="auspiciante-slide" alt="Casagrande">';
             
             vitrina.innerHTML = H;
             wrapper.appendChild(vitrina);
             
-            // 4. Insertamos TODO el bloque debajo del logo
+            // 4. Insertar debajo del logo
             logo.parentNode.insertBefore(wrapper, logo.nextSibling);
             
-            // 5. Lógica de rotación
+            // 5. Rotación automática
             var slides = vitrina.querySelectorAll('.auspiciante-slide');
             var currentSlide = 0;
             
