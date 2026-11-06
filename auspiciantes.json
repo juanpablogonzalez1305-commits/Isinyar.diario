@@ -3,7 +3,7 @@
   "lista": [
     {
       "id": "1",
-      "nombre": "Tienda Holística y Deco",
+      "nombre": "Tienda HolÃ­stica y Deco",
       "imagen": "img/tiendaformato.jpg",
       "activo": true
     },
@@ -11,11 +11,11 @@
       "id": "2",
       "nombre": "Divas Maquillajes",
       "imagen": "img/divasmaquillajes.jpg",
-      "activo": true
+      "activo": false
     },
     {
       "id": "3",
-      "nombre": "Casa Grande - Familia González",
+      "nombre": "Casa Grande - Familia GonzÃ¡lez",
       "imagen": "img/casagrande.jpg",
       "activo": true
     }
