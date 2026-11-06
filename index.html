@@ -15804,7 +15804,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         opacity: 1;
     }
 </style>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
@@ -15815,46 +15815,61 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         if(logo && !document.getElementById('vitrina-auspiciantes')) {
             clearInterval(timer);
             
-            // 1. Contenedor general
-            var wrapper = document.createElement('div');
-            wrapper.style.cssText = 'width: 100%; display: flex; flex-direction: column; align-items: center;';
+            // 1. Leemos el archivo JSON
+            fetch('./auspiciantes.json?t=' + Date.now())
+            .then(function(r){ return r.json(); })
+            .then(function(cfg){
+                // Si en el panel desactivaste la vitrina, no hace nada
+                if(!cfg.mostrar_vitrina) return;
+                
+                // Filtramos solo los que están activos
+                var activos = cfg.lista.filter(function(a){ return a.activo; });
+                if(!activos.length) return;
 
-            // 2. El título (AFUERA)
-            var titulo = document.createElement('div');
-            titulo.className = 'titulo-auspiciantes';
-            titulo.textContent = 'Auspiciantes';
-            wrapper.appendChild(titulo);
-            
-            // 3. El marco (ADENTRO)
-            var vitrina = document.createElement('div');
-            vitrina.id = 'vitrina-auspiciantes';
-            
-            var H = '';
-            H += '<img src="img/tiendaformato.jpg" class="auspiciante-slide active" alt="Tienda Holística">';
-            H += '<img src="img/divasmaquillajes.jpg" class="auspiciante-slide" alt="Divas Maquillajes">';
-            H += '<img src="img/casagrande.jpg" class="auspiciante-slide" alt="Casagrande">';
-            
-            vitrina.innerHTML = H;
-            wrapper.appendChild(vitrina);
-            
-            // 4. Insertar debajo del logo
-            logo.parentNode.insertBefore(wrapper, logo.nextSibling);
-            
-            // 5. Rotación automática
-            var slides = vitrina.querySelectorAll('.auspiciante-slide');
-            var currentSlide = 0;
-            
-            setInterval(function() {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-            }, 3500); 
+                // 2. Creamos el contenedor (Título + Marco)
+                var wrapper = document.createElement('div');
+                wrapper.style.cssText = 'width: 100%; display: flex; flex-direction: column; align-items: center;';
+
+                var titulo = document.createElement('div');
+                titulo.className = 'titulo-auspiciantes';
+                titulo.textContent = 'Auspicantes';
+                wrapper.appendChild(titulo);
+                
+                var vitrina = document.createElement('div');
+                vitrina.id = 'vitrina-auspiciantes';
+                
+                // 3. Armamos las fotos según lo que diga el panel
+                var H = '';
+                activos.forEach(function(a, index) {
+                    var clase = index === 0 ? 'auspiciante-slide active' : 'auspiciante-slide';
+                    H += '<img src="' + a.imagen + '" class="' + clase + '" alt="' + a.nombre + '">';
+                });
+                
+                vitrina.innerHTML = H;
+                wrapper.appendChild(vitrina);
+                
+                // 4. Lo insertamos debajo del logo
+                logo.parentNode.insertBefore(wrapper, logo.nextSibling);
+                
+                // 5. Rotación automática
+                var slides = vitrina.querySelectorAll('.auspiciante-slide');
+                var currentSlide = 0;
+                
+                if(slides.length > 1) {
+                    setInterval(function() {
+                        slides[currentSlide].classList.remove('active');
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        slides[currentSlide].classList.add('active');
+                    }, 3500); 
+                }
+            })
+            .catch(function(e){ console.log('Error cargando auspiciantes:', e); });
         }
         
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
