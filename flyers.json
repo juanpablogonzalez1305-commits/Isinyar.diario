@@ -1,7 +1,5 @@
 {
-  "mostrar": [
-    "holística"
-  ],
+  "mostrar": [],
   "inicio": "2026-11-05T00:00:00",
   "duracion_horas": 24,
   "flyers": {
@@ -123,11 +121,6 @@
       "img": "https://files.catbox.moe/fd56la.png",
       "tieneVer": false,
       "segundos": 10
-    },
-    "holística": {
-      "img": "https://files.catbox.moe/zrbyue.jpg",
-      "tieneVer": false,
-      "segundos": 4
     }
   }
 }
