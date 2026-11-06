@@ -15750,7 +15750,7 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 })();
   </script>
 <style>
-    /* TÍTULO (Tal cual estaba) */
+    /* 1. TÍTULO (Intacto, como le gusta) */
     .titulo-auspiciantes {
         text-align: center;
         color: #ffd87a;
@@ -15764,30 +15764,33 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
         text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
     }
 
-    /* EL MARCO LIMPIO Y DELICADO (El que teníamos antes) */
+    /* 2. EL MARCO TRIPLE (Dorado - Negro - Dorado exterior) */
     #vitrina-auspiciantes {
         position: relative;
         width: 95% !important;
         max-width: 400px;
         height: 200px; 
-        margin: 0 auto 20px auto !important; 
+        margin: 0 auto 25px auto !important; 
         
-        /* Borde simple, esquinas redondeadas y la sombra suave */
+        /* Capa 1: Borde dorado interior */
         border: 2px solid #c9a243 !important; 
         border-radius: 15px !important; 
+        
+        /* ACÁ ESTÁ LA MAGIA: Las 3 capas de sombra */
         box-shadow: 
-            0 0 0 3px #15110d, /* Borde oscuro exterior */
-            0 4px 15px rgba(0,0,0,0.5) !important; /* Sombra exterior */
+            0 0 0 3px #15110d, /* Capa 2: Línea negra */
+            0 0 0 5px #c9a243, /* Capa 3: Línea dorada exterior (la que faltaba) */
+            0 6px 15px rgba(0,0,0,0.5) !important; /* Capa 4: Sombra suave exterior */
             
         overflow: hidden;
         background: #000;
     }
 
-    /* LA FOTO (Para que NO deje los bordes negros) */
+    /* 3. LA FOTO (Para que no deje los bordes negros) */
     .auspiciante-slide {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        object-fit: cover; /* ¡ESTO HACE QUE LLENE TODO EL MARCO! */
+        object-fit: cover; /* Llena todo el marco */
         object-position: center;
         opacity: 0;
         transition: opacity 1s ease-in-out; 
