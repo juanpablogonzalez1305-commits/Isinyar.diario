@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Auspiciantes · DESCUBRIR</title>
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:system-ui,-apple-system,sans-serif;background:#f4efe6;color:#171310;padding:20px}
+        h1{font-family:Georgia,serif;font-size:1.5rem;color:#171310;text-align:center;margin-bottom:20px}
+        .card{background:#fff;border:2px solid #c9a243;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+        .card label{display:flex;align-items:center;gap:10px;font-weight:bold;margin-bottom:10px}
+        .card input[type=text]{width:100%;padding:8px;border:1px solid #ccc;border-radius:5px;margin-bottom:10px}
+        .card .acciones{display:flex;gap:10px;margin-top:10px}
+        .card button{padding:6px 12px;border:none;border-radius:5px;cursor:pointer;font-weight:bold}
+        .btn-rojo{background:#e74c3c;color:#fff}
+        .btn-verde{background:#25D366;color:#fff}
+        .btn-guardar{background:#c9a243;color:#171310;width:100%;padding:15px;font-size:1.1rem;margin-top:20px;font-weight:bold;border:none;border-radius:5px;cursor:pointer}
+        .alerta{padding:10px;border-radius:5px;margin-bottom:20px;font-weight:bold;text-align:center}
+        .alerta-on{background:#d4edda;color:#155724}
+        .alerta-off{background:#f8d7da;color:#721c24}
+        #loginBox { background:#fff; padding:15px; border:2px solid #c9a243; border-radius:12px; margin-bottom:20px; text-align:center; }
+    </style>
+</head>
+<body>
+    <h1>Panel de Auspiciantes · DESCUBRIR</h1>
+
+    <!-- CAJITA PARA EL TOKEN -->
+    <div id="loginBox">
+        <label style="font-weight:bold; display:block; margin-bottom:10px;">Pega tu Token de GitHub aquí:</label>
+        <input type="text" id="inputToken" placeholder="ghp_..." style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; font-size:16px;">
+        <button onclick="iniciarPanel()" style="background:#c9a243; color:#171010; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">Cargar Panel</button>
+    </div>
+
+    <!-- CONTENIDO DEL PANEL -->
+    <div id="panelContenido" style="display:none;">
+        <div id="estadoGlobal" class="alerta alerta-off">Cargando estado...</div>
+        <div id="listaAuspiciantes"></div>
+        <button class="btn-guardar" onclick="guardarCambios()">💾 Guardar todos los cambios</button>
+    </div>
+        <script>
+        let token = "";
+        const repo = "juanpablogonzalez1305-commits/Isinyar.diario";
+        const archivo = "auspiciantes.json";
+        const apiUrl = `https://api.github.com/repos/${repo}/contents/${archivo}`;
+        let SHA = null;
+        let config = {};
+
+        function iniciarPanel() {
+            let inputVal = document.getElementById('inputToken').value.trim();
+            if(!inputVal) inputVal = localStorage.getItem('tokenAuspiciantes');
+            if(!inputVal) { alert("Por favor, pega el token primero."); return; }
+            
+            localStorage.setItem('tokenAuspiciantes', inputVal);
+            token = inputVal;
+
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('panelContenido').style.display = 'block';
+            cargarConfig();
+        }
+
+        async function cargarConfig() {
+            try {
+                const res = await fetch(`${apiUrl}?t=${Date.now()}`, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                const data = await res.json();
+                SHA = data.sha;
+                const contenido = JSON.parse(atob(data.content.replace(/\n/g, '')));
+                config = contenido;
+                render();
+            } catch(e) {
+                document.getElementById('estadoGlobal').innerText = "Error al cargar. Verificá el token.";
+            }
+        }
+
+        function render() {
+            const cont = document.getElementById('listaAuspiciantes');
+            cont.innerHTML = '';
+            
+            // Estado general
+            const estado = document.getElementById('estadoGlobal');
+            if(config.mostrar_vitrina) {
+                estado.className = 'alerta alerta-on';
+                estado.innerText = '✅ VITRINA ACTIVADA EN LA PORTADA';
+            } else {
+                estado.className = 'alerta alerta-off';
+                estado.innerText = '❌ VITRINA DESACTIVADA';
+            }
+
+            // Botón para cambiar el estado
+            const btnEstado = document.createElement('button');
+            btnEstado.className = 'btn-guardar';
+            btnEstado.style.marginBottom = '20px';
+            btnEstado.innerText = config.mostrar_vitrina ? 'Ocultar Vitrina de la Portada' : 'Mostrar Vitrina en la Portada';
+            btnEstado.onclick = () => {
+                config.mostrar_vitrina = !config.mostrar_vitrina;
+                render();
+            };
+            cont.appendChild(btnEstado);
+
+            // Lista de auspiciantes
+            config.lista.forEach((aus, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <label><input type="checkbox" ${aus.activo ? 'checked' : ''} onchange="config.lista[${index}].activo = this.checked"> Auspiciante ${index + 1}</label>
+                    <input type="text" value="${aus.nombre}" placeholder="Nombre del comercio" onchange="config.lista[${index}].nombre = this.value">
+                    <input type="text" value="${aus.imagen}" placeholder="Ruta de la imagen (ej: img/foto.jpg)" onchange="config.lista[${index}].imagen = this.value">
+                    <div class="acciones">
+                        <button class="btn-rojo" onclick="borrarAuspiciante(${index})">🗑️ Borrar</button>
+                    </div>
+                `;
+                cont.appendChild(card);
+            });
+
+            // Botón para agregar uno nuevo
+            const btnAgregar = document.createElement('button');
+            btnAgregar.className = 'btn-verde';
+            btnAgregar.innerText = '+ Agregar nuevo auspiciante';
+            btnAgregar.style.width = '100%';
+            btnAgregar.style.padding = '15px';
+            btnAgregar.style.fontSize = '1.1rem';
+            btnAgregar.style.marginTop = '10px';
+            btnAgregar.onclick = () => {
+                config.lista.push({
+                    id: Date.now().toString(),
+                    nombre: "Nuevo Comercio",
+                    imagen: "img/ejemplo.jpg",
+                    activo: true
+                });
+                render();
+            };
+            cont.appendChild(btnAgregar);
+        }
+
+        function borrarAuspiciante(index) {
+            if(confirm("¿Borrar este auspiciante?")) {
+                config.lista.splice(index, 1);
+                render();
+            }
+        }
+
+        async function guardarCambios() {
+            const nuevoContenido = JSON.stringify(config, null, 2);
+            const base64 = btoa(unescape(encodeURIComponent(nuevoContenido)));
+            
+            const res = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Actualización de auspiciantes',
+                    content: base64,
+                    sha: SHA
+                })
+            });
+            
+            if(res.ok) {
+                const data = await res.json();
+                SHA = data.content.sha;
+                alert("¡Cambios guardados con éxito!");
+            } else {
+                alert("Error al guardar. Revisá el token.");
+            }
+        }
+
+        // Autocompletar el token si ya se usó antes
+        if(localStorage.getItem('tokenAuspiciantes')) {
+            document.getElementById('inputToken').value = localStorage.getItem('tokenAuspiciantes');
+        }
+    </script>
+</body>
+</html>
