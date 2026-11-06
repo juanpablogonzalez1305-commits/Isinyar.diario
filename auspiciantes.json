@@ -1,0 +1,23 @@
+{
+  "mostrar_vitrina": true,
+  "lista": [
+    {
+      "id": "1",
+      "nombre": "Tienda Holística y Deco",
+      "imagen": "img/tiendaformato.jpg",
+      "activo": true
+    },
+    {
+      "id": "2",
+      "nombre": "Divas Maquillajes",
+      "imagen": "img/divasmaquillajes.jpg",
+      "activo": true
+    },
+    {
+      "id": "3",
+      "nombre": "Casa Grande - Familia González",
+      "imagen": "img/casagrande.jpg",
+      "activo": true
+    }
+  ]
+}
