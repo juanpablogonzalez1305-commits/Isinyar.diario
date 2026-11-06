@@ -15749,6 +15749,99 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
   </script>
+  <style>
+    /* El marco de la vitrina */
+    #vitrina-auspiciantes {
+        position: relative;
+        width: 95% !important;
+        max-width: 400px;
+        height: 180px; /* Alto justo para que se vea la propaganda */
+        margin: 15px auto !important; /* Margen para empujar hacia abajo */
+        border: 3px solid #c9a243 !important;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 0 15px rgba(201,162,67,0.4);
+    }
+
+    /* Título de la vitrina */
+    #vitrina-auspiciantes::before {
+        content: "ESPACIO COMERCIAL";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.7);
+        color: #ffd87a;
+        font-size: 10px;
+        text-align: center;
+        padding: 3px 0;
+        z-index: 10;
+        letter-spacing: 2px;
+        font-weight: bold;
+    }
+
+    /* Las imágenes que rotan */
+    .auspiciante-slide {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover; /* Ajusta la foto para llenar el espacio */
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out; /* Transición suave */
+    }
+
+    /* La imagen visible */
+    .auspiciante-slide.active {
+        opacity: 1;
+    }
+  </style>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el menú de navegación o el contenedor de las 4 tarjetas
+        var keys = document.querySelector('.keys');
+        
+        if(keys && !document.getElementById('vitrina-auspiciantes')) {
+            clearInterval(timer);
+            
+            // 1. Creamos el contenedor de la vitrina
+            var vitrina = document.createElement('div');
+            vitrina.id = 'vitrina-auspiciantes';
+            
+            // 2. Agregamos las imágenes (CAMBIAR EXTENSIONES SI ES .PNG)
+            var H = '';
+            H += '<img src="img/tiendaformato.jpg" class="auspiciante-slide active" alt="Tienda Holística">';
+            H += '<img src="img/divasmaquillajes.jpg" class="auspiciante-slide" alt="Divas Maquillajes">';
+            H += '<img src="img/casagrande.jpg" class="auspiciante-slide" alt="Casa Grande">';
+            
+            vitrina.innerHTML = H;
+            
+            // 3. Lo insertamos justo ANTES de las 4 tarjetas (keys)
+            keys.parentNode.insertBefore(vitrina, keys);
+            
+            // 4. Lógica de rotación automática
+            var slides = vitrina.querySelectorAll('.auspiciante-slide');
+            var currentSlide = 0;
+            
+            setInterval(function() {
+                // Ocultamos la actual
+                slides[currentSlide].classList.remove('active');
+                
+                // Pasamos a la siguiente
+                currentSlide = (currentSlide + 1) % slides.length;
+                
+                // Mostramos la nueva
+                slides[currentSlide].classList.add('active');
+            }, 3500); // Cambia cada 3.5 segundos
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
