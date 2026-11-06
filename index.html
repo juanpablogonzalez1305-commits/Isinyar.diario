@@ -15750,37 +15750,47 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
 })();
   </script>
 <style>
-    /* El título afuera del marco */
+    /* 1. EL TÍTULO CON CONTORNO Y LETRA GRANDE */
     .titulo-auspiciantes {
         text-align: center;
-        color: #c9a243;
+        color: #ffd87a; /* Dorado brillante */
         font-family: 'Fraunces', serif;
-        font-size: 14px;
+        font-size: 20px; /* Más grande */
         font-weight: 900;
-        letter-spacing: 3px;
-        margin: 20px 0 10px 0;
+        letter-spacing: 4px;
+        margin: 10px 0 15px 0; /* Menos margen arriba, un poco más abajo */
         text-transform: uppercase;
+        
+        /* EL CONTORNO NEGRO Y LA SOMBRA MÁGICA */
+        -webkit-text-stroke: 1px #171310; 
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.9), 
+                     -1px -1px 0 #171310,  
+                      1px -1px 0 #171310,
+                     -1px  1px 0 #171310,
+                      1px  1px 0 #171310;
     }
 
+    /* 2. LA VITRINA CON EL DOBLE MARCO SOBERBIO */
     #vitrina-auspiciantes {
         position: relative;
         width: 95% !important;
         max-width: 400px;
         height: 200px; 
-        margin: 0 auto 25px auto !important; 
+        margin: 0 auto 20px auto !important; /* Redujimos el margen inferior para que no quede lejos */
         
-        /* MARCO FINO Y ELEGANTE TIPO YOUTUBE */
+        /* ACÁ ESTÁ EL DOBLE MARCO (Dorado - Negro - Dorado) */
         border: 2px solid #c9a243 !important;
         border-radius: 15px !important; 
         box-shadow: 
-            0 0 0 3px #15110d, 
-            0 4px 15px rgba(0,0,0,0.5) !important; 
+            0 0 0 3px #15110d, /* Anillo negro grueso */
+            0 0 0 5px #c9a243, /* Segundo anillo dorado exterior */
+            0 8px 20px rgba(0,0,0,0.7) !important; /* Sombra profunda */
             
         overflow: hidden;
         background: #000;
     }
 
-    /* La imagen del auspiciante */
+    /* 3. LA FOTO DEL AUSPICIANTE */
     .auspiciante-slide {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
