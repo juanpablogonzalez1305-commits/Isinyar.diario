@@ -3,7 +3,7 @@
   "lista": [
     {
       "id": "1793939898241",
-      "nombre": "HolÃ­stica ",
+      "nombre": "HolÃÂ­stica ",
       "imagen": "img/tiendaausp.jpg",
       "activo": true
     },
@@ -23,6 +23,12 @@
       "id": "1793944409726",
       "nombre": "El otro mundo",
       "imagen": "img/elotromundo.jpg",
+      "activo": true
+    },
+    {
+      "id": "1793991248734",
+      "nombre": "Municipalidad ",
+      "imagen": "img/lulesausp.jpg",
       "activo": true
     }
   ]
