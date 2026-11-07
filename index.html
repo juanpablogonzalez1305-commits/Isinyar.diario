@@ -16153,6 +16153,136 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el cuerpo del botón de Efemérides
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        if(cuerpoEfemerides && !document.getElementById('sub-canillita')) {
+            clearInterval(timer);
+            
+            // ==========================================
+            // 1. NOTA DEL DÍA DEL CANILLITA
+            // ==========================================
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.id = 'sub-canillita';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+
+            var H1 = '';
+            H1 += '<summary style="padding: 12px 15px; color: #ffd87a !important; font-family: \'Fraunces\', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">7 de Noviembre: Día del Canillita, el héroe anónimo que repartió las noticias</summary>';
+            H1 += '<div style="padding: 15px; background: #15110d;">';
+            H1 += '<p class="meta" style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">7 de Noviembre de 2026 · Efemérides</p>';
+            
+            H1 += '<img class="marco" src="img/canillita.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Día del Canillita">';
+            
+            H1 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Cada 7 de noviembre, Argentina celebra el Día del Canillita en homenaje a esos trabajadores que, con su clásico grito de "¡Diario, diario!", recorren las calles desde el amanecer.</strong></p>';
+            H1 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">La fecha recuerda a Florencio Sánchez, un dramaturgo uruguayo-argentino que creó el personaje de un niño vendedor de diarios apodado "Canillita" por sus piernas delgadas. Desde 1947, la fecha es un homenaje oficial a quienes son el primer eslabón entre el periodismo y la gente.</p>';
+            H1 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">En un mundo cada vez más digital, el canillita sigue siendo un símbolo de la cultura popular y del esfuerzo diario.</p>';
+            
+            H1 += '<button type="button" class="btn-voz-canillita" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H1 += '</div>';
+            
+            d1.innerHTML = H1;
+            cuerpoEfemerides.appendChild(d1);
+
+            // ==========================================
+            // 2. NOTA DE LA REVOLUCIÓN RUSA
+            // ==========================================
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.id = 'sub-rusia';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+
+            var H2 = '';
+            H2 += '<summary style="padding: 12px 15px; color: #ffd87a !important; font-family: \'Fraunces\', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">7 de Noviembre: La Revolución Rusa y el nacimiento de la URSS</summary>';
+            H2 += '<div style="padding: 15px; background: #15110d;">';
+            H2 += '<p class="meta" style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">7 de Noviembre de 2026 · Efemérides</p>';
+            
+            H2 += '<img class="marco" src="img/rusia.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Revolución Rusa">';
+            
+            H2 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Un 7 de noviembre (25 de octubre en el calendario juliano) de 1917, los bolcheviques liderados por Vladimir Lenin tomaron el Palacio de Invierno en Petrogrado, derrocando al gobierno provisional.</strong></p>';
+            H2 += '<p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Este hecho histórico, conocido como la Revolución de Octubre, marcó el fin del imperio zarista y el nacimiento de la Unión de Repúblicas Socialistas Soviéticas (URSS). Fue uno de los acontecimientos más importantes del siglo XX, ya que transformó el orden político mundial, dio inicio a la Guerra Fría y cambió para siempre la historia de la humanidad.</p>';
+            
+            H2 += '<button type="button" class="btn-voz-rusia" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H2 += '</div>';
+            
+            d2.innerHTML = H2;
+            cuerpoEfemerides.appendChild(d2);
+
+            // ==========================================
+            // LÓGICA DE AUDIO PARA CANILLITA
+            // ==========================================
+            setTimeout(function(){
+                var b1 = d1.querySelector('.btn-voz-canillita');
+                if(b1) {
+                    b1.addEventListener('click', function(){
+                        var s = window.speechSynthesis;
+                        if(!s) return;
+                        if(window._canillitaLeyendo){ s.cancel(); window._canillitaLeyendo = false; b1.innerHTML = '🗣️ Escuchar en voz alta'; return; }
+                        
+                        var bloques = [];
+                        d1.querySelectorAll('p').forEach(function(el){
+                            var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                            if(t) bloques.push({txt: t, pausa: 300});
+                        });
+                        if(!bloques.length) return;
+                        
+                        window._canillitaLeyendo = true; b1.innerHTML = '⏹️ Detener lectura'; s.cancel();
+                        var idx = 0;
+                        function hablar(){
+                            if(!window._canillitaLeyendo) return;
+                            if(idx >= bloques.length){ window._canillitaLeyendo = false; b1.innerHTML = '🗣️ Escuchar en voz alta'; return; }
+                            var u = new SpeechSynthesisUtterance(bloques[idx].txt); u.lang = 'es-AR'; u.rate = .92;
+                            u.onend = function(){ idx++; setTimeout(hablar, bloques[idx-1].pausa); };
+                            u.onerror = function(){ idx++; setTimeout(hablar, bloques[idx-1].pausa); };
+                            s.speak(u);
+                        }
+                        setTimeout(function(){ s.resume(); hablar(); }, 300);
+                    });
+                }
+
+                // ==========================================
+                // LÓGICA DE AUDIO PARA RUSIA
+                // ==========================================
+                var b2 = d2.querySelector('.btn-voz-rusia');
+                if(b2) {
+                    b2.addEventListener('click', function(){
+                        var s = window.speechSynthesis;
+                        if(!s) return;
+                        if(window._rusiaLeyendo){ s.cancel(); window._rusiaLeyendo = false; b2.innerHTML = '🗣️ Escuchar en voz alta'; return; }
+                        
+                        var bloques = [];
+                        d2.querySelectorAll('p').forEach(function(el){
+                            var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                            if(t) bloques.push({txt: t, pausa: 300});
+                        });
+                        if(!bloques.length) return;
+                        
+                        window._rusiaLeyendo = true; b2.innerHTML = '⏹️ Detener lectura'; s.cancel();
+                        var idx = 0;
+                        function hablar(){
+                            if(!window._rusiaLeyendo) return;
+                            if(idx >= bloques.length){ window._rusiaLeyendo = false; b2.innerHTML = '🗣️ Escuchar en voz alta'; return; }
+                            var u = new SpeechSynthesisUtterance(bloques[idx].txt); u.lang = 'es-AR'; u.rate = .92;
+                            u.onend = function(){ idx++; setTimeout(hablar, bloques[idx-1].pausa); };
+                            u.onerror = function(){ idx++; setTimeout(hablar, bloques[idx-1].pausa); };
+                            s.speak(u);
+                        }
+                        setTimeout(function(){ s.resume(); hablar(); }, 300);
+                    });
+                }
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
