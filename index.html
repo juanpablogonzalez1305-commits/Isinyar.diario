@@ -16083,6 +16083,117 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
                          </script>
+          <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-kelo')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-kelo';
+
+        var H = '';
+        
+        // TÍTULO CON FECHA (Sin el escudo de la muni para que quede libre)
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Noviembre 2026 · "El Estado presente se demuestra con hechos": Kelo Dip acompañó la inauguración del Anexo Yerba Buena</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // FECHA INTERNA
+        H += '<p class="meta">Noviembre 2026 · Política · Tucumán</p>';
+        
+        H += '<p><strong>El Dr. César Elías "Kelo" Dip acompañó al gobernador Osvaldo Jaldo, al vicegobernador Miguel Acevedo y al ministro Federico Masso en la inauguración del Anexo Yerba Buena del Instituto de Puericultura Alfredo Guzmán.</strong></p>';
+        
+        // PRIMERA FOTO
+        H += '<img class="marco" src="img/kelo1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Inauguración Anexo Yerba Buena">';
+        
+        H += '<p>Un espacio amplio y equipado para alojar a 38 niños, con lo más valioso: un equipo humano comprometido con cuidarlos, contenerlos y brindarles el afecto que merecen. Una obra que expresa el trabajo en equipo y una decisión política: estar donde más nos necesitan.</p>';
+        
+        H += '<p>Durante la jornada, se destacó que mientras el Gobierno nacional se retira de las necesidades más sensibles de la gente, en Tucumán se reafirman las convicciones con obras y acciones concretas.</p>';
+        
+        // SEGUNDA FOTO
+        H += '<img class="marco" src="img/kelo2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Autoridades en la inauguración">';
+        
+        H += '<p><strong>"Porque cuidar a la niñez es defender el presente y el futuro, y ninguna infancia puede quedar librada a su suerte. ¡La justicia social se construye cada día, con sensibilidad, compromiso y un Estado presente!"</strong>, expresaron desde el espacio político.</p>';
+        
+        H += '<p>De esta manera, con el acompañamiento de Osvaldo Jaldo y Miguel Acevedo, Tucumán sigue avanzando en gestión y cercanía con la comunidad.</p>';
+        
+        // BOTÓN DE ESCUCHAR
+        H += '<button type="button" class="btn-voz-kelo" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-kelo');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._keloLeyendo){
+                    s.cancel();
+                    window._keloLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._keloLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._keloLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._keloLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
