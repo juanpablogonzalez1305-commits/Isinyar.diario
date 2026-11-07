@@ -42,6 +42,18 @@
       "nombre": "Soluciones digitales ",
       "imagen": "img/solucionesdigitales.jpg",
       "activo": true
+    },
+    {
+      "id": "1794080488920",
+      "nombre": "Carlos",
+      "imagen": "img/carlosausp.png",
+      "activo": true
+    },
+    {
+      "id": "1794080514025",
+      "nombre": "Kelo ",
+      "imagen": "img/keloausp.png",
+      "activo": false
     }
   ]
 }
