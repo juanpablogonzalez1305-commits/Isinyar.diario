@@ -36,6 +36,12 @@
       "nombre": "Descubrir YouTube ",
       "imagen": "img/descubrirausp.jpg",
       "activo": true
+    },
+    {
+      "id": "1794027973793",
+      "nombre": "Soluciones digitales ",
+      "imagen": "img/solucionesdigitales.jpg",
+      "activo": true
     }
   ]
 }
