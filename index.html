@@ -15866,6 +15866,112 @@ if(primeraNota2) sec.insertBefore(d2, primeraNota2); else sec.appendChild(d2);
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-paraguay')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-paraguay';
+
+        var H = '';
+        
+        // TÍTULO CON BANDERA Y POSICIÓN PRIMERA
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">🇵🇾 Internacional: Terremoto político en Paraguay: Destituyen a Santiago Peña tras rechazar su renuncia</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // Fecha y sección
+        H += '<p class="meta">Internacional · Paraguay</p>';
+        
+        // FOTO
+        H += '<img class="marco" src="img/Paraguay.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Santiago Peña">';
+        
+        H += '<p><strong>El Senado de Paraguay destituyó este viernes a Santiago Peña con 44 votos a favor, en un juicio político por el escándalo de la quiebra del Ueno Bank. El mandatario había renunciado el jueves, pero el Congreso rechazó su dimisión para quitarle el fuero constitucional y poder juzgarlo.</strong></p>';
+        
+        H += '<p>La crisis estalló cuando el Banco Central intervino el Ueno Bank, dejando a casi tres millones de clientes sin acceso a sus ahorros. Peña, accionista del grupo propietario del banco hasta 2025, presentó su renuncia para "preservar la estabilidad del país".</p>';
+        
+        H += '<p>Sin embargo, la oposición y parte de su propio partido rechazaron la renuncia. Argumentaron que, de haberla aceptado, Peña habría conservado su fuero como senador vitalicio, lo que habría blindado su inmunidad frente a la justicia.</p>';
+        
+        H += '<p>Con la destitución, Peña pierde ese fuero y queda expuesto a las tres investigaciones penales que la Fiscalía abrió en su contra por el caso Ueno Bank. Horas después, la Fiscalía ordenó su detención domiciliaria. El hasta ahora vicepresidente, <strong>Pedro Alliana</strong>, juró como nuevo presidente y deberá completar el mandato hasta agosto de 2028.</p>';
+        
+        // BOTÓN DE ESCUCHAR
+        H += '<button type="button" class="btn-voz-paraguay" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-paraguay');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._paraguayLeyendo){
+                    s.cancel();
+                    window._paraguayLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._paraguayLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._paraguayLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._paraguayLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
