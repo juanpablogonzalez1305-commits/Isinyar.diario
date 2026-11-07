@@ -16135,6 +16135,24 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos los sub-botones dentro del botón de Efemérides
+        var subSabella = document.getElementById('sub-sabella');
+        var subExposito = document.getElementById('sub-exposito');
+        
+        // Si existen, los hacemos invisibles
+        if(subSabella) subSabella.style.display = 'none';
+        if(subExposito) subExposito.style.display = 'none';
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
