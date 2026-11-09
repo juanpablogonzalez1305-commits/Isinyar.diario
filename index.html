@@ -16283,6 +16283,114 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
   </script>
+               <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. Buscamos la nota del Salcedo para usarla de ancla
+        var todasLasNotas = document.querySelectorAll('details.pieza');
+        var notaAncla = null;
+        
+        for(var i=0; i < todasLasNotas.length; i++) {
+            if(todasLasNotas[i].textContent.includes('33 años al servicio de la educación')) {
+                notaAncla = todasLasNotas[i];
+                break;
+            }
+        }
+        
+        // 2. Si encontramos el ancla y no existe Peteche, lo insertamos
+        if(notaAncla && !document.getElementById('nota-peteche')) {
+            clearInterval(timer); 
+            
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'nota-peteche';
+
+            var H = '';
+            H += '<summary class="rel deep">Hemeroteca: Don Peteche, el hombre que levantó "El Arco" a paladas de historia</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">Archivo Hemeroteca · Relato de Ricardo Rubén Romero</p>';
+            
+            H += '<p><strong>Un repaso por la vida de don Juan Petech, el querido vecino que con una pala, una camioneta Ford T y los escombros de todo Lules, rellenó el terreno donde hoy funciona la estación de servicio El Arco.</strong></p>';
+            
+            H += '<p>En el Lules de antaño, los chicos lo conocían como "Don Peteche". Un apellido que se convirtió en un "apelliapodo" para don Juan Petech, quien recorría las calles con su overol, sombrero para el sol, sus característicos bigotes y una camioneta Ford T con caja de madera.</p>';
+            
+            H += '<p>Su misión parecía utópica: rellenar el gran terreno que hoy ocupa la estación de servicio El Arco, frente a la plaza 9 de Julio. Lo que hoy podría requerir de varios camiones hidráulicos, él lo logró con una pala. Los niños de la zona eran sus "informantes": le avisaban dónde había escombros en las veredas y Don Peteche no tardaba en venir a cargarlos.</p>';
+            
+            H += '<p>No fue un trabajo de un día, sino un proyecto de largo aliento. Fue con pedazos de paredes y techos de las casas de Lules que elevó el predio. Detrás de cada palada había un fuego inquebrantable de ilusión por concretar su sueño y construir un futuro para su esposa Lucía y sus hijos María Gracia, Rodolfo y Estela.</p>';
+            
+            H += '<p>Fue su hijo Rodolfo quien, años más tarde, convertiría ese terreno en la estación de servicio. La historia de Don Peteche nos enseña que, aunque los tiempos y las velocidades de hoy sean otras, las grandes obras se logran con dedicación, perseverancia y amor por lo que uno hace.</p>';
+            
+            // BOTÓN DE ESCUCHAR
+            H += '<button type="button" class="btn-voz-peteche" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            // 3. LA MAGIA: Lo insertamos justo DESPUÉS de la nota del Salcedo
+            notaAncla.parentNode.insertBefore(d, notaAncla.nextSibling);
+
+            // Lógica de lectura en voz alta
+            setTimeout(function(){
+                var b = d.querySelector('.btn-voz-peteche');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._petecheLeyendo){
+                        s.cancel();
+                        window._petecheLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = d.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._petecheLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._petecheLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._petecheLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+               </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
