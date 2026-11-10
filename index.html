@@ -16816,25 +16816,35 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
                 slides[currentSlide].classList.add('active');
             }, 4000); 
 
-            // 5. LA MAGIA: El clic que abre la nota y hace scroll
-            carrusel.addEventListener('click', function() {
-                // Tomamos la foto que está visible en ese momento
-                var activeSlide = carrusel.querySelector('.slide-destacada.active');
-                if(!activeSlide) return;
-                
-                var targetId = activeSlide.getAttribute('data-target');
-                var notaTarget = document.getElementById(targetId);
-                
-                if(notaTarget) {
-                    // Abrimos la nota (le agregamos el atributo open)
-                    notaTarget.setAttribute('open', '');
-                    
-                    // Hacemos el scroll suave hacia la nota
-                    setTimeout(function() {
-                        notaTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
-                }
+// 5. LA MAGIA: El clic que abre la nota y hace scroll
+carrusel.addEventListener('click', function(e) {
+    e.preventDefault(); // Evita comportamientos raros
+    
+    var activeSlide = carrusel.querySelector('.slide-destacada.active');
+    if(!activeSlide) return;
+    
+    var targetId = activeSlide.getAttribute('data-target');
+    var notaTarget = document.getElementById(targetId);
+    
+    if(notaTarget) {
+        // Abrimos la nota
+        notaTarget.setAttribute('open', '');
+        
+        // Hacemos el scroll hacia la nota
+        setTimeout(function() {
+            // Calculamos la posición exacta de la nota
+            var yOffset = notaTarget.getBoundingClientRect().top + window.pageYOffset - 20;
+            // Forzamos el scroll
+            window.scrollTo({
+                top: yOffset,
+                behavior: 'smooth'
             });
+        }, 150);
+    } else {
+        // Si no encuentra la nota, muestra un cartelito para avisarnos (Debug)
+        alert("No se encontró la nota: " + targetId);
+    }
+});
         }
         
         if(intentos > 40) clearInterval(timer);
