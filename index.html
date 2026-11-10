@@ -16816,9 +16816,9 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
                 slides[currentSlide].classList.add('active');
             }, 4000); 
 
-// 5. LA MAGIA: El clic que abre la nota y hace scroll
+// 5. LA MAGIA: Abre la nota, cambia a la sección de Noticias y hace scroll
 carrusel.addEventListener('click', function(e) {
-    e.preventDefault(); // Evita comportamientos raros
+    e.preventDefault(); 
     
     var activeSlide = carrusel.querySelector('.slide-destacada.active');
     if(!activeSlide) return;
@@ -16827,21 +16827,26 @@ carrusel.addEventListener('click', function(e) {
     var notaTarget = document.getElementById(targetId);
     
     if(notaTarget) {
-        // Abrimos la nota
+        // 1. Abrimos la nota
         notaTarget.setAttribute('open', '');
         
-        // Hacemos el scroll hacia la nota
+        // 2. Buscamos el botón de la pestaña "Noticias" y lo activamos
+        var botonNoticias = document.getElementById('s-noticias');
+        if(botonNoticias) {
+            botonNoticias.checked = true;
+            // Le decimos a la página que actualice la vista al cambiar de sección
+            botonNoticias.dispatchEvent(new Event('change')); 
+        }
+        
+        // 3. Esperamos un instante a que la sección se muestre y hacemos scroll
         setTimeout(function() {
-            // Calculamos la posición exacta de la nota
             var yOffset = notaTarget.getBoundingClientRect().top + window.pageYOffset - 20;
-            // Forzamos el scroll
             window.scrollTo({
                 top: yOffset,
                 behavior: 'smooth'
             });
-        }, 150);
+        }, 300); // 300 milisegundos para que la pestaña se abra
     } else {
-        // Si no encuentra la nota, muestra un cartelito para avisarnos (Debug)
         alert("No se encontró la nota: " + targetId);
     }
 });
