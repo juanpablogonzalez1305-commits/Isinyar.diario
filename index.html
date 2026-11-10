@@ -16698,6 +16698,149 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
 </script>
+  <style>
+    /* El título de Noticias Destacadas */
+    .titulo-destacadas {
+        text-align: center;
+        color: #ffd87a;
+        font-family: 'Fraunces', serif;
+        font-size: 18px;
+        font-weight: 900;
+        letter-spacing: 3px;
+        margin: 10px 0 10px 0; 
+        text-transform: uppercase;
+        -webkit-text-stroke: 1px #171310; 
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+    }
+
+    /* El marco del carrusel (Un poco más bajo que el de auspiciantes para que no ocupe tanto) */
+    #carrusel-destacadas {
+        position: relative;
+        width: 95% !important;
+        max-width: 400px;
+        height: 160px; /* Altura ideal para un banner de noticias */
+        margin: 0 auto 20px auto !important; 
+        
+        border: 2px solid #c9a243 !important; 
+        border-radius: 15px !important; 
+        box-shadow: 
+            0 0 0 3px #15110d, 
+            0 4px 15px rgba(0,0,0,0.5) !important; 
+            
+        overflow: hidden;
+        background: #000;
+        cursor: pointer; /* Para que la gente sepa que se puede tocar */
+    }
+
+    /* Las imágenes que rotan */
+    .slide-destacada {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover; /* Llena el marco */
+        object-position: center;
+        opacity: 0;
+        transition: opacity 1s ease-in-out; 
+    }
+
+    .slide-destacada.active {
+        opacity: 1;
+    }
+
+    /* Un pequeño texto en la parte de abajo para avisar que se puede tocar */
+    .aviso-tocar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        color: #ffd87a;
+        text-align: center;
+        padding: 15px 5px 5px 5px;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        pointer-events: none; /* Para que no interfiera con el clic */
+    }
+      </style>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos los botones de navegación (para insertar arriba de ellos)
+        var keys = document.querySelector('.keys');
+        
+        if(keys && !document.getElementById('carrusel-destacadas')) {
+            clearInterval(timer);
+            
+            // 1. Creamos el contenedor (Título + Marco)
+            var wrapper = document.createElement('div');
+            wrapper.style.cssText = 'width: 100%; display: flex; flex-direction: column; align-items: center;';
+
+            var titulo = document.createElement('div');
+            titulo.className = 'titulo-destacadas';
+            titulo.textContent = 'Noticias Destacadas';
+            wrapper.appendChild(titulo);
+            
+            var carrusel = document.createElement('div');
+            carrusel.id = 'carrusel-destacadas';
+            
+            // 2. Definimos las noticias (Imagen y el ID de la nota a la que va a saltar)
+            var noticias = [
+                { img: 'img/papa1.webp', id: 'nota-papa-argentina' },
+                { img: 'img/rene.jpg', id: 'nota-tradicion-rene' }
+            ];
+            
+            var H = '';
+            noticias.forEach(function(noticia, index) {
+                var clase = index === 0 ? 'slide-destacada active' : 'slide-destacada';
+                H += '<img src="' + noticia.img + '" class="' + clase + '" data-target="' + noticia.id + '" alt="Noticia Destacada">';
+            });
+            
+            H += '<div class="aviso-tocar">👆 TOCÁ PARA LEER LA NOTA COMPLETA</div>';
+            
+            carrusel.innerHTML = H;
+            wrapper.appendChild(carrusel);
+            
+            // 3. Lo insertamos justo ARRIBA de los botones (debajo de auspiciantes)
+            keys.parentNode.insertBefore(wrapper, keys);
+            
+            // 4. Rotación automática (cada 4 segundos)
+            var slides = carrusel.querySelectorAll('.slide-destacada');
+            var currentSlide = 0;
+            
+            setInterval(function() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 4000); 
+
+            // 5. LA MAGIA: El clic que abre la nota y hace scroll
+            carrusel.addEventListener('click', function() {
+                // Tomamos la foto que está visible en ese momento
+                var activeSlide = carrusel.querySelector('.slide-destacada.active');
+                if(!activeSlide) return;
+                
+                var targetId = activeSlide.getAttribute('data-target');
+                var notaTarget = document.getElementById(targetId);
+                
+                if(notaTarget) {
+                    // Abrimos la nota (le agregamos el atributo open)
+                    notaTarget.setAttribute('open', '');
+                    
+                    // Hacemos el scroll suave hacia la nota
+                    setTimeout(function() {
+                        notaTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            });
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
