@@ -16725,7 +16725,6 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
         background: #000;
     }
 
-    /* La caja que contiene la foto y el texto */
     .slide-contenedor {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -16746,7 +16745,6 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
         object-position: center;
     }
 
-    /* El cartel de texto encima de la foto */
     .slide-texto {
         position: absolute;
         bottom: 0;
@@ -16762,6 +16760,18 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
         box-sizing: border-box;
         text-shadow: 1px 1px 3px #000;
         pointer-events: none;
+    }
+
+    /* El cartelito de "Tocá aquí" */
+    .slide-subtexto {
+        display: block;
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 11px;
+        color: #f4efe6; /* Blanco para contrastar */
+        font-weight: bold;
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 </style>
   <script>
@@ -16786,9 +16796,11 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
             var carrusel = document.createElement('div');
             carrusel.id = 'carrusel-destacadas';
             
+            // ACÁ AGREGAMOS LA TERCERA NOTA (Paraguay)
             var noticias = [
                 { img: 'img/papa1.webp', id: 'nota-papa-argentina', texto: 'El Papa León XIV llegó a la Argentina' },
-                { img: 'img/rene.jpg', id: 'nota-tradicion-rene', texto: '10 de Noviembre: Día de la Tradición' }
+                { img: 'img/rene.jpg', id: 'nota-tradicion-rene', texto: '10 de Noviembre: Día de la Tradición' },
+                { img: 'img/Paraguay.jpg', id: 'nota-paraguay', texto: 'Terremoto político en Paraguay' }
             ];
             
             var H = '';
@@ -16796,7 +16808,8 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
                 var clase = index === 0 ? 'slide-contenedor active' : 'slide-contenedor';
                 H += '<div class="' + clase + '" data-target="' + noticia.id + '">';
                 H += '<img src="' + noticia.img + '" alt="Noticia Destacada">';
-                H += '<div class="slide-texto">' + noticia.texto + '</div>';
+                // ACÁ LE AGREGAMOS EL SUBTEXTO CON EL DEDITO
+                H += '<div class="slide-texto">' + noticia.texto + '<span class="slide-subtexto">👉 Tocá aquí para leer la nota completa</span></div>';
                 H += '</div>';
             });
             
@@ -16841,7 +16854,7 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
         if(intentos > 40) clearInterval(timer);
     }, 500);
 })();
-  </script>
+                  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
