@@ -16698,8 +16698,7 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
 </script>
-  <style>
-    /* El título de Noticias Destacadas */
+<style>
     .titulo-destacadas {
         text-align: center;
         color: #ffd87a;
@@ -16707,90 +16706,75 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
         font-size: 18px;
         font-weight: 900;
         letter-spacing: 3px;
-        margin: 10px 0 10px 0; 
+        margin: 15px 0 10px 0; 
         text-transform: uppercase;
         -webkit-text-stroke: 1px #171310; 
         text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
     }
 
-    /* El marco del carrusel (Un poco más bajo que el de auspiciantes para que no ocupe tanto) */
     #carrusel-destacadas {
         position: relative;
         width: 95% !important;
         max-width: 400px;
-        height: 160px; /* Altura ideal para un banner de noticias */
+        height: 180px; 
         margin: 0 auto 20px auto !important; 
-        
         border: 2px solid #c9a243 !important; 
         border-radius: 15px !important; 
-        box-shadow: 
-            0 0 0 3px #15110d, 
-            0 4px 15px rgba(0,0,0,0.5) !important; 
-            
+        box-shadow: 0 0 0 3px #15110d, 0 4px 15px rgba(0,0,0,0.5) !important; 
         overflow: hidden;
         background: #000;
-        cursor: pointer; /* Para que la gente sepa que se puede tocar */
     }
 
-    /* Las imágenes que rotan */
-    .slide-destacada {
+    /* La caja que contiene la foto y el texto */
+    .slide-contenedor {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        object-fit: cover; /* Llena el marco */
-        object-position: center;
         opacity: 0;
-        transition: opacity 1s ease-in-out; 
+        transition: opacity 0.8s ease-in-out;
+        cursor: pointer;
     }
 
-    .slide-destacada.active {
+    .slide-contenedor.active {
         opacity: 1;
+        z-index: 2;
     }
 
-    /* Un pequeño texto en la parte de abajo para avisar que se puede tocar */
-    .aviso-tocar {
+    .slide-contenedor img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    /* El cartel de texto encima de la foto */
+    .slide-texto {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
-        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.7) 60%, transparent 100%);
         color: #ffd87a;
+        font-family: 'Fraunces', serif;
+        font-size: 15px;
+        font-weight: 900;
         text-align: center;
-        padding: 15px 5px 5px 5px;
-        font-size: 11px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        pointer-events: none; /* Para que no interfiera con el clic */
+        padding: 30px 10px 10px 10px;
+        box-sizing: border-box;
+        text-shadow: 1px 1px 3px #000;
+        pointer-events: none;
     }
-    /* El cartelito de texto sobre la foto */
-.slide-texto {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 20%, transparent);
-    color: #ffd87a;
-    font-family: 'Fraunces', serif;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    padding: 25px 10px 10px 10px;
-    pointer-events: none; /* Para que el clic siga pasando a la foto */
-    text-shadow: 1px 1px 2px #000;
-}
-      </style>
+</style>
   <script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos los botones de navegación (para insertar arriba de ellos)
         var keys = document.querySelector('.keys');
         
         if(keys && !document.getElementById('carrusel-destacadas')) {
             clearInterval(timer);
             
-            // 1. Creamos el contenedor (Título + Marco)
             var wrapper = document.createElement('div');
             wrapper.style.cssText = 'width: 100%; display: flex; flex-direction: column; align-items: center;';
 
@@ -16802,28 +16786,26 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
             var carrusel = document.createElement('div');
             carrusel.id = 'carrusel-destacadas';
             
-            // 2. Definimos las noticias (Imagen y el ID de la nota a la que va a saltar)
             var noticias = [
-                { img: 'img/papa1.webp', id: 'nota-papa-argentina' },
-                { img: 'img/rene.jpg', id: 'nota-tradicion-rene' }
+                { img: 'img/papa1.webp', id: 'nota-papa-argentina', texto: 'El Papa León XIV llegó a la Argentina' },
+                { img: 'img/rene.jpg', id: 'nota-tradicion-rene', texto: '10 de Noviembre: Día de la Tradición' }
             ];
             
             var H = '';
             noticias.forEach(function(noticia, index) {
-                var clase = index === 0 ? 'slide-destacada active' : 'slide-destacada';
-                H += '<img src="' + noticia.img + '" class="' + clase + '" data-target="' + noticia.id + '" alt="Noticia Destacada">';
+                var clase = index === 0 ? 'slide-contenedor active' : 'slide-contenedor';
+                H += '<div class="' + clase + '" data-target="' + noticia.id + '">';
+                H += '<img src="' + noticia.img + '" alt="Noticia Destacada">';
+                H += '<div class="slide-texto">' + noticia.texto + '</div>';
+                H += '</div>';
             });
-            
-            H += '<div class="aviso-tocar">👆 TOCÁ PARA LEER LA NOTA COMPLETA</div>';
             
             carrusel.innerHTML = H;
             wrapper.appendChild(carrusel);
             
-            // 3. Lo insertamos justo ARRIBA de los botones (debajo de auspiciantes)
             keys.parentNode.insertBefore(wrapper, keys);
             
-            // 4. Rotación automática (cada 4 segundos)
-            var slides = carrusel.querySelectorAll('.slide-destacada');
+            var slides = carrusel.querySelectorAll('.slide-contenedor');
             var currentSlide = 0;
             
             setInterval(function() {
@@ -16832,40 +16814,28 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
                 slides[currentSlide].classList.add('active');
             }, 4000); 
 
-// 5. LA MAGIA: Abre la nota, cambia a la sección de Noticias y hace scroll
-carrusel.addEventListener('click', function(e) {
-    e.preventDefault(); 
-    
-    var activeSlide = carrusel.querySelector('.slide-destacada.active');
-    if(!activeSlide) return;
-    
-    var targetId = activeSlide.getAttribute('data-target');
-    var notaTarget = document.getElementById(targetId);
-    
-    if(notaTarget) {
-        // 1. Abrimos la nota
-        notaTarget.setAttribute('open', '');
-        
-        // 2. Buscamos el botón de la pestaña "Noticias" y lo activamos
-        var botonNoticias = document.getElementById('s-noticias');
-        if(botonNoticias) {
-            botonNoticias.checked = true;
-            // Le decimos a la página que actualice la vista al cambiar de sección
-            botonNoticias.dispatchEvent(new Event('change')); 
-        }
-        
-        // 3. Esperamos un instante a que la sección se muestre y hacemos scroll
-        setTimeout(function() {
-            var yOffset = notaTarget.getBoundingClientRect().top + window.pageYOffset - 20;
-            window.scrollTo({
-                top: yOffset,
-                behavior: 'smooth'
+            carrusel.addEventListener('click', function(e) {
+                var activeSlide = carrusel.querySelector('.slide-contenedor.active');
+                if(!activeSlide) return;
+                
+                var targetId = activeSlide.getAttribute('data-target');
+                var notaTarget = document.getElementById(targetId);
+                
+                if(notaTarget) {
+                    notaTarget.setAttribute('open', '');
+                    
+                    var botonNoticias = document.getElementById('s-noticias');
+                    if(botonNoticias) {
+                        botonNoticias.checked = true;
+                        botonNoticias.dispatchEvent(new Event('change')); 
+                    }
+                    
+                    setTimeout(function() {
+                        var yOffset = notaTarget.getBoundingClientRect().top + window.pageYOffset - 20;
+                        window.scrollTo({ top: yOffset, behavior: 'smooth' });
+                    }, 300);
+                }
             });
-        }, 300); // 300 milisegundos para que la pestaña se abra
-    } else {
-        alert("No se encontró la nota: " + targetId);
-    }
-});
         }
         
         if(intentos > 40) clearInterval(timer);
