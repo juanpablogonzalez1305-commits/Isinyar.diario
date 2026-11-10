@@ -16517,6 +16517,76 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
   </script>
+ <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        if(cuerpoEfemerides && !cuerpoEfemerides.dataset.dia10) {
+            clearInterval(timer);
+            
+            // 1. LIMPIAMOS LAS NOTAS VIEJAS (Canillita y Rusia)
+            var notaCanillita = document.getElementById('sub-canillita');
+            if(notaCanillita) notaCanillita.remove();
+            
+            var notaRusia = document.getElementById('sub-rusia');
+            if(notaRusia) notaRusia.remove();
+
+            // 2. CREAMOS LAS NOTAS NUEVAS DEL 10 DE NOVIEMBRE
+            
+            // --- NOTA 1: DÍA DE LA TRADICIÓN ---
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d1.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">10 de Noviembre: Día de la Tradición</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p class="meta" style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">10 de Noviembre de 2026 · Efemérides</p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>En homenaje al nacimiento de José Hernández, autor del "Martín Fierro", cada 10 de noviembre se celebra en Argentina el Día de la Tradición.</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Es una jornada para revalorizar las costumbres gauchas, la música, la vestimenta y las raíces que forjaron nuestra identidad nacional.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d1);
+
+            // --- NOTA 2: DÍA MUNDIAL DE LA CIENCIA ---
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d2.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">10 de Noviembre: Día Mundial de la Ciencia para la Paz y el Desarrollo</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p class="meta" style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">10 de Noviembre de 2026 · Efemérides</p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Instituido por la UNESCO, este día busca destacar el papel fundamental de la ciencia en la sociedad y la necesidad de utilizarla para el beneficio de la humanidad.</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Es una fecha para reflexionar sobre los avances científicos y promover un desarrollo sostenible y pacífico en todo el mundo.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d2);
+
+            // --- NOTA 3: PLAZA SÉSAMO (DATO CURIOSO) ---
+            var d3 = document.createElement('details');
+            d3.className = 'pieza sub-efemerides';
+            d3.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d3.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">10 de Noviembre de 1969: Debutaba "Plaza Sésamo"</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p class="meta" style="color: #c9a243; font-size: 12px; margin-bottom: 10px;">10 de Noviembre de 2026 · Efemérides</p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Tal día como hoy, pero de 1969, se emitía por primera vez en Estados Unidos el programa infantil "Sesame Street" (conocido en Argentina como Plaza Sésamo).</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Con personajes inolvidables como Elmo, el Monstruo de las Galletas y el Conde Draco, revolucionó la televisión educativa y marcó la infancia de millones de niños en todo el mundo.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d3);
+
+            // Marcamos como listo para no duplicar
+            cuerpoEfemerides.dataset.dia10 = '1';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+ </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
