@@ -16857,20 +16857,30 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
 })();
                   </script>
 <style>
-    /* El marco horizontal para el logo */
+    /* 1. Forzamos a que el contenedor del logo centre todo */
+    .masthead {
+        text-align: center !important;
+    }
+
+    /* 2. El marco adaptado a la pantalla */
     .masthead h1.marco-logo-animado {
-        display: table !important; /* Hace que el ancho se ajuste exacto al texto */
-        margin: 0 auto !important; /* Lo centra perfecto en la pantalla */
-        max-width: 90% !important; /* Evita que se salga de los bordes */
+        display: inline-block !important; /* Se adapta al texto */
+        max-width: 95% !important; /* No deja que se salga de la pantalla */
+        text-align: center !important; /* Centra la palabra adentro del marco */
+        margin: 0 auto !important; /* Centra el marco en la pantalla */
+        
         border: 3px solid #c9a243 !important; 
         border-radius: 15px !important; 
-        padding: 5px 15px !important; /* Menos espacio para que no desborde */
+        padding: 8px 10px !important; /* Un poco de espacio */
         background: linear-gradient(160deg, rgba(36,28,18,0.9), rgba(21,17,13,0.9)) !important; 
         box-shadow: 
             0 0 15px rgba(201, 162, 67, 0.5), 
             inset 0 0 10px rgba(201, 162, 67, 0.3) !important; 
         
-        /* Animación de latido y brillo */
+        /* Achicamos un poquito la letra para que entre bien */
+        font-size: 2.2rem !important; 
+        letter-spacing: 2px !important;
+        
         animation: latidoLogo 2s infinite alternate !important; 
         box-sizing: border-box !important;
     }
