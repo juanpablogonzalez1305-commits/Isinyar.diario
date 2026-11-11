@@ -16865,21 +16865,21 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     /* 2. El marco adaptado a la pantalla */
     .masthead h1.marco-logo-animado {
         display: inline-block !important; 
-        max-width: 95% !important; 
+        max-width: 98% !important; /* Dejamos que ocupe casi todo el ancho */
         text-align: center !important; 
         margin: 0 auto !important; 
         
         border: 3px solid #c9a243 !important; 
         border-radius: 15px !important; 
-        padding: 8px 15px !important; 
+        padding: 5px 10px !important; /* Menos espacio a los costados para que la letra crezca */
         background: linear-gradient(160deg, rgba(36,28,18,0.9), rgba(21,17,13,0.9)) !important; 
         box-shadow: 
             0 0 15px rgba(201, 162, 67, 0.5), 
             inset 0 0 10px rgba(201, 162, 67, 0.3) !important; 
         
-        /* ACÁ ESTÁ LA MAGIA: Letra grande pero adaptada al celular (9% del ancho de pantalla) */
-        font-size: 9vw !important; 
-        letter-spacing: 2px !important;
+        /* ACÁ SUBIMOS EL TAMAÑO DE 9vw A 11.5vw */
+        font-size: 11.5vw !important; 
+        letter-spacing: 1px !important; /* Un poquito menos de espacio entre letras para que entre mejor */
         
         animation: latidoLogo 2s infinite alternate !important; 
         box-sizing: border-box !important;
