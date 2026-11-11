@@ -57,8 +57,14 @@
     },
     {
       "id": "1794432665184",
-      "nombre": "Miguel albarracín ",
+      "nombre": "Miguel albarracÃ­n ",
       "imagen": "img/miguelausp.jpg",
+      "activo": true
+    },
+    {
+      "id": "1794433141778",
+      "nombre": "Lequi dip",
+      "imagen": "img/lequiausp.png",
       "activo": true
     }
   ]
