@@ -17016,6 +17016,112 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-saqueo-salta')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-saqueo-salta';
+
+        var H = '';
+        
+        // TÍTULO CON FECHA (Sin el escudo de la muni)
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">11 de Noviembre · Salta: un saqueo en medio de una protesta enciende la preocupación por posibles nuevos incidentes</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // Fecha interna y sección
+        H += '<p class="meta">11 de Noviembre de 2026 · Policiales · Salta</p>';
+        
+        // FOTO
+        H += '<img class="marco" src="img/salta.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Protesta en Salta">';
+        
+        H += '<p><strong>La tensión en la frontera salteña volvió a encender las alarmas. Una protesta de bagayeros derivó en enfrentamientos y disturbios, en un episodio que tuvo como blanco una oficina de Andreani en Aguas Blancas.</strong></p>';
+        
+        H += '<p>El ataque a la sucursal, ocurrido durante la protesta de trabajadores fronterizos, generó una inmediata preocupación por la posibilidad de que los episodios de violencia se extiendan a otros puntos de la provincia.</p>';
+        
+        H += '<p>Aunque los incidentes se concentraron en esa zona específica, el temor de las autoridades y de los vecinos ahora pasa por la posibilidad de que situaciones similares se reproduzcan en otras localidades salteñas.</p>';
+        
+        H += '<p>La preocupación está puesta en preservar la seguridad, evitar nuevos hechos de violencia y garantizar que los conflictos laborales y económicos no terminen afectando a comerciantes y vecinos de la región.</p>';
+        
+        // BOTÓN DE ESCUCHAR
+        H += '<button type="button" class="btn-voz-salta" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-salta');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._saltaLeyendo){
+                    s.cancel();
+                    window._saltaLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._saltaLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._saltaLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._saltaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+    </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
