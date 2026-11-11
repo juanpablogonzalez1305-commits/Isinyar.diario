@@ -16856,7 +16856,55 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
                   </script>
+<script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el cuerpo del botón de Efemérides
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        if(cuerpoEfemerides && !cuerpoEfemerides.dataset.dia11) {
+            clearInterval(timer);
+            
+            // 1. LIMPIAMOS LAS EFEMÉRIDES ANTERIORES
+            cuerpoEfemerides.innerHTML = '';
 
+            // 2. CREAMOS LA NOTA 1: VOTO FEMENINO
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d1.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">11 de Noviembre: Día Nacional del Voto Femenino</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Un 11 de noviembre de 1951, se sancionó en Argentina la Ley 13.010, que otorgó a las mujeres el derecho a votar y ser elegidas.</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Impulsada por Eva Perón y un largo movimiento de mujeres, esta ley marcó un hito fundamental en la historia de los derechos civiles y políticos de nuestro país, permitiendo que millones de mujeres participaran por primera vez en las elecciones nacionales de 1951.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d1);
+
+            // 3. CREAMOS LA NOTA 2: FIN DE LA PRIMERA GUERRA MUNDIAL
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d2.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">11 de Noviembre: Fin de la Primera Guerra Mundial</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>A las 11 de la mañana del 11 de noviembre de 1918, se firmó el armisticio que puso fin a la Primera Guerra Mundial tras cuatro años de un conflicto devastador.</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">El acuerdo se firmó en un vagón de tren en el bosque de Compiègne, Francia. Esta fecha es recordada en todo el mundo como el Día del Armisticio, una jornada para reflexionar sobre la paz y honrar la memoria de quienes sufrieron los horrores de la guerra.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d2);
+
+            // Marcamos como listo para no duplicar
+            cuerpoEfemerides.dataset.dia11 = '1';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
