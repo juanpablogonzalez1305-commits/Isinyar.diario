@@ -17124,6 +17124,139 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-jp2')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-jp2';
+
+        var H = '';
+        
+        // TÍTULO CORREGIDO (Opción 3)
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">11 de Noviembre · Juan Pablo II en Argentina: Las visitas que marcaron la historia del país</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">11 de Noviembre de 2026 · Informe Especial · Nacional</p>';
+        
+        H += '<p><strong>El Papa Juan Pablo II visitó la Argentina en dos oportunidades clave de nuestra historia: en 1982, en pleno conflicto de Malvinas, y en 1987, en un viaje pastoral de 6 días en el que recorrió 10 provincias.</strong></p>';
+        
+        H += '<h4 style="color: #8a6a35; margin-top: 20px; margin-bottom: 10px;">La Primera Visita (11 y 12 de junio de 1982)</h4>';
+        
+        H += '<p>El objetivo principal fue pedir por la paz en el conflicto de Malvinas. La visita, que duró 31 horas, comenzó con un gesto histórico: al llegar al Aeropuerto de Ezeiza, el Sumo Pontífice besó el suelo argentino.</p>';
+        
+        // FOTO 1 (Papa1)
+        H += '<img class="marco" src="img/papa1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Papa Juan Pablo II en 1982">';
+        
+        H += '<p>En su recorrido visitó la Basílica de Luján (donde oró a la Virgen), el Monumento a los Españoles (donde ofició una multitudinaria misa de Corpus Christi), la Catedral Metropolitana de Buenos Aires y la Nunciatura Apostólica.</p>';
+        
+        // FOTO 2 (Papa2)
+        H += '<img class="marco" src="img/papa2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Multitud en la visita de 1982">';
+        
+        H += '<p><em>"Queremos la paz, queremos la paz"</em>, coreaba la multitud. El Papa respondió con un mensaje de fraternidad cristiana y pidiendo el cese de las hostilidades. Al despedirse, susurró: <em>«Me gusta este pueblo, es muy abierto»</em>, y cerró con un <em>“¡Hasta siempre, Argentina!”</em>. Se estimó que lo acompañó una multitud de más de 2 millones de personas.</p>';
+        
+        // FOTO 3 (Papa3)
+        H += '<img class="marco" src="img/papa3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Papa Juan Pablo II recorriendo Argentina">';
+              H += '<h4 style="color: #8a6a35; margin-top: 20px; margin-bottom: 10px;">La Segunda Visita (6 al 12 de abril de 1987)</h4>';
+        
+        H += '<p>Volvió en una visita pastoral de 6 días tras la vuelta de la democracia. Fue recibido en el Aeropuerto por el entonces presidente Raúl Alfonsín. En esta oportunidad, recorrió 10 provincias y pronunció 26 discursos. Estas fueron algunas de sus escalas:</p>';
+        
+        // FOTO 4 (Papa4)
+        H += '<img class="marco" src="img/papa4.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Papa Juan Pablo II en 1987">';
+        
+        H += '<ul style="color: #d1c7b8; font-size: 14px; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">';
+        H += '<li><strong>Buenos Aires (CABA):</strong> Saludó desde el balcón de la Casa Rosada, celebró la Jornada Mundial de la Juventud y la Misa de Ramos en la Avenida 9 de Julio ante más de un millón de personas. Allí instó a los jóvenes a <em>“no tener miedo de abrir las puertas a Cristo y ser constructores de la sociedad”</em>.</li>';
+        H += '<li><strong>Córdoba:</strong> En pleno debate por la ley de divorcio, reflexionó sobre el matrimonio. Desde el balcón del Arzobispado bromeó ante los jóvenes: <em>“¡Jóvenes, el Papa también necesita dormir!”</em>.</li>';
+        H += '<li><strong>San Miguel de Tucumán:</strong> Ofició una misa en el aeropuerto Internacional de Cevil Pozo ante 140.000 personas. <em>“El sucesor de Pedro viene a la tierra tucumana, cuna de la Independencia. ¡Creced en Cristo! ¡Amad a vuestra Patria!”</em>, exclamó.</li>';
+        H += '<li><strong>Salta:</strong> Destacó la profunda religiosidad popular y la evangelización del norte argentino ante 100.000 personas.</li>';
+        H += '<li><strong>Corrientes:</strong> Bajo una tormenta torrencial, elogió la fe de los 100.000 fieles que resistieron el diluvio.</li>';
+        H += '<li><strong>Paraná:</strong> Pidió abrir los brazos a los países vecinos: <em>“No haya en este país, como nunca lo ha habido, ciudadanos de segunda clase”</em>.</li>';
+        H += '<li><strong>Rosario:</strong> Visitó el Monumento Nacional a la Bandera, donde rezó por la reconciliación argentina: <em>“Este insigne monumento sea símbolo eficaz de la unidad de todos los argentinos”</em>.</li>';
+        H += '</ul>';
+        
+        // FOTO 5 (Papa5 Tucuman)
+        H += '<img class="marco" src="img/papa5tucuman.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Papa en Tucumán">';
+        // PIE DE FOTO
+        H += '<p style="text-align: center; font-size: 12px; font-style: italic; color: #8a6a35; margin-bottom: 15px;">Juan Pablo II en Tucumán, 1987.</p>';
+        
+        H += '<p><strong>Un cierre multitudinario:</strong> Se calculó una movilización total de cerca de 4 millones de personas a lo largo de toda la gira federal, consolidando un vínculo imborrable entre el Papa y el pueblo argentino.</p>';
+        
+        H += '<button type="button" class="btn-voz-jp2" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-jp2');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._jp2Leyendo){
+                    s.cancel();
+                    window._jp2Leyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p, li').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._jp2Leyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._jp2Leyendo) return;
+                    if(idx >= bloques.length){
+                        window._jp2Leyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
