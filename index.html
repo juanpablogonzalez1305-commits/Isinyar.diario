@@ -17272,6 +17272,55 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
         color: #8a6a35 !important; 
     }
   </style>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var secFe = document.getElementById('fe');
+        
+        if(secFe && !document.getElementById('boton-visitas-papales')) {
+            clearInterval(timer);
+            
+            var contenedorBotones = document.createElement('div');
+            contenedorBotones.id = 'boton-visitas-papales';
+            contenedorBotones.style.cssText = 'margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; padding: 0 10px;';
+
+            var d1 = document.createElement('details');
+            d1.className = 'pieza';
+            d1.style.margin = '0';
+            d1.innerHTML = `
+                <summary style="background: linear-gradient(160deg, #fdf9ef, #f4efe6); color: #171310; padding: 15px; border: 1px solid #c9a243; border-radius: 10px; font-weight: bold; cursor: pointer; text-align: left; font-size: 16px;">
+                    ⛪ Las visitas históricas del Papa Juan Pablo II (1982 y 1987)
+                </summary>
+                <div class="cuerpo-in" style="padding: 10px; font-size: 14px; color: #6b5a33;">
+                    <p>Tocá acá para ir a la nota completa.</p>
+                </div>
+            `;
+            contenedorBotones.appendChild(d1);
+
+            var d2 = document.createElement('details');
+            d2.className = 'pieza';
+            d2.style.margin = '0';
+            d2.innerHTML = `
+                <summary style="background: linear-gradient(160deg, #fdf9ef, #f4efe6); color: #171310; padding: 15px; border: 1px solid #c9a243; border-radius: 10px; font-weight: bold; cursor: pointer; text-align: left; font-size: 16px;">
+                    ⛪ La histórica llegada del Papa León XIV a la Argentina
+                </summary>
+                <div class="cuerpo-in" style="padding: 10px; font-size: 14px; color: #6b5a33;">
+                    <p>Tocá acá para ir a la nota completa.</p>
+                </div>
+            `;
+            contenedorBotones.appendChild(d2);
+
+            secFe.insertBefore(contenedorBotones, secFe.firstChild);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
