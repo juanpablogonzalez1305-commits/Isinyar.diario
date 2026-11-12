@@ -16830,28 +16830,34 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
                 slides[currentSlide].classList.add('active');
             }, 4000); 
 
-            carrusel.addEventListener('click', function(e) {
-                var activeSlide = carrusel.querySelector('.slide-contenedor.active');
-                if(!activeSlide) return;
-                
-                var targetId = activeSlide.getAttribute('data-target');
-                var notaTarget = document.getElementById(targetId);
-                
-                if(notaTarget) {
-                    notaTarget.setAttribute('open', '');
-                    
-                    var botonNoticias = document.getElementById('s-noticias');
-                    if(botonNoticias) {
-                        botonNoticias.checked = true;
-                        botonNoticias.dispatchEvent(new Event('change')); 
-                    }
-                    
-                    setTimeout(function() {
-                        var yOffset = notaTarget.getBoundingClientRect().top + window.pageYOffset - 20;
-                        window.scrollTo({ top: yOffset, behavior: 'smooth' });
-                    }, 300);
-                }
-            });
+// 5. LA MAGIA: Abre la nota en la sección correcta y hace scroll
+carrusel.addEventListener('click', function(e) {
+    var activeSlide = carrusel.querySelector('.slide-contenedor.active');
+    if(!activeSlide) return;
+    
+    var targetId = activeSlide.getAttribute('data-target');
+    var notaTarget = document.getElementById(targetId);
+    
+    if(notaTarget) {
+        // 1. Abrimos la nota
+        notaTarget.setAttribute('open', '');
+        
+        // 2. Averiguamos en qué sección está la nota para abrir la pestaña correcta
+        var esDeFe = targetId === 'nota-jp2' || targetId === 'nota-papa-argentina';
+        var botonSeccion = esDeFe ? document.getElementById('s-fe') : document.getElementById('s-noticias');
+        
+        if(botonSeccion) {
+            botonSeccion.checked = true;
+            botonSeccion.dispatchEvent(new Event('change')); 
+        }
+        
+        // 3. Hacemos el scroll
+        setTimeout(function() {
+            var yOffset = notaTarget.getBoundingClientRect().top + window.pageYOffset - 20;
+            window.scrollTo({ top: yOffset, behavior: 'smooth' });
+        }, 300);
+    }
+});
         }
         
         if(intentos > 40) clearInterval(timer);
