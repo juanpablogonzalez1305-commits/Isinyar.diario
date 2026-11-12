@@ -17321,6 +17321,61 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var secFe = document.getElementById('fe');
+        var notaJp2 = document.getElementById('nota-jp2');
+        var notaLXIV = document.getElementById('nota-papa-argentina');
+        
+        // Si la sección de Fe y las dos notas existen, las mudamos
+        if(secFe && notaJp2 && notaLXIV && !document.getElementById('mudanza-ok')) {
+            clearInterval(timer);
+            
+            // 1. Movemos las notas al final de la sección de Fe
+            secFe.appendChild(notaJp2);
+            secFe.appendChild(notaLXIV);
+            
+            // 2. Las dejamos cerradas por defecto
+            notaJp2.removeAttribute('open');
+            notaLXIV.removeAttribute('open');
+            
+            // 3. Conectamos los botones para que abran las notas
+            var botonJp2 = document.querySelector('#boton-visitas-papales details:first-child summary');
+            var botonLXIV = document.querySelector('#boton-visitas-papales details:last-child summary');
+            
+            if(botonJp2) {
+                var nuevoBotonJp2 = botonJp2.cloneNode(true);
+                botonJp2.parentNode.replaceChild(nuevoBotonJp2, botonJp2);
+                nuevoBotonJp2.addEventListener('click', function() {
+                    notaJp2.setAttribute('open', '');
+                    setTimeout(function() { notaJp2.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+                });
+            }
+            
+            if(botonLXIV) {
+                var nuevoBotonLXIV = botonLXIV.cloneNode(true);
+                botonLXIV.parentNode.replaceChild(nuevoBotonLXIV, botonLXIV);
+                nuevoBotonLXIV.addEventListener('click', function() {
+                    notaLXIV.setAttribute('open', '');
+                    setTimeout(function() { notaLXIV.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+                });
+            }
+            
+            // Marcamos como listo
+            var marker = document.createElement('div');
+            marker.id = 'mudanza-ok';
+            document.body.appendChild(marker);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
