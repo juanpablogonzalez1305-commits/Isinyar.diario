@@ -47,7 +47,7 @@
       "id": "1794080488920",
       "nombre": "Carlos",
       "imagen": "img/carlosausp.png",
-      "activo": true
+      "activo": false
     },
     {
       "id": "1794080514025",
@@ -57,7 +57,7 @@
     },
     {
       "id": "1794432665184",
-      "nombre": "Miguel albarracÃ­n ",
+      "nombre": "Miguel albarracÃÂ­n ",
       "imagen": "img/miguelausp.jpg",
       "activo": true
     },
@@ -65,6 +65,12 @@
       "id": "1794433141778",
       "nombre": "Lequi dip",
       "imagen": "img/lequiausp.png",
+      "activo": true
+    },
+    {
+      "id": "1794498924813",
+      "nombre": "Carlos institucional ",
+      "imagen": "img/Carlos2ausp.png",
       "activo": true
     }
   ]
