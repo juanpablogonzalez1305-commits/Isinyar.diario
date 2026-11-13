@@ -17443,6 +17443,112 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-175-lules')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-175-lules';
+
+        var H = '';
+        
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">20 de Noviembre · San Isidro de Lules celebra 175 años de historia y fe</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">20 de Noviembre de 2026 · Historia · Lules</p>';
+        
+        H += '<p><strong>Un 20 de noviembre de 1851, el presbítero y doctor Zoilo Domínguez, por entonces párroco de Famaillá, fundaba oficialmente la villa de San Isidro de Lules.</strong> Este 2026, la ciudad conmemora 175 años de aquel hito fundacional que marcó el inicio de su historia.</p>';
+        
+        // FOTO 2
+        H += '<img class="marco" src="img/zoilo2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Historia de Lules">';
+        
+        H += '<p>El nombre de la ciudad es un homenaje doble: por un lado, a <strong>San Isidro Labrador</strong>, santo patrono de los agricultores y figura central de la fe local; y por el otro, a los <strong>Lules</strong>, los pueblos originarios que habitaron la región.</p>';
+        
+        // FOTO 3
+        H += '<img class="marco" src="img/zoilo3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Fundación de Lules">';
+        
+        H += '<p>La fecha fundacional toma como referencia el inicio de la construcción de la primera iglesia del pueblo, hoy conocida como <strong>Iglesia Fundacional</strong>. Este templo, declarado Monumento Histórico Provincial, es el primer edificio público de la ciudad y resguarda en su interior los restos del propio Zoilo Domínguez y de su familia.</p>';
+        
+        // FOTO 4
+        H += '<img class="marco" src="img/zoilo4.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Iglesia Fundacional">';
+        
+        H += '<p>Además del templo, Domínguez proyectó el plano de la ciudad con su plaza central y las clásicas manzanas del damero colonial, destinando terrenos para los pobladores y reservando un predio para la futura escuela. <strong>Un legado de visión y comunidad que, 175 años después, sigue vivo en el corazón de cada luleño.</strong></p>';
+        
+        H += '<button type="button" class="btn-voz-175" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-175');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._175Leyendo){
+                    s.cancel();
+                    window._175Leyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._175Leyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._175Leyendo) return;
+                    if(idx >= bloques.length){
+                        window._175Leyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
