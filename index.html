@@ -17550,6 +17550,113 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
   </script>
+        <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-pilar')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-pilar';
+
+        var H = '';
+        
+        // TÍTULO CON FECHA
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">13 de Noviembre · Tareas de mantenimiento en el Barrio El Pilar</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">13 de Noviembre de 2026 · Lules</p>';
+        
+        H += '<p><strong>El equipo de trabajo del concejal Miguel Albarracín llevó adelante una jornada de limpieza y mantenimiento en calles del barrio El Pilar.</strong></p>';
+        
+        // PRIMERA FOTO
+        H += '<img class="marco" src="img/albarra1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Tareas de mantenimiento en El Pilar">';
+        
+        H += '<p>La actividad consistió en tareas de limpieza y acondicionamiento de la vía pública, como parte de los trabajos que el grupo realiza en distintos sectores de la ciudad.</p>';
+        
+        // SEGUNDA FOTO
+        H += '<img class="marco" src="img/albarra2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Equipo de trabajo en el barrio El Pilar">';
+        
+        H += '<p>Estas intervenciones buscan contribuir al mantenimiento de los espacios públicos y a mejorar las condiciones de los sectores barriales.</p>';
+        
+        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Información local.</p>';
+        
+        // BOTÓN DE ESCUCHAR
+        H += '<button type="button" class="btn-voz-pilar" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-pilar');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._pilarLeyendo){
+                    s.cancel();
+                    window._pilarLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._pilarLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._pilarLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._pilarLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
