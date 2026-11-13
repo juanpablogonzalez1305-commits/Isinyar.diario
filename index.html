@@ -17382,6 +17382,67 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
   </script>
+      <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        if(cuerpoEfemerides && !cuerpoEfemerides.dataset.dia13) {
+            clearInterval(timer);
+            
+            // 1. LIMPIAMOS LAS NOTAS DEL 11
+            cuerpoEfemerides.innerHTML = '';
+
+            // 2. NOTA 1: DÍA DEL PENSAMIENTO NACIONAL
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d1.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">13 de Noviembre: Día del Pensamiento Nacional - Homenaje a Arturo Jauretche</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Un 13 de noviembre de 1901 nacía Arturo Jauretche, uno de los pensadores y escritores más influyentes de la historia argentina.</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">En su homenaje se celebra el Día del Pensamiento Nacional. Autor de obras fundamentales como "El medio pelo en la sociedad argentina" y "Los profetas del odio", Jauretche dedicó su vida a pensar el país desde una mirada popular y federal, dejando un legado imborrable en la cultura nacional.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d1);
+
+            // 3. NOTA 2: DÍA CONTRA EL GROOMING
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d2.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">13 de Noviembre: Día Nacional de la Lucha contra el Grooming</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Se conmemora el Día Nacional de la Lucha contra el Grooming, una fecha para concientizar y visibilizar el acoso sexual y la manipulación de menores a través de medios digitales.</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">La jornada busca promover la prevención, el diálogo en las familias y la denuncia, protegiendo los derechos de las infancias y adolescencias en el entorno de internet.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d2);
+
+            // 4. NOTA 3: TRAGEDIA DEL NEVADO DEL RUIZ
+            var d3 = document.createElement('details');
+            d3.className = 'pieza sub-efemerides';
+            d3.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d3.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">13 de Noviembre de 1985: La tragedia del volcán Nevado del Ruiz</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;"><strong>Un 13 de noviembre de 1985, la erupción del volcán Nevado del Ruiz en Colombia provocó una avalancha de lodo y escombros que sepultó la ciudad de Armero.</strong></p>
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">La tragedia dejó un saldo de más de 23.000 víctimas mortales y es recordada como uno de los desastres naturales más devastadores de la historia de América Latina.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d3);
+
+            // Marcamos como listo para no duplicar
+            cuerpoEfemerides.dataset.dia13 = '1';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
