@@ -57,7 +57,7 @@
     },
     {
       "id": "1794432665184",
-      "nombre": "Miguel albarracÃÂ­n ",
+      "nombre": "Miguel albarracÃÂÃÂ­n ",
       "imagen": "img/miguelausp.jpg",
       "activo": true
     },
@@ -71,6 +71,12 @@
       "id": "1794498924813",
       "nombre": "Carlos institucional ",
       "imagen": "img/Carlos2ausp.png",
+      "activo": true
+    },
+    {
+      "id": "1794598544991",
+      "nombre": "Conde",
+      "imagen": "img/josecondeauspicio.png",
       "activo": true
     }
   ]
