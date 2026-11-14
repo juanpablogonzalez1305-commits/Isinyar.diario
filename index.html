@@ -17835,26 +17835,27 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<!-- PARTE 1: DISEÑO DE LA TECLA -->
+<!-- PARTE 1: DISEÑO DE LA TECLA Y PANEL -->
 <style>
     .his-tabs {
         display: flex !important;
         flex-wrap: nowrap !important; 
-        gap: 5px !important;
-        padding: 0 5px !important;
+        gap: 4px !important;
+        padding: 0 4px !important;
     }
     
     .his-tabs label, #btn-gestion-doc {
         flex: 1 1 25% !important; 
         min-width: 0 !important; 
         margin: 0 !important;
+        font-size: 0.68rem !important; /* Letra un poquito más chica para que entre Hemeroteca */
     }
 
     #btn-gestion-doc {
         display: flex !important;
     }
 
-    /* El color beige exacto y la sombra de los otros botones */
+    /* El color beige y la sombra marrón oscura (no negra) */
     .mi-boton-dorado {
         background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
         border: 1.5px solid #171310 !important;
@@ -17862,9 +17863,10 @@ carrusel.addEventListener('click', function(e) {
         color: #171310 !important;
         font-family: Fraunces, serif !important;
         font-weight: 700 !important;
-        font-size: 0.85rem !important;
+        font-size: 0.8rem !important;
         cursor: pointer !important;
-        box-shadow: 0 6px 0 #14100c, 0 14px 22px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
+        /* Sombra cambiada a marrón (#4a2c11) */
+        box-shadow: 0 5px 0 #4a2c11, 0 12px 20px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
         transition: all 0.1s !important;
         height: 100% !important;
         width: 100% !important;
@@ -17872,25 +17874,39 @@ carrusel.addEventListener('click', function(e) {
         flex-direction: column !important;
         justify-content: center !important;
         align-items: center !important;
-        line-height: 1.2 !important;
-        padding: 10px 0 !important;
+        line-height: 1.1 !important;
+        padding: 8px 0 !important;
         text-align: center !important;
     }
 
-    /* Efecto de hundirse cuando ponés el dedo */
+    /* Efecto de hundirse */
     .mi-boton-dorado:active {
-        transform: translateY(4px) !important;
-        box-shadow: 0 2px 0 #14100c, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
+        transform: translateY(3px) !important;
+        box-shadow: 0 2px 0 #4a2c11, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
     }
 
-    /* El color MARRÓN que queda cuando lo apretás (como Línea de Tiempo) */
+    /* Color marrón cuando está activo */
     .mi-boton-dorado.activo {
         background: linear-gradient(180deg, #59452f, #2b1d13) !important;
         color: #ffffff !important;
         text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
+
+    /* El panel que se va a abrir abajo */
+    #panel-gestion-doc {
+        display: none;
+        padding: 20px;
+        text-align: center;
+        background: #fbf7ec;
+        border: 2px solid #8a6a35;
+        border-radius: 12px;
+        margin-top: 15px;
+        color: #171310;
+        font-family: Fraunces, serif;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 </style>
-  <!-- PARTE 2: FUNCIONAMIENTO DE LA TECLA -->
+  <!-- PARTE 2: FUNCIONAMIENTO DE LAS PESTAÑAS -->
 <script>
 (function() {
     var buscar = setInterval(function() {
@@ -17899,22 +17915,60 @@ carrusel.addEventListener('click', function(e) {
         if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
             clearInterval(buscar);
 
+            // 1. Creamos el botón
             var contenedor = document.createElement('div');
             contenedor.id = 'btn-gestion-doc';
 
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'mi-boton-dorado';
-            // Le ponemos el iconito de documento y el texto
             btn.innerHTML = '📄 Gestión<br>Doc.'; 
 
             contenedor.appendChild(btn);
             labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
 
-            // Esto hace que al tocarlo se ponga marrón, y si lo volvés a tocar, vuelve a beige
+            // 2. Creamos la sección nueva abajo (vacía por ahora)
+            var panelNuevo = document.createElement('div');
+            panelNuevo.id = 'panel-gestion-doc';
+            panelNuevo.innerHTML = '<h3 style="margin-bottom:10px;">Archivo Documentado</h3><p>Aquí irá la información del Profesor Miguel Albarracín.</p>';
+            
+            // Lo insertamos justo después de la caja de los botones
+            var cajaBotones = labelCultura.closest('.his-tabs') || labelCultura.parentNode.parentNode;
+            cajaBotones.parentNode.insertBefore(panelNuevo, cajaBotones.nextSibling);
+
+            // 3. Lógica para cuando tocan NUESTRO botón
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
-                btn.classList.toggle('activo');
+                
+                // Si ya estaba activo, lo apagamos
+                if (btn.classList.contains('activo')) {
+                    btn.classList.remove('activo');
+                    panelNuevo.style.display = 'none';
+                    return;
+                }
+
+                // Si no, lo prendemos
+                btn.classList.add('activo');
+                panelNuevo.style.display = 'block';
+
+                // Apagamos los botones originales (destildamos los radios)
+                var radios = document.querySelectorAll('.his-tabs input[type="radio"]');
+                radios.forEach(function(r) { r.checked = false; });
+
+                // Ocultamos las secciones originales
+                var panelesOriginales = document.querySelectorAll('.his-panel');
+                panelesOriginales.forEach(function(p) { p.style.display = 'none'; });
+            });
+
+            // 4. Lógica para cuando tocan los botones ORIGINALES
+            // Buscamos todos los botones originales de esa fila
+            var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
+            botonesOriginales.forEach(function(lbl) {
+                lbl.addEventListener('click', function() {
+                    // Apagamos nuestro botón y ocultamos nuestro panel
+                    btn.classList.remove('activo');
+                    panelNuevo.style.display = 'none';
+                });
             });
         }
     }, 500);
