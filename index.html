@@ -17658,6 +17658,76 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
   </script>
+        <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        if(cuerpoEfemerides && !cuerpoEfemerides.dataset.dia14) {
+            clearInterval(timer);
+            
+            // 1. LIMPIAMOS LAS EFEMÉRIDES ANTERIORES (Las del 13)
+            cuerpoEfemerides.innerHTML = '';
+
+            // 2. NOTA 1: DÍA MUNDIAL DE LA DIABETES
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d1.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">14 de Noviembre: Día Mundial de la Diabetes</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Se conmemora en homenaje al nacimiento de Frederick Banting, el científico que descubrió la insulina. Una fecha clave para concientizar sobre la prevención y el tratamiento de esta enfermedad.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d1);
+
+            // 3. NOTA 2: CLAUDE MONET
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d2.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">14 de Noviembre: Nacimiento de Claude Monet (1840)</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Un día como hoy nacía en París uno de los padres del Impresionismo. Su obra, como "Impresión, sol naciente", revolucionó la historia del arte al capturar la luz y el instante.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d2);
+
+            // 4. NOTA 3: PRINCESA DIANA
+            var d3 = document.createElement('details');
+            d3.className = 'pieza sub-efemerides';
+            d3.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d3.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">14 de Noviembre: Nacimiento de la Princesa Diana (1961)</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Nacía Diana de Gales, conocida mundialmente como "la princesa del pueblo". Su figura trascendió la realeza y se convirtió en un ícono de las causas humanitarias.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d3);
+
+            // 5. NOTA 4: DÍA DEL TÉCNICO DE LA ARMADA
+            var d4 = document.createElement('details');
+            d4.className = 'pieza sub-efemerides';
+            d4.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d4.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">14 de Noviembre: Día del Técnico de la Armada Argentina</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Una jornada para homenajear a los profesionales técnicos que trabajan incansablemente en el mantenimiento y soporte de la defensa marítima de nuestra Nación.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d4);
+
+            // Marcamos como listo para no duplicar
+            cuerpoEfemerides.dataset.dia14 = '1';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
