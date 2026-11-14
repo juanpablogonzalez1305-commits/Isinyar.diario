@@ -17835,7 +17835,8 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<!-- PARTE 1: DISEÑO DE LA TECLA Y PANEL -->
+
+<!-- PARTE 1: DISEÑO Y REGLAS DE PESTAÑAS -->
 <style>
     .his-tabs {
         display: flex !important;
@@ -17848,14 +17849,13 @@ carrusel.addEventListener('click', function(e) {
         flex: 1 1 25% !important; 
         min-width: 0 !important; 
         margin: 0 !important;
-        font-size: 0.68rem !important; /* Letra un poquito más chica para que entre Hemeroteca */
+        font-size: 0.68rem !important;
     }
 
     #btn-gestion-doc {
         display: flex !important;
     }
 
-    /* El color beige y la sombra marrón oscura (no negra) */
     .mi-boton-dorado {
         background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
         border: 1.5px solid #171310 !important;
@@ -17865,7 +17865,7 @@ carrusel.addEventListener('click', function(e) {
         font-weight: 700 !important;
         font-size: 0.8rem !important;
         cursor: pointer !important;
-        /* Sombra cambiada a marrón (#4a2c11) */
+        /* Sombra marrón oscura */
         box-shadow: 0 5px 0 #4a2c11, 0 12px 20px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
         transition: all 0.1s !important;
         height: 100% !important;
@@ -17879,20 +17879,18 @@ carrusel.addEventListener('click', function(e) {
         text-align: center !important;
     }
 
-    /* Efecto de hundirse */
     .mi-boton-dorado:active {
         transform: translateY(3px) !important;
         box-shadow: 0 2px 0 #4a2c11, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
     }
 
-    /* Color marrón cuando está activo */
     .mi-boton-dorado.activo {
         background: linear-gradient(180deg, #59452f, #2b1d13) !important;
         color: #ffffff !important;
         text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
 
-    /* El panel que se va a abrir abajo */
+    /* El panel de Gestión */
     #panel-gestion-doc {
         display: none;
         padding: 20px;
@@ -17905,8 +17903,13 @@ carrusel.addEventListener('click', function(e) {
         font-family: Fraunces, serif;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
+    /* MAGIA: Cuando el body tiene esta clase, ocultamos los paneles originales temporalmente */
+    body.modo-gestion-doc .his-panel {
+        display: none !important;
+    }
 </style>
-  <!-- PARTE 2: FUNCIONAMIENTO DE LAS PESTAÑAS -->
+  <!-- PARTE 2: FUNCIONAMIENTO -->
 <script>
 (function() {
     var buscar = setInterval(function() {
@@ -17915,7 +17918,7 @@ carrusel.addEventListener('click', function(e) {
         if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
             clearInterval(buscar);
 
-            // 1. Creamos el botón
+            // 1. Creamos nuestro botón
             var contenedor = document.createElement('div');
             contenedor.id = 'btn-gestion-doc';
 
@@ -17927,47 +17930,41 @@ carrusel.addEventListener('click', function(e) {
             contenedor.appendChild(btn);
             labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
 
-            // 2. Creamos la sección nueva abajo (vacía por ahora)
+            // 2. Creamos nuestro panel
             var panelNuevo = document.createElement('div');
             panelNuevo.id = 'panel-gestion-doc';
             panelNuevo.innerHTML = '<h3 style="margin-bottom:10px;">Archivo Documentado</h3><p>Aquí irá la información del Profesor Miguel Albarracín.</p>';
             
-            // Lo insertamos justo después de la caja de los botones
             var cajaBotones = labelCultura.closest('.his-tabs') || labelCultura.parentNode.parentNode;
             cajaBotones.parentNode.insertBefore(panelNuevo, cajaBotones.nextSibling);
 
-            // 3. Lógica para cuando tocan NUESTRO botón
+            // 3. Si tocan NUESTRO botón
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
-                
-                // Si ya estaba activo, lo apagamos
-                if (btn.classList.contains('activo')) {
-                    btn.classList.remove('activo');
-                    panelNuevo.style.display = 'none';
-                    return;
-                }
+                e.stopPropagation();
 
-                // Si no, lo prendemos
+                // Ponemos nuestro botón marrón y mostramos nuestro panel
                 btn.classList.add('activo');
                 panelNuevo.style.display = 'block';
 
-                // Apagamos los botones originales (destildamos los radios)
-                var radios = document.querySelectorAll('.his-tabs input[type="radio"]');
-                radios.forEach(function(r) { r.checked = false; });
+                // Le decimos al BODY que estamos en modo Gestión (esto oculta los otros paneles sin borrarlos)
+                document.body.classList.add('modo-gestion-doc');
 
-                // Ocultamos las secciones originales
-                var panelesOriginales = document.querySelectorAll('.his-panel');
-                panelesOriginales.forEach(function(p) { p.style.display = 'none'; });
+                // Destildamos los botones originales (para que no queden dos marrones)
+                var radios = document.querySelectorAll('input[name="subhis"]');
+                radios.forEach(function(r) { r.checked = false; });
             });
 
-            // 4. Lógica para cuando tocan los botones ORIGINALES
-            // Buscamos todos los botones originales de esa fila
+            // 4. Si tocan los botones ORIGINALES (Línea, Hemeroteca, Cultura)
             var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
             botonesOriginales.forEach(function(lbl) {
                 lbl.addEventListener('click', function() {
                     // Apagamos nuestro botón y ocultamos nuestro panel
                     btn.classList.remove('activo');
                     panelNuevo.style.display = 'none';
+                    
+                    // Le decimos al BODY que salga del modo Gestión (así vuelven a aparecer los paneles originales)
+                    document.body.classList.remove('modo-gestion-doc');
                 });
             });
         }
