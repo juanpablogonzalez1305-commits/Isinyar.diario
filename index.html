@@ -17889,6 +17889,69 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
   </script>
+  <!-- BOTÓN GESTIÓN DOCUMENTADA -->
+<script>
+(function() {
+    // Esto busca el botón de Cultura Viva cada medio segundo (porque el código original tarda un ratito en crearlo)
+    var intentos = 0;
+    var buscar = setInterval(function() {
+        // Busca la etiqueta del botón
+        var labelCultura = document.querySelector('label[for="his-c"]');
+
+        // Si lo encuentra y todavía no agregó el nuestro, lo crea
+        if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
+            clearInterval(buscar); // Deja de buscar
+
+            // Creamos la cajita del botón
+            var contenedor = document.createElement('div');
+            contenedor.id = 'btn-gestion-doc';
+            contenedor.style.display = 'inline-block';
+            contenedor.style.position = 'relative';
+            contenedor.style.marginLeft = '10px';
+
+            // Le damos el mismo estilo visual que los otros botones de tu captura
+            var estiloBoton = "background:linear-gradient(180deg,#fbf7ec,#efe7d2); border:1.5px solid #8a6a35; border-radius:12px; padding:.55rem .8rem; font-size:.95rem; color:#171310; cursor:pointer; font-family:inherit; font-weight:bold; display:inline-block;";
+
+            // Armamos el HTML del botón y el sub-botón
+            contenedor.innerHTML = `
+                <button type="button" id="btn-toggle-gestion" style="${estiloBoton}">
+                    📄 Gestión Documentada ▾
+                </button>
+                <div id="menu-gestion-doc" style="display:none; position:absolute; top:100%; left:0; margin-top:8px; background:#fff; border:1.5px solid #8a6a35; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:9999; min-width:240px;">
+                    
+                    <!-- 👉 ACÁ ESTÁ EL LINK QUE TENÉS QUE CAMBIAR 👈 -->
+                    <a href="#LINK_AQUI" style="display:block; padding:12px 15px; color:#171310; text-decoration:none; font-size:.95rem; font-weight:bold;">
+                        👨‍🏫 Profesor Miguel Albarracín
+                    </a>
+                    
+                </div>
+            `;
+
+            // Lo insertamos justo al lado de Cultura Viva
+            labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
+
+            // Hacemos que el botón abra y cierre el menú
+            var btn = document.getElementById('btn-toggle-gestion');
+            var menu = document.getElementById('menu-gestion-doc');
+
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
+            });
+
+            // Si tocan en otro lado de la pantalla, el menú se cierra
+            document.addEventListener('click', function(e) {
+                if (!contenedor.contains(e.target)) {
+                    menu.style.display = 'none';
+                }
+            });
+        }
+
+        intentos++;
+        if (intentos > 20) clearInterval(buscar); // Si en 10 segundos no lo encuentra, se frena.
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
