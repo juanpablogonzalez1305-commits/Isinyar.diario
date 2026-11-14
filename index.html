@@ -17800,7 +17800,6 @@ carrusel.addEventListener('click', function(e) {
         color: #8a6a35 !important; 
     }
     </style>
-
 <script>
 (function() {
     var timer = setInterval(function() {
@@ -17808,25 +17807,22 @@ carrusel.addEventListener('click', function(e) {
         if (!sec) return;
         if (document.getElementById('nota-ruta307')) { clearInterval(timer); return; }
 
-        var H = '';
-        H += '<summary class="rel">14 de Noviembre · Alerta en los Valles: Aluvión y caída de piedras cortan totalmente la Ruta 307</summary>';
-        H += '<div class="cuerpo-in">';
-        H += '<p class="meta">14 de Noviembre de 2026 · Último Momento</p>';
-        H += '<p style="color: #171310 !important;"><strong>La Ruta Provincial 307 se encuentra totalmente cortada en ambos sentidos tras las intensas tormentas registradas durante la madrugada.</strong></p>';
-        H += '<p style="color: #171310 !important;">Vialidad Provincial trabaja en el lugar para despejar la calzada. Se solicita evitar la zona y postergar los viajes.</p>';
-        H += '</div>';
+        var html = '<details class="pieza" id="nota-ruta307">';
+        html += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">14 de Noviembre - Alerta en los Valles: Aluvion y caida de piedras cortan totalmente la Ruta 307</summary>';
+        html += '<div class="cuerpo-in">';
+        html += '<p class="meta">14 de Noviembre de 2026 - Ultimo Momento</p>';
+        html += '<p style="color: #171310 !important;"><strong>La Ruta Provincial 307 se encuentra totalmente cortada en ambos sentidos tras las intensas tormentas registradas durante la madrugada.</strong></p>';
+        html += '<p style="color: #171310 !important;">Vialidad Provincial trabaja en el lugar para despejar la calzada. Se solicita evitar la zona y postergar los viajes.</p>';
+        html += '</div></details>';
 
-        var d = document.createElement('details');
-        d.className = 'pieza';
-        d.id = 'nota-ruta307';
-        d.innerHTML = H;
-
+        // Inyectamos el HTML directo antes de la primera nota
         var primeraNota = sec.querySelector('details.pieza');
         if (primeraNota) {
-            sec.insertBefore(d, primeraNota);
+            primeraNota.insertAdjacentHTML('beforebegin', html);
         } else {
-            sec.appendChild(d);
+            sec.insertAdjacentHTML('beforeend', html);
         }
+        
         clearInterval(timer);
     }, 500);
 })();
