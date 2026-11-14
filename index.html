@@ -17835,6 +17835,7 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+
 <!-- PARTE 1: DISEÑO Y ESTILOS -->
 <style>
     .his-tabs {
@@ -17896,7 +17897,6 @@ carrusel.addEventListener('click', function(e) {
         box-shadow: 0 5px 0 #d6cab0, 0 8px 15px rgba(0,0,0,0.1) !important; 
         color: #171310 !important;
         transition: all 0.1s !important;
-        font-family: Arial, Helvetica, sans-serif !important;
     }
 
     .caja-acordeon:active {
@@ -17904,16 +17904,17 @@ carrusel.addEventListener('click', function(e) {
         box-shadow: 0 2px 0 #d6cab0, 0 4px 6px rgba(0,0,0,0.1) !important;
     }
 
-    /* ACÁ AGRANDAMOS LA LETRA DEL SUB-BOTÓN (TÍTULO DE LA CAJA) */
+    /* ACÁ LE PUSIMOS LA LETRA DEL DIARIO (FRAUNCES) AL TÍTULO GRANDE */
     .caja-titulo {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-weight: 900 !important; /* Bien negrita */
-        font-size: 1.3rem !important; /* Letra bien grande */
+        font-family: 'Fraunces', serif !important; 
+        font-weight: 900 !important; 
+        font-size: 1.25rem !important; 
         line-height: 1.2 !important;
         cursor: pointer;
-        font-family: inherit !important;
+        color: #171310;
     }
 
     .caja-contenido {
@@ -17921,9 +17922,7 @@ carrusel.addEventListener('click', function(e) {
         margin-top: 15px;
         padding-top: 15px;
         border-top: 1.5px solid #d6cab0;
-        font-size: 1.05rem !important; 
-        line-height: 1.6 !important;
-        font-family: inherit !important;
+        font-family: Arial, Helvetica, sans-serif !important;
     }
     
     .btn-escuchar {
@@ -17963,7 +17962,6 @@ carrusel.addEventListener('click', function(e) {
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'mi-boton-dorado';
-            // ACÁ EL BOTÓN CHIQUITO SE QUEDA SIN EL AÑO
             btn.innerHTML = '📄 Gestión<br>Doc.'; 
 
             contenedor.appendChild(btn);
@@ -17981,16 +17979,17 @@ carrusel.addEventListener('click', function(e) {
                     <div class="caja-contenido" id="info-albarracin">
                         <div class="nota-gestion">
                             
-                            <!-- ACÁ LE PUSIMOS EL AÑO AL TÍTULO -->
-                            <h3 style="font-family: 'Fraunces', serif; color: #171310; font-size: 1.3rem; margin-bottom: 15px;">Año 2020: Inauguración de un nuevo espacio recreativo</h3>
+                            <!-- ACÁ ESTÁ EL MARQUITO DORADO -->
+                            <div style="border: 1.5px solid #c9a243; border-radius: 8px; padding: 12px; margin-bottom: 20px; background: #fffdf8; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                <h3 style="font-family: 'Fraunces', serif; color: #171310; font-size: 1.15rem; margin: 0; text-align: center; font-weight: 700;">Año 2020: Inauguración de un nuevo espacio recreativo</h3>
+                            </div>
                             
-                            <p class="texto-nota" style="margin-bottom: 12px;"><strong>Desde septiembre de 2019, la gestión del Concejal Profesor Miguel Albarracín inició el camino para concretar un anhelo para la ciudad. Tras un año de trabajo y dedicación, en septiembre de 2020 se inauguró este espacio recreativo pensado y diseñado para la familia.</strong></p>
+                            <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;"><strong>Desde septiembre de 2019, la gestión del Concejal Profesor Miguel Albarracín inició el camino para concretar un anhelo para la ciudad. Tras un año de trabajo y dedicación, en septiembre de 2020 se inauguró este espacio recreativo pensado y diseñado para la familia.</strong></p>
                             
-                            <p class="texto-nota" style="margin-bottom: 12px;">Este nuevo ámbito tiene como objetivo principal fomentar la recreación y el encuentro social. Está destinado a niños, jóvenes, adultos y a cualquier ciudadano que desee realizar actividades recreativas en beneficio de la sociedad.</p>
+                            <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;">Este nuevo ámbito tiene como objetivo principal fomentar la recreación y el encuentro social. Está destinado a niños, jóvenes, adultos y a cualquier ciudadano que desee realizar actividades recreativas en beneficio de la sociedad.</p>
                             
-                            <p class="texto-nota" style="margin-bottom: 15px;">De esta manera, la gestión reafirma su compromiso con el bienestar de los vecinos, promoviendo espacios públicos de calidad que fortalecen el tejido social y la convivencia en Lules.</p>
+                            <p class="texto-nota" style="margin-bottom: 15px; font-size: 1.05rem; line-height: 1.6;">De esta manera, la gestión reafirma su compromiso con el bienestar de los vecinos, promoviendo espacios públicos de calidad que fortalecen el tejido social y la convivencia en Lules.</p>
                             
-                            <!-- ACÁ ESTÁ EL PARLANTITO 🔊 -->
                             <button class="btn-escuchar">🔊 Escuchar en voz alta</button>
                         </div>
                     </div>
