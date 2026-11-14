@@ -17848,7 +17848,7 @@ carrusel.addEventListener('click', function(e) {
         flex: 1 1 25% !important; 
         min-width: 0 !important; 
         margin: 0 !important;
-        font-size: 0.68rem !important;
+        font-size: 0.7rem !important; 
     }
 
     #btn-gestion-doc { display: flex !important; }
@@ -17860,7 +17860,7 @@ carrusel.addEventListener('click', function(e) {
         color: #171310 !important;
         font-family: Fraunces, serif !important;
         font-weight: 700 !important;
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important; 
         cursor: pointer !important;
         box-shadow: 0 5px 0 #4a2c11, 0 12px 20px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
         transition: all 0.1s !important;
@@ -17870,7 +17870,7 @@ carrusel.addEventListener('click', function(e) {
         flex-direction: column !important;
         justify-content: center !important;
         align-items: center !important;
-        line-height: 1.1 !important;
+        line-height: 1.2 !important;
         padding: 8px 0 !important;
         text-align: center !important;
     }
@@ -17880,10 +17880,11 @@ carrusel.addEventListener('click', function(e) {
         box-shadow: 0 2px 0 #4a2c11, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
     }
 
+    /* Color marrón del botón activo (más parecido a Hemeroteca) */
     .mi-boton-dorado.activo {
-        background: linear-gradient(180deg, #59452f, #2b1d13) !important;
+        background: linear-gradient(180deg, #8b7355, #5a4531) !important; 
         color: #ffffff !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.6);
     }
 
     #panel-gestion-doc { display: none; margin-top: 15px; }
@@ -17892,7 +17893,7 @@ carrusel.addEventListener('click', function(e) {
         background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
         border: 1.5px solid #8a6a35 !important;
         border-radius: 12px !important;
-        padding: 12px 15px !important;
+        padding: 15px !important; /* Un poquito más de espacio */
         box-shadow: 0 5px 0 #d6cab0, 0 8px 15px rgba(0,0,0,0.1) !important; 
         color: #171310 !important;
         transition: all 0.1s !important;
@@ -17904,13 +17905,14 @@ carrusel.addEventListener('click', function(e) {
         box-shadow: 0 2px 0 #d6cab0, 0 4px 6px rgba(0,0,0,0.1) !important;
     }
 
+    /* ACÁ AGRANDAMOS EL TÍTULO */
     .caja-titulo {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-weight: 600 !important; 
-        font-size: 0.95rem !important;
-        line-height: 1.3 !important;
+        font-weight: 700 !important; /* Letra bien negrita */
+        font-size: 1.05rem !important; /* Tamaño más grande como la foto */
+        line-height: 1.25 !important;
         cursor: pointer;
         font-family: inherit !important;
     }
@@ -17920,7 +17922,7 @@ carrusel.addEventListener('click', function(e) {
         margin-top: 15px;
         padding-top: 15px;
         border-top: 1.5px solid #d6cab0;
-        font-size: 0.9rem;
+        font-size: 0.95rem; /* Texto interior un poquito más grande también */
         line-height: 1.5;
         font-family: inherit !important;
     }
@@ -17943,7 +17945,7 @@ carrusel.addEventListener('click', function(e) {
 
     body.modo-gestion-doc .his-panel { display: none !important; }
 </style>
-  <!-- PARTE 2: FUNCIONAMIENTO Y VOZ LATINA -->
+  <!-- PARTE 2: FUNCIONAMIENTO -->
 <script>
 (function() {
     var buscar = setInterval(function() {
@@ -17970,15 +17972,13 @@ carrusel.addEventListener('click', function(e) {
                 <div class="caja-acordeon">
                     <div class="caja-titulo" id="btn-albarracin">
                         <span>Concejal Profesor Miguel Albarracín</span>
-                        <span style="color: #8a6a35; font-size: 1rem;">▼</span>
+                        <span style="color: #8a6a35; font-size: 1.1rem;">▼</span>
                     </div>
                     <div class="caja-contenido" id="info-albarracin">
-                        
                         <div class="nota-gestion">
                             <p class="texto-nota"><strong>Nota de prueba:</strong> Bienvenidos al espacio de gestión. Aquí podrán encontrar los proyectos y actas del Concejal Miguel Albarracín. Esta es una prueba para ver cómo funciona el botón de lectura.</p>
                             <button class="btn-escuchar">🔊 Escuchar en voz alta</button>
                         </div>
-                        
                     </div>
                 </div>
             `;
@@ -17989,9 +17989,7 @@ carrusel.addEventListener('click', function(e) {
             function detenerVoz() {
                 window.speechSynthesis.cancel();
                 var botonesEscuchar = document.querySelectorAll('.btn-escuchar');
-                botonesEscuchar.forEach(function(b) { 
-                    b.innerHTML = '🔊 Escuchar en voz alta'; 
-                });
+                botonesEscuchar.forEach(function(b) { b.innerHTML = '🔊 Escuchar en voz alta'; });
             }
 
             var btnEscuchar = panelNuevo.querySelector('.btn-escuchar');
@@ -18006,38 +18004,26 @@ carrusel.addEventListener('click', function(e) {
                         detenerVoz();
                         var u = new SpeechSynthesisUtterance(textoParaLeer);
                         
-                        // --- ACÁ ESTÁ LA MAGIA PARA ELEGIR LA VOZ LATINA ---
                         var voces = window.speechSynthesis.getVoices();
                         var vozLatina = null;
                         
-                        // 1. Buscamos voces de Argentina, México o EE.UU (es-US es latino neutro)
                         for (var i = 0; i < voces.length; i++) {
                             if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
-                                vozLatina = voces[i];
-                                break;
+                                vozLatina = voces[i]; break;
                             }
                         }
-                        // 2. Si no hay, buscamos cualquier español que NO sea de España (es-ES)
                         if (!vozLatina) {
                             for (var j = 0; j < voces.length; j++) {
                                 if (voces[j].lang.includes('es') && !voces[j].lang.includes('es-ES')) {
-                                    vozLatina = voces[j];
-                                    break;
+                                    vozLatina = voces[j]; break;
                                 }
                             }
                         }
                         
-                        // 3. Se la asignamos
-                        if (vozLatina) {
-                            u.voice = vozLatina;
-                            u.lang = vozLatina.lang;
-                        } else {
-                            u.lang = 'es-AR'; // Si el celular no tiene voces, forzamos Argentina
-                        }
-                        // --------------------------------------------------
+                        if (vozLatina) { u.voice = vozLatina; u.lang = vozLatina.lang; } 
+                        else { u.lang = 'es-AR'; }
 
                         u.onend = function() { btnEscuchar.innerHTML = '🔊 Escuchar en voz alta'; };
-                        
                         window.speechSynthesis.speak(u);
                         btnEscuchar.innerHTML = '⏹️ Detener lectura';
                     }
@@ -18048,7 +18034,6 @@ carrusel.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 detenerVoz(); 
-
                 btn.classList.add('activo');
                 panelNuevo.style.display = 'block';
                 document.body.classList.add('modo-gestion-doc');
@@ -18083,7 +18068,6 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
