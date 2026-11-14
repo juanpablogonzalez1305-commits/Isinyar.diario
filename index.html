@@ -17835,120 +17835,65 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-  <script>
-(function(){
-    var intentos = 0;
-    var timer = setInterval(function(){
-        intentos++;
-        
-        // Buscamos el botón de "Cultura Viva" para poner el nuevo al lado
-        var elementos = document.querySelectorAll('label, summary, button, a, div');
-        var culturaViva = null;
-        
-        for(var i=0; i<elementos.length; i++) {
-            if(elementos[i].textContent.trim() === 'Cultura Viva') {
-                culturaViva = elementos[i];
-                break;
-            }
-        }
-
-        if(culturaViva && !document.getElementById('gestion-documentada-contenedor')) {
-            clearInterval(timer);
-            
-            // 1. Creamos el contenedor general
-            var wrapper = document.createElement('div');
-            wrapper.id = 'gestion-documentada-contenedor';
-            wrapper.style.cssText = 'margin: 15px auto; width: 95%; max-width: 400px;';
-            
-            var H = '';
-            
-            // 2. El botón principal "Gestión Documentada"
-            H += '<details class="pieza" id="gestion-documentada">';
-            H += '<summary class="rel deep" style="background: linear-gradient(160deg, #fdf9ef, #f4efe6); color: #171310; padding: 15px; border: 1px solid #c9a243; border-radius: 10px; font-weight: bold; cursor: pointer; text-align: center; font-size: 16px; display: block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">📂 Gestión Documentada</summary>';
-            
-            H += '<div class="cuerpo-in" style="padding: 15px; background: #15110d; border-radius: 0 0 10px 10px; border: 1px solid #c9a243; border-top: none;">';
-            
-            // 3. El sub-botón "Concejal Profesor Miguel Albarracín"
-            H += '<details class="pieza" id="sub-miguel-albarracin">';
-            H += '<summary class="rel deep" style="color: #ffd87a !important; padding: 12px 15px; background: #1f1a15; border: 1px solid #c9a243; border-radius: 8px; font-weight: bold; cursor: pointer; display: block;">👤 Concejal Profesor Miguel Albarracín</summary>';
-            
-            H += '<div class="cuerpo-in" style="padding: 15px; background: #15110d;">';
-            H += '<p style="color: #f4efe6; font-size: 14px; margin-bottom: 10px;">Espacio destinado al archivo documental y audiovisual de la gestión del concejal.</p>';
-            // Acá vamos a inyectar la primera obra después
-            H += '</div></details>';
-            
-            H += '</div></details>';
-            
-            wrapper.innerHTML = H;
-            
-            // Insertamos el bloque justo después del contenedor de "Cultura Viva"
-            culturaViva.parentNode.parentNode.insertBefore(wrapper, culturaViva.parentNode.nextSibling);
-        }
-        
-        if(intentos > 40) clearInterval(timer);
-    }, 500);
-})();
-  </script>
-  <!-- BOTÓN GESTIÓN DOCUMENTADA -->
+<!-- BOTÓN GESTIÓN DOCUMENTADA (CORREGIDO) -->
 <script>
 (function() {
-    // Esto busca el botón de Cultura Viva cada medio segundo (porque el código original tarda un ratito en crearlo)
-    var intentos = 0;
     var buscar = setInterval(function() {
-        // Busca la etiqueta del botón
         var labelCultura = document.querySelector('label[for="his-c"]');
 
-        // Si lo encuentra y todavía no agregó el nuestro, lo crea
         if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
-            clearInterval(buscar); // Deja de buscar
+            clearInterval(buscar); // Deja de buscar, ya lo encontró
 
-            // Creamos la cajita del botón
+            // 1. Creamos la cajita contenedora
             var contenedor = document.createElement('div');
             contenedor.id = 'btn-gestion-doc';
-            contenedor.style.display = 'inline-block';
             contenedor.style.position = 'relative';
-            contenedor.style.marginLeft = '10px';
+            contenedor.style.display = 'inline-block';
+            contenedor.style.marginLeft = '5px';
 
-            // Le damos el mismo estilo visual que los otros botones de tu captura
-            var estiloBoton = "background:linear-gradient(180deg,#fbf7ec,#efe7d2); border:1.5px solid #8a6a35; border-radius:12px; padding:.55rem .8rem; font-size:.95rem; color:#171310; cursor:pointer; font-family:inherit; font-weight:bold; display:inline-block;";
+            // 2. Creamos el botón copiando la clase exacta de "Cultura Viva" para que quede igual
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = labelCultura.className; // ¡Magia! Hereda el diseño dorado y vertical
+            btn.innerHTML = '📄 Gestión<br>Doc. ▾'; // Texto corto para que entre en la forma vertical
+            btn.style.cursor = 'pointer';
 
-            // Armamos el HTML del botón y el sub-botón
-            contenedor.innerHTML = `
-                <button type="button" id="btn-toggle-gestion" style="${estiloBoton}">
-                    📄 Gestión Documentada ▾
-                </button>
-                <div id="menu-gestion-doc" style="display:none; position:absolute; top:100%; left:0; margin-top:8px; background:#fff; border:1.5px solid #8a6a35; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:9999; min-width:240px;">
-                    
-                    <!-- 👉 ACÁ ESTÁ EL LINK QUE TENÉS QUE CAMBIAR 👈 -->
-                    <a href="#LINK_AQUI" style="display:block; padding:12px 15px; color:#171310; text-decoration:none; font-size:.95rem; font-weight:bold;">
-                        👨‍🏫 Profesor Miguel Albarracín
-                    </a>
-                    
-                </div>
-            `;
+            // 3. Creamos el menú desplegable
+            var menu = document.createElement('div');
+            menu.style.display = 'none';
+            menu.style.position = 'absolute';
+            menu.style.top = '100%';
+            menu.style.left = '0';
+            menu.style.marginTop = '8px';
+            menu.style.background = '#fff';
+            menu.style.border = '2px solid #8a6a35';
+            menu.style.borderRadius = '10px';
+            menu.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+            menu.style.zIndex = '9999';
+            menu.style.minWidth = '220px';
+            // 👉 ACÁ CAMBIÁS EL ENLACE REAL ABAJO:
+            menu.innerHTML = '<a href="#LINK_AQUI" style="display:block; padding:12px 15px; color:#171310; text-decoration:none; font-weight:bold; font-size:0.95rem; text-align:center;">👨‍🏫 Prof. Miguel Albarracín</a>';
 
-            // Lo insertamos justo al lado de Cultura Viva
+            // 4. Armamos todo
+            contenedor.appendChild(btn);
+            contenedor.appendChild(menu);
+
+            // 5. Lo insertamos justo al lado de Cultura Viva
             labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
 
-            // Hacemos que el botón abra y cierre el menú
-            var btn = document.getElementById('btn-toggle-gestion');
-            var menu = document.getElementById('menu-gestion-doc');
-
+            // 6. Hacemos que abra y cierre
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
             });
 
-            // Si tocan en otro lado de la pantalla, el menú se cierra
+            // Cerrar si tocan afuera
             document.addEventListener('click', function(e) {
                 if (!contenedor.contains(e.target)) {
                     menu.style.display = 'none';
                 }
             });
         }
-
-        intentos++;
-        if (intentos > 20) clearInterval(buscar); // Si en 10 segundos no lo encuentra, se frena.
     }, 500);
 })();
 </script>
