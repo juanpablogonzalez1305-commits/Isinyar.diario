@@ -17851,9 +17851,7 @@ carrusel.addEventListener('click', function(e) {
         font-size: 0.68rem !important;
     }
 
-    #btn-gestion-doc {
-        display: flex !important;
-    }
+    #btn-gestion-doc { display: flex !important; }
 
     .mi-boton-dorado {
         background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
@@ -17888,10 +17886,7 @@ carrusel.addEventListener('click', function(e) {
         text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
 
-    #panel-gestion-doc {
-        display: none;
-        margin-top: 15px;
-    }
+    #panel-gestion-doc { display: none; margin-top: 15px; }
 
     .caja-acordeon {
         background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
@@ -17901,7 +17896,6 @@ carrusel.addEventListener('click', function(e) {
         box-shadow: 0 5px 0 #d6cab0, 0 8px 15px rgba(0,0,0,0.1) !important; 
         color: #171310 !important;
         transition: all 0.1s !important;
-        /* Letra recta y nítida (sin dibujos) */
         font-family: Arial, Helvetica, sans-serif !important;
     }
 
@@ -17927,14 +17921,20 @@ carrusel.addEventListener('click', function(e) {
         padding-top: 15px;
         border-top: 1.5px solid #d6cab0;
         font-size: 0.9rem;
+        line-height: 1.5; /* Espacio entre líneas para que se lea bien */
         font-family: inherit !important;
     }
-
-    body.modo-gestion-doc .his-panel {
-        display: none !important;
+    
+    /* Estilo para los enlaces que metamos adentro */
+    .caja-contenido a {
+        color: #8a6a35;
+        font-weight: bold;
+        text-decoration: underline;
     }
+
+    body.modo-gestion-doc .his-panel { display: none !important; }
 </style>
-  <!-- PARTE 2: FUNCIONAMIENTO -->
+  <!-- PARTE 2: FUNCIONAMIENTO Y CONTENIDO -->
 <script>
 (function() {
     var buscar = setInterval(function() {
@@ -17957,7 +17957,7 @@ carrusel.addEventListener('click', function(e) {
             var panelNuevo = document.createElement('div');
             panelNuevo.id = 'panel-gestion-doc';
             
-            // ACÁ ESTÁ LIMPIO, SIN CARITAS, SOLO EL NOMBRE
+            // 👉 ACÁ ADENTRO ESTÁ LA INFORMACIÓN QUE SE VA A DESPLEGAR 👈
             panelNuevo.innerHTML = `
                 <div class="caja-acordeon">
                     <div class="caja-titulo" id="btn-albarracin">
@@ -17965,7 +17965,20 @@ carrusel.addEventListener('click', function(e) {
                         <span style="color: #8a6a35; font-size: 1rem;">▼</span>
                     </div>
                     <div class="caja-contenido" id="info-albarracin">
-                        <p>Aquí irá toda la información y los archivos del Concejal Profesor Miguel Albarracín.</p>
+                        
+                        <!-- ESTE ES EL CONTENIDO DE PRUEBA -->
+                        <p><strong>Trayectoria y Gestión:</strong></p>
+                        <p>Bienvenidos al espacio de gestión documentada. Aquí podrán encontrar los proyectos, actas y documentos oficiales presentados por el Concejal Miguel Albarracín.</p>
+                        
+                        <p><strong>Documentos recientes:</strong></p>
+                        <ul>
+                            <li><a href="#LINK_DEL_PDF_1">Proyecto de Ordenanza N° 123/2026</a></li>
+                            <li><a href="#LINK_DEL_PDF_2">Acta de la Sesión Ordinaria de Mayo</a></li>
+                            <li><a href="#LINK_DEL_PDF_3">Informe de Gestión Anual</a></li>
+                        </ul>
+                        
+                        <p style="margin-top: 15px;">Para más información, pueden escribir a <a href="mailto:contacto@descubrir.com">contacto@descubrir.com</a>.</p>
+                        
                     </div>
                 </div>
             `;
@@ -17976,11 +17989,9 @@ carrusel.addEventListener('click', function(e) {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-
                 btn.classList.add('activo');
                 panelNuevo.style.display = 'block';
                 document.body.classList.add('modo-gestion-doc');
-
                 var radios = document.querySelectorAll('input[name="subhis"]');
                 radios.forEach(function(r) { r.checked = false; });
             });
