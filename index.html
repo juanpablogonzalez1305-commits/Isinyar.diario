@@ -17728,6 +17728,63 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-alerta-amarilla')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-alerta-amarilla';
+
+        var H = '';
+        
+        // TÍTULO CORREGIDO: Opción 2 "Atención Lules"
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">14 de Noviembre · Atención Lules: Rige una alerta amarilla por tormentas para mañana</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">14 de Noviembre de 2026 · Alerta Meteorológica · Lules</p>';
+        
+        H += '<p><strong>El Servicio Meteorológico Nacional (SMN) emitió una alerta amarilla por tormentas que regirá este sábado 14 de noviembre, entre las 9 y las 15 horas, y que afectará a San Isidro de Lules y a distintos puntos de la provincia.</strong></p>';
+        
+        H += '<p>Según el informe, se esperan lluvias y tormentas aisladas, algunas localmente fuertes, que podrían estar acompañadas por abundante caída de agua en cortos períodos, ocasional granizo, frecuente actividad eléctrica y ráfagas de viento. Los valores de precipitación acumulada se estiman entre 20 y 40 milímetros.</p>';
+        
+        H += '<h4 style="color: #8a6a35; margin-top: 20px; margin-bottom: 10px;">Recomendaciones de Defensa Civil</h4>';
+        
+        H += '<ul style="color: #d1c7b8; font-size: 14px; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">';
+        H += '<li>Evitar salir de los hogares mientras se desarrollen las tormentas.</li>';
+        H += '<li>No sacar la basura y mantener limpios los desagües y sumideros.</li>';
+        H += '<li>Desconectar los electrodomésticos y cortar el suministro eléctrico si ingresa agua a la vivienda.</li>';
+        H += '<li>Cerrar puertas y ventanas y mantenerse alejado de ellas.</li>';
+        H += '<li>Retirar o asegurar los objetos que puedan ser desplazados por el viento (macetas, sillas, toldos).</li>';
+        H += '<li>Si la tormenta sorprende al aire libre, buscar refugio en un edificio, una vivienda o un vehículo cerrado. <strong>No buscar refugio debajo de árboles ni postes.</strong></li>';
+        H += '</ul>';
+        
+        H += '<p>Para comunicar cualquier emergencia, Defensa Civil recordó que está disponible la <strong>línea telefónica 103</strong>.</p>';
+        
+        // SIN BOTÓN DE AUDIO
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
