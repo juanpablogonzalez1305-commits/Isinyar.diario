@@ -17810,12 +17810,19 @@ carrusel.addEventListener('click', function(e) {
         var html = '<details class="pieza" id="nota-ruta307">';
         html += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">14 de Noviembre - Alerta en los Valles: Aluvion y caida de piedras cortan totalmente la Ruta 307</summary>';
         html += '<div class="cuerpo-in">';
-        html += '<p class="meta">14 de Noviembre de 2026 - Ultimo Momento</p>';
-        html += '<p style="color: #171310 !important;"><strong>La Ruta Provincial 307 se encuentra totalmente cortada en ambos sentidos tras las intensas tormentas registradas durante la madrugada.</strong></p>';
-        html += '<p style="color: #171310 !important;">Vialidad Provincial trabaja en el lugar para despejar la calzada. Se solicita evitar la zona y postergar los viajes.</p>';
+        html += '<p class="meta">14 de Noviembre de 2026 - Ultimo Momento - Tucuman</p>';
+        
+        html += '<p style="color: #171310 !important;"><strong>La Ruta Provincial 307, el camino que conecta hacia Tafi del Valle, se encuentra totalmente cortada en ambos sentidos tras las intensas tormentas registradas durante la madrugada.</strong></p>';
+        
+        html += '<p style="color: #171310 !important;">Segun informaron fuentes oficiales, el bloqueo se debe a la caida de piedras, barro y un aluvion a la altura del kilometro 36, en la conocida zona de El Aluvion.</p>';
+        
+        html += '<p style="color: #171310 !important;">Para resguardar la seguridad de los conductores, las autoridades dispusieron bloqueos preventivos en los kilometros 13 y 52. Esta medida impide tanto el ascenso hacia los Valles como el descenso desde la villa turistica.</p>';
+        
+        html += '<p style="color: #171310 !important;">En estos momentos, personal y maquinaria de Vialidad Provincial se encuentran trabajando en la zona para despejar la calzada. Desde el organismo solicitan a la poblacion <strong>evitar transitar por la zona y postergar cualquier viaje hasta nuevo aviso</strong>.</p>';
+        
         html += '</div></details>';
 
-        // Inyectamos el HTML directo antes de la primera nota
+        // Lo inyectamos antes de la primera nota (para que quede primero)
         var primeraNota = sec.querySelector('details.pieza');
         if (primeraNota) {
             primeraNota.insertAdjacentHTML('beforebegin', html);
