@@ -17880,7 +17880,6 @@ carrusel.addEventListener('click', function(e) {
         box-shadow: 0 2px 0 #4a2c11, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
     }
 
-    /* Color marrón del botón activo (más parecido a Hemeroteca) */
     .mi-boton-dorado.activo {
         background: linear-gradient(180deg, #8b7355, #5a4531) !important; 
         color: #ffffff !important;
@@ -17893,7 +17892,7 @@ carrusel.addEventListener('click', function(e) {
         background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
         border: 1.5px solid #8a6a35 !important;
         border-radius: 12px !important;
-        padding: 15px !important; /* Un poquito más de espacio */
+        padding: 15px !important;
         box-shadow: 0 5px 0 #d6cab0, 0 8px 15px rgba(0,0,0,0.1) !important; 
         color: #171310 !important;
         transition: all 0.1s !important;
@@ -17905,13 +17904,12 @@ carrusel.addEventListener('click', function(e) {
         box-shadow: 0 2px 0 #d6cab0, 0 4px 6px rgba(0,0,0,0.1) !important;
     }
 
-    /* ACÁ AGRANDAMOS EL TÍTULO */
     .caja-titulo {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-weight: 700 !important; /* Letra bien negrita */
-        font-size: 1.05rem !important; /* Tamaño más grande como la foto */
+        font-weight: 700 !important; 
+        font-size: 1.05rem !important; 
         line-height: 1.25 !important;
         cursor: pointer;
         font-family: inherit !important;
@@ -17922,30 +17920,32 @@ carrusel.addEventListener('click', function(e) {
         margin-top: 15px;
         padding-top: 15px;
         border-top: 1.5px solid #d6cab0;
-        font-size: 0.95rem; /* Texto interior un poquito más grande también */
+        font-size: 0.95rem; 
         line-height: 1.5;
         font-family: inherit !important;
     }
     
     .btn-escuchar {
-        background: #fbf7ec;
-        border: 1.5px solid #8a6a35;
+        background: #fdf9ef;
+        border: 1px solid #c9a243;
         border-radius: 8px;
-        padding: 8px 12px;
-        font-size: 0.85rem;
-        font-weight: bold;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 900;
+        font-style: italic;
         color: #171310;
         cursor: pointer;
-        margin-top: 10px;
-        display: inline-block;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-top: 15px;
+        display: block;
+        width: 100%;
+        box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);
         transition: all 0.1s;
     }
-    .btn-escuchar:active { transform: scale(0.95); }
+    .btn-escuchar:active { transform: scale(0.98); }
 
     body.modo-gestion-doc .his-panel { display: none !important; }
-</style>
-  <!-- PARTE 2: FUNCIONAMIENTO -->
+      </style>
+  <!-- PARTE 2: FUNCIONAMIENTO Y NOTA -->
 <script>
 (function() {
     var buscar = setInterval(function() {
@@ -17968,6 +17968,7 @@ carrusel.addEventListener('click', function(e) {
             var panelNuevo = document.createElement('div');
             panelNuevo.id = 'panel-gestion-doc';
             
+            // 👉 ACÁ ESTÁ LA NOTA REDACTADA ADENTRO DE LA CAJA 👈
             panelNuevo.innerHTML = `
                 <div class="caja-acordeon">
                     <div class="caja-titulo" id="btn-albarracin">
@@ -17976,8 +17977,16 @@ carrusel.addEventListener('click', function(e) {
                     </div>
                     <div class="caja-contenido" id="info-albarracin">
                         <div class="nota-gestion">
-                            <p class="texto-nota"><strong>Nota de prueba:</strong> Bienvenidos al espacio de gestión. Aquí podrán encontrar los proyectos y actas del Concejal Miguel Albarracín. Esta es una prueba para ver cómo funciona el botón de lectura.</p>
-                            <button class="btn-escuchar">🔊 Escuchar en voz alta</button>
+                            
+                            <h3 style="font-family: 'Fraunces', serif; color: #171310; font-size: 1.1rem; margin-bottom: 10px; border-bottom: 2px solid #c9a243; padding-bottom: 8px;">Inauguración de un Nuevo Espacio Recreativo</h3>
+                            
+                            <p class="texto-nota" style="margin-bottom: 10px;"><strong>Desde septiembre de 2019, la gestión del Concejal Profesor Miguel Albarracín inició el camino para concretar un anhelo para la ciudad. Tras un año de trabajo y dedicación, en septiembre de 2020 se inauguró un espacio recreativo pensado y diseñado para la familia.</strong></p>
+                            
+                            <p class="texto-nota" style="margin-bottom: 10px;">Este nuevo ámbito tiene como objetivo principal fomentar la recreación y el encuentro social. Está destinado a niños, jóvenes, adultos y a cualquier ciudadano que desee realizar actividades recreativas en beneficio de la sociedad.</p>
+                            
+                            <p class="texto-nota" style="margin-bottom: 10px;">De esta manera, la gestión reafirma su compromiso con el bienestar de los vecinos, promoviendo espacios públicos de calidad que fortalecen el tejido social y la convivencia en Lules.</p>
+                            
+                            <button class="btn-escuchar">🗣️ Escuchar en voz alta</button>
                         </div>
                     </div>
                 </div>
@@ -17989,14 +17998,17 @@ carrusel.addEventListener('click', function(e) {
             function detenerVoz() {
                 window.speechSynthesis.cancel();
                 var botonesEscuchar = document.querySelectorAll('.btn-escuchar');
-                botonesEscuchar.forEach(function(b) { b.innerHTML = '🔊 Escuchar en voz alta'; });
+                botonesEscuchar.forEach(function(b) { b.innerHTML = '🗣️ Escuchar en voz alta'; });
             }
 
             var btnEscuchar = panelNuevo.querySelector('.btn-escuchar');
             if(btnEscuchar) {
                 btnEscuchar.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    var textoParaLeer = panelNuevo.querySelector('.texto-nota').innerText;
+                    // Junta todo el texto de los párrafos de la nota
+                    var textos = panelNuevo.querySelectorAll('.texto-nota');
+                    var textoParaLeer = "";
+                    textos.forEach(function(t) { textoParaLeer += t.innerText + " "; });
 
                     if (window.speechSynthesis.speaking && this.innerHTML.includes('Detener')) {
                         detenerVoz();
@@ -18022,8 +18034,9 @@ carrusel.addEventListener('click', function(e) {
                         
                         if (vozLatina) { u.voice = vozLatina; u.lang = vozLatina.lang; } 
                         else { u.lang = 'es-AR'; }
+                        u.rate = 0.92;
 
-                        u.onend = function() { btnEscuchar.innerHTML = '🔊 Escuchar en voz alta'; };
+                        u.onend = function() { btnEscuchar.innerHTML = '🗣️ Escuchar en voz alta'; };
                         window.speechSynthesis.speak(u);
                         btnEscuchar.innerHTML = '⏹️ Detener lectura';
                     }
