@@ -17835,9 +17835,8 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<!-- BOTÓN GESTIÓN DOCUMENTADA (DEFINITIVO) -->
+<!-- PARTE 1: DISEÑO 3D -->
 <style>
-    /* 1. Obliga a que los 4 botones entren en una sola fila sin cortarse */
     .his-tabs {
         display: flex !important;
         flex-wrap: nowrap !important; 
@@ -17845,11 +17844,10 @@ carrusel.addEventListener('click', function(e) {
         padding: 0 5px !important;
     }
     
-    /* 2. Achica un poquito la letra de TODOS los botones para que entre "Hemeroteca" */
     .his-tabs label, #btn-gestion-doc {
-        flex: 1 1 25% !important; /* Se reparten en 4 partes iguales */
+        flex: 1 1 25% !important; 
         min-width: 0 !important; 
-        font-size: 0.75rem !important; /* Letra un toque más chica */
+        font-size: 0.75rem !important; 
         padding: 10px 2px !important;
         text-align: center !important;
         display: flex !important;
@@ -17858,77 +17856,75 @@ carrusel.addEventListener('click', function(e) {
         margin: 0 !important;
     }
 
-    /* 3. El diseño exacto del botón (Dorado, marco y 3D) */
     .mi-boton-dorado {
-        background: linear-gradient(180deg, #fbf7ec, #efe7d2);
-        border: 1.5px solid #8a6a35;
-        border-radius: 12px;
-        color: #171310;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: inset 0 2px 0 #fff, 0 3px 6px rgba(0,0,0,.15);
-        transition: transform 0.1s;
-        height: 100%; /* Para que quede igual de alto que los otros */
+        background: linear-gradient(180deg, #ffffff, #efe3c8) !important;
+        border: 1.5px solid #171310 !important;
+        border-radius: 12px !important;
+        color: #171310 !important;
+        font-family: Fraunces, serif !important;
+        font-weight: bold !important;
+        cursor: pointer !important;
+        box-shadow: 0 6px 0 #14100c, 0 14px 22px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
+        transition: transform 0.1s !important;
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        line-height: 1.1 !important;
     }
 
-    /* Efecto de presión al tocar */
     .mi-boton-dorado:active {
-        transform: scale(0.95);
+        transform: translateY(4px) !important;
+        box-shadow: 0 2px 0 #14100c, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
     }
 </style>
-
+  <!-- PARTE 2: FUNCIONAMIENTO -->
 <script>
 (function() {
     var buscar = setInterval(function() {
         var labelCultura = document.querySelector('label[for="his-c"]');
 
         if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
-            clearInterval(buscar); // Deja de buscar, ya encontró la página
+            clearInterval(buscar);
 
-            // 1. Creamos la cajita contenedora (sin clonar nada raro)
             var contenedor = document.createElement('div');
             contenedor.id = 'btn-gestion-doc';
             contenedor.style.position = 'relative';
 
-            // 2. Creamos el botón a mano con el diseño exacto
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'mi-boton-dorado';
             btn.innerHTML = 'Gestión<br>Doc. ▾'; 
 
-            // 3. Creamos el menú desplegable
             var menu = document.createElement('div');
             menu.style.display = 'none';
             menu.style.position = 'absolute';
             menu.style.top = '100%';
             menu.style.left = '50%';
             menu.style.transform = 'translateX(-50%)';
-            menu.style.marginTop = '5px';
+            menu.style.marginTop = '10px';
             menu.style.background = '#fff';
-            menu.style.border = '2px solid #8a6a35';
+            menu.style.border = '2px solid #171310';
             menu.style.borderRadius = '10px';
-            menu.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+            menu.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
             menu.style.zIndex = '9999';
-            menu.style.width = '200px';
+            menu.style.width = '220px';
             
-            // 👉 ACÁ VA EL ENLACE (Sin caritas, como pediste)
-            menu.innerHTML = '<a href="#LINK_AQUI" style="display:block; padding:12px; color:#171310; text-decoration:none; font-weight:bold; font-size:0.9rem; text-align:center; white-space:normal; line-height:1.2;">Profesor Miguel Albarracín</a>';
+            menu.innerHTML = '<a href="#LINK_AQUI" style="display:block; padding:14px; color:#171310; text-decoration:none; font-weight:bold; font-size:0.95rem; text-align:center; white-space:normal; line-height:1.3;">Profesor Miguel Albarracín</a>';
 
-            // 4. Armamos todo
             contenedor.appendChild(btn);
             contenedor.appendChild(menu);
 
-            // 5. Lo insertamos al lado de Cultura Viva
             labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
 
-            // 6. Hacemos que abra y cierre al tocar
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
             });
 
-            // Cerrar si tocan en otro lado
             document.addEventListener('click', function(e) {
                 if (!contenedor.contains(e.target)) {
                     menu.style.display = 'none';
