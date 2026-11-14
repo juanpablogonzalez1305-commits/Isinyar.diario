@@ -18068,6 +18068,61 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <!-- REEMPLAZO DE EFEMÉRIDES -->
+<script>
+(function() {
+    // Esperamos 2 segundos para que el código original del diario dibuje las efemérides viejas
+    setTimeout(function() {
+        var notasViejas = document.querySelectorAll('.sub-efemeride');
+        
+        // Si encuentra las efemérides viejas, las oculta y pone las nuevas
+        if (notasViejas.length > 0) {
+            var contenedor = notasViejas[0].parentNode;
+            
+            // 1. Ocultamos las viejas (no las borramos, por si acaso)
+            notasViejas.forEach(function(nota) {
+                nota.style.display = 'none';
+            });
+
+            // 2. Acá ponemos las nuevas notas
+            var nuevasNotas = [
+                {
+                    titulo: "14 de Noviembre: Día Mundial de la Diabetes",
+                    texto: "Se conmemora en homenaje al nacimiento de Frederick Banting, el científico que descubrió la insulina. Una fecha clave para concientizar sobre la prevención y el tratamiento de esta enfermedad."
+                },
+                {
+                    titulo: "14 de Noviembre: Nacimiento de Claude Monet (1840)",
+                    texto: "Fue un pintor francés, uno de los creadores del impresionismo. Su estilo, basado en la captación de la luz y el color, revolucionó la historia del arte."
+                },
+                {
+                    titulo: "14 de Noviembre: Nacimiento de la Princesa Diana (1961)",
+                    texto: "Conocida como 'la princesa del pueblo', fue un ícono de la moda y una incansable activista humanitaria. Su legado sigue vigente en todo el mundo."
+                },
+                {
+                    titulo: "14 de Noviembre: Día del Técnico de la Armada Argentina",
+                    texto: "Se celebra en homenaje al nacimiento del Teniente Coronel de Marina, ingeniero y técnico, a quien se le atribuye la creación del primer taller de la Armada."
+                }
+            ];
+
+            // 3. Las creamos con el diseño original del diario
+            nuevasNotas.forEach(function(item) {
+                var d = document.createElement('details');
+                d.className = 'pieza sub-efemeride'; // Esta clase mantiene el color negro, dorado y el 3D
+                d.style.cssText = 'margin-top:10px; margin-bottom: 10px;';
+                
+                d.innerHTML = `
+                    <summary style="padding: 12px 15px; font-weight: bold; font-family: inherit;">${item.titulo}</summary>
+                    <div style="padding: 15px; background: transparent;">
+                        <p style="color: #f4efe6; font-family: sans-serif; line-height: 1.5; margin: 0;">${item.texto}</p>
+                    </div>
+                `;
+                
+                contenedor.appendChild(d);
+            });
+        }
+    }, 2000); // Los 2 segundos son para darle tiempo al diario a cargar
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
