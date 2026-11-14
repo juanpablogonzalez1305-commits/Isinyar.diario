@@ -18068,33 +18068,27 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<!-- REEMPLAZO DE EFEMÉRIDES (A PRUEBA DE BALAS) -->
+<!-- REEMPLAZO DE EFEMÉRIDES (ESTRATEGIA FINAL) -->
 <script>
 (function() {
     var intentos = 0;
-    
-    // Esto revisa la página cada medio segundo hasta que las efemérides viejas aparezcan
     var timer = setInterval(function() {
         intentos++;
         
-        // Busca las cajitas originales del diario
-        var notasViejas = document.querySelectorAll('.sub-efemeride');
+        // Buscamos la primera nota vieja
+        var notaVieja = document.querySelector('.sub-efemeride');
         
-        // Si las encuentra y todavía no puso las nuevas...
-        if (notasViejas.length > 0 && !document.getElementById('mis-efemerides-nuevas')) {
+        if (notaVieja && !document.getElementById('contenedor-efemerides-nuevo')) {
+            var contenedorViejo = notaVieja.parentNode;
             
-            var contenedor = notasViejas[0].parentNode;
+            // 1. Ocultamos TODO el contenedor original (así el relojito original puede seguir metiendo notas, pero no se verán)
+            contenedorViejo.style.display = 'none';
             
-            // 1. OCULTAMOS LAS VIEJAS (No las borramos, por si acaso)
-            notasViejas.forEach(function(nota) {
-                nota.style.display = 'none';
-            });
+            // 2. Creamos nuestro propio contenedor justo después del original
+            var contenedorNuevo = document.createElement('div');
+            contenedorNuevo.id = 'contenedor-efemerides-nuevo';
             
-            // 2. CREAMOS LA CAJA PARA LAS NUEVAS
-            var cajaNueva = document.createElement('div');
-            cajaNueva.id = 'mis-efemerides-nuevas';
-            
-            // 3. ACÁ VAN LOS TEXTOS NUEVOS
+            // 3. Acá van las notas nuevas
             var nuevasNotas = [
                 {
                     titulo: "14 de Noviembre: Día Mundial de la Diabetes",
@@ -18114,10 +18108,10 @@ carrusel.addEventListener('click', function(e) {
                 }
             ];
 
-            // 4. LAS DIBUJAMOS CON EL MISMO ESTILO DORADO Y NEGRO
+            // 4. Las creamos con el mismo diseño original
             nuevasNotas.forEach(function(item) {
                 var d = document.createElement('details');
-                d.className = 'pieza sub-efemeride'; // Usa la clase original para el mismo diseño
+                d.className = 'pieza sub-efemeride'; // Misma clase para el 3D y el color
                 d.style.cssText = 'margin-top:10px; margin-bottom: 10px;';
                 
                 d.innerHTML = `
@@ -18127,17 +18121,15 @@ carrusel.addEventListener('click', function(e) {
                     </div>
                 `;
                 
-                cajaNueva.appendChild(d);
+                contenedorNuevo.appendChild(d);
             });
             
-            // 5. PEGAMOS LAS NUEVAS JUSTO DEBAJO DE LAS VIEJAS
-            contenedor.appendChild(cajaNueva);
+            // 5. Insertamos nuestras notas nuevas justo debajo del contenedor oculto
+            contenedorViejo.parentNode.insertBefore(contenedorNuevo, contenedorViejo.nextSibling);
             
-            // Dejamos de revisar porque ya terminamos
-            clearInterval(timer); 
+            clearInterval(timer); // Terminamos
         }
         
-        // Si pasan 15 segundos y no encuentra nada, se frena para no consumir batería
         if (intentos > 30) clearInterval(timer);
     }, 500);
 })();
