@@ -17835,7 +17835,7 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<!-- PARTE 1: DISEÑO 3D -->
+<!-- PARTE 1: DISEÑO DE LA TECLA -->
 <style>
     .his-tabs {
         display: flex !important;
@@ -17847,40 +17847,50 @@ carrusel.addEventListener('click', function(e) {
     .his-tabs label, #btn-gestion-doc {
         flex: 1 1 25% !important; 
         min-width: 0 !important; 
-        font-size: 0.75rem !important; 
-        padding: 10px 2px !important;
-        text-align: center !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
         margin: 0 !important;
     }
 
+    #btn-gestion-doc {
+        display: flex !important;
+    }
+
+    /* El color beige exacto y la sombra de los otros botones */
     .mi-boton-dorado {
-        background: linear-gradient(180deg, #ffffff, #efe3c8) !important;
+        background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
         border: 1.5px solid #171310 !important;
         border-radius: 12px !important;
         color: #171310 !important;
         font-family: Fraunces, serif !important;
-        font-weight: bold !important;
+        font-weight: 700 !important;
+        font-size: 0.85rem !important;
         cursor: pointer !important;
         box-shadow: 0 6px 0 #14100c, 0 14px 22px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
-        transition: transform 0.1s !important;
+        transition: all 0.1s !important;
         height: 100% !important;
         width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
         align-items: center !important;
-        line-height: 1.1 !important;
+        line-height: 1.2 !important;
+        padding: 10px 0 !important;
+        text-align: center !important;
     }
 
+    /* Efecto de hundirse cuando ponés el dedo */
     .mi-boton-dorado:active {
         transform: translateY(4px) !important;
         box-shadow: 0 2px 0 #14100c, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
     }
+
+    /* El color MARRÓN que queda cuando lo apretás (como Línea de Tiempo) */
+    .mi-boton-dorado.activo {
+        background: linear-gradient(180deg, #59452f, #2b1d13) !important;
+        color: #ffffff !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
 </style>
-  <!-- PARTE 2: FUNCIONAMIENTO -->
+  <!-- PARTE 2: FUNCIONAMIENTO DE LA TECLA -->
 <script>
 (function() {
     var buscar = setInterval(function() {
@@ -17891,44 +17901,20 @@ carrusel.addEventListener('click', function(e) {
 
             var contenedor = document.createElement('div');
             contenedor.id = 'btn-gestion-doc';
-            contenedor.style.position = 'relative';
 
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'mi-boton-dorado';
-            btn.innerHTML = 'Gestión<br>Doc. ▾'; 
-
-            var menu = document.createElement('div');
-            menu.style.display = 'none';
-            menu.style.position = 'absolute';
-            menu.style.top = '100%';
-            menu.style.left = '50%';
-            menu.style.transform = 'translateX(-50%)';
-            menu.style.marginTop = '10px';
-            menu.style.background = '#fff';
-            menu.style.border = '2px solid #171310';
-            menu.style.borderRadius = '10px';
-            menu.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
-            menu.style.zIndex = '9999';
-            menu.style.width = '220px';
-            
-            menu.innerHTML = '<a href="#LINK_AQUI" style="display:block; padding:14px; color:#171310; text-decoration:none; font-weight:bold; font-size:0.95rem; text-align:center; white-space:normal; line-height:1.3;">Profesor Miguel Albarracín</a>';
+            // Le ponemos el iconito de documento y el texto
+            btn.innerHTML = '📄 Gestión<br>Doc.'; 
 
             contenedor.appendChild(btn);
-            contenedor.appendChild(menu);
-
             labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
 
+            // Esto hace que al tocarlo se ponga marrón, y si lo volvés a tocar, vuelve a beige
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
-                e.stopPropagation();
-                menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!contenedor.contains(e.target)) {
-                    menu.style.display = 'none';
-                }
+                btn.classList.toggle('activo');
             });
         }
     }, 500);
