@@ -17921,20 +17921,29 @@ carrusel.addEventListener('click', function(e) {
         padding-top: 15px;
         border-top: 1.5px solid #d6cab0;
         font-size: 0.9rem;
-        line-height: 1.5; /* Espacio entre líneas para que se lea bien */
+        line-height: 1.5;
         font-family: inherit !important;
     }
     
-    /* Estilo para los enlaces que metamos adentro */
-    .caja-contenido a {
-        color: #8a6a35;
+    .btn-escuchar {
+        background: #fbf7ec;
+        border: 1.5px solid #8a6a35;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
         font-weight: bold;
-        text-decoration: underline;
+        color: #171310;
+        cursor: pointer;
+        margin-top: 10px;
+        display: inline-block;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.1s;
     }
+    .btn-escuchar:active { transform: scale(0.95); }
 
     body.modo-gestion-doc .his-panel { display: none !important; }
 </style>
-  <!-- PARTE 2: FUNCIONAMIENTO Y CONTENIDO -->
+  <!-- PARTE 2: FUNCIONAMIENTO Y VOZ LATINA -->
 <script>
 (function() {
     var buscar = setInterval(function() {
@@ -17957,7 +17966,6 @@ carrusel.addEventListener('click', function(e) {
             var panelNuevo = document.createElement('div');
             panelNuevo.id = 'panel-gestion-doc';
             
-            // 👉 ACÁ ADENTRO ESTÁ LA INFORMACIÓN QUE SE VA A DESPLEGAR 👈
             panelNuevo.innerHTML = `
                 <div class="caja-acordeon">
                     <div class="caja-titulo" id="btn-albarracin">
@@ -17966,18 +17974,10 @@ carrusel.addEventListener('click', function(e) {
                     </div>
                     <div class="caja-contenido" id="info-albarracin">
                         
-                        <!-- ESTE ES EL CONTENIDO DE PRUEBA -->
-                        <p><strong>Trayectoria y Gestión:</strong></p>
-                        <p>Bienvenidos al espacio de gestión documentada. Aquí podrán encontrar los proyectos, actas y documentos oficiales presentados por el Concejal Miguel Albarracín.</p>
-                        
-                        <p><strong>Documentos recientes:</strong></p>
-                        <ul>
-                            <li><a href="#LINK_DEL_PDF_1">Proyecto de Ordenanza N° 123/2026</a></li>
-                            <li><a href="#LINK_DEL_PDF_2">Acta de la Sesión Ordinaria de Mayo</a></li>
-                            <li><a href="#LINK_DEL_PDF_3">Informe de Gestión Anual</a></li>
-                        </ul>
-                        
-                        <p style="margin-top: 15px;">Para más información, pueden escribir a <a href="mailto:contacto@descubrir.com">contacto@descubrir.com</a>.</p>
+                        <div class="nota-gestion">
+                            <p class="texto-nota"><strong>Nota de prueba:</strong> Bienvenidos al espacio de gestión. Aquí podrán encontrar los proyectos y actas del Concejal Miguel Albarracín. Esta es una prueba para ver cómo funciona el botón de lectura.</p>
+                            <button class="btn-escuchar">🔊 Escuchar en voz alta</button>
+                        </div>
                         
                     </div>
                 </div>
@@ -17986,9 +17986,69 @@ carrusel.addEventListener('click', function(e) {
             var cajaBotones = labelCultura.closest('.his-tabs') || labelCultura.parentNode.parentNode;
             cajaBotones.parentNode.insertBefore(panelNuevo, cajaBotones.nextSibling);
 
+            function detenerVoz() {
+                window.speechSynthesis.cancel();
+                var botonesEscuchar = document.querySelectorAll('.btn-escuchar');
+                botonesEscuchar.forEach(function(b) { 
+                    b.innerHTML = '🔊 Escuchar en voz alta'; 
+                });
+            }
+
+            var btnEscuchar = panelNuevo.querySelector('.btn-escuchar');
+            if(btnEscuchar) {
+                btnEscuchar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var textoParaLeer = panelNuevo.querySelector('.texto-nota').innerText;
+
+                    if (window.speechSynthesis.speaking && this.innerHTML.includes('Detener')) {
+                        detenerVoz();
+                    } else {
+                        detenerVoz();
+                        var u = new SpeechSynthesisUtterance(textoParaLeer);
+                        
+                        // --- ACÁ ESTÁ LA MAGIA PARA ELEGIR LA VOZ LATINA ---
+                        var voces = window.speechSynthesis.getVoices();
+                        var vozLatina = null;
+                        
+                        // 1. Buscamos voces de Argentina, México o EE.UU (es-US es latino neutro)
+                        for (var i = 0; i < voces.length; i++) {
+                            if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
+                                vozLatina = voces[i];
+                                break;
+                            }
+                        }
+                        // 2. Si no hay, buscamos cualquier español que NO sea de España (es-ES)
+                        if (!vozLatina) {
+                            for (var j = 0; j < voces.length; j++) {
+                                if (voces[j].lang.includes('es') && !voces[j].lang.includes('es-ES')) {
+                                    vozLatina = voces[j];
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // 3. Se la asignamos
+                        if (vozLatina) {
+                            u.voice = vozLatina;
+                            u.lang = vozLatina.lang;
+                        } else {
+                            u.lang = 'es-AR'; // Si el celular no tiene voces, forzamos Argentina
+                        }
+                        // --------------------------------------------------
+
+                        u.onend = function() { btnEscuchar.innerHTML = '🔊 Escuchar en voz alta'; };
+                        
+                        window.speechSynthesis.speak(u);
+                        btnEscuchar.innerHTML = '⏹️ Detener lectura';
+                    }
+                });
+            }
+
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
+                detenerVoz(); 
+
                 btn.classList.add('activo');
                 panelNuevo.style.display = 'block';
                 document.body.classList.add('modo-gestion-doc');
@@ -18000,6 +18060,7 @@ carrusel.addEventListener('click', function(e) {
             var infoAlbarracin = panelNuevo.querySelector('#info-albarracin');
             
             btnAlbarracin.addEventListener('click', function() {
+                detenerVoz(); 
                 if (infoAlbarracin.style.display === 'block') {
                     infoAlbarracin.style.display = 'none';
                     btnAlbarracin.querySelector('span:last-child').innerHTML = '▼';
@@ -18012,6 +18073,7 @@ carrusel.addEventListener('click', function(e) {
             var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
             botonesOriginales.forEach(function(lbl) {
                 lbl.addEventListener('click', function() {
+                    detenerVoz(); 
                     btn.classList.remove('activo');
                     panelNuevo.style.display = 'none';
                     document.body.classList.remove('modo-gestion-doc');
@@ -18021,6 +18083,7 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
