@@ -18068,23 +18068,33 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-  <!-- REEMPLAZO DE EFEMÉRIDES -->
+<!-- REEMPLAZO DE EFEMÉRIDES (A PRUEBA DE BALAS) -->
 <script>
 (function() {
-    // Esperamos 2 segundos para que el código original del diario dibuje las efemérides viejas
-    setTimeout(function() {
+    var intentos = 0;
+    
+    // Esto revisa la página cada medio segundo hasta que las efemérides viejas aparezcan
+    var timer = setInterval(function() {
+        intentos++;
+        
+        // Busca las cajitas originales del diario
         var notasViejas = document.querySelectorAll('.sub-efemeride');
         
-        // Si encuentra las efemérides viejas, las oculta y pone las nuevas
-        if (notasViejas.length > 0) {
+        // Si las encuentra y todavía no puso las nuevas...
+        if (notasViejas.length > 0 && !document.getElementById('mis-efemerides-nuevas')) {
+            
             var contenedor = notasViejas[0].parentNode;
             
-            // 1. Ocultamos las viejas (no las borramos, por si acaso)
+            // 1. OCULTAMOS LAS VIEJAS (No las borramos, por si acaso)
             notasViejas.forEach(function(nota) {
                 nota.style.display = 'none';
             });
-
-            // 2. Acá ponemos las nuevas notas
+            
+            // 2. CREAMOS LA CAJA PARA LAS NUEVAS
+            var cajaNueva = document.createElement('div');
+            cajaNueva.id = 'mis-efemerides-nuevas';
+            
+            // 3. ACÁ VAN LOS TEXTOS NUEVOS
             var nuevasNotas = [
                 {
                     titulo: "14 de Noviembre: Día Mundial de la Diabetes",
@@ -18104,10 +18114,10 @@ carrusel.addEventListener('click', function(e) {
                 }
             ];
 
-            // 3. Las creamos con el diseño original del diario
+            // 4. LAS DIBUJAMOS CON EL MISMO ESTILO DORADO Y NEGRO
             nuevasNotas.forEach(function(item) {
                 var d = document.createElement('details');
-                d.className = 'pieza sub-efemeride'; // Esta clase mantiene el color negro, dorado y el 3D
+                d.className = 'pieza sub-efemeride'; // Usa la clase original para el mismo diseño
                 d.style.cssText = 'margin-top:10px; margin-bottom: 10px;';
                 
                 d.innerHTML = `
@@ -18117,12 +18127,21 @@ carrusel.addEventListener('click', function(e) {
                     </div>
                 `;
                 
-                contenedor.appendChild(d);
+                cajaNueva.appendChild(d);
             });
+            
+            // 5. PEGAMOS LAS NUEVAS JUSTO DEBAJO DE LAS VIEJAS
+            contenedor.appendChild(cajaNueva);
+            
+            // Dejamos de revisar porque ya terminamos
+            clearInterval(timer); 
         }
-    }, 2000); // Los 2 segundos son para darle tiempo al diario a cargar
+        
+        // Si pasan 15 segundos y no encuentra nada, se frena para no consumir batería
+        if (intentos > 30) clearInterval(timer);
+    }, 500);
 })();
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
