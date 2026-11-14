@@ -17893,17 +17893,16 @@ carrusel.addEventListener('click', function(e) {
         margin-top: 15px;
     }
 
-    /* CAJA GRANDE CON FUENTE CORREGIDA */
     .caja-acordeon {
         background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
         border: 1.5px solid #8a6a35 !important;
         border-radius: 12px !important;
-        padding: 15px !important;
+        padding: 12px 15px !important;
         box-shadow: 0 5px 0 #d6cab0, 0 8px 15px rgba(0,0,0,0.1) !important; 
         color: #171310 !important;
         transition: all 0.1s !important;
-        /* Forzamos la fuente original del diario */
-        font-family: Fraunces, serif !important; 
+        /* Letra recta y nítida (sin dibujos) */
+        font-family: Arial, Helvetica, sans-serif !important;
     }
 
     .caja-acordeon:active {
@@ -17915,9 +17914,9 @@ carrusel.addEventListener('click', function(e) {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        /* Letra normal, sin negrita exagerada, igual a las otras cajas */
-        font-weight: 500 !important; 
-        font-size: 1.05rem !important;
+        font-weight: 600 !important; 
+        font-size: 0.95rem !important;
+        line-height: 1.3 !important;
         cursor: pointer;
         font-family: inherit !important;
     }
@@ -17927,7 +17926,7 @@ carrusel.addEventListener('click', function(e) {
         margin-top: 15px;
         padding-top: 15px;
         border-top: 1.5px solid #d6cab0;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         font-family: inherit !important;
     }
 
@@ -17958,12 +17957,12 @@ carrusel.addEventListener('click', function(e) {
             var panelNuevo = document.createElement('div');
             panelNuevo.id = 'panel-gestion-doc';
             
+            // ACÁ ESTÁ LIMPIO, SIN CARITAS, SOLO EL NOMBRE
             panelNuevo.innerHTML = `
                 <div class="caja-acordeon">
                     <div class="caja-titulo" id="btn-albarracin">
-                        <!-- ACÁ PUSIMOS EL NOMBRE COMPLETO -->
                         <span>Concejal Profesor Miguel Albarracín</span>
-                        <span style="color: #8a6a35; font-size: 1.2rem;">▼</span>
+                        <span style="color: #8a6a35; font-size: 1rem;">▼</span>
                     </div>
                     <div class="caja-contenido" id="info-albarracin">
                         <p>Aquí irá toda la información y los archivos del Concejal Profesor Miguel Albarracín.</p>
