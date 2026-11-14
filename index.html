@@ -17835,44 +17835,58 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<!-- BOTÓN GESTIÓN DOCUMENTADA (CORREGIDO) -->
+<!-- BOTÓN GESTIÓN DOCUMENTADA (VERSIÓN FINAL) -->
+<style>
+    /* Esto obliga a los botones a acomodarse si no entran, para que no se corte "Hemeroteca" */
+    .his-tabs {
+        display: flex !important;
+        flex-wrap: wrap !important; 
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+    /* Efecto de presión al tocar nuestro botón */
+    #btn-gestion-doc label:active {
+        transform: scale(0.95);
+    }
+</style>
+
 <script>
 (function() {
     var buscar = setInterval(function() {
         var labelCultura = document.querySelector('label[for="his-c"]');
 
         if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
-            clearInterval(buscar); // Deja de buscar, ya lo encontró
+            clearInterval(buscar); // Deja de buscar, ya encontró la página
 
-            // 1. Creamos la cajita contenedora
+            // 1. Creamos el contenedor
             var contenedor = document.createElement('div');
             contenedor.id = 'btn-gestion-doc';
             contenedor.style.position = 'relative';
             contenedor.style.display = 'inline-block';
-            contenedor.style.marginLeft = '5px';
 
-            // 2. Creamos el botón copiando la clase exacta de "Cultura Viva" para que quede igual
-            var btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = labelCultura.className; // ¡Magia! Hereda el diseño dorado y vertical
-            btn.innerHTML = '📄 Gestión<br>Doc. ▾'; // Texto corto para que entre en la forma vertical
+            // 2. CLONAMOS el botón de Cultura Viva para que tenga el mismo marco, color y 3D
+            var btn = labelCultura.cloneNode(true);
+            btn.removeAttribute('for'); // Le quitamos la función de pestaña
             btn.style.cursor = 'pointer';
+            btn.innerHTML = '📄 Gestión<br>Doc. ▾'; // Texto en dos líneas para que quede igual de alto
 
             // 3. Creamos el menú desplegable
             var menu = document.createElement('div');
             menu.style.display = 'none';
             menu.style.position = 'absolute';
             menu.style.top = '100%';
-            menu.style.left = '0';
-            menu.style.marginTop = '8px';
+            menu.style.left = '50%'; // Centrado debajo del botón
+            menu.style.transform = 'translateX(-50%)';
+            menu.style.marginTop = '5px';
             menu.style.background = '#fff';
             menu.style.border = '2px solid #8a6a35';
             menu.style.borderRadius = '10px';
             menu.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
             menu.style.zIndex = '9999';
             menu.style.minWidth = '220px';
-            // 👉 ACÁ CAMBIÁS EL ENLACE REAL ABAJO:
-            menu.innerHTML = '<a href="#LINK_AQUI" style="display:block; padding:12px 15px; color:#171310; text-decoration:none; font-weight:bold; font-size:0.95rem; text-align:center;">👨‍🏫 Prof. Miguel Albarracín</a>';
+            
+            // 👉 ACÁ VA EL ENLACE (Sin emojis de caritas)
+            menu.innerHTML = '<a href="#LINK_AQUI" style="display:block; padding:12px 15px; color:#171310; text-decoration:none; font-weight:bold; font-size:0.95rem; text-align:center;">Profesor Miguel Albarracín</a>';
 
             // 4. Armamos todo
             contenedor.appendChild(btn);
@@ -17881,13 +17895,14 @@ carrusel.addEventListener('click', function(e) {
             // 5. Lo insertamos justo al lado de Cultura Viva
             labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
 
-            // 6. Hacemos que abra y cierre
+            // 6. Hacemos que abra y cierre al tocar
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
             });
 
-            // Cerrar si tocan afuera
+            // Cerrar si tocan en otro lado de la pantalla
             document.addEventListener('click', function(e) {
                 if (!contenedor.contains(e.target)) {
                     menu.style.display = 'none';
