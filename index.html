@@ -17835,8 +17835,7 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-
-<!-- PARTE 1: DISEÑO Y REGLAS DE PESTAÑAS -->
+<!-- PARTE 1: DISEÑO Y ESTILOS -->
 <style>
     .his-tabs {
         display: flex !important;
@@ -17865,7 +17864,6 @@ carrusel.addEventListener('click', function(e) {
         font-weight: 700 !important;
         font-size: 0.8rem !important;
         cursor: pointer !important;
-        /* Sombra marrón oscura */
         box-shadow: 0 5px 0 #4a2c11, 0 12px 20px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
         transition: all 0.1s !important;
         height: 100% !important;
@@ -17890,21 +17888,40 @@ carrusel.addEventListener('click', function(e) {
         text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
 
-    /* El panel de Gestión */
+    /* El contenedor de nuestro panel */
     #panel-gestion-doc {
         display: none;
-        padding: 20px;
-        text-align: center;
+        margin-top: 15px;
+        font-family: Fraunces, serif;
+    }
+
+    /* ESTILO DE LA CAJA GRANDE (Igual a la de su foto) */
+    .caja-acordeon {
         background: #fbf7ec;
         border: 2px solid #8a6a35;
         border-radius: 12px;
-        margin-top: 15px;
+        padding: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         color: #171310;
-        font-family: Fraunces, serif;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* MAGIA: Cuando el body tiene esta clase, ocultamos los paneles originales temporalmente */
+    .caja-titulo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 1.05rem;
+        cursor: pointer;
+    }
+
+    .caja-contenido {
+        display: none;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #e0d0b0;
+        font-size: 0.95rem;
+    }
+
     body.modo-gestion-doc .his-panel {
         display: none !important;
     }
@@ -17918,7 +17935,6 @@ carrusel.addEventListener('click', function(e) {
         if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
             clearInterval(buscar);
 
-            // 1. Creamos nuestro botón
             var contenedor = document.createElement('div');
             contenedor.id = 'btn-gestion-doc';
 
@@ -17930,40 +17946,58 @@ carrusel.addEventListener('click', function(e) {
             contenedor.appendChild(btn);
             labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
 
-            // 2. Creamos nuestro panel
+            // --- ACÁ CREAMOS LA CAJA GRANDE DEL PROFESOR ---
             var panelNuevo = document.createElement('div');
             panelNuevo.id = 'panel-gestion-doc';
-            panelNuevo.innerHTML = '<h3 style="margin-bottom:10px;">Archivo Documentado</h3><p>Aquí irá la información del Profesor Miguel Albarracín.</p>';
+            
+            panelNuevo.innerHTML = `
+                <div class="caja-acordeon">
+                    <div class="caja-titulo" id="btn-albarracin">
+                        <span>Profesor Miguel Albarracín</span>
+                        <span style="color: #8a6a35;">▼</span>
+                    </div>
+                    <div class="caja-contenido" id="info-albarracin">
+                        <p>Aquí irá toda la información y los archivos del Profesor Miguel Albarracín.</p>
+                    </div>
+                </div>
+            `;
             
             var cajaBotones = labelCultura.closest('.his-tabs') || labelCultura.parentNode.parentNode;
             cajaBotones.parentNode.insertBefore(panelNuevo, cajaBotones.nextSibling);
 
-            // 3. Si tocan NUESTRO botón
+            // Si toca el botón chico de arriba
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                // Ponemos nuestro botón marrón y mostramos nuestro panel
                 btn.classList.add('activo');
                 panelNuevo.style.display = 'block';
-
-                // Le decimos al BODY que estamos en modo Gestión (esto oculta los otros paneles sin borrarlos)
                 document.body.classList.add('modo-gestion-doc');
 
-                // Destildamos los botones originales (para que no queden dos marrones)
                 var radios = document.querySelectorAll('input[name="subhis"]');
                 radios.forEach(function(r) { r.checked = false; });
             });
 
-            // 4. Si tocan los botones ORIGINALES (Línea, Hemeroteca, Cultura)
+            // Si toca la caja grande del Profesor, se abre o se cierra
+            var btnAlbarracin = panelNuevo.querySelector('#btn-albarracin');
+            var infoAlbarracin = panelNuevo.querySelector('#info-albarracin');
+            
+            btnAlbarracin.addEventListener('click', function() {
+                if (infoAlbarracin.style.display === 'block') {
+                    infoAlbarracin.style.display = 'none';
+                    btnAlbarracin.querySelector('span:last-child').innerHTML = '▼';
+                } else {
+                    infoAlbarracin.style.display = 'block';
+                    btnAlbarracin.querySelector('span:last-child').innerHTML = '▲';
+                }
+            });
+
+            // Si toca los botones originales, todo vuelve a la normalidad
             var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
             botonesOriginales.forEach(function(lbl) {
                 lbl.addEventListener('click', function() {
-                    // Apagamos nuestro botón y ocultamos nuestro panel
                     btn.classList.remove('activo');
                     panelNuevo.style.display = 'none';
-                    
-                    // Le decimos al BODY que salga del modo Gestión (así vuelven a aparecer los paneles originales)
                     document.body.classList.remove('modo-gestion-doc');
                 });
             });
