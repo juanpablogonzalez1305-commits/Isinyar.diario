@@ -17835,6 +17835,60 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el botón de "Cultura Viva" para poner el nuevo al lado
+        var elementos = document.querySelectorAll('label, summary, button, a, div');
+        var culturaViva = null;
+        
+        for(var i=0; i<elementos.length; i++) {
+            if(elementos[i].textContent.trim() === 'Cultura Viva') {
+                culturaViva = elementos[i];
+                break;
+            }
+        }
+
+        if(culturaViva && !document.getElementById('gestion-documentada-contenedor')) {
+            clearInterval(timer);
+            
+            // 1. Creamos el contenedor general
+            var wrapper = document.createElement('div');
+            wrapper.id = 'gestion-documentada-contenedor';
+            wrapper.style.cssText = 'margin: 15px auto; width: 95%; max-width: 400px;';
+            
+            var H = '';
+            
+            // 2. El botón principal "Gestión Documentada"
+            H += '<details class="pieza" id="gestion-documentada">';
+            H += '<summary class="rel deep" style="background: linear-gradient(160deg, #fdf9ef, #f4efe6); color: #171310; padding: 15px; border: 1px solid #c9a243; border-radius: 10px; font-weight: bold; cursor: pointer; text-align: center; font-size: 16px; display: block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">📂 Gestión Documentada</summary>';
+            
+            H += '<div class="cuerpo-in" style="padding: 15px; background: #15110d; border-radius: 0 0 10px 10px; border: 1px solid #c9a243; border-top: none;">';
+            
+            // 3. El sub-botón "Concejal Profesor Miguel Albarracín"
+            H += '<details class="pieza" id="sub-miguel-albarracin">';
+            H += '<summary class="rel deep" style="color: #ffd87a !important; padding: 12px 15px; background: #1f1a15; border: 1px solid #c9a243; border-radius: 8px; font-weight: bold; cursor: pointer; display: block;">👤 Concejal Profesor Miguel Albarracín</summary>';
+            
+            H += '<div class="cuerpo-in" style="padding: 15px; background: #15110d;">';
+            H += '<p style="color: #f4efe6; font-size: 14px; margin-bottom: 10px;">Espacio destinado al archivo documental y audiovisual de la gestión del concejal.</p>';
+            // Acá vamos a inyectar la primera obra después
+            H += '</div></details>';
+            
+            H += '</div></details>';
+            
+            wrapper.innerHTML = H;
+            
+            // Insertamos el bloque justo después del contenedor de "Cultura Viva"
+            culturaViva.parentNode.parentNode.insertBefore(wrapper, culturaViva.parentNode.nextSibling);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
