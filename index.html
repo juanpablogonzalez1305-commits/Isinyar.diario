@@ -18257,7 +18257,7 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-        <script>
+<script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
@@ -18266,29 +18266,28 @@ carrusel.addEventListener('click', function(e) {
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        if(document.getElementById('nota-inventada-prueba')) { clearInterval(timer); return; }
+        if(document.getElementById('nota-ruta-habilitada')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-inventada-prueba';
+        d.id = 'nota-ruta-habilitada';
 
         var H = '';
         
-        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Día de la Prueba Técnica en el Diario</summary>';
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Habilitada la ruta a los valles</summary>';
         H += '<div class="cuerpo-in">';
         
-        H += '<p class="meta">15 de Noviembre de 2026 · Prueba · Lules</p>';
+        H += '<p class="meta">15 de Noviembre de 2026 · Información Vial · Lules</p>';
         
-        H += '<p><strong>Esta es una nota inventada para probar el sistema.</strong> Si esta nota aparece y se queda en la pantalla, significa que el sistema está funcionando perfectamente y el problema estaba en el ID o el texto de la Ruta 307.</p>';
+        H += '<p><strong>La ruta a los valles ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
         
-        // FOTO (con una imagen de prueba aleatoria)
-        H += '<img class="marco" src="img/zoilo2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Imagen de prueba">';
+        H += '<img class="marco" src="img/rutavalles.webp" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Ruta habilitada">';
         
-        H += '<p>Este es un párrafo de prueba para verificar que el texto se esté mostrando correctamente con el diseño del diario y que el sistema no lo borre.</p>';
+        H += '<p>El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
         
         H += '<p>Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
         
-        H += '<button type="button" class="btn-voz-prueba" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '<button type="button" class="btn-voz-habilitada" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
@@ -18301,16 +18300,16 @@ carrusel.addEventListener('click', function(e) {
         }
 
         setTimeout(function(){
-            var b = d.querySelector('.btn-voz-prueba');
+            var b = d.querySelector('.btn-voz-habilitada');
             if(!b) return;
             
             b.addEventListener('click', function(){
                 var s = window.speechSynthesis;
                 if(!s) return;
                 
-                if(window._pruebaLeyendo){
+                if(window._habilitadaLeyendo){
                     s.cancel();
-                    window._pruebaLeyendo = false;
+                    window._habilitadaLeyendo = false;
                     b.innerHTML = '🗣️ Escuchar en voz alta';
                     return;
                 }
@@ -18325,15 +18324,15 @@ carrusel.addEventListener('click', function(e) {
 
                 if(!bloques.length) return;
                 
-                window._pruebaLeyendo = true;
+                window._habilitadaLeyendo = true;
                 b.innerHTML = '⏹️ Detener lectura';
                 s.cancel();
                 
                 var idx = 0;
                 function hablar(){
-                    if(!window._pruebaLeyendo) return;
+                    if(!window._habilitadaLeyendo) return;
                     if(idx >= bloques.length){
-                        window._pruebaLeyendo = false;
+                        window._habilitadaLeyendo = false;
                         b.innerHTML = '🗣️ Escuchar en voz alta';
                         return;
                     }
@@ -18354,7 +18353,7 @@ carrusel.addEventListener('click', function(e) {
         clearInterval(timer);
     }, 500);
 })();
-                      </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
