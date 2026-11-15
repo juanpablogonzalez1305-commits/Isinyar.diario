@@ -18266,11 +18266,12 @@ carrusel.addEventListener('click', function(e) {
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        if(document.getElementById('nota-ruta-307')) { clearInterval(timer); return; }
+        // ACÁ ESTÁ LA MAGIA: ID NUEVO PARA QUE NO CHOQUE CON EL FANTASMA
+        if(document.getElementById('nota-ruta-307-oficial')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-ruta-307';
+        d.id = 'nota-ruta-307-oficial';
 
         var H = '';
         
@@ -18288,7 +18289,7 @@ carrusel.addEventListener('click', function(e) {
         
         H += '<p>Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
         
-        H += '<button type="button" class="btn-voz-ruta" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '<button type="button" class="btn-voz-ruta-oficial" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
@@ -18301,16 +18302,16 @@ carrusel.addEventListener('click', function(e) {
         }
 
         setTimeout(function(){
-            var b = d.querySelector('.btn-voz-ruta');
+            var b = d.querySelector('.btn-voz-ruta-oficial');
             if(!b) return;
             
             b.addEventListener('click', function(){
                 var s = window.speechSynthesis;
                 if(!s) return;
                 
-                if(window._rutaLeyendo){
+                if(window._rutaOficialLeyendo){
                     s.cancel();
-                    window._rutaLeyendo = false;
+                    window._rutaOficialLeyendo = false;
                     b.innerHTML = '🗣️ Escuchar en voz alta';
                     return;
                 }
@@ -18325,15 +18326,15 @@ carrusel.addEventListener('click', function(e) {
 
                 if(!bloques.length) return;
                 
-                window._rutaLeyendo = true;
+                window._rutaOficialLeyendo = true;
                 b.innerHTML = '⏹️ Detener lectura';
                 s.cancel();
                 
                 var idx = 0;
                 function hablar(){
-                    if(!window._rutaLeyendo) return;
+                    if(!window._rutaOficialLeyendo) return;
                     if(idx >= bloques.length){
-                        window._rutaLeyendo = false;
+                        window._rutaOficialLeyendo = false;
                         b.innerHTML = '🗣️ Escuchar en voz alta';
                         return;
                     }
@@ -18354,7 +18355,8 @@ carrusel.addEventListener('click', function(e) {
         clearInterval(timer);
     }, 500);
 })();
-                            </script>
+</script>
+
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
