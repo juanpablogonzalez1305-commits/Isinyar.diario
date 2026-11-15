@@ -18266,11 +18266,11 @@ carrusel.addEventListener('click', function(e) {
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        if(document.getElementById('nota-ruta-habilitada')) { clearInterval(timer); return; }
+        if(document.getElementById('nota-ruta-307-v4')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-ruta-habilitada';
+        d.id = 'nota-ruta-307-v4';
 
         var H = '';
         
@@ -18281,13 +18281,14 @@ carrusel.addEventListener('click', function(e) {
         
         H += '<p><strong>La ruta a los valles ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
         
-        H += '<img class="marco" src="img/rutavalles.webp" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Ruta habilitada">';
+        // FOTO RANDOM QUE SABEMOS QUE FUNCIONA
+        H += '<img class="marco" src="img/zoilo2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Ruta habilitada">';
         
         H += '<p>El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
         
         H += '<p>Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
         
-        H += '<button type="button" class="btn-voz-habilitada" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '<button type="button" class="btn-voz-v4" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
@@ -18300,16 +18301,16 @@ carrusel.addEventListener('click', function(e) {
         }
 
         setTimeout(function(){
-            var b = d.querySelector('.btn-voz-habilitada');
+            var b = d.querySelector('.btn-voz-v4');
             if(!b) return;
             
             b.addEventListener('click', function(){
                 var s = window.speechSynthesis;
                 if(!s) return;
                 
-                if(window._habilitadaLeyendo){
+                if(window._v4Leyendo){
                     s.cancel();
-                    window._habilitadaLeyendo = false;
+                    window._v4Leyendo = false;
                     b.innerHTML = '🗣️ Escuchar en voz alta';
                     return;
                 }
@@ -18324,15 +18325,15 @@ carrusel.addEventListener('click', function(e) {
 
                 if(!bloques.length) return;
                 
-                window._habilitadaLeyendo = true;
+                window._v4Leyendo = true;
                 b.innerHTML = '⏹️ Detener lectura';
                 s.cancel();
                 
                 var idx = 0;
                 function hablar(){
-                    if(!window._habilitadaLeyendo) return;
+                    if(!window._v4Leyendo) return;
                     if(idx >= bloques.length){
-                        window._habilitadaLeyendo = false;
+                        window._v4Leyendo = false;
                         b.innerHTML = '🗣️ Escuchar en voz alta';
                         return;
                     }
@@ -18353,7 +18354,7 @@ carrusel.addEventListener('click', function(e) {
         clearInterval(timer);
     }, 500);
 })();
-</script>
+              </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
