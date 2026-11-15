@@ -17837,290 +17837,7 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<!-- PARTE 1: DISEÑO Y ESTILOS -->
-<style>
-    .his-tabs {
-        display: flex !important;
-        flex-wrap: nowrap !important; 
-        gap: 4px !important;
-        padding: 0 4px !important;
-    }
-    
-    .his-tabs label, #btn-gestion-doc {
-        flex: 1 1 25% !important; 
-        min-width: 0 !important; 
-        margin: 0 !important;
-        font-size: 0.7rem !important; 
-    }
 
-    #btn-gestion-doc { display: flex !important; }
-
-    .mi-boton-dorado {
-        background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
-        border: 1.5px solid #171310 !important;
-        border-radius: 12px !important;
-        color: #171310 !important;
-        font-family: Arial, sans-serif !important;
-        font-weight: 700 !important;
-        font-size: 0.85rem !important; 
-        cursor: pointer !important;
-        box-shadow: 0 5px 0 #4a2c11, 0 12px 20px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
-        transition: all 0.1s !important;
-        height: 100% !important;
-        width: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        line-height: 1.2 !important;
-        padding: 8px 0 !important;
-        text-align: center !important;
-    }
-
-    .mi-boton-dorado:active {
-        transform: translateY(3px) !important;
-        box-shadow: 0 2px 0 #4a2c11, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
-    }
-
-    .mi-boton-dorado.activo {
-        background: linear-gradient(180deg, #8b7355, #5a4531) !important; 
-        color: #ffffff !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-    }
-
-    #panel-gestion-doc { display: none; margin-top: 15px; }
-
-    .caja-acordeon {
-        background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
-        border: 1.5px solid #8a6a35 !important;
-        border-radius: 12px !important;
-        padding: 15px !important;
-        box-shadow: 0 5px 0 #d6cab0, 0 8px 15px rgba(0,0,0,0.1) !important; 
-        color: #171310 !important;
-        transition: all 0.1s !important;
-    }
-
-    .caja-acordeon:active {
-        transform: translateY(3px) !important;
-        box-shadow: 0 2px 0 #d6cab0, 0 4px 6px rgba(0,0,0,0.1) !important;
-    }
-
-    /* ACÁ PUSIMOS LA LETRA SIMPLE Y NEGRITA AL SUB-BOTÓN */
-    .caja-titulo {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: Arial, Helvetica, sans-serif !important; 
-        font-weight: 900 !important; 
-        font-size: 1.2rem !important; 
-        line-height: 1.2 !important;
-        cursor: pointer;
-        color: #171310;
-    }
-
-    .caja-contenido {
-        display: none;
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1.5px solid #d6cab0;
-        font-family: Arial, Helvetica, sans-serif !important;
-    }
-    
-    .btn-escuchar {
-        background: #fdf9ef;
-        border: 1px solid #c9a243;
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 1.05rem;
-        font-weight: 900;
-        font-style: italic;
-        color: #171310;
-        cursor: pointer;
-        margin-top: 15px;
-        display: block;
-        width: 100%;
-        box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);
-        transition: all 0.1s;
-    }
-    .btn-escuchar:active { transform: scale(0.98); }
-
-    body.modo-gestion-doc .his-panel { display: none !important; }
-</style>
-<!-- PARTE 2: FUNCIONAMIENTO Y DOCUMENTO CON EPÍGRAFES CORREGIDOS -->
-<script>
-(function() {
-    if(window._espacioLeyendo) { window.speechSynthesis.cancel(); window._espacioLeyendo = false; }
-
-    var buscar = setInterval(function() {
-        var labelCultura = document.querySelector('label[for="his-c"]');
-
-        if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
-            clearInterval(buscar);
-
-            var contenedor = document.createElement('div');
-            contenedor.id = 'btn-gestion-doc';
-
-            var btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'mi-boton-dorado';
-            btn.innerHTML = '📄 Gestión<br>Doc.'; 
-
-            contenedor.appendChild(btn);
-            labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
-
-            var panelNuevo = document.createElement('div');
-            panelNuevo.id = 'panel-gestion-doc';
-            
-            panelNuevo.innerHTML = `
-                <div class="caja-acordeon">
-                    <div class="caja-titulo" id="btn-albarracin">
-                        <span>Concejal Profesor Miguel Albarracín</span>
-                        <span style="color: #8a6a35; font-size: 1.3rem;">▼</span>
-                    </div>
-                    <div class="caja-contenido" id="info-albarracin">
-                        <div class="nota-gestion">
-<!-- VIDEO 2013 - DIRECCIÓN DE JUVENTUD -->
-<div style="border: 2px solid #c9a243; border-radius: 8px; padding: 15px; margin-bottom: 20px; background: #fffdf8;">
-    
-    <h4 style="font-family: Arial, sans-serif; color: #171310; font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 900; text-align: center;">2013: Compromiso con la Juventud</h4>
-    
-    <p style="font-size: 1rem; color: #171310; text-align: justify; line-height: 1.5; margin-bottom: 15px;">
-        En el año 2013, mucho antes de asumir como Concejal, Miguel Albarracín ya demostraba su vocación de servicio desde la Dirección de la Juventud de Lules. A través de iniciativas como las comparsas, las bandas de música y los encuentros comunitarios, se impulsaron espacios de contención y recreación para los jóvenes, alejándolos de los peligros de la calle y fomentando valores de pertenencia y comunidad. Ese trabajo territorial sentó las bases de una gestión que, años más tarde, se traduciría en obras concretas para todas las familias de la ciudad.
-    </p>
-
-    <!-- DOBLE MARCO DORADO PARA EL VIDEO -->
-    <div style="border: 3px solid #c9a243; border-radius: 8px; padding: 4px; background: #fff;">
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px;">
-            <iframe src="https://www.youtube.com/embed/XURync8Vi9M" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
-        </div>
-    </div>
-
-</div>
-                            <div style="border: 2px solid #c9a243; border-radius: 8px; padding: 15px; margin-bottom: 20px; background: #fffdf8; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                                <h3 style="font-family: Arial, sans-serif; color: #171310; font-size: 1.15rem; margin: 0 0 5px 0; font-weight: 900;">Año 2020: Inauguración del Playón Polideportivo Madre Teresa de Calcuta</h3>
-                                <p style="margin: 0; color: #8a6a35; font-weight: bold; font-size: 0.95rem; text-transform: uppercase;">Barrio Nuestra Señora del Pilar</p>
-                            </div>
-                            
-                            <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;"><strong>Desde septiembre de 2019, la gestión del Concejal Profesor Miguel Albarracín inició el camino para concretar un anhelo para la ciudad. Tras un año de trabajo y dedicación, en septiembre de 2020 se inauguró este espacio recreativo pensado y diseñado para la familia.</strong></p>
-                            
-                            <!-- FOTO 1 -->
-                            <img class="marco" src="img/miguel1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Inicio de la obra">
-                            <p style="font-size: 0.85rem; color: #6b5a33; text-align: center; font-style: italic; margin-bottom: 15px;">El inicio de la obra</p>
-                            
-                            <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;">Este nuevo ámbito tiene como objetivo principal fomentar la recreación y el encuentro social. Está destinado a niños, jóvenes, adultos y a cualquier ciudadano que desee realizar actividades recreativas en beneficio de la sociedad.</p>
-                            
-                            <!-- FOTO 2 -->
-                            <img class="marco" src="img/miguel2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Obra en marcha">
-                            <p style="font-size: 0.85rem; color: #6b5a33; text-align: center; font-style: italic; margin-bottom: 15px;">La obra en marcha</p>
-
-                            <!-- FOTO 3 -->
-                            <img class="marco" src="img/Miguel3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Obra en marcha">
-                            <p style="font-size: 0.85rem; color: #6b5a33; text-align: center; font-style: italic; margin-bottom: 15px;">La obra en marcha</p>
-                            
-                            <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;">De esta manera, la gestión reafirma su compromiso con el bienestar de los vecinos, promoviendo espacios públicos de calidad que fortalecen el tejido social y la convivencia en Lules.</p>
-                            
-                            <!-- FOTO 4 -->
-                            <img class="marco" src="img/miguel4.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Proyecto terminado">
-                            <p style="font-size: 0.85rem; color: #6b5a33; text-align: center; font-style: italic; margin-bottom: 15px;">El proyecto terminado</p>
-
-                            <!-- FOTO 5 -->
-                            <img class="marco" src="img/miguel5.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Detalles de la obra">
-                            <p style="font-size: 0.85rem; color: #6b5a33; text-align: center; font-style: italic; margin-bottom: 15px;">Registro documental de la obra finalizada</p>
-                            
-                            <button class="btn-escuchar">🔊 Escuchar en voz alta</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            var cajaBotones = labelCultura.closest('.his-tabs') || labelCultura.parentNode.parentNode;
-            cajaBotones.parentNode.insertBefore(panelNuevo, cajaBotones.nextSibling);
-
-            function detenerVoz() {
-                window.speechSynthesis.cancel();
-                var botonesEscuchar = document.querySelectorAll('.btn-escuchar');
-                botonesEscuchar.forEach(function(b) { b.innerHTML = '🔊 Escuchar en voz alta'; }); 
-            }
-
-            var btnEscuchar = panelNuevo.querySelector('.btn-escuchar');
-            if(btnEscuchar) {
-                btnEscuchar.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    var textos = panelNuevo.querySelectorAll('.texto-nota');
-                    var textoParaLeer = "";
-                    textos.forEach(function(t) { textoParaLeer += t.innerText + " "; });
-
-                    if (window.speechSynthesis.speaking && this.innerHTML.includes('Detener')) {
-                        detenerVoz();
-                    } else {
-                        detenerVoz();
-                        var u = new SpeechSynthesisUtterance(textoParaLeer);
-                        
-                        var voces = window.speechSynthesis.getVoices();
-                        var vozLatina = null;
-                        
-                        for (var i = 0; i < voces.length; i++) {
-                            if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
-                                vozLatina = voces[i]; break;
-                            }
-                        }
-                        if (!vozLatina) {
-                            for (var j = 0; j < voces.length; j++) {
-                                if (voces[j].lang.includes('es') && !voces[j].lang.includes('es-ES')) {
-                                    vozLatina = voces[j]; break;
-                                }
-                            }
-                        }
-                        
-                        if (vozLatina) { u.voice = vozLatina; u.lang = vozLatina.lang; } 
-                        else { u.lang = 'es-AR'; }
-                        u.rate = 0.92;
-
-                        u.onend = function() { btnEscuchar.innerHTML = '🔊 Escuchar en voz alta'; };
-                        window.speechSynthesis.speak(u);
-                        btnEscuchar.innerHTML = '⏹️ Detener lectura';
-                    }
-                });
-            }
-
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                detenerVoz(); 
-                btn.classList.add('activo');
-                panelNuevo.style.display = 'block';
-                document.body.classList.add('modo-gestion-doc');
-                var radios = document.querySelectorAll('input[name="subhis"]');
-                radios.forEach(function(r) { r.checked = false; });
-            });
-
-            var btnAlbarracin = panelNuevo.querySelector('#btn-albarracin');
-            var infoAlbarracin = panelNuevo.querySelector('#info-albarracin');
-            
-            btnAlbarracin.addEventListener('click', function() {
-                detenerVoz(); 
-                if (infoAlbarracin.style.display === 'block') {
-                    infoAlbarracin.style.display = 'none';
-                    btnAlbarracin.querySelector('span:last-child').innerHTML = '▼';
-                } else {
-                    infoAlbarracin.style.display = 'block';
-                    btnAlbarracin.querySelector('span:last-child').innerHTML = '▲';
-                }
-            });
-
-            var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
-            botonesOriginales.forEach(function(lbl) {
-                lbl.addEventListener('click', function() {
-                    detenerVoz(); 
-                    btn.classList.remove('activo');
-                    panelNuevo.style.display = 'none';
-                    document.body.classList.remove('modo-gestion-doc');
-                });
-            });
-        }
-    }, 500);
-})();
-</script>
 <!-- REEMPLAZO DE EFEMÉRIDES (ESTRATEGIA FINAL) -->
 <script>
 (function() {
@@ -18477,6 +18194,233 @@ carrusel.addEventListener('click', function(e) {
         }, 500);
         
         clearInterval(timer);
+    }, 500);
+})();
+</script>
+  <style>
+    .his-tabs {
+        display: flex !important;
+        flex-wrap: nowrap !important; 
+        gap: 4px !important;
+        padding: 0 4px !important;
+    }
+    
+    .his-tabs label, #btn-gestion-doc {
+        flex: 1 1 25% !important; 
+        min-width: 0 !important; 
+        margin: 0 !important;
+        font-size: 0.68rem !important;
+    }
+
+    #btn-gestion-doc { display: flex !important; }
+
+    .mi-boton-dorado {
+        background: linear-gradient(180deg, #fbf7ec, #efe7d2) !important;
+        border: 1.5px solid #171310 !important;
+        border-radius: 12px !important;
+        color: #171310 !important;
+        font-family: Fraunces, serif !important;
+        font-weight: 700 !important;
+        font-size: 0.8rem !important;
+        cursor: pointer !important;
+        box-shadow: 0 5px 0 #4a2c11, 0 12px 20px -8px rgba(0,0,0,.55), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
+        transition: all 0.1s !important;
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        line-height: 1.1 !important;
+        padding: 8px 0 !important;
+        text-align: center !important;
+    }
+
+    .mi-boton-dorado:active {
+        transform: translateY(3px) !important;
+        box-shadow: 0 2px 0 #4a2c11, 0 4px 6px -2px rgba(0,0,0,.5), inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25) !important;
+    }
+
+    .mi-boton-dorado.activo {
+        background: linear-gradient(180deg, #8b7355, #5a4531) !important; 
+        color: #ffffff !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+
+    #panel-gestion-doc { display: none; margin-top: 15px; }
+
+    .btn-escuchar {
+        background: #fdf9ef;
+        border: 1px solid #c9a243;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 1.05rem;
+        font-weight: 900;
+        font-style: italic;
+        color: #171310;
+        cursor: pointer;
+        margin-top: 15px;
+        display: block;
+        width: 100%;
+        box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);
+        transition: all 0.1s;
+    }
+    .btn-escuchar:active { transform: scale(0.98); }
+
+    body.modo-gestion-doc .his-panel { display: none !important; }
+</style>
+
+<script>
+(function() {
+    if(window._espacioLeyendo) { window.speechSynthesis.cancel(); window._espacioLeyendo = false; }
+
+    var buscar = setInterval(function() {
+        var labelCultura = document.querySelector('label[for="his-c"]');
+
+        if (labelCultura && labelCultura.textContent.indexOf('Cultura Viva') > -1 && !document.getElementById('btn-gestion-doc')) {
+            clearInterval(buscar);
+
+            var contenedor = document.createElement('div');
+            contenedor.id = 'btn-gestion-doc';
+
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'mi-boton-dorado';
+            btn.innerHTML = '📄 Gestión<br>Doc.'; 
+
+            contenedor.appendChild(btn);
+            labelCultura.parentNode.insertBefore(contenedor, labelCultura.nextSibling);
+
+            var panelNuevo = document.createElement('div');
+            panelNuevo.id = 'panel-gestion-doc';
+          panelNuevo.innerHTML = `
+    <details class="pieza" id="btn-albarracin" style="margin-top: 15px;">
+        <summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Concejal Profesor Miguel Albarracín</summary>
+        <div class="cuerpo-in" id="info-albarracin">
+            
+            <div style="border: 2px solid #c9a243; border-radius: 8px; padding: 15px; margin-bottom: 20px; background: #fffdf8;">
+                <h4 style="font-family: Arial, sans-serif; color: #171310; font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 900; text-align: center;">2013: Compromiso con la Juventud</h4>
+                <p style="font-size: 1rem; color: #171310; text-align: justify; line-height: 1.5; margin-bottom: 15px;">
+                    En el año 2013, mucho antes de asumir como Concejal, Miguel Albarracín ya demostraba su vocación de servicio desde la Dirección de la Juventud de Lules. A través de iniciativas como las comparsas, las bandas de música y los encuentros comunitarios, se impulsaron espacios de contención y recreación para los jóvenes, fomentando valores de pertenencia y comunidad. Ese trabajo territorial sentó las bases de una gestión que, años más tarde, se traduciría en obras concretas para todas las familias.
+                </p>
+                <div style="border: 3px solid #c9a243; border-radius: 8px; padding: 4px; background: #fff;">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px;">
+                        <iframe src="https://www.youtube.com/embed/XURync8Vi9M" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div style="border: 2px solid #c9a243; border-radius: 8px; padding: 15px; margin-bottom: 20px; background: #fffdf8;">
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <h4 style="font-family: 'Fraunces', serif; color: #171310; font-size: 1.15rem; margin: 0 0 5px 0; font-weight: 900;">Año 2020: Inauguración del Playón Polideportivo Madre Teresa de Calcuta</h4>
+                    <p style="margin: 0; color: #8a6a35; font-weight: bold; font-size: 0.95rem; text-transform: uppercase;">Barrio Nuestra Señora del Pilar</p>
+                </div>
+                
+                <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;"><strong>Desde septiembre de 2019, la gestión del Concejal Profesor Miguel Albarracín inició el camino para concretar un anhelo para la ciudad. Tras un año de trabajo y dedicación, en septiembre de 2020 se inauguró este espacio recreativo pensado y diseñado para la familia.</strong></p>
+                
+                <img class="marco" src="img/miguel1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Inicio de la obra">
+                
+                <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;">Este nuevo ámbito tiene como objetivo principal fomentar la recreación y el encuentro social. Está destinado a niños, jóvenes, adultos y a cualquier ciudadano que desee realizar actividades recreativas en beneficio de la sociedad.</p>
+                
+                <img class="marco" src="img/miguel2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Obra en marcha">
+                <img class="marco" src="img/Miguel3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Obra en marcha">
+                
+                <p class="texto-nota" style="margin-bottom: 12px; font-size: 1.05rem; line-height: 1.6;">De esta manera, la gestión reafirma su compromiso con el bienestar de los vecinos, promoviendo espacios públicos de calidad que fortalecen el tejido social y la convivencia en Lules.</p>
+                
+                <img class="marco" src="img/miguel4.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Proyecto terminado">
+                <img class="marco" src="img/miguel5.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Detalles de la obra">
+            </div>
+
+            <button class="btn-escuchar">🔊 Escuchar en voz alta</button>
+        </div>
+    </details>
+`;
+                      var cajaBotones = labelCultura.closest('.his-tabs') || labelCultura.parentNode.parentNode;
+            cajaBotones.parentNode.insertBefore(panelNuevo, cajaBotones.nextSibling);
+
+            function detenerVoz() {
+                window.speechSynthesis.cancel();
+                var botonesEscuchar = document.querySelectorAll('.btn-escuchar');
+                botonesEscuchar.forEach(function(b) { b.innerHTML = '🔊 Escuchar en voz alta'; }); 
+            }
+
+            var btnEscuchar = panelNuevo.querySelector('.btn-escuchar');
+            if(btnEscuchar) {
+                btnEscuchar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var textos = panelNuevo.querySelectorAll('.texto-nota');
+                    var textoParaLeer = "";
+                    textos.forEach(function(t) { textoParaLeer += t.innerText + " "; });
+
+                    if (window.speechSynthesis.speaking && this.innerHTML.includes('Detener')) {
+                        detenerVoz();
+                    } else {
+                        detenerVoz();
+                        var u = new SpeechSynthesisUtterance(textoParaLeer);
+                        
+                        var voces = window.speechSynthesis.getVoices();
+                        var vozLatina = null;
+                        
+                        for (var i = 0; i < voces.length; i++) {
+                            if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
+                                vozLatina = voces[i]; break;
+                            }
+                        }
+                        if (!vozLatina) {
+                            for (var j = 0; j < voces.length; j++) {
+                                if (voces[j].lang.includes('es') && !voces[j].lang.includes('es-ES')) {
+                                    vozLatina = voces[j]; break;
+                                }
+                            }
+                        }
+                        
+                        if (vozLatina) { u.voice = vozLatina; u.lang = vozLatina.lang; } 
+                        else { u.lang = 'es-AR'; }
+                        u.rate = 0.92;
+
+                        u.onend = function() { btnEscuchar.innerHTML = '🔊 Escuchar en voz alta'; };
+                        window.speechSynthesis.speak(u);
+                        btnEscuchar.innerHTML = '⏹️ Detener lectura';
+                    }
+                });
+            }
+
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                detenerVoz(); 
+                btn.classList.add('activo');
+                panelNuevo.style.display = 'block';
+                document.body.classList.add('modo-gestion-doc');
+                var radios = document.querySelectorAll('input[name="subhis"]');
+                radios.forEach(function(r) { r.checked = false; });
+            });
+
+            var btnAlbarracin = panelNuevo.querySelector('#btn-albarracin');
+            var infoAlbarracin = panelNuevo.querySelector('#info-albarracin');
+            
+            btnAlbarracin.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                detenerVoz(); 
+                if (infoAlbarracin.style.display === 'none') {
+                    infoAlbarracin.style.display = 'block';
+                } else {
+                    infoAlbarracin.style.display = 'none';
+                }
+            });
+            
+            infoAlbarracin.style.display = 'none';
+
+            var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
+            botonesOriginales.forEach(function(lbl) {
+                lbl.addEventListener('click', function() {
+                    detenerVoz(); 
+                    btn.classList.remove('activo');
+                    panelNuevo.style.display = 'none';
+                    document.body.classList.remove('modo-gestion-doc');
+                });
+            });
+        }
     }, 500);
 })();
 </script>
