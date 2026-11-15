@@ -18266,29 +18266,37 @@ carrusel.addEventListener('click', function(e) {
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        // ID NUEVO PARA ESQUIVAR EL FANTASMA
-        if(document.getElementById('nota-ruta-v3')) { clearInterval(timer); return; }
+        if(document.getElementById('nota-prueba-final')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-ruta-v3';
+        d.id = 'nota-prueba-final';
 
         var H = '';
         
-        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Ruta Provincial 307 habilitada</summary>';
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · PRUEBA DE FUEGO: Nota de prueba en Noticias</summary>';
         H += '<div class="cuerpo-in">';
         
-        H += '<p class="meta">15 de Noviembre de 2026 · Información Vial · Lules</p>';
+        H += '<p class="meta">15 de Noviembre de 2026 · Prueba · Lules</p>';
         
-        H += '<p><strong>La Ruta Provincial 307 ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
+        H += '<p><strong>Esta es una nota de prueba creada con el código exacto de los 175 años para verificar si el sistema está insertando las notas correctamente.</strong> Si usted puede leer esto, significa que el sistema funciona y que el problema estaba en el ID de la Ruta 307.</p>';
         
-        // FOTO
-        H += '<img class="marco" src="img/rutavalles.webp" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Ruta 307 habilitada">';
+        // FOTO 2
+        H += '<img class="marco" src="img/zoilo2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Foto de prueba">';
         
-        H += '<p>El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
+        H += '<p>Este es un párrafo de prueba para verificar que el texto se esté mostrando correctamente con el diseño del diario.</p>';
         
-        H += '<p>Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
+        // FOTO 3
+        H += '<img class="marco" src="img/zoilo3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Foto de prueba">';
         
+        H += '<p>Si esta nota aparece, vamos a saber con certeza absoluta que el código es infalible y podremos cargar la de la Ruta 307 sin problemas.</p>';
+        
+        // FOTO 4
+        H += '<img class="marco" src="img/zoilo4.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Foto de prueba">';
+        
+        H += '<p><strong>Fin de la nota de prueba.</strong></p>';
+        
+        H += '<button type="button" class="btn-voz-prueba" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
@@ -18299,6 +18307,57 @@ carrusel.addEventListener('click', function(e) {
         } else {
             sec.appendChild(d); 
         }
+
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-prueba');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._pruebaLeyendo){
+                    s.cancel();
+                    window._pruebaLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._pruebaLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._pruebaLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._pruebaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
         
         clearInterval(timer);
     }, 500);
