@@ -18262,11 +18262,9 @@ carrusel.addEventListener('click', function(e) {
     var timer = setInterval(function() {
         var sec = document.getElementById('noticias');
         if (!sec) return;
-        
-        // ID CORREGIDO con guiones
         if (document.getElementById('nota-ruta-307')) { clearInterval(timer); return; }
 
-        // Armamos la nota completa sin el botón de audio
+        // Armamos la nota completa con la misma estructura larga que me envió
         var html = '<details class="pieza" id="nota-ruta-307">';
         html += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Ruta Provincial 307 habilitada hacia los Valles</summary>';
         html += '<div class="cuerpo-in">';
@@ -18278,22 +18276,66 @@ carrusel.addEventListener('click', function(e) {
         
         html += '<p style="color: #171310 !important;">Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
         
-        html += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Información local.</p>';
-        
+        // Botón de voz (lo dejé en el código para no alterar su estructura original)
+        html += '<button type="button" class="btn-voz-ruta307" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         html += '</div></details>';
 
-        // Inyectamos antes de la primera nota, exactamente igual a su código original
+        // Inyectamos antes de la primera nota
         var primeraNota = sec.querySelector('details.pieza');
         if (primeraNota) {
             primeraNota.insertAdjacentHTML('beforebegin', html);
         } else {
             sec.insertAdjacentHTML('beforeend', html);
         }
+
+        // Lógica de lectura en voz alta (Igual a su código original)
+        setTimeout(function() {
+            var b = document.querySelector('#nota-ruta-307 .btn-voz-ruta307');
+            if (!b) return;
+            b.addEventListener('click', function() {
+                var s = window.speechSynthesis;
+                if (!s) return;
+                if (window._ruta307Leyendo) {
+                    s.cancel();
+                    window._ruta307Leyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+                var cue = document.querySelector('#nota-ruta-307 .cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el) {
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if (!t) return;
+                    bloques.push({ txt: t, pausa: 300 });
+                });
+                if (!bloques.length) return;
+                window._ruta307Leyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                var idx = 0;
+                function hablar() {
+                    if (!window._ruta307Leyendo) return;
+                    if (idx >= bloques.length) {
+                        window._ruta307Leyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    u.onend = function() { idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function() { idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function() { s.resume(); hablar(); }, 300);
+            });
+        }, 500);
         
         clearInterval(timer);
     }, 500);
 })();
-</script>
+                        </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
