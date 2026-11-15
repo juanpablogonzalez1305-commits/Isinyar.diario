@@ -18257,47 +18257,7 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
-<script>
-alert('1. Iniciando script de Ruta 307...');
-setTimeout(function() {
-    var sec = document.getElementById('noticias');
-    if (!sec) {
-        alert('2. Error: No encontré la sección de noticias.');
-        return;
-    }
-    
-    if (document.getElementById('nota-ruta-307-final')) {
-        alert('3. La nota ya existía en la página.');
-        return;
-    }
 
-    var d = document.createElement('details');
-    d.className = 'pieza';
-    d.id = 'nota-ruta-307-final';
-
-    var H = '';
-    H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Ruta Provincial 307 habilitada</summary>';
-    H += '<div class="cuerpo-in">';
-    H += '<p class="meta">15 de Noviembre de 2026 · Información Vial · Lules</p>';
-    H += '<p><strong>La Ruta Provincial 307 ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
-    H += '<p>El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
-    H += '</div>';
-    d.innerHTML = H;
-
-    try {
-        var primeraNota = sec.querySelector('details.pieza');
-        if (primeraNota) {
-            // Le decimos al "padre" de la primera nota que inserte la nueva antes de ella
-            primeraNota.parentNode.insertBefore(d, primeraNota);
-        } else {
-            sec.appendChild(d); 
-        }
-        alert('✅ 4. ¡Nota insertada en el código exitosamente!');
-    } catch (error) {
-        alert('❌ 4. ERROR AL INSERTAR: ' + error.message);
-    }
-}, 2500);
-</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
