@@ -18258,46 +18258,34 @@ carrusel.addEventListener('click', function(e) {
 })();
 </script>
 <script>
-(function(){
-    var intentos = 0;
-    var timer = setInterval(function(){
-        intentos++;
-        
+<script>
+(function() {
+    var timer = setInterval(function() {
         var sec = document.getElementById('noticias');
-        if(!sec) return;
+        if (!sec) return;
         
-        if(document.getElementById('nota-ruta-307')) { clearInterval(timer); return; }
+        // ID CORREGIDO (con guiones, igual que en Destacadas)
+        if (document.getElementById('nota-ruta-307')) { clearInterval(timer); return; }
 
-        var d = document.createElement('details');
-        d.className = 'pieza';
-        d.id = 'nota-ruta-307';
+        // Armamos la nota con la fecha del 15 y SIN botón de voz
+        var html = `
+            <details class="pieza" id="nota-ruta-307">
+                <summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Ruta Provincial 307 habilitada hacia los Valles</summary>
+                <div class="cuerpo-in">
+                    <p class="meta">15 de Noviembre de 2026 · Información Vial · Lules</p>
+                    
+                    <p style="color: #171310 !important;"><strong>La Ruta Provincial 307 ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>
+                    
+                    <p style="color: #171310 !important;">El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>
+                    
+                    <p style="color: #171310 !important;">Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>
+                </div>
+            </details>
+        `;
 
-        var H = '';
-        
-        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Último momento: Ruta Provincial 307 habilitada hacia los Valles</summary>';
-        H += '<div class="cuerpo-in">';
-        
-        H += '<p class="meta">Información Vial · Lules</p>';
-        
-        H += '<p><strong>La Ruta Provincial 307 ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
-        
-        H += '<p>El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
-        
-        H += '<p>Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
-        
-        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Información local.</p>';
-        
-        H += '</div>';
+        // Inyectamos el HTML al principio de la sección de noticias
+        sec.insertAdjacentHTML('afterbegin', html);
 
-        d.innerHTML = H;
-        
-        var primeraNota = sec.querySelector('details.pieza');
-        if (primeraNota) {
-            sec.insertBefore(d, primeraNota);
-        } else {
-            sec.appendChild(d); 
-        }
-        
         clearInterval(timer);
     }, 500);
 })();
