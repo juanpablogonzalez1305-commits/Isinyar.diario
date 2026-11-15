@@ -18259,14 +18259,16 @@ carrusel.addEventListener('click', function(e) {
 })();
 </script>
   <script>
+<script>
 (function(){
-    var intentos = 0;
+    // Este script se queda esperando pacientemente hasta que la sección de noticias esté lista
     var timer = setInterval(function(){
-        intentos++;
         
+        // Busca la sección de noticias
         var sec = document.getElementById('noticias');
-        if(!sec) return;
+        if(!sec) return; // Si no la encuentra, vuelve a intentar en medio segundo
         
+        // Si la nota ya está pegada, no hace nada
         if(document.getElementById('nota-ruta-307')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
@@ -18301,10 +18303,11 @@ carrusel.addEventListener('click', function(e) {
             sec.appendChild(d); 
         }
         
+        // Una vez que lo insertó con éxito, deja de buscar
         clearInterval(timer);
     }, 500);
 })();
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
