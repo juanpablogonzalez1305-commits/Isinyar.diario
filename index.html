@@ -18266,30 +18266,32 @@ carrusel.addEventListener('click', function(e) {
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        if(document.getElementById('nota-arg-uru')) { clearInterval(timer); return; }
+        if(document.getElementById('nota-ara-san-juan')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-arg-uru';
+        d.id = 'nota-ara-san-juan';
 
         var H = '';
         
-        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">13 de Noviembre · La Selección Argentina cayó 2-1 ante Uruguay</summary>';
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · A 9 años del ARA San Juan: Memoria, homenaje y el reclamo de justicia</summary>';
         H += '<div class="cuerpo-in">';
         
-        H += '<p class="meta">13 de Noviembre de 2026 · Deportes · Lules</p>';
+        H += '<p class="meta">15 de Noviembre de 2026 · Sociedad · Lules</p>';
         
-        H += '<p><strong>La Selección Argentina cayó 2-1 ante Uruguay el viernes 13 de noviembre de 2026 en La Bombonera.</strong></p>';
+        H += '<p><strong>Este 15 de noviembre se cumplen nueve años de la última comunicación con el submarino ARA San Juan.</strong> La fecha, establecida por la Ley 27.758 como el Día Nacional por la Memoria de los 44 Héroes y Heroínas del submarino, convoca a una jornada de profundo respeto y reflexión en todo el país.</p>';
         
-        H += '<img class="marco" src="img/seleccion.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Selección Argentina">';
+        H += '<p>El 15 de noviembre de 2017, la nave perdió todo contacto mientras navegaba a la altura del Golfo San Jorge, en medio de un fuerte temporal. Minutos antes, se había reportado un incendio en el tanque de baterías número 3. Tras un año de intensa búsqueda internacional, los restos del submarino fueron hallados el 17 de noviembre de 2018, a más de 900 metros de profundidad y a 597 kilómetros de Comodoro Rivadavia.</p>';
         
-        H += '<p>El encuentro, un amistoso internacional, marcó el inicio oficial de la etapa posterior al retiro de Lionel Messi.</p>';
+        H += '<p>A nueve años de la tragedia, el proceso judicial dejó una condena y tres absoluciones. El Tribunal Oral Federal de Santa Cruz condenó al ex comandante de la Fuerza de Submarinos, Claudio Villamide, a tres años de prisión en suspenso, mientras que los otros tres altos mandos de la Armada fueron absueltos. Las familias calificaron el fallo como "escandaloso" y anticiparon que apelarán la sentencia y pedirán la nulidad del juicio.</p>';
         
-        H += '<button type="button" class="btn-voz-arg" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '<p>La jornada está marcada por ceremonias oficiales en distintos puntos del país. En Posadas, Misiones, se restauró un mural en homenaje a los 44 tripulantes, entre ellos los misioneros Eliana Krawczyk (primera oficial submarinista de la Armada) y Jorge Isabelino Ortiz. A nueve años, la memoria de los 44 héroes se mantiene viva, y el pedido de verdad y justicia sigue siendo el reclamo central de sus familias y de la sociedad.</p>';
+        
+        H += '<button type="button" class="btn-voz-ara" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
-          var primeraNota = sec.querySelector('details.pieza');
+              var primeraNota = sec.querySelector('details.pieza');
         if (primeraNota) {
             sec.insertBefore(d, primeraNota);
         } else {
@@ -18297,16 +18299,16 @@ carrusel.addEventListener('click', function(e) {
         }
 
         setTimeout(function(){
-            var b = d.querySelector('.btn-voz-arg');
+            var b = d.querySelector('.btn-voz-ara');
             if(!b) return;
             
             b.addEventListener('click', function(){
                 var s = window.speechSynthesis;
                 if(!s) return;
                 
-                if(window._argLeyendo){
+                if(window._araLeyendo){
                     s.cancel();
-                    window._argLeyendo = false;
+                    window._araLeyendo = false;
                     b.innerHTML = '🗣️ Escuchar en voz alta';
                     return;
                 }
@@ -18321,15 +18323,15 @@ carrusel.addEventListener('click', function(e) {
 
                 if(!bloques.length) return;
                 
-                window._argLeyendo = true;
+                window._araLeyendo = true;
                 b.innerHTML = '⏹️ Detener lectura';
                 s.cancel();
                 
                 var idx = 0;
                 function hablar(){
-                    if(!window._argLeyendo) return;
+                    if(!window._araLeyendo) return;
                     if(idx >= bloques.length){
-                        window._argLeyendo = false;
+                        window._araLeyendo = false;
                         b.innerHTML = '🗣️ Escuchar en voz alta';
                         return;
                     }
