@@ -18354,6 +18354,131 @@ carrusel.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-dique-medio')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-dique-medio';
+
+        var H = '';
+        
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Entre montañas y túneles: La historia del Dique del Medio en la Quebrada de Lules</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">15 de Noviembre de 2026 · Historia · Lules</p>';
+        
+        H += '<p><strong>Entre las montañas de la Quebrada de Lules se conserva el recuerdo de una extraordinaria obra de ingeniería hidráulica que permitió generar electricidad para Tucumán. Un antiguo túnel de aproximadamente tres kilómetros conectaba el Dique del Medio con la histórica usina hidroeléctrica, inaugurada en 1912.</strong></p>';
+        
+        // FOTO 1
+        H += '<img class="marco" src="img/quebrada1.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Quebrada de Lules">';
+        
+        H += '<p>En el corazón de la Quebrada de Lules, rodeado de vegetación y paisajes serranos, se encuentra uno de los testimonios más significativos de la historia industrial y energética de nuestra región: el antiguo sistema hidroeléctrico conocido popularmente como Dique del Medio y la Vieja Usina de Lules.</p>';
+        
+        H += '<p>Esta importante obra comenzó a construirse a principios del siglo XX y fue inaugurada en 1912. Su funcionamiento aprovechaba la fuerza del río Lules mediante un ingenioso sistema de conducción de agua que, para aquella época, representaba un importante avance tecnológico.</p>';
+        
+        H += '<p>El complejo contaba con un dique nivelador equipado con tres compuertas accionadas manualmente mediante un sistema de engranajes. Desde allí, el agua era desviada hacia un túnel excavado en la montaña, de aproximadamente tres kilómetros de extensión y ubicado a unos 180 metros sobre el nivel del río.</p>';
+        
+        // FOTO 2
+        H += '<img class="marco" src="img/quebrada2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Dique del Medio">';
+        
+        H += '<p>A través de ese conducto subterráneo, el agua llegaba hasta las instalaciones de la usina, donde impulsaba las turbinas que ponían en funcionamiento los generadores eléctricos. De esta manera, la fuerza natural del río se transformaba en energía destinada a abastecer a Tucumán y sus alrededores.</p>';
+        
+        // FOTO 3
+        H += '<img class="marco" src="img/quebrada3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Túnel de la usina">';
+        
+        H += '<p>La usina no era solamente una instalación industrial: también llegó a conformar una pequeña comunidad. Allí vivían familias de trabajadores y existían viviendas, escuela, plaza, cancha de fútbol y otros espacios que formaban parte de la vida cotidiana de sus habitantes.</p>';
+        
+        // FOTO 4
+        H += '<img class="marco" src="img/quebrada4.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Instalaciones de la usina">';
+        
+        H += '<p>Sin embargo, en 1974, una importante avalancha de piedras y lodo cubrió gran parte de las instalaciones y marcó el final de aquella etapa de funcionamiento.</p>';
+        
+        H += '<p>Hoy, las estructuras que permanecen en pie, los vestigios de las antiguas compuertas y el túnel que atraviesa la montaña constituyen un valioso testimonio de aquel pasado.</p>';
+        
+        H += '<p>El recorrido hacia el Dique del Medio, atravesando la Quebrada de Lules y las antiguas instalaciones, permite descubrir una historia en la que se unen la naturaleza, la ingeniería y la memoria de quienes habitaron y trabajaron en este lugar.</p>';
+        
+        // FOTO 5
+        H += '<img class="marco" src="img/quebrada5.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Paisaje de la Quebrada">';
+        
+        H += '<p>Un patrimonio que forma parte de nuestra identidad y que merece ser conocido, preservado y puesto en valor para las nuevas generaciones.</p>';
+        
+        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Historia, naturaleza y patrimonio de nuestra ciudad.</p>';
+        
+        H += '<button type="button" class="btn-voz-dique" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
+
+        d.innerHTML = H;
+              var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-dique');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._diqueLeyendo){
+                    s.cancel();
+                    window._diqueLeyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._diqueLeyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._diqueLeyendo) return;
+                    if(idx >= bloques.length){
+                        window._diqueLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
