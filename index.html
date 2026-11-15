@@ -18258,46 +18258,111 @@ carrusel.addEventListener('click', function(e) {
 })();
 </script>
 <script>
-setTimeout(function() {
-    var sec = document.getElementById('noticias');
-    if (!sec) return;
+<script>
+(function(){
+    var intentos = 0;
     
-    // Evitamos que se duplique si ya está
-    if (document.getElementById('nota-ruta-307')) return;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-ruta-307')) { clearInterval(timer); return; }
 
-    var d = document.createElement('details');
-    d.className = 'pieza';
-    d.id = 'nota-ruta-307';
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-ruta-307';
 
-    var H = '';
-    
-    // TÍTULO CON FECHA (15 de Noviembre)
-    H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Ruta Provincial 307 habilitada hacia los Valles</summary>';
-    H += '<div class="cuerpo-in">';
-    
-    H += '<p class="meta">15 de Noviembre de 2026 · Información Vial · Lules</p>';
-    
-    H += '<p style="color: #171310 !important;"><strong>La Ruta Provincial 307 ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
-    
-    H += '<p style="color: #171310 !important;">El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
-    
-    H += '<p style="color: #171310 !important;">Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
-    
-    H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Información local.</p>';
-    
-    H += '</div>';
+        var H = '';
+        
+        // TÍTULO CON FECHA
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Ruta Provincial 307 habilitada hacia los Valles</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        // Fecha interna y sección
+        H += '<p class="meta">15 de Noviembre de 2026 · Información Vial · Lules</p>';
+        
+        // FOTO
+        H += '<img class="marco" src="img/rutavalles.webp" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin-bottom:15px; display: block; padding: 2px; background: #fff;" alt="Ruta 307 habilitada">';
+        
+        H += '<p><strong>La Ruta Provincial 307 ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
+        
+        H += '<p>El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
+        
+        H += '<p>Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
+        
+        H += '<p>Se recomienda a la población mantenerse informada a través de los canales oficiales y respetar las indicaciones del personal de vialidad en la zona.</p>';
+        
+        // BOTÓN DE ESCUCHAR
+        H += '<button type="button" class="btn-voz-ruta-307" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '</div>';
 
-    d.innerHTML = H;
-    
-    // ACÁ ESTÁ LA MAGIA QUE USTED ME ENSEÑÓ: 
-    // Buscamos la primera nota y le clavamos la nueva JUSTO ANTES (debajo del título)
-    var primeraNota = sec.querySelector('details.pieza');
-    if (primeraNota) {
-        sec.insertBefore(d, primeraNota);
-    } else {
-        sec.appendChild(d); 
-    }
-}, 2000); // Usamos setTimeout de 2 segundos como en la prueba
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+
+        // Lógica de lectura en voz alta
+        setTimeout(function(){
+            var b = d.querySelector('.btn-voz-ruta-307');
+            if(!b) return;
+            
+            b.addEventListener('click', function(){
+                var s = window.speechSynthesis;
+                if(!s) return;
+                
+                if(window._ruta307Leyendo){
+                    s.cancel();
+                    window._ruta307Leyendo = false;
+                    b.innerHTML = '🗣️ Escuchar en voz alta';
+                    return;
+                }
+
+                var cue = d.querySelector('.cuerpo-in');
+                var bloques = [];
+                cue.querySelectorAll('p').forEach(function(el){
+                    var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                    if(!t) return;
+                    bloques.push({txt: t, pausa: 300});
+                });
+
+                if(!bloques.length) return;
+                
+                window._ruta307Leyendo = true;
+                b.innerHTML = '⏹️ Detener lectura';
+                s.cancel();
+                
+                var idx = 0;
+                function hablar(){
+                    if(!window._ruta307Leyendo) return;
+                    if(idx >= bloques.length){
+                        window._ruta307Leyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+                    
+                    var item = bloques[idx];
+                    var u = new SpeechSynthesisUtterance(item.txt);
+                    u.lang = 'es-AR';
+                    u.rate = .92;
+                    
+                    u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                    s.speak(u);
+                }
+                setTimeout(function(){ s.resume(); hablar(); }, 300);
+            });
+        }, 500);
+        
+        clearInterval(timer);
+    }, 500);
+})();
 </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
