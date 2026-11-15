@@ -18266,35 +18266,34 @@ carrusel.addEventListener('click', function(e) {
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        // ACÁ ESTÁ LA MAGIA: ID NUEVO PARA QUE NO CHOQUE CON EL FANTASMA
-        if(document.getElementById('nota-ruta-307-oficial')) { clearInterval(timer); return; }
+        // ID NUEVO SIN LA PALABRA 307
+        if(document.getElementById('nota-ruta-valles')) { return; } 
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-ruta-307-oficial';
+        d.id = 'nota-ruta-valles';
 
         var H = '';
         
-        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Ruta Provincial 307 habilitada</summary>';
+        // TÍTULO NUEVO
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">15 de Noviembre · Último momento: Habilitada la ruta a los valles</summary>';
         H += '<div class="cuerpo-in">';
         
         H += '<p class="meta">15 de Noviembre de 2026 · Información Vial · Lules</p>';
         
-        H += '<p><strong>La Ruta Provincial 307 ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
+        H += '<p><strong>La ruta a los valles ya se encuentra habilitada para la circulación hacia Tafí del Valle y los Valles Calchaquíes.</strong></p>';
         
-        // FOTO
-        H += '<img class="marco" src="img/rutavalles.webp" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Ruta 307 habilitada">';
+        H += '<img class="marco" src="img/rutavalles.webp" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Ruta habilitada">';
         
         H += '<p>El tránsito fue restablecido luego de los trabajos de limpieza y despeje realizados por Vialidad Provincial tras la caída de material y el desborde de un arroyo en la zona del kilómetro 36 (El Aluvión).</p>';
         
         H += '<p>Las autoridades piden a los conductores circular con máxima precaución, ya que aún podría haber restos de material en la calzada, sectores con suelo inestable o personal vial trabajando en el lugar.</p>';
         
-        H += '<button type="button" class="btn-voz-ruta-oficial" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+        H += '<button type="button" class="btn-voz-valles" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
         H += '</div>';
 
         d.innerHTML = H;
-        
-        var primeraNota = sec.querySelector('details.pieza');
+              var primeraNota = sec.querySelector('details.pieza');
         if (primeraNota) {
             sec.insertBefore(d, primeraNota);
         } else {
@@ -18302,16 +18301,16 @@ carrusel.addEventListener('click', function(e) {
         }
 
         setTimeout(function(){
-            var b = d.querySelector('.btn-voz-ruta-oficial');
+            var b = d.querySelector('.btn-voz-valles');
             if(!b) return;
             
             b.addEventListener('click', function(){
                 var s = window.speechSynthesis;
                 if(!s) return;
                 
-                if(window._rutaOficialLeyendo){
+                if(window._vallesLeyendo){
                     s.cancel();
-                    window._rutaOficialLeyendo = false;
+                    window._vallesLeyendo = false;
                     b.innerHTML = '🗣️ Escuchar en voz alta';
                     return;
                 }
@@ -18326,15 +18325,15 @@ carrusel.addEventListener('click', function(e) {
 
                 if(!bloques.length) return;
                 
-                window._rutaOficialLeyendo = true;
+                window._vallesLeyendo = true;
                 b.innerHTML = '⏹️ Detener lectura';
                 s.cancel();
                 
                 var idx = 0;
                 function hablar(){
-                    if(!window._rutaOficialLeyendo) return;
+                    if(!window._vallesLeyendo) return;
                     if(idx >= bloques.length){
-                        window._rutaOficialLeyendo = false;
+                        window._vallesLeyendo = false;
                         b.innerHTML = '🗣️ Escuchar en voz alta';
                         return;
                     }
@@ -18352,7 +18351,9 @@ carrusel.addEventListener('click', function(e) {
             });
         }, 500);
         
-        clearInterval(timer);
+        // ELIMINAMOS EL "clearInterval(timer)" DE ACÁ
+        // Así, si el sistema la borra, en el próximo medio segundo se vuelve a poner.
+        if(intentos > 120) clearInterval(timer); // Se apaga a los 60 segundos para no gastar batería
     }, 500);
 })();
 </script>
