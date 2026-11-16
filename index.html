@@ -18867,20 +18867,20 @@ document.addEventListener('click', function(e) {
             var d = document.createElement('details');
             d.id = 'boton-miguel-home';
             
-            // EL CAJÓN EXTERIOR: Marco dorado grueso, sombra 3D por fuera y fondo negro
-            d.style.cssText = 'margin-top: 15px; border: 3px solid #c9a243 !important; border-radius: 14px !important; background: #15110d !important; box-shadow: 0 6px 0 #4a2c11, 0 10px 15px rgba(0,0,0,0.5) !important; padding: 0 !important;';
+            // EL CAJÓN EXTERIOR: Le agregamos un padding de 3px para crear el hueco negro y la sombra 3D
+            d.style.cssText = 'margin-top: 15px; border: 2px solid #c9a243 !important; border-radius: 14px !important; background: #15110d !important; box-shadow: 0 4px 0 #4a2c11, 0 8px 15px rgba(0,0,0,0.5) !important; padding: 3px !important;';
 
             var H = '';
             
-            // LA TECLA INTERIOR: Borde dorado fino y sombra interna (inset) para que parezca hundida
-            H += '<summary style="padding: 12px 15px !important; display: flex !important; align-items: center !important; gap: 15px !important; list-style: none !important; outline: none !important; background: #15110d !important; border-radius: 10px !important; border: 2px solid #c9a243 !important; box-shadow: inset 0 3px 8px rgba(0,0,0,0.8) !important;">';
+            // LA TECLA INTERIOR: Acá le ponemos el "marquito dorado finito" (border: 1.5px solid) y la sombra hundida
+            H += '<summary style="padding: 10px 12px !important; display: flex !important; align-items: center !important; gap: 12px !important; list-style: none !important; outline: none !important; background: #15110d !important; border-radius: 10px !important; border: 1.5px solid #c9a243 !important; box-shadow: inset 0 3px 8px rgba(0,0,0,0.8) !important;">';
             
-            // El logo redondito y con marco
+            // El logo redondito
             H += '<div style="overflow:hidden; border-radius:50%; width:45px; height:45px; display:flex; align-items:center; justify-content:center; background:#fff; border: 2px solid #c9a243; flex-shrink: 0;">';
             H += '<img src="img/logomiguel.jpg" style="width:100%; height:100%; object-fit:cover;">';
             H += '</div>';
             
-            // Los textos al lado (Con el nombre completo)
+            // Los textos completos
             H += '<div style="display: flex; flex-direction: column; justify-content: center; text-align: left;">';
             H += '<h3 style="margin: 0 !important; color: #ffd87a !important; font-family: Fraunces, serif !important; font-size: 1.1rem !important; font-weight: 900 !important; line-height: 1.1 !important;">Gestión Documentada</h3>';
             H += '<p style="margin: 0 !important; color: #f4efe6 !important; font-family: Arial, sans-serif !important; font-size: 0.85rem !important; line-height: 1.2 !important; margin-top: 3px !important;">Concejal Prof. Miguel Albarracín</p>';
@@ -18937,7 +18937,7 @@ document.addEventListener('click', function(e) {
         if (intentos > 40) clearInterval(timer);
     }, 500);
 })();
-</script>                                                         
+            </script>                                                         
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
