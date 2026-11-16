@@ -18481,6 +18481,64 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        // Usamos dia16 para que el sistema sepa que ya cargó las de hoy
+        if(cuerpoEfemerides && !cuerpoEfemerides.dataset.dia16) {
+            clearInterval(timer);
+            
+            // 1. ACÁ ESTÁ EL BARRIDO AUTOMÁTICO: LIMPIAMOS LAS ANTERIORES
+            cuerpoEfemerides.innerHTML = '';
+
+            // 2. NOTA 1: DÍA DEL DEPORTISTA
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d1.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">16 de Noviembre: Día del Deportista en Argentina</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Se celebra en coincidencia con el Día Internacional para la Tolerancia, establecido por la UNESCO en 1995. La fecha rinde homenaje a la actividad física por su rol fundamental en la integración social, el intercambio y la cooperación entre las personas.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d1);
+
+            // 3. NOTA 2: JOSÉ SARAMAGO
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d2.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">16 de Noviembre: Nacimiento de José Saramago (1922)</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Nace en Portugal el escritor José Saramago, Premio Nobel de Literatura 1998 y autor de obras fundamentales como "Ensayo sobre la ceguera" y "El Evangelio según Jesucristo". Fue el primer escritor en lengua portuguesa en recibir el Nobel.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d2);
+                      // 4. NOTA 3: FUNDACIÓN DE LA UNESCO
+            var d3 = document.createElement('details');
+            d3.className = 'pieza sub-efemerides';
+            d3.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d3.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">16 de Noviembre: Fundación de la UNESCO (1945)</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Se crea la Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura, con el objetivo de contribuir a la paz y la seguridad mundial mediante la cooperación internacional en estos ámbitos.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d3);
+
+            // Marcamos como listo (dia16)
+            cuerpoEfemerides.dataset.dia16 = '1';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
