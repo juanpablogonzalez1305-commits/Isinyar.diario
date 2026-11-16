@@ -18399,17 +18399,74 @@ carrusel.addEventListener('click', function(e) {
             var btnAlbarracin = panelNuevo.querySelector('#btn-albarracin');
             var infoAlbarracin = panelNuevo.querySelector('#info-albarracin');
             
-            btnAlbarracin.addEventListener('click', function(e) {
-                e.preventDefault(); 
+            var cajaBotones = labelCultura.closest('.his-tabs') || labelCultura.parentNode.parentNode;
+            cajaBotones.parentNode.insertBefore(panelNuevo, cajaBotones.nextSibling);
+
+            function detenerVoz() {
+                window.speechSynthesis.cancel();
+                var botonesEscuchar = document.querySelectorAll('.btn-escuchar');
+                botonesEscuchar.forEach(function(b) { b.innerHTML = '🔊 Escuchar en voz alta'; }); 
+            }
+
+            var btnEscuchar = panelNuevo.querySelector('.btn-escuchar');
+            if(btnEscuchar) {
+                btnEscuchar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var textos = panelNuevo.querySelectorAll('.texto-nota');
+                    var textoParaLeer = "";
+                    textos.forEach(function(t) { textoParaLeer += t.innerText + " "; });
+
+                    if (window.speechSynthesis.speaking && this.innerHTML.includes('Detener')) {
+                        detenerVoz();
+                    } else {
+                        detenerVoz();
+                        var u = new SpeechSynthesisUtterance(textoParaLeer);
+                        
+                        var voces = window.speechSynthesis.getVoices();
+                        var vozLatina = null;
+                        
+                        for (var i = 0; i < voces.length; i++) {
+                            if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
+                                vozLatina = voces[i]; break;
+                            }
+                        }
+                        if (!vozLatina) {
+                            for (var j = 0; j < voces.length; j++) {
+                                if (voces[j].lang.includes('es') && !voces[j].lang.includes('es-ES')) {
+                                    vozLatina = voces[j]; break;
+                                }
+                            }
+                        }
+                        
+                        if (vozLatina) { u.voice = vozLatina; u.lang = vozLatina.lang; } 
+                        else { u.lang = 'es-AR'; }
+                        u.rate = 0.92;
+
+                        u.onend = function() { btnEscuchar.innerHTML = '🔊 Escuchar en voz alta'; };
+                        window.speechSynthesis.speak(u);
+                        btnEscuchar.innerHTML = '⏹️ Detener lectura';
+                    }
+                });
+            }
+
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 detenerVoz(); 
-                if (infoAlbarracin.style.display === 'none') {
-                    infoAlbarracin.style.display = 'block';
-                } else {
-                    infoAlbarracin.style.display = 'none';
+                btn.classList.add('activo');
+                panelNuevo.style.display = 'block';
+                document.body.classList.add('modo-gestion-doc');
+                var radios = document.querySelectorAll('input[name="subhis"]');
+                radios.forEach(function(r) { r.checked = false; });
+
+                // ACÁ ESTÁ LA MAGIA: Le decimos a la caja que se abra sola al tocar la tecla
+                var cajaMiguel = panelNuevo.querySelector('#btn-albarracin');
+                if (cajaMiguel) {
+                    cajaMiguel.setAttribute('open', 'true');
                 }
             });
-            
-            infoAlbarracin.style.display = 'none';
+
+            // NOTA: Acá borré el código viejo que bloqueaba la apertura manual.
 
             var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
             botonesOriginales.forEach(function(lbl) {
