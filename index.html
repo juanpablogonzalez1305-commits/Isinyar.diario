@@ -18539,6 +18539,47 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
 </script>
+  <script>
+(function() {
+    // Palabras clave de las notas que queremos ocultar
+    var palabrasParaOcultar = [
+        "alerta amarilla",
+        "ruta 307",
+        "salta", 
+        "river",
+        "ginóbili",
+        "machete",
+        "colonia 2",
+        "canta la patria"
+    ];
+
+    var intentos = 0;
+    var timer = setInterval(function() {
+        intentos++;
+        var sec = document.getElementById('noticias');
+        
+        if (sec) {
+            var notas = sec.querySelectorAll('details.pieza');
+            
+            notas.forEach(function(nota) {
+                // Buscamos el título de la nota
+                var tituloNota = nota.querySelector('summary') ? nota.querySelector('summary').innerText.toLowerCase() : "";
+                
+                // Revisamos si el título contiene alguna de las palabras que queremos ocultar
+                for (var i = 0; i < palabrasParaOcultar.length; i++) {
+                    if (tituloNota.includes(palabrasParaOcultar[i])) {
+                        nota.style.display = 'none'; // La ocultamos visualmente
+                        break; // Si ya la ocultó, pasa a la siguiente
+                    }
+                }
+            });
+        }
+        
+        // Se detiene a los 20 segundos para no consumir batería
+        if (intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
