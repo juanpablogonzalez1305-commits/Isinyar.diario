@@ -18459,14 +18459,9 @@ carrusel.addEventListener('click', function(e) {
                 var radios = document.querySelectorAll('input[name="subhis"]');
                 radios.forEach(function(r) { r.checked = false; });
 
-                // ACÁ ESTÁ LA MAGIA: Le decimos a la caja que se abra sola al tocar la tecla
-                var cajaMiguel = panelNuevo.querySelector('#btn-albarracin');
-                if (cajaMiguel) {
-                    cajaMiguel.setAttribute('open', 'true');
-                }
+                // NOTA: Acá eliminamos la orden que forzaba la apertura.
+                // Ahora la caja de Albarracín se muestra cerrada, esperando que el lector toque.
             });
-
-            // NOTA: Acá borré el código viejo que bloqueaba la apertura manual.
 
             var botonesOriginales = document.querySelectorAll('label[for^="his-"]');
             botonesOriginales.forEach(function(lbl) {
