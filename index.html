@@ -18782,6 +18782,61 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
 </script>
+                         <script>
+(function() {
+    var intentos = 0;
+    var timer = setInterval(function() {
+        intentos++;
+        
+        // 1. Buscamos la foto de Miguel en la vitrina de auspiciantes
+        var imgMiguel = document.querySelector('img[src*="miguelausp.jpg"]');
+        
+        // Si la encontramos y todavía no le pusimos el "gancho"...
+        if (imgMiguel && !imgMiguel.dataset.clickeable) {
+            imgMiguel.dataset.clickeable = 'si';
+            imgMiguel.style.cursor = 'pointer'; // Le ponemos la manito para que la gente sepa que se puede tocar
+            
+            // 2. Cuando el lector toque la foto...
+            imgMiguel.addEventListener('click', function(e) {
+                e.preventDefault(); // Evitamos que haga cualquier otra cosa
+                
+                // --- ACÁ EMPIEZA LA MAGIA ---
+                
+                // Paso A: Buscamos el botón de "Historia y Cultura" en el menú superior y lo tocamos
+                var botonesMenu = document.querySelectorAll('a, button, label, div');
+                var btnHistoria = Array.from(botonesMenu).find(function(el) {
+                    return el.textContent.trim() === 'Historia y Cultura' && !el.querySelector('div');
+                });
+                
+                if (btnHistoria) {
+                    btnHistoria.click();
+                }
+
+                // Paso B: Esperamos medio segundo a que la sección cambie, y tocamos "Gestión Doc."
+                setTimeout(function() {
+                    var btnGestion = document.getElementById('btn-gestion-doc');
+                    if (btnGestion) {
+                        btnGestion.click();
+
+                        // Paso C: Esperamos otro medio segundo y abrimos la caja de Albarracín
+                        setTimeout(function() {
+                            var btnAlbarracin = document.getElementById('btn-albarracin');
+                            if (btnAlbarracin) {
+                                // Si la caja está cerrada, la forzamos a abrirse
+                                if (btnAlbarracin.parentElement.tagName === 'DETAILS') {
+                                    btnAlbarracin.parentElement.setAttribute('open', 'true');
+                                }
+                            }
+                        }, 500); // Espera medio segundo
+                    }
+                }, 500); // Espera medio segundo
+            });
+        }
+        
+        if (intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
