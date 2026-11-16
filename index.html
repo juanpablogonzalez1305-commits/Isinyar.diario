@@ -18782,52 +18782,60 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
 </script>
-<style>
-    /* Forzamos la manito para que la gente sepa que es clickeable */
-    img[src*="miguelausp.jpg"] {
-        cursor: pointer !important;
-    }
-</style>
-
 <script>
-document.addEventListener('click', function(e) {
-    // 1. Verificamos si el clic fue en la foto de Miguel
-    var img = e.target.closest('img');
-    if (img && img.src.includes('miguelausp.jpg')) {
+// ESTE ES EL SISTEMA DE FUERZA BRUTA PARA EL CARRUSEL DE AUSPICIANTES
+setInterval(function() {
+    // 1. Buscamos la vitrina de auspiciantes
+    var vitrina = document.getElementById('vitrina-auspiciantes');
+    if (!vitrina) return;
+    
+    // 2. Buscamos la foto de Miguel por su nombre
+    var img = vitrina.querySelector('img[src*="miguelausp.jpg"]');
+    
+    // 3. Si la encontramos y no le pusimos el clic todavía...
+    if (img && !img.getAttribute('data-clickeable')) {
+        img.setAttribute('data-clickeable', 'true');
+        img.style.cursor = 'pointer'; // Le ponemos la manito
         
-        e.preventDefault(); // Frenamos cualquier otra acción
-        
-        // 2. Buscamos el botón de "Historia y Cultura" en el menú
-        var botones = document.querySelectorAll('a, button, label, div');
-        var btnHistoria = Array.from(botones).find(function(el) {
-            // Busca el que diga "Historia y Cultura" y que no sea un contenedor gigante
-            return el.textContent.trim().includes('Historia y Cultura') && el.textContent.length < 30;
-        });
-        
-        if (btnHistoria) {
-            btnHistoria.click();
-        }
-
-        // 3. Esperamos un toque (700ms) y tocamos "Gestión Doc."
-        setTimeout(function() {
-            var btnGestion = document.getElementById('btn-gestion-doc');
-            if (btnGestion) {
-                btnGestion.click();
-
-                // 4. Esperamos otro toque y abrimos la caja de Albarracín
-                setTimeout(function() {
-                    var btnAlbarracin = document.getElementById('btn-albarracin');
-                    if (btnAlbarracin) {
-                        // Si la caja está cerrada, la forzamos a abrirse
-                        if (btnAlbarracin.parentElement.tagName === 'DETAILS') {
-                            btnAlbarracin.parentElement.setAttribute('open', 'true');
-                        }
-                    }
-                }, 700); 
+        // 4. Le asignamos la acción de viaje directo
+        img.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // Frenamos el carrusel para que no cambie de foto
+            
+            // Buscamos el botón de "Historia y Cultura" en el menú superior
+            var btns = document.querySelectorAll('a, button, div, span, label');
+            var btnHC = null;
+            
+            for (var i = 0; i < btns.length; i++) {
+                var txt = btns[i].textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+                if (txt === 'historia y cultura' || txt === 'historia y cultura ') {
+                    btnHC = btns[i];
+                    break;
+                }
             }
-        }, 700); 
+            
+            // Si lo encontramos, hacemos los clics en cadena
+            if (btnHC) {
+                btnHC.click();
+                
+                setTimeout(function() {
+                    var btnGD = document.getElementById('btn-gestion-doc');
+                    if (btnGD) {
+                        btnGD.click();
+                        setTimeout(function() {
+                            var btnAlb = document.getElementById('btn-albarracin');
+                            if (btnAlb && btnAlb.parentElement.tagName === 'DETAILS') {
+                                btnAlb.parentElement.setAttribute('open', 'true');
+                            }
+                        }, 500); // Espera medio segundo para abrir la caja de Miguel
+                    }
+                }, 500); // Espera medio segundo para ir a la pestaña
+            } else {
+                console.log("El código no encontró el botón de Historia y Cultura");
+            }
+        };
     }
-});
+}, 500);
 </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
