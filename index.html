@@ -16809,7 +16809,8 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
              // { img: 'img/noticia9.webp', id: 'nota-alerta-amarilla', texto: 'Atención Lules: Alerta amarilla por tormentas fuertes' },
               //{ img: 'img/ruta307.webp', id: 'nota-ruta307', texto: 'Alerta en los Valles: Cortada la Ruta 307 por aluvión' },
               { img: 'img/ara-san-juan.webp', id: 'nota-ara-san-juan', texto: 'A 9 años del ARA San Juan: Memoria y homenaje' },
-    { img: 'img/nota-dique.webp', id: 'nota-dique-medio', texto: 'Entre montañas y túneles: La historia del Dique del Medio en la Quebrada de Lules' }
+    { img: 'img/nota-dique.webp', id: 'nota-dique-medio', texto: 'Entre montañas y túneles: La historia del Dique del Medio en la Quebrada de Lules' },
+              { img: 'img/casacultura.jpg', id: 'nota-ver-corazon-bullying', texto: '"Ver con el corazón": Teatro para reflexionar y decirle no al bullying' }
             ];
             
             var H = '';
@@ -18589,7 +18590,6 @@ panelNuevo.innerHTML = `
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        // ID NUEVO PARA EVITAR FANTASMAS
         if(document.getElementById('nota-ver-corazon-bullying')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
@@ -18605,8 +18605,8 @@ panelNuevo.innerHTML = `
         
         H += '<p><strong>Este lunes 16 de noviembre a las 21:30 hs, la Casa de la Cultura de San Isidro de Lules abrirá sus puertas para presentar la obra de teatro "Ver con el corazón".</strong> La función, con entrada libre y gratuita para toda la comunidad, propone una profunda reflexión sobre el bullying y la importancia de la empatía en la sociedad actual.</p>';
         
-        // FOTO (Acá va el nombre de la foto que suba)
-        H += '<img class="marco" src="img/teatro-corazon.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Obra teatral Ver con el corazón">';
+        // FOTO CORREGIDA
+        H += '<img class="marco" src="img/casacultura.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Casa de la Cultura">';
         
         H += '<p>A través de una puesta en escena emotiva, la obra aborda las problemáticas que atraviesan muchos niños y jóvenes en la actualidad, invitando al público a ponerse en el lugar del otro y a tomar conciencia sobre el daño que causan el acoso y la discriminación. El teatro se convierte así en una herramienta fundamental para visibilizar estas situaciones y fomentar valores de respeto y compañerismo.</p>';
         
