@@ -18783,7 +18783,73 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
 </script>
+<script>
+document.addEventListener('click', function(e) {
+    // 1. Verificamos si el clic fue en el carrusel de noticias
+    var carrusel = document.getElementById('carrusel-destacadas');
+    if (!carrusel || !carrusel.contains(e.target)) return;
 
+    // 2. Vemos qué foto está activa en ese momento
+    var activeSlide = carrusel.querySelector('.slide-contenedor.active');
+    if (!activeSlide) return;
+
+    // 3. Nos fijamos si la foto activa es la de Miguel
+    var targetId = activeSlide.getAttribute('data-target');
+    if (targetId === 'btn-albarracin') {
+        
+        // ¡ES LA DE MIGUEL! Frenamos el carrusel normal.
+        e.preventDefault();
+        e.stopPropagation(); 
+        e.stopImmediatePropagation(); // Esto evita que el código nativo (que va a Noticias) se ejecute
+
+        // 4. Buscamos la pestaña de "Historia y Cultura"
+        // Probamos con los IDs más comunes que suele usar su sistema
+        var radioHC = document.getElementById('s-hc') || document.getElementById('s-historia') || document.getElementById('s-cultura');
+        
+        // Si no está por ID, buscamos la etiqueta que diga "Historia y Cultura"
+        if (!radioHC) {
+            var labels = document.querySelectorAll('label');
+            for (var i = 0; i < labels.length; i++) {
+                if (labels[i].textContent.includes('Historia y Cultura')) {
+                    radioHC = document.getElementById(labels[i].getAttribute('for'));
+                    if(!radioHC) labels[i].click(); // Si no tiene ID, le damos clic a la etiqueta
+                    break;
+                }
+            }
+        }
+
+        // 5. Si encontramos la pestaña, la activamos
+        if (radioHC) {
+            radioHC.checked = true;
+            radioHC.dispatchEvent(new Event('change'));
+        }
+
+        // 6. Esperamos un instante a que cambie la sección y abrimos Gestión Doc.
+        setTimeout(function() {
+            var btnGestion = document.getElementById('btn-gestion-doc');
+            if (btnGestion) {
+                btnGestion.click();
+
+                // 7. Esperamos a que abra y desplegamos la caja de Albarracín
+                setTimeout(function() {
+                    var btnAlb = document.getElementById('btn-albarracin');
+                    if (btnAlb) {
+                        if (btnAlb.parentElement.tagName === 'DETAILS') {
+                            btnAlb.parentElement.setAttribute('open', '');
+                        }
+                        
+                        // 8. Hacemos scroll suave hasta la caja
+                        setTimeout(function() {
+                            var yOffset = btnAlb.getBoundingClientRect().top + window.pageYOffset - 20;
+                            window.scrollTo({ top: yOffset, behavior: 'smooth' });
+                        }, 300);
+                    }
+                }, 600);
+            }
+        }, 600);
+    }
+}, true); // El 'true' le dice al navegador que ejecute esto ANTES que el código del carrusel.
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
