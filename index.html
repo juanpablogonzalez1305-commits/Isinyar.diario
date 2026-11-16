@@ -18783,60 +18783,68 @@ panelNuevo.innerHTML = `
 })();
 </script>
 <script>
-// ESTE ES EL SISTEMA DE FUERZA BRUTA PARA EL CARRUSEL DE AUSPICIANTES
+// VIGILANTE DIAGNÓSTICO
 setInterval(function() {
-    // 1. Buscamos la vitrina de auspiciantes
     var vitrina = document.getElementById('vitrina-auspiciantes');
     if (!vitrina) return;
     
-    // 2. Buscamos la foto de Miguel por su nombre
     var img = vitrina.querySelector('img[src*="miguelausp.jpg"]');
     
-    // 3. Si la encontramos y no le pusimos el clic todavía...
-    if (img && !img.getAttribute('data-clickeable')) {
-        img.setAttribute('data-clickeable', 'true');
-        img.style.cursor = 'pointer'; // Le ponemos la manito
+    if (img && !img.getAttribute('data-click-diagnostico')) {
+        img.setAttribute('data-click-diagnostico', 'true');
+        img.style.cursor = 'pointer';
         
-        // 4. Le asignamos la acción de viaje directo
         img.onclick = function(e) {
             e.preventDefault();
-            e.stopPropagation(); // Frenamos el carrusel para que no cambie de foto
+            e.stopPropagation(); 
             
-            // Buscamos el botón de "Historia y Cultura" en el menú superior
-            var btns = document.querySelectorAll('a, button, div, span, label');
+            alert("1. ¡Tocaste la foto de Miguel!");
+            
+            // Buscamos el botón de Historia y Cultura
+            var btns = document.querySelectorAll('a, button, div, span, label, li');
             var btnHC = null;
             
             for (var i = 0; i < btns.length; i++) {
                 var txt = btns[i].textContent.replace(/\s+/g, ' ').trim().toLowerCase();
-                if (txt === 'historia y cultura' || txt === 'historia y cultura ') {
+                // Buscamos que diga "historia" y no sea un texto gigante
+                if (txt.indexOf('historia') > -1 && txt.length < 40) {
                     btnHC = btns[i];
                     break;
                 }
             }
             
-            // Si lo encontramos, hacemos los clics en cadena
             if (btnHC) {
+                alert("2. Encontré el botón de menú. Voy a hacer clic.");
                 btnHC.click();
                 
                 setTimeout(function() {
                     var btnGD = document.getElementById('btn-gestion-doc');
                     if (btnGD) {
+                        alert("3. Encontré el botón de Gestión Doc. Voy a abrirlo.");
                         btnGD.click();
+                        
                         setTimeout(function() {
                             var btnAlb = document.getElementById('btn-albarracin');
-                            if (btnAlb && btnAlb.parentElement.tagName === 'DETAILS') {
-                                btnAlb.parentElement.setAttribute('open', 'true');
+                            if (btnAlb) {
+                                alert("4. ¡Encontré la caja de Albarracín! Abriendo.");
+                                if (btnAlb.parentElement.tagName === 'DETAILS') {
+                                    btnAlb.parentElement.setAttribute('open', 'true');
+                                }
+                            } else {
+                                alert("❌ ERROR: No encontré la caja de Albarracín.");
                             }
-                        }, 500); // Espera medio segundo para abrir la caja de Miguel
+                        }, 1000); 
+                    } else {
+                        alert("❌ ERROR: No encontré el botón de Gestión Doc.");
                     }
-                }, 500); // Espera medio segundo para ir a la pestaña
+                }, 1000); 
             } else {
-                console.log("El código no encontró el botón de Historia y Cultura");
+                alert("❌ ERROR: No pude encontrar el botón de 'Historia y Cultura' en el menú. Mándame captura del código del menú, jefe.");
             }
         };
     }
 }, 500);
-</script>
+              </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
