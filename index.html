@@ -18783,56 +18783,52 @@ panelNuevo.innerHTML = `
 })();
 </script>
 <script>
-// VIGILANTE GLOBAL (ESCUCHA TODOS LOS CLICS DE LA PÁGINA)
+// ESCUCHAMOS TODOS LOS CLICS EN LA PÁGINA
 document.addEventListener('click', function(e) {
     
-    // Buscamos si el clic fue en la foto de Miguel (o en su contenedor padre)
-    var img = e.target.closest('img');
-    
-    if (img && img.src.includes('miguelausp.jpg')) {
+    // 1. Verificamos si el clic fue en la foto de Miguel en la vitrina
+    var target = e.target;
+    if (target.tagName === 'IMG' && target.src.includes('miguelausp.jpg')) {
         
-        alert("1. ¡Tocaste la foto de Miguel! El vigilante global funcionó.");
-        e.preventDefault();
+        e.preventDefault(); // Frenamos el clic normal
         
-        // Buscamos el botón de "Historia y Cultura" de forma muy amplia
-        var btns = document.querySelectorAll('a, button, div, span, label, li, p');
-        var btnHC = null;
+        // 2. Buscamos el botón de la pestaña "Historia y Cultura"
+        var labels = document.querySelectorAll('label, a, button, div');
+        var btnHistoria = null;
         
-        for (var i = 0; i < btns.length; i++) {
-            var txt = btns[i].textContent.replace(/\s+/g, ' ').trim().toLowerCase();
-            if (txt.includes('historia y cultura') && txt.length < 40) {
-                btnHC = btns[i];
+        for (var i = 0; i < labels.length; i++) {
+            var txt = labels[i].textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+            if (txt === 'historia y cultura') {
+                btnHistoria = labels[i];
                 break;
             }
         }
         
-        if (btnHC) {
-            alert("2. ¡Encontré el botón de Historia y Cultura! Haciendo clic...");
-            btnHC.click();
+        if (btnHistoria) {
+            btnHistoria.click(); // Hacemos clic en la pestaña
             
+            // 3. Esperamos un instante a que cargue la sección y hacemos los clics
             setTimeout(function() {
-                var btnGD = document.getElementById('btn-gestion-doc');
-                if (btnGD) {
-                    alert("3. ¡Encontré el botón de Gestión Doc! Haciendo clic...");
-                    btnGD.click();
+                var btnGestion = document.getElementById('btn-gestion-doc');
+                if (btnGestion) {
+                    btnGestion.click(); // Abrimos Gestión Doc.
                     
                     setTimeout(function() {
                         var btnAlb = document.getElementById('btn-albarracin');
                         if (btnAlb) {
-                            alert("4. ¡Encontré la caja de Albarracín! Abriendo.");
+                            // Si es un <details>, lo abrimos
                             if (btnAlb.parentElement.tagName === 'DETAILS') {
-                                btnAlb.parentElement.setAttribute('open', 'true');
+                                btnAlb.parentElement.setAttribute('open', '');
                             }
-                        } else {
-                            alert("❌ ERROR: No encontré la caja de Albarracín (btn-albarracin).");
+                            
+                            // 4. Hacemos el scroll suave hasta la caja de Miguel
+                            setTimeout(function() {
+                                btnAlb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 300);
                         }
-                    }, 1000); 
-                } else {
-                    alert("❌ ERROR: No encontré el botón de Gestión Doc. (btn-gestion-doc).");
+                    }, 600); // Espera a que se abra Gestión Doc
                 }
-            }, 1000); 
-        } else {
-            alert("❌ ERROR: No pude encontrar el botón de Historia y Cultura en el menú.");
+            }, 600); // Espera a que cambie la pestaña
         }
     }
 });
