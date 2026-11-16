@@ -18680,6 +18680,108 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la nota de "Tango para tres" para insertar arriba
+        var notasCultura = document.querySelectorAll('details.pieza');
+        var notaTango = null;
+        
+        for(var i=0; i<notasCultura.length; i++) {
+            var summary = notasCultura[i].querySelector('summary');
+            if(summary && summary.innerText.indexOf('Tango para tres') > -1) {
+                notaTango = notasCultura[i];
+                break;
+            }
+        }
+        
+        // Si la encontramos y no hemos insertado la nueva nota todavía
+        if(notaTango && !document.getElementById('nota-teatro-cultura')) {
+            clearInterval(timer);
+
+            var d = document.createElement('details');
+            d.className = 'pieza';
+            d.id = 'nota-teatro-cultura';
+
+            var H = '';
+            
+            H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">16 de Noviembre · "Ver con el corazón": Teatro contra el bullying en la Casa de la Cultura</summary>';
+            H += '<div class="cuerpo-in">';
+            
+            H += '<p class="meta">16 de Noviembre de 2026 · Cultura · Lules</p>';
+            
+            H += '<p><strong>Este lunes 16 de noviembre a las 21:30 hs, la Casa de la Cultura de Lules presenta la obra teatral "Ver con el corazón".</strong> Con entrada libre y gratuita, la puesta en escena aborda la problemática del bullying y la importancia de la empatía, invitando a la comunidad a reflexionar sobre el respeto y el compañerismo. Una propuesta ideal para disfrutar en familia.</p>';
+            
+            // FOTO (El flyer que me mandó)
+            H += '<img class="marco" src="img/culturaviva1.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Flyer obra de teatro Ver con el corazón">';
+            
+            H += '<button type="button" class="btn-voz-cultura" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🗣️ Escuchar en voz alta</button>';
+            H += '</div>';
+
+            d.innerHTML = H;
+            
+            // Insertamos justo antes de Tango para tres
+            notaTango.parentNode.insertBefore(d, notaTango);
+                      // Lógica de lectura en voz alta
+            setTimeout(function(){
+                var b = d.querySelector('.btn-voz-cultura');
+                if(!b) return;
+                
+                b.addEventListener('click', function(){
+                    var s = window.speechSynthesis;
+                    if(!s) return;
+                    
+                    if(window._culturaLeyendo){
+                        s.cancel();
+                        window._culturaLeyendo = false;
+                        b.innerHTML = '🗣️ Escuchar en voz alta';
+                        return;
+                    }
+
+                    var cue = d.querySelector('.cuerpo-in');
+                    var bloques = [];
+                    cue.querySelectorAll('p').forEach(function(el){
+                        var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+                        if(!t) return;
+                        bloques.push({txt: t, pausa: 300});
+                    });
+
+                    if(!bloques.length) return;
+                    
+                    window._culturaLeyendo = true;
+                    b.innerHTML = '⏹️ Detener lectura';
+                    s.cancel();
+                    
+                    var idx = 0;
+                    function hablar(){
+                        if(!window._culturaLeyendo) return;
+                        if(idx >= bloques.length){
+                            window._culturaLeyendo = false;
+                            b.innerHTML = '🗣️ Escuchar en voz alta';
+                            return;
+                        }
+                        
+                        var item = bloques[idx];
+                        var u = new SpeechSynthesisUtterance(item.txt);
+                        u.lang = 'es-AR';
+                        u.rate = .92;
+                        
+                        u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                        s.speak(u);
+                    }
+                    setTimeout(function(){ s.resume(); hablar(); }, 300);
+                });
+            }, 500);
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
