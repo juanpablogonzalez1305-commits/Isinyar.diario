@@ -18853,49 +18853,50 @@ document.addEventListener('click', function(e) {
     }
 }, true);
 </script>
-  <script>
+<script>
 (function() {
     var intentos = 0;
     var timer = setInterval(function() {
         intentos++;
         
-        // 1. Buscamos la tarjeta de Efemérides para clavar la nueva abajo
         var botonEfemerides = document.getElementById('boton-efemerides');
         
         if (botonEfemerides && !document.getElementById('boton-miguel-home')) {
             clearInterval(timer);
             
-            // 2. Creamos la tarjeta clonando las clases de diseño
             var d = document.createElement('details');
-            d.className = 'pieza'; // Misma clase para el marco y relieve
             d.id = 'boton-miguel-home';
-            d.style.marginTop = '15px'; // Un espacio entre la de Efemérides y esta
+            
+            // ACÁ ESTÁ LA MAGIA: Forzamos los colores oscuros y el marco de la tecla
+            d.style.cssText = 'margin-top: 15px; background: #15110d !important; border: 2px solid #c9a243 !important; border-radius: 12px !important; box-shadow: 0 4px 0 #c9a243, 0 8px 15px rgba(0,0,0,0.4) !important; padding: 0 !important;';
 
             var H = '';
-            H += '<summary>';
             
-            // ACÁ LE PONEMOS LA FOTO DE MIGUEL EN FORMA DE ÍCONO
-            H += '<div class="efemerides-icono" style="overflow:hidden; border-radius:50%; width:45px; height:45px; display:flex; align-items:center; justify-content:center; background:#fff; border: 2px solid #c9a243;">';
+            // Al summary le sacamos el triangulito por defecto y achicamos el alto
+            H += '<summary style="padding: 10px 15px !important; display: flex !important; align-items: center !important; gap: 15px !important; list-style: none !important; outline: none !important;">';
+            
+            // El logo redondito y con marco
+            H += '<div style="overflow:hidden; border-radius:50%; width:45px; height:45px; display:flex; align-items:center; justify-content:center; background:#fff; border: 2px solid #c9a243; flex-shrink: 0;">';
             H += '<img src="img/logomiguel.jpg" style="width:100%; height:100%; object-fit:cover;">';
             H += '</div>';
             
-            H += '<div class="efemerides-textos">';
-            H += '<h3 class="efemerides-titulo">Gestión Doc.</h3>';
-            H += '<p class="efemerides-desc">Concejal Miguel Albarracín</p>';
+            // Los textos al lado (uno abajo del otro)
+            H += '<div style="display: flex; flex-direction: column; justify-content: center; text-align: left;">';
+            H += '<h3 style="margin: 0 !important; color: #ffd87a !important; font-family: Fraunces, serif !important; font-size: 1.1rem !important; font-weight: 900 !important; line-height: 1.1 !important;">Gestión Doc.</h3>';
+            H += '<p style="margin: 0 !important; color: #f4efe6 !important; font-family: Arial, sans-serif !important; font-size: 0.85rem !important; line-height: 1.2 !important; margin-top: 3px !important;">Concejal Miguel Albarracín</p>';
             H += '</div>';
             
             H += '</summary>';
             
             d.innerHTML = H;
             
-            // 3. Lo insertamos justo debajo de Efemérides
+            // Lo insertamos justo debajo de Efemérides
             botonEfemerides.parentNode.insertBefore(d, botonEfemerides.nextSibling);
             
-            // 4. LE APLICAMOS LA MAGIA DEL VIAJE DIRECTO
+            // Lógica del viaje directo
             d.querySelector('summary').addEventListener('click', function(e) {
-                e.preventDefault(); // Evitamos que la tarjeta intente abrirse como acordeón
+                e.preventDefault(); 
                 
-                // Paso A: Ir a Historia y Cultura
                 var radioHC = document.getElementById('s-hc') || document.getElementById('s-historia') || document.getElementById('s-cultura');
                 if (!radioHC) {
                     var labels = document.querySelectorAll('label');
@@ -18912,7 +18913,6 @@ document.addEventListener('click', function(e) {
                     radioHC.dispatchEvent(new Event('change'));
                 }
 
-                // Paso B: Abrir Gestión Doc y la nota de Miguel
                 setTimeout(function() {
                     var btnGestion = document.querySelector('#btn-gestion-doc button');
                     if (btnGestion) {
@@ -18923,7 +18923,6 @@ document.addEventListener('click', function(e) {
                                 if (btnAlb.tagName === 'DETAILS') {
                                     btnAlb.setAttribute('open', '');
                                 }
-                                // Paso C: Scroll hasta la nota
                                 setTimeout(function() {
                                     var yOffset = btnAlb.getBoundingClientRect().top + window.pageYOffset - 20;
                                     window.scrollTo({ top: yOffset, behavior: 'smooth' });
@@ -18938,7 +18937,7 @@ document.addEventListener('click', function(e) {
         if (intentos > 40) clearInterval(timer);
     }, 500);
 })();
-  </script>                                                         
+      </script>                                                         
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
