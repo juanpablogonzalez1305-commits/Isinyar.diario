@@ -18817,26 +18817,26 @@ document.addEventListener('click', function(e) {
             radioHC.dispatchEvent(new Event('change'));
         }
 
-        // 2. Función con "chicle" para esperar a que la sección cargue y hacer los clics
+        // 2. Esperamos a que cargue el botón de Gestión Doc y lo tocamos
         function abrirMiguel(intentos) {
             intentos = intentos || 0;
-            if (intentos > 40) return; // Se rinde a los 4 segundos
+            if (intentos > 40) return; 
 
-            // ACÁ ESTÁ LA CORRECCIÓN: Buscamos el botón que está ADENTRO de la caja
             var btnGestion = document.querySelector('#btn-gestion-doc button');
             
             if (btnGestion) {
-                btnGestion.click(); // Hacemos clic en el botón de verdad
+                btnGestion.click(); 
                 
-                // 3. Esperamos un instante y abrimos la caja de Albarracín
+                // 3. Esperamos un instante y abrimos la caja de Miguel
                 setTimeout(function() {
                     var btnAlb = document.getElementById('btn-albarracin');
                     if (btnAlb) {
-                        if (btnAlb.parentElement.tagName === 'DETAILS') {
-                            btnAlb.parentElement.setAttribute('open', '');
+                        // ACÁ ESTÁ LA MAGIA CORREGIDA: El ID está en el <details>, así que lo abrimos directo
+                        if (btnAlb.tagName === 'DETAILS') {
+                            btnAlb.setAttribute('open', '');
                         }
                         
-                        // 4. Scroll suave hasta la nota
+                        // 4. Hacemos el scroll suave hasta la nota abierta
                         setTimeout(function() {
                             var yOffset = btnAlb.getBoundingClientRect().top + window.pageYOffset - 20;
                             window.scrollTo({ top: yOffset, behavior: 'smooth' });
@@ -18844,12 +18844,11 @@ document.addEventListener('click', function(e) {
                     }
                 }, 500);
             } else {
-                // Si todavía no cargó, vuelve a intentar en 0.1 segundos
+                // Si no cargó, vuelve a intentar en 0.1 segundos
                 setTimeout(function() { abrirMiguel(intentos + 1); }, 100);
             }
         }
 
-        // Arrancamos la apertura
         abrirMiguel();
     }
 }, true);
