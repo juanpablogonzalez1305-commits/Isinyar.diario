@@ -16810,7 +16810,8 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
               //{ img: 'img/ruta307.webp', id: 'nota-ruta307', texto: 'Alerta en los Valles: Cortada la Ruta 307 por aluvión' },
               { img: 'img/ara-san-juan.webp', id: 'nota-ara-san-juan', texto: 'A 9 años del ARA San Juan: Memoria y homenaje' },
     { img: 'img/nota-dique.webp', id: 'nota-dique-medio', texto: 'Entre montañas y túneles: La historia del Dique del Medio en la Quebrada de Lules' },
-              { img: 'img/casacultura.jpg', id: 'nota-ver-corazon-bullying', texto: '"Ver con el corazón": Teatro para reflexionar y decirle no al bullying' }
+              { img: 'img/casacultura.jpg', id: 'nota-ver-corazon-bullying', texto: '"Ver con el corazón": Teatro para reflexionar y decirle no al bullying' },
+              { img: 'img/miguelausp.jpg', id: 'btn-albarracin', texto: 'Archivo Documentado: Concejal Miguel Albarracín' }
             ];
             
             var H = '';
@@ -18782,65 +18783,7 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
 </script>
-<script>
-document.addEventListener('click', function(e) {
-    // 1. Verificamos si el clic fue en la foto de Miguel en auspiciantes
-    var target = e.target;
-    if (target.tagName === 'IMG' && target.src.includes('miguelausp.jpg')) {
-        
-        e.preventDefault(); // Evitamos que haga otra cosa
 
-        // 2. Buscamos la pestaña de "Historia y Cultura"
-        // Usamos el mismo sistema que tu código, probando los IDs más comunes
-        var btnHistoria = document.getElementById('s-hc') || document.getElementById('s-historia') || document.getElementById('s-cultura');
-        
-        // Si no lo encuentra por ID, buscamos por el texto de la etiqueta
-        if(!btnHistoria) {
-            var labels = document.querySelectorAll('label');
-            for(var i=0; i<labels.length; i++) {
-                if(labels[i].textContent.includes('Historia y Cultura')) {
-                    btnHistoria = labels[i].previousElementSibling || labels[i];
-                    break;
-                }
-            }
-        }
-
-        // 3. Hacemos el cambio de pestaña
-        if(btnHistoria) {
-            if(btnHistoria.tagName === 'LABEL') {
-                btnHistoria.click();
-            } else {
-                btnHistoria.checked = true;
-                btnHistoria.dispatchEvent(new Event('change'));
-            }
-
-            // 4. Esperamos a que la sección cargue y abrimos Gestión Doc.
-            setTimeout(function() {
-                var btnGestion = document.getElementById('btn-gestion-doc');
-                if (btnGestion) {
-                    btnGestion.click();
-
-                    // 5. Esperamos a que abra y desplegamos la caja de Albarracín
-                    setTimeout(function() {
-                        var btnAlb = document.getElementById('btn-albarracin');
-                        if (btnAlb) {
-                            if (btnAlb.parentElement.tagName === 'DETAILS') {
-                                btnAlb.parentElement.setAttribute('open', '');
-                            }
-                            
-                            // 6. Hacemos el scroll suave hasta la caja
-                            setTimeout(function() {
-                                var yOffset = btnAlb.getBoundingClientRect().top + window.pageYOffset - 20;
-                                window.scrollTo({ top: yOffset, behavior: 'smooth' });
-                            }, 300);
-                        }
-                    }, 600);
-                }
-            }, 600);
-        }
-    }
-});
-</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
