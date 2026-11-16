@@ -18580,7 +18580,7 @@ panelNuevo.innerHTML = `
     }, 500);
 })();
   </script>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
@@ -18589,27 +18589,28 @@ panelNuevo.innerHTML = `
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        if(document.getElementById('nota-ver-con-el-corazon')) { clearInterval(timer); return; }
+        // ID NUEVO PARA EVITAR FANTASMAS
+        if(document.getElementById('nota-ver-corazon-bullying')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-ver-con-el-corazon';
+        d.id = 'nota-ver-corazon-bullying';
 
         var H = '';
         
-        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">16 de Noviembre · "Ver con el corazón": Una invitación a redescubrir los valores humanos en la Casa de la Cultura</summary>';
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">16 de Noviembre · "Ver con el corazón": Una obra de teatro para reflexionar y decirle no al bullying</summary>';
         H += '<div class="cuerpo-in">';
         
         H += '<p class="meta">16 de Noviembre de 2026 · Cultura · Lules</p>';
         
-        H += '<p><strong>Este lunes 16 de noviembre a las 21:30 hs, la Casa de la Cultura de San Isidro de Lules se vestirá de gala para recibir la obra teatral "Ver con el corazón".</strong> La función, con entrada libre y gratuita para toda la comunidad, promete ser una experiencia emotiva que invita a reflexionar sobre los sentimientos más nobles y el encuentro con nuestro niño interior.</p>';
+        H += '<p><strong>Este lunes 16 de noviembre a las 21:30 hs, la Casa de la Cultura de San Isidro de Lules abrirá sus puertas para presentar la obra de teatro "Ver con el corazón".</strong> La función, con entrada libre y gratuita para toda la comunidad, propone una profunda reflexión sobre el bullying y la importancia de la empatía en la sociedad actual.</p>';
         
-        // FOTO (puede poner el nombre de la foto que suba a GitHub)
+        // FOTO (Acá va el nombre de la foto que suba)
         H += '<img class="marco" src="img/teatro-corazon.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Obra teatral Ver con el corazón">';
         
-        H += '<p>Inspirada en el universo de <em>El Principito</em>, de Antoine de Saint-Exupéry, la puesta en escena recorrerá algunos de los pasajes más representativos de esta obra universal. A través de la historia del Aviador que aterriza de emergencia en el desierto y su encuentro con un pequeño niño de otro planeta, el público podrá redescubrir que <strong>"lo esencial es invisible a los ojos"</strong> y que las cosas más importantes de la vida solo pueden verse con el corazón.</p>';
+        H += '<p>A través de una puesta en escena emotiva, la obra aborda las problemáticas que atraviesan muchos niños y jóvenes en la actualidad, invitando al público a ponerse en el lugar del otro y a tomar conciencia sobre el daño que causan el acoso y la discriminación. El teatro se convierte así en una herramienta fundamental para visibilizar estas situaciones y fomentar valores de respeto y compañerismo.</p>';
         
-        H += '<p>La cita es en el histórico espacio cultural de calle Italia 257, un punto de encuentro para las artes y la comunidad luleña. Se recomienda a los vecinos llegar con anticipación para asegurar su lugar, ya que el acceso es libre y gratuito hasta agotar la capacidad de la sala.</p>';
+        H += '<p>La cita es en el histórico espacio cultural de calle Italia 257, un punto de encuentro para las artes y la comunidad luleña. Se invita a los vecinos, familias y docentes a participar de esta propuesta que busca generar conciencia y abrir el debate sobre una problemática que nos involucra a todos. El acceso es libre y gratuito hasta agotar la capacidad de la sala.</p>';
         
         H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Cultura y comunidad.</p>';
         
