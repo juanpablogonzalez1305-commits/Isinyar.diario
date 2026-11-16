@@ -18783,68 +18783,60 @@ panelNuevo.innerHTML = `
 })();
 </script>
 <script>
-// VIGILANTE DIAGNÓSTICO
-setInterval(function() {
-    var vitrina = document.getElementById('vitrina-auspiciantes');
-    if (!vitrina) return;
+// VIGILANTE GLOBAL (ESCUCHA TODOS LOS CLICS DE LA PÁGINA)
+document.addEventListener('click', function(e) {
     
-    var img = vitrina.querySelector('img[src*="miguelausp.jpg"]');
+    // Buscamos si el clic fue en la foto de Miguel (o en su contenedor padre)
+    var img = e.target.closest('img');
     
-    if (img && !img.getAttribute('data-click-diagnostico')) {
-        img.setAttribute('data-click-diagnostico', 'true');
-        img.style.cursor = 'pointer';
+    if (img && img.src.includes('miguelausp.jpg')) {
         
-        img.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation(); 
-            
-            alert("1. ¡Tocaste la foto de Miguel!");
-            
-            // Buscamos el botón de Historia y Cultura
-            var btns = document.querySelectorAll('a, button, div, span, label, li');
-            var btnHC = null;
-            
-            for (var i = 0; i < btns.length; i++) {
-                var txt = btns[i].textContent.replace(/\s+/g, ' ').trim().toLowerCase();
-                // Buscamos que diga "historia" y no sea un texto gigante
-                if (txt.indexOf('historia') > -1 && txt.length < 40) {
-                    btnHC = btns[i];
-                    break;
-                }
+        alert("1. ¡Tocaste la foto de Miguel! El vigilante global funcionó.");
+        e.preventDefault();
+        
+        // Buscamos el botón de "Historia y Cultura" de forma muy amplia
+        var btns = document.querySelectorAll('a, button, div, span, label, li, p');
+        var btnHC = null;
+        
+        for (var i = 0; i < btns.length; i++) {
+            var txt = btns[i].textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+            if (txt.includes('historia y cultura') && txt.length < 40) {
+                btnHC = btns[i];
+                break;
             }
+        }
+        
+        if (btnHC) {
+            alert("2. ¡Encontré el botón de Historia y Cultura! Haciendo clic...");
+            btnHC.click();
             
-            if (btnHC) {
-                alert("2. Encontré el botón de menú. Voy a hacer clic.");
-                btnHC.click();
-                
-                setTimeout(function() {
-                    var btnGD = document.getElementById('btn-gestion-doc');
-                    if (btnGD) {
-                        alert("3. Encontré el botón de Gestión Doc. Voy a abrirlo.");
-                        btnGD.click();
-                        
-                        setTimeout(function() {
-                            var btnAlb = document.getElementById('btn-albarracin');
-                            if (btnAlb) {
-                                alert("4. ¡Encontré la caja de Albarracín! Abriendo.");
-                                if (btnAlb.parentElement.tagName === 'DETAILS') {
-                                    btnAlb.parentElement.setAttribute('open', 'true');
-                                }
-                            } else {
-                                alert("❌ ERROR: No encontré la caja de Albarracín.");
+            setTimeout(function() {
+                var btnGD = document.getElementById('btn-gestion-doc');
+                if (btnGD) {
+                    alert("3. ¡Encontré el botón de Gestión Doc! Haciendo clic...");
+                    btnGD.click();
+                    
+                    setTimeout(function() {
+                        var btnAlb = document.getElementById('btn-albarracin');
+                        if (btnAlb) {
+                            alert("4. ¡Encontré la caja de Albarracín! Abriendo.");
+                            if (btnAlb.parentElement.tagName === 'DETAILS') {
+                                btnAlb.parentElement.setAttribute('open', 'true');
                             }
-                        }, 1000); 
-                    } else {
-                        alert("❌ ERROR: No encontré el botón de Gestión Doc.");
-                    }
-                }, 1000); 
-            } else {
-                alert("❌ ERROR: No pude encontrar el botón de 'Historia y Cultura' en el menú. Mándame captura del código del menú, jefe.");
-            }
-        };
+                        } else {
+                            alert("❌ ERROR: No encontré la caja de Albarracín (btn-albarracin).");
+                        }
+                    }, 1000); 
+                } else {
+                    alert("❌ ERROR: No encontré el botón de Gestión Doc. (btn-gestion-doc).");
+                }
+            }, 1000); 
+        } else {
+            alert("❌ ERROR: No pude encontrar el botón de Historia y Cultura en el menú.");
+        }
     }
-}, 500);
-              </script>
+});
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
