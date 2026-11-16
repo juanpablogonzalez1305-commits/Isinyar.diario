@@ -18800,56 +18800,59 @@ document.addEventListener('click', function(e) {
         // ¡ES LA DE MIGUEL! Frenamos el carrusel normal.
         e.preventDefault();
         e.stopPropagation(); 
-        e.stopImmediatePropagation(); // Esto evita que el código nativo (que va a Noticias) se ejecute
+        e.stopImmediatePropagation(); 
 
-        // 4. Buscamos la pestaña de "Historia y Cultura"
-        // Probamos con los IDs más comunes que suele usar su sistema
+        // 4. Buscamos y tocamos la pestaña de "Historia y Cultura"
         var radioHC = document.getElementById('s-hc') || document.getElementById('s-historia') || document.getElementById('s-cultura');
         
-        // Si no está por ID, buscamos la etiqueta que diga "Historia y Cultura"
         if (!radioHC) {
             var labels = document.querySelectorAll('label');
             for (var i = 0; i < labels.length; i++) {
                 if (labels[i].textContent.includes('Historia y Cultura')) {
                     radioHC = document.getElementById(labels[i].getAttribute('for'));
-                    if(!radioHC) labels[i].click(); // Si no tiene ID, le damos clic a la etiqueta
+                    if(!radioHC) labels[i].click();
                     break;
                 }
             }
         }
 
-        // 5. Si encontramos la pestaña, la activamos
         if (radioHC) {
             radioHC.checked = true;
             radioHC.dispatchEvent(new Event('change'));
         }
 
-        // 6. Esperamos un instante a que cambie la sección y abrimos Gestión Doc.
-        setTimeout(function() {
+        // 5. VIGILANTE 1: Esperamos a que aparezca el botón de Gestión Doc.
+        var checkGestion = setInterval(function() {
             var btnGestion = document.getElementById('btn-gestion-doc');
+            
             if (btnGestion) {
-                btnGestion.click();
+                clearInterval(checkGestion); // Dejamos de buscar
+                btnGestion.click(); // Lo tocamos
 
-                // 7. Esperamos a que abra y desplegamos la caja de Albarracín
-                setTimeout(function() {
+                // 6. VIGILANTE 2: Esperamos a que aparezca la caja de Albarracín
+                var checkAlb = setInterval(function() {
                     var btnAlb = document.getElementById('btn-albarracin');
+                    
                     if (btnAlb) {
+                        clearInterval(checkAlb); // Dejamos de buscar
+                        
+                        // Si es un details, lo abrimos
                         if (btnAlb.parentElement.tagName === 'DETAILS') {
                             btnAlb.parentElement.setAttribute('open', '');
                         }
                         
-                        // 8. Hacemos scroll suave hasta la caja
+                        // 7. Hacemos el scroll suave hasta la nota
                         setTimeout(function() {
                             var yOffset = btnAlb.getBoundingClientRect().top + window.pageYOffset - 20;
                             window.scrollTo({ top: yOffset, behavior: 'smooth' });
                         }, 300);
                     }
-                }, 600);
+                }, 100); // Revisa cada 0.1 segundos
             }
-        }, 600);
+        }, 100); // Revisa cada 0.1 segundos
     }
-}, true); // El 'true' le dice al navegador que ejecute esto ANTES que el código del carrusel.
-  </script>
+}, true); 
+                  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
