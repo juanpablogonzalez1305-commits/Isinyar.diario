@@ -18785,24 +18785,20 @@ panelNuevo.innerHTML = `
 </script>
 <script>
 document.addEventListener('click', function(e) {
-    // 1. Verificamos si el clic fue en el carrusel de noticias
     var carrusel = document.getElementById('carrusel-destacadas');
     if (!carrusel || !carrusel.contains(e.target)) return;
 
-    // 2. Vemos qué foto está activa en ese momento
     var activeSlide = carrusel.querySelector('.slide-contenedor.active');
     if (!activeSlide) return;
 
-    // 3. Nos fijamos si la foto activa es la de Miguel
     var targetId = activeSlide.getAttribute('data-target');
     if (targetId === 'btn-albarracin') {
         
-        // ¡ES LA DE MIGUEL! Frenamos el carrusel normal.
         e.preventDefault();
         e.stopPropagation(); 
         e.stopImmediatePropagation(); 
 
-        // 4. Buscamos y tocamos la pestaña de "Historia y Cultura"
+        // 1. Cambiamos a la pestaña de Historia y Cultura
         var radioHC = document.getElementById('s-hc') || document.getElementById('s-historia') || document.getElementById('s-cultura');
         
         if (!radioHC) {
@@ -18821,38 +18817,43 @@ document.addEventListener('click', function(e) {
             radioHC.dispatchEvent(new Event('change'));
         }
 
-        // 5. VIGILANTE 1: Esperamos a que aparezca el botón de Gestión Doc.
-        var checkGestion = setInterval(function() {
-            var btnGestion = document.getElementById('btn-gestion-doc');
+        // 2. Función con "chicle" para esperar a que la sección cargue y hacer los clics
+        function abrirMiguel(intentos) {
+            intentos = intentos || 0;
+            if (intentos > 40) return; // Se rinde a los 4 segundos
+
+            // ACÁ ESTÁ LA CORRECCIÓN: Buscamos el botón que está ADENTRO de la caja
+            var btnGestion = document.querySelector('#btn-gestion-doc button');
             
             if (btnGestion) {
-                clearInterval(checkGestion); // Dejamos de buscar
-                btnGestion.click(); // Lo tocamos
-
-                // 6. VIGILANTE 2: Esperamos a que aparezca la caja de Albarracín
-                var checkAlb = setInterval(function() {
+                btnGestion.click(); // Hacemos clic en el botón de verdad
+                
+                // 3. Esperamos un instante y abrimos la caja de Albarracín
+                setTimeout(function() {
                     var btnAlb = document.getElementById('btn-albarracin');
-                    
                     if (btnAlb) {
-                        clearInterval(checkAlb); // Dejamos de buscar
-                        
-                        // Si es un details, lo abrimos
                         if (btnAlb.parentElement.tagName === 'DETAILS') {
                             btnAlb.parentElement.setAttribute('open', '');
                         }
                         
-                        // 7. Hacemos el scroll suave hasta la nota
+                        // 4. Scroll suave hasta la nota
                         setTimeout(function() {
                             var yOffset = btnAlb.getBoundingClientRect().top + window.pageYOffset - 20;
                             window.scrollTo({ top: yOffset, behavior: 'smooth' });
                         }, 300);
                     }
-                }, 100); // Revisa cada 0.1 segundos
+                }, 500);
+            } else {
+                // Si todavía no cargó, vuelve a intentar en 0.1 segundos
+                setTimeout(function() { abrirMiguel(intentos + 1); }, 100);
             }
-        }, 100); // Revisa cada 0.1 segundos
+        }
+
+        // Arrancamos la apertura
+        abrirMiguel();
     }
-}, true); 
-                  </script>
+}, true);
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
