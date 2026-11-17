@@ -19169,7 +19169,6 @@ document.addEventListener('click', function(e) {
 })();
 </script>
 <style>
-    /* El fondo que cubre toda la pantalla */
     #pantalla-lectura-limpia {
         display: none;
         position: fixed;
@@ -19206,7 +19205,6 @@ document.addEventListener('click', function(e) {
         box-shadow: none;
     }
 
-    /* ARREGLO DE ESTILOS PARA QUE NO SE VEA GIGANTE */
     .contenido-limpio * {
         font-family: Arial, Helvetica, sans-serif !important;
         box-sizing: border-box;
@@ -19244,7 +19242,6 @@ document.addEventListener('click', function(e) {
         border-bottom: 2px solid #c9a243;
         padding-bottom: 10px;
     }
-    /* Arreglamos los botones de audio para que se vean bien */
     .contenido-limpio button {
         display: block !important;
         width: 100% !important;
@@ -19264,32 +19261,35 @@ document.addEventListener('click', function(e) {
 <div id="pantalla-lectura-limpia">
     <div class="btn-volver-diario" onclick="document.getElementById('pantalla-lectura-limpia').style.display='none'">← Volver al diario</div>
     <div class="contenido-limpio" id="cuerpo-lectura-limpia">
-        <!-- Acá se va a inyectar el texto automáticamente -->
     </div>
 </div>
   <script>
-// 1. FUNCIÓN PARA ABRIR LA PANTALLA LIMPIA
 function abrirPantallaLimpia(titulo, contenidoHTML) {
     var pantalla = document.getElementById('pantalla-lectura-limpia');
     var cajaTexto = document.getElementById('cuerpo-lectura-limpia');
     
-    var htmlFinal = '<h1>' + titulo + '</h1>' + contenidoHTML;
-    cajaTexto.innerHTML = htmlFinal;
+    cajaTexto.innerHTML = '<h1>' + titulo + '</h1>' + contenidoHTML;
     
-    // RECONECTAMOS LA VOZ
-    var btnVoz = cajaTexto.querySelector('button');
-    if (btnVoz) {
-        btnVoz.onclick = function(e) {
+    // CORRECCIÓN DEL BOTÓN DE AUDIO:
+    var btnVozOriginal = cajaTexto.querySelector('button');
+    if (btnVozOriginal) {
+        // Clonamos el botón para quitarle los eventos viejos que lo hacían fallar
+        var btnClonado = btnVozOriginal.cloneNode(true);
+        btnVozOriginal.parentNode.replaceChild(btnClonado, btnVozOriginal);
+        
+        // Le asignamos la orden limpia al botón nuevo
+        btnClonado.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
             
             var s = window.speechSynthesis;
             if(!s) return;
             
+            // Si ya está leyendo, se detiene de inmediato
             if(window._pantallaLeyendo) {
                 s.cancel();
                 window._pantallaLeyendo = false;
-                btnVoz.innerHTML = '🔊 Escuchar en voz alta';
+                btnClonado.innerHTML = '🔊 Escuchar en voz alta';
                 return;
             }
 
@@ -19303,7 +19303,7 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
             if(!bloques.length) return;
             
             window._pantallaLeyendo = true;
-            btnVoz.innerHTML = '⏹️ Detener lectura';
+            btnClonado.innerHTML = '⏹️ Detener lectura';
             s.cancel();
             
             var idx = 0;
@@ -19311,14 +19311,13 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
                 if(!window._pantallaLeyendo) return;
                 if(idx >= bloques.length) {
                     window._pantallaLeyendo = false;
-                    btnVoz.innerHTML = '🔊 Escuchar en voz alta';
+                    btnClonado.innerHTML = '🔊 Escuchar en voz alta';
                     return;
                 }
                 
                 var item = bloques[idx];
                 var u = new SpeechSynthesisUtterance(item.txt);
                 
-                // VOZ LATINA BLINDADA
                 var voces = s.getVoices();
                 var vozLatina = null;
                 
@@ -19351,10 +19350,8 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
     pantalla.scrollTop = 0; 
 }
 
-// 2. EL VIGILANTE DE CLICS
 document.addEventListener('click', function(e) {
     
-    // BOTÓN VOLVER
     if (e.target.closest('.btn-volver-diario')) {
         document.getElementById('pantalla-lectura-limpia').style.display = 'none';
         if(window.speechSynthesis) {
@@ -19364,21 +19361,49 @@ document.addEventListener('click', function(e) {
         return;
     }
 
-    // BOTÓN DE LA PORTADA PRINCIPAL (Debajo de Efemérides)
+    // 1. Abrir desde el botón principal de la portada
     var btnHomeMiguel = e.target.closest('#boton-miguel-home summary');
     if (btnHomeMiguel) {
         e.preventDefault();
         e.stopPropagation();
-        
         var contenidoAlb = document.getElementById('info-albarracin');
         if (contenidoAlb) {
-            // Abrimos la pantalla limpia con el contenido de Albarracín
             abrirPantallaLimpia('Gestión Documentada - Miguel Albarracín', contenidoAlb.innerHTML);
         }
         return;
     }
 
-    // CARRUSEL DE NOTICIAS
+    // 2. Abrir desde el botón de adentro de Historia y Cultura (El que abría el formato viejo)
+    var targetSummary = e.target.closest('summary');
+    if(targetSummary) {
+        var detailsPadre = targetSummary.parentElement;
+        
+        // Si tocó el título de la nota de Albarracín
+        if (detailsPadre && detailsPadre.id === 'btn-albarracin') {
+            e.preventDefault(); // Evitamos que se abra la caja vieja
+            e.stopPropagation();
+            
+            var contenidoAlb = document.getElementById('info-albarracin');
+            if (contenidoAlb) {
+                abrirPantallaLimpia('Gestión Documentada - Miguel Albarracín', contenidoAlb.innerHTML);
+            }
+            return;
+        }
+
+        // Si tocó la nota de La Reducción
+        if(detailsPadre && detailsPadre.id === 'nota-reclamo-reduccion') {
+            e.preventDefault(); 
+            e.stopPropagation();
+            var contenidoOriginal = detailsPadre.querySelector('.cuerpo-in');
+            if(contenidoOriginal) {
+                var titulo = targetSummary.innerText;
+                abrirPantallaLimpia(titulo, contenidoOriginal.innerHTML);
+            }
+            return;
+        }
+    }
+
+    // 3. Abrir desde el carrusel
     var carrusel = document.getElementById('carrusel-destacadas');
     if (carrusel && carrusel.contains(e.target)) {
         var activeSlide = carrusel.querySelector('.slide-contenedor.active');
@@ -19396,26 +19421,6 @@ document.addEventListener('click', function(e) {
             return;
         }
     }
-
-    // NOTA NORMAL DE LA SECCIÓN NOTICIAS (La Reducción)
-    var target = e.target.closest('summary');
-    if(target) {
-        var detailsPadre = target.parentElement;
-        if(detailsPadre && detailsPadre.id === 'nota-reclamo-reduccion') {
-            e.preventDefault(); 
-            e.stopPropagation();
-
-            var contenidoOriginal = detailsPadre.querySelector('.cuerpo-in');
-            if(contenidoOriginal) {
-                var titulo = target.innerText;
-                abrirPantallaLimpia(titulo, contenidoOriginal.innerHTML);
-            }
-        }
-    }
-
-    // NOTA: Borramos la opción que abría la pantalla limpia cuando tocabas 
-    // el título de Albarracín DENTRO del archivo, para que ahora puedas 
-    // cerrarlo normalmente.
 
 }, true);
   </script>
