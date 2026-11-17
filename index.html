@@ -19247,51 +19247,142 @@ document.addEventListener('click', function(e) {
         <!-- Acá se va a inyectar el texto automáticamente -->
     </div>
 </div>
+
 <script>
-// 1. FUNCIÓN PARA ABRIR LA PANTALLA LIMPIA CON CUALQUIER CONTENIDO
+// 1. FUNCIÓN PARA ABRIR LA PANTALLA LIMPIA
 function abrirPantallaLimpia(titulo, contenidoHTML) {
     var pantalla = document.getElementById('pantalla-lectura-limpia');
     var cajaTexto = document.getElementById('cuerpo-lectura-limpia');
     
     // Armamos el título con el mismo estilo limpio
     var htmlFinal = '<h1>' + titulo + '</h1>' + contenidoHTML;
-    
     cajaTexto.innerHTML = htmlFinal;
+    
+    // --- ACÁ RECONECTAMOS LA VOZ ---
+    // Buscamos cualquier botón de escuchar que se haya movido
+    var btnVoz = cajaTexto.querySelector('button[class^="btn-voz"], .btn-escuchar');
+    if (btnVoz) {
+        // Le damos la orden de qué hacer al tocarlo
+        btnVoz.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var s = window.speechSynthesis;
+            if(!s) return;
+            
+            // Si ya está leyendo, lo frena
+            if(window._pantallaLeyendo) {
+                s.cancel();
+                window._pantallaLeyendo = false;
+                btnVoz.innerHTML = '🔊 Escuchar en voz alta';
+                return;
+            }
+
+            // Junta todo el texto de la nota
+            var textos = cajaTexto.querySelectorAll('p');
+            var bloques = [];
+            textos.forEach(function(p) {
+                var t = p.textContent.trim();
+                if(t) bloques.push({txt: t, pausa: 300});
+            });
+
+            if(!bloques.length) return;
+            
+            window._pantallaLeyendo = true;
+            btnVoz.innerHTML = '⏹️ Detener lectura';
+            s.cancel();
+            
+            var idx = 0;
+            function hablar() {
+                if(!window._pantallaLeyendo) return;
+                if(idx >= bloques.length) {
+                    window._pantallaLeyendo = false;
+                    btnVoz.innerHTML = '🔊 Escuchar en voz alta';
+                    return;
+                }
+                
+                var item = bloques[idx];
+                var u = new SpeechSynthesisUtterance(item.txt);
+                
+                // Buscar voz latina
+                var voces = s.getVoices();
+                var vozLatina = null;
+                for (var i = 0; i < voces.length; i++) {
+                    if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
+                        vozLatina = voces[i]; break;
+                    }
+                }
+                if (!vozLatina) {
+                    for (var j = 0; j < voces.length; j++) {
+                        if (voces[j].lang.includes('es') && !voces[j].lang.includes('es-ES')) {
+                            vozLatina = voces[j]; break;
+                        }
+                    }
+                }
+                
+                if (vozLatina) { u.voice = vozLatina; u.lang = vozLatina.lang; } 
+                else { u.lang = 'es-AR'; }
+                
+                u.rate = .92;
+                u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
+                u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                s.speak(u);
+            }
+            setTimeout(function(){ s.resume(); hablar(); }, 300);
+        };
+    }
+    // -------------------------------
+
     pantalla.style.display = 'block';
-    pantalla.scrollTop = 0; // Arranca desde arriba
+    pantalla.scrollTop = 0; 
 }
 
+// 2. FUNCIÓN PARA CERRAR Y CORTAR LA VOZ
+function cerrarPantallaLimpia() {
+    var pantalla = document.getElementById('pantalla-lectura-limpia');
+    pantalla.style.display = 'none';
+    
+    // Si estaba leyendo, que se calle al volver al diario
+    if(window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        window._pantallaLeyendo = false;
+    }
+}
+
+// 3. EL VIGILANTE DE CLICS
 document.addEventListener('click', function(e) {
     
-    // --- CASO 1: CLIC EN EL CARRUSEL DE NOTICIAS DESTACADAS ---
+    // --- BOTÓN VOLVER ---
+    if (e.target.closest('.btn-volver-diario')) {
+        cerrarPantallaLimpia();
+        return;
+    }
+
+    // --- CARRUSEL ---
     var carrusel = document.getElementById('carrusel-destacadas');
     if (carrusel && carrusel.contains(e.target)) {
         var activeSlide = carrusel.querySelector('.slide-contenedor.active');
         if (activeSlide && activeSlide.getAttribute('data-target') === 'nota-reclamo-reduccion') {
-            
             e.preventDefault();
             e.stopPropagation(); 
-            e.stopImmediatePropagation(); // Evitamos que se abra la caja fea
+            e.stopImmediatePropagation();
 
-            // Buscamos la nota en el código
             var notaOriginal = document.getElementById('nota-reclamo-reduccion');
             if (notaOriginal) {
                 var titulo = notaOriginal.querySelector('summary').innerText;
                 var contenido = notaOriginal.querySelector('.cuerpo-in').innerHTML;
                 abrirPantallaLimpia(titulo, contenido);
             }
-            return; // Terminamos acá
+            return;
         }
     }
 
-    // --- CASO 2: CLIC EN EL BOTÓN DE ALBARRACÍN EN EL MENÚ ---
-    // Detectamos si tocó el summary del botón de Albarracín
+    // --- ALBARRACÍN ---
     var btnAlb = e.target.closest('#btn-albarracin');
     if (btnAlb) {
         e.preventDefault();
         e.stopPropagation();
 
-        // Buscamos el contenido que está adentro de la caja
         var contenidoAlb = document.getElementById('info-albarracin');
         if (contenidoAlb) {
             var titulo = btnAlb.innerText.replace('▼', '').replace('▲', '').trim();
@@ -19300,7 +19391,7 @@ document.addEventListener('click', function(e) {
         return;
     }
 
-    // --- CASO 3: CLIC EN LA NOTA DE LA SECCIÓN NOTICIAS (Como ya lo teníamos) ---
+    // --- NOTA NORMAL DE LA SECCIÓN NOTICIAS ---
     var target = e.target.closest('summary');
     if(target) {
         var detailsPadre = target.parentElement;
