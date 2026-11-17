@@ -19263,21 +19263,22 @@ document.addEventListener('click', function(e) {
     <div class="contenido-limpio" id="cuerpo-lectura-limpia">
     </div>
 </div>
-  <script>
+<script>
 function abrirPantallaLimpia(titulo, contenidoHTML) {
     var pantalla = document.getElementById('pantalla-lectura-limpia');
     var cajaTexto = document.getElementById('cuerpo-lectura-limpia');
     
     cajaTexto.innerHTML = '<h1>' + titulo + '</h1>' + contenidoHTML;
     
-    // CORRECCIÓN DEL BOTÓN DE AUDIO:
+    // --- CORRECCIÓN DEL BOTÓN DE AUDIO ---
     var btnVozOriginal = cajaTexto.querySelector('button');
     if (btnVozOriginal) {
-        // Clonamos el botón para quitarle los eventos viejos que lo hacían fallar
+        // Clonamos el botón para limpiarle la memoria vieja
         var btnClonado = btnVozOriginal.cloneNode(true);
         btnVozOriginal.parentNode.replaceChild(btnClonado, btnVozOriginal);
         
-        // Le asignamos la orden limpia al botón nuevo
+        var localSession = 0; // ID único para cada lectura
+        
         btnClonado.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -19285,13 +19286,21 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
             var s = window.speechSynthesis;
             if(!s) return;
             
-            // Si ya está leyendo, se detiene de inmediato
-            if(window._pantallaLeyendo) {
+            localSession++;
+            var currentSession = localSession;
+
+            // 1. SI YA ESTÁ LEYENDO, SE DETIENE (Y SE QUEDA CALLADO)
+            if (btnClonado.classList.contains('leyendo')) {
                 s.cancel();
-                window._pantallaLeyendo = false;
+                btnClonado.classList.remove('leyendo');
                 btnClonado.innerHTML = '🔊 Escuchar en voz alta';
                 return;
             }
+
+            // 2. SI NO ESTÁ LEYENDO, ARRANCA
+            btnClonado.classList.add('leyendo');
+            btnClonado.innerHTML = '⏸️ Pausar lectura'; // Cambiado a las dos barritas
+            s.cancel();
 
             var textos = cajaTexto.querySelectorAll('p');
             var bloques = [];
@@ -19300,17 +19309,19 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
                 if(t) bloques.push({txt: t, pausa: 300});
             });
 
-            if(!bloques.length) return;
-            
-            window._pantallaLeyendo = true;
-            btnClonado.innerHTML = '⏹️ Detener lectura';
-            s.cancel();
+            if(!bloques.length) {
+                btnClonado.classList.remove('leyendo');
+                btnClonado.innerHTML = '🔊 Escuchar en voz alta';
+                return;
+            }
             
             var idx = 0;
             function hablar() {
-                if(!window._pantallaLeyendo) return;
+                // Verificamos que no hayan pausado ni iniciado otra lectura
+                if (currentSession !== localSession || !btnClonado.classList.contains('leyendo')) return;
+                
                 if(idx >= bloques.length) {
-                    window._pantallaLeyendo = false;
+                    btnClonado.classList.remove('leyendo');
                     btnClonado.innerHTML = '🔊 Escuchar en voz alta';
                     return;
                 }
@@ -19318,9 +19329,9 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
                 var item = bloques[idx];
                 var u = new SpeechSynthesisUtterance(item.txt);
                 
+                // Voz Latina
                 var voces = s.getVoices();
                 var vozLatina = null;
-                
                 for (var i = 0; i < voces.length; i++) {
                     if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
                         vozLatina = voces[i]; break;
@@ -19338,11 +19349,25 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
                 if (vozLatina) { u.voice = vozLatina; }
                 u.rate = .92;
                 
-                u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
-                u.onerror = function(){ idx++; setTimeout(hablar, item.pausa); };
+                u.onend = function(){ 
+                    // Si el botón dejó de estar en modo "leyendo", no avanzamos
+                    if (currentSession !== localSession || !btnClonado.classList.contains('leyendo')) return;
+                    idx++; 
+                    setTimeout(hablar, item.pausa); 
+                };
+                u.onerror = function(){ 
+                    if (currentSession !== localSession || !btnClonado.classList.contains('leyendo')) return;
+                    idx++; 
+                    setTimeout(hablar, item.pausa); 
+                };
                 s.speak(u);
             }
-            setTimeout(function(){ s.resume(); hablar(); }, 300);
+            setTimeout(function(){ 
+                if (currentSession === localSession) {
+                    s.resume(); 
+                    hablar(); 
+                }
+            }, 300);
         };
     }
 
@@ -19356,12 +19381,10 @@ document.addEventListener('click', function(e) {
         document.getElementById('pantalla-lectura-limpia').style.display = 'none';
         if(window.speechSynthesis) {
             window.speechSynthesis.cancel();
-            window._pantallaLeyendo = false;
         }
         return;
     }
 
-    // 1. Abrir desde el botón principal de la portada
     var btnHomeMiguel = e.target.closest('#boton-miguel-home summary');
     if (btnHomeMiguel) {
         e.preventDefault();
@@ -19373,16 +19396,13 @@ document.addEventListener('click', function(e) {
         return;
     }
 
-    // 2. Abrir desde el botón de adentro de Historia y Cultura (El que abría el formato viejo)
     var targetSummary = e.target.closest('summary');
     if(targetSummary) {
         var detailsPadre = targetSummary.parentElement;
         
-        // Si tocó el título de la nota de Albarracín
         if (detailsPadre && detailsPadre.id === 'btn-albarracin') {
-            e.preventDefault(); // Evitamos que se abra la caja vieja
+            e.preventDefault(); 
             e.stopPropagation();
-            
             var contenidoAlb = document.getElementById('info-albarracin');
             if (contenidoAlb) {
                 abrirPantallaLimpia('Gestión Documentada - Miguel Albarracín', contenidoAlb.innerHTML);
@@ -19390,20 +19410,17 @@ document.addEventListener('click', function(e) {
             return;
         }
 
-        // Si tocó la nota de La Reducción
         if(detailsPadre && detailsPadre.id === 'nota-reclamo-reduccion') {
             e.preventDefault(); 
             e.stopPropagation();
             var contenidoOriginal = detailsPadre.querySelector('.cuerpo-in');
             if(contenidoOriginal) {
-                var titulo = targetSummary.innerText;
-                abrirPantallaLimpia(titulo, contenidoOriginal.innerHTML);
+                abrirPantallaLimpia(targetSummary.innerText, contenidoOriginal.innerHTML);
             }
             return;
         }
     }
 
-    // 3. Abrir desde el carrusel
     var carrusel = document.getElementById('carrusel-destacadas');
     if (carrusel && carrusel.contains(e.target)) {
         var activeSlide = carrusel.querySelector('.slide-contenedor.active');
@@ -19423,7 +19440,7 @@ document.addEventListener('click', function(e) {
     }
 
 }, true);
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
