@@ -19168,6 +19168,133 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+ <style>
+    /* El fondo que cubre toda la pantalla */
+    #pantalla-lectura-limpia {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fdf9ef; /* Color crema suave, relajante para leer */
+        z-index: 999999;
+        overflow-y: auto;
+        padding: 20px;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #171310;
+    }
+
+    /* El botón de volver */
+    .btn-volver-diario {
+        display: inline-flex;
+        align-items: center;
+        background: #15110d;
+        color: #ffd87a;
+        border: 2px solid #c9a243;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 25px;
+        box-shadow: 0 3px 0 #4a2c11;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+    .btn-volver-diario:active {
+        transform: translateY(3px);
+        box-shadow: none;
+    }
+
+    /* Estilo para las fotos y textos dentro de la pantalla limpia */
+    .contenido-limpio img {
+        width: 100%;
+        border-radius: 10px;
+        margin: 15px 0;
+        border: 1px solid #c9a243;
+    }
+    .contenido-limpio p {
+        font-size: 17px;
+        line-height: 1.7;
+        margin-bottom: 18px;
+        color: #333;
+    }
+    .contenido-limpio strong {
+        color: #000;
+    }
+    .contenido-limpio h1 {
+        font-family: 'Fraunces', serif;
+        font-size: 24px;
+        color: #171310;
+        margin-bottom: 10px;
+    }
+    .contenido-limpio .meta {
+        color: #8a6a35;
+        font-size: 13px;
+        text-transform: uppercase;
+        font-weight: bold;
+        border-bottom: 2px solid #c9a243;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<!-- La caja que va a contener la nota limpia -->
+<div id="pantalla-lectura-limpia">
+    <div class="btn-volver-diario" onclick="document.getElementById('pantalla-lectura-limpia').style.display='none'">← Volver al diario</div>
+    <div class="contenido-limpio" id="cuerpo-lectura-limpia">
+        <!-- Acá se va a inyectar el texto automáticamente -->
+    </div>
+</div>
+  <script>
+document.addEventListener('click', function(e) {
+    // Detectamos si el usuario tocó la nota de La Reducción
+    // Buscamos el enlace o el summary que contiene la nota
+    var target = e.target.closest('summary');
+    
+    // Si no es un summary, salimos
+    if(!target) return;
+
+    var detailsPadre = target.parentElement;
+    
+    // Verificamos si el clic fue en la nota de La Reducción
+    if(detailsPadre && detailsPadre.id === 'nota-reclamo-reduccion') {
+        
+        // Frenamos la apertura normal del acordeón
+        e.preventDefault(); 
+        e.stopPropagation();
+
+        // Buscamos el contenido de la nota
+        var contenidoOriginal = detailsPadre.querySelector('.cuerpo-in');
+        
+        if(contenidoOriginal) {
+            // Preparamos el título y el contenido
+            var tituloHTML = '<h1>' + target.innerText + '</h1>';
+            
+            // Pasamos el contenido al fondo limpio
+            var pantalla = document.getElementById('pantalla-lectura-limpia');
+            var cajaTexto = document.getElementById('cuerpo-lectura-limpia');
+            
+            cajaTexto.innerHTML = tituloHTML + contenidoOriginal.innerHTML;
+            
+            // Ocultamos el botón de audio viejo (porque el diseño cambió) o lo adaptamos
+            var btnViejo = cajaTexto.querySelector('.btn-voz-reduccion');
+            if(btnViejo) {
+                btnViejo.style.background = '#fdf9ef';
+                btnViejo.style.color = '#171310';
+                btnViejo.style.border = '2px solid #c9a243';
+            }
+
+            // Mostramos la pantalla limpia
+            pantalla.style.display = 'block';
+            
+            // Subimos el scroll arriba de todo
+            pantalla.scrollTop = 0;
+        }
+    }
+}, true);
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
