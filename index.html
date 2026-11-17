@@ -19247,54 +19247,77 @@ document.addEventListener('click', function(e) {
         <!-- Acá se va a inyectar el texto automáticamente -->
     </div>
 </div>
-  <script>
+<script>
+// 1. FUNCIÓN PARA ABRIR LA PANTALLA LIMPIA CON CUALQUIER CONTENIDO
+function abrirPantallaLimpia(titulo, contenidoHTML) {
+    var pantalla = document.getElementById('pantalla-lectura-limpia');
+    var cajaTexto = document.getElementById('cuerpo-lectura-limpia');
+    
+    // Armamos el título con el mismo estilo limpio
+    var htmlFinal = '<h1>' + titulo + '</h1>' + contenidoHTML;
+    
+    cajaTexto.innerHTML = htmlFinal;
+    pantalla.style.display = 'block';
+    pantalla.scrollTop = 0; // Arranca desde arriba
+}
+
 document.addEventListener('click', function(e) {
-    // Detectamos si el usuario tocó la nota de La Reducción
-    // Buscamos el enlace o el summary que contiene la nota
-    var target = e.target.closest('summary');
     
-    // Si no es un summary, salimos
-    if(!target) return;
+    // --- CASO 1: CLIC EN EL CARRUSEL DE NOTICIAS DESTACADAS ---
+    var carrusel = document.getElementById('carrusel-destacadas');
+    if (carrusel && carrusel.contains(e.target)) {
+        var activeSlide = carrusel.querySelector('.slide-contenedor.active');
+        if (activeSlide && activeSlide.getAttribute('data-target') === 'nota-reclamo-reduccion') {
+            
+            e.preventDefault();
+            e.stopPropagation(); 
+            e.stopImmediatePropagation(); // Evitamos que se abra la caja fea
 
-    var detailsPadre = target.parentElement;
-    
-    // Verificamos si el clic fue en la nota de La Reducción
-    if(detailsPadre && detailsPadre.id === 'nota-reclamo-reduccion') {
-        
-        // Frenamos la apertura normal del acordeón
-        e.preventDefault(); 
-        e.stopPropagation();
-
-        // Buscamos el contenido de la nota
-        var contenidoOriginal = detailsPadre.querySelector('.cuerpo-in');
-        
-        if(contenidoOriginal) {
-            // Preparamos el título y el contenido
-            var tituloHTML = '<h1>' + target.innerText + '</h1>';
-            
-            // Pasamos el contenido al fondo limpio
-            var pantalla = document.getElementById('pantalla-lectura-limpia');
-            var cajaTexto = document.getElementById('cuerpo-lectura-limpia');
-            
-            cajaTexto.innerHTML = tituloHTML + contenidoOriginal.innerHTML;
-            
-            // Ocultamos el botón de audio viejo (porque el diseño cambió) o lo adaptamos
-            var btnViejo = cajaTexto.querySelector('.btn-voz-reduccion');
-            if(btnViejo) {
-                btnViejo.style.background = '#fdf9ef';
-                btnViejo.style.color = '#171310';
-                btnViejo.style.border = '2px solid #c9a243';
+            // Buscamos la nota en el código
+            var notaOriginal = document.getElementById('nota-reclamo-reduccion');
+            if (notaOriginal) {
+                var titulo = notaOriginal.querySelector('summary').innerText;
+                var contenido = notaOriginal.querySelector('.cuerpo-in').innerHTML;
+                abrirPantallaLimpia(titulo, contenido);
             }
-
-            // Mostramos la pantalla limpia
-            pantalla.style.display = 'block';
-            
-            // Subimos el scroll arriba de todo
-            pantalla.scrollTop = 0;
+            return; // Terminamos acá
         }
     }
+
+    // --- CASO 2: CLIC EN EL BOTÓN DE ALBARRACÍN EN EL MENÚ ---
+    // Detectamos si tocó el summary del botón de Albarracín
+    var btnAlb = e.target.closest('#btn-albarracin');
+    if (btnAlb) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Buscamos el contenido que está adentro de la caja
+        var contenidoAlb = document.getElementById('info-albarracin');
+        if (contenidoAlb) {
+            var titulo = btnAlb.innerText.replace('▼', '').replace('▲', '').trim();
+            abrirPantallaLimpia(titulo, contenidoAlb.innerHTML);
+        }
+        return;
+    }
+
+    // --- CASO 3: CLIC EN LA NOTA DE LA SECCIÓN NOTICIAS (Como ya lo teníamos) ---
+    var target = e.target.closest('summary');
+    if(target) {
+        var detailsPadre = target.parentElement;
+        if(detailsPadre && detailsPadre.id === 'nota-reclamo-reduccion') {
+            e.preventDefault(); 
+            e.stopPropagation();
+
+            var contenidoOriginal = detailsPadre.querySelector('.cuerpo-in');
+            if(contenidoOriginal) {
+                var titulo = target.innerText;
+                abrirPantallaLimpia(titulo, contenidoOriginal.innerHTML);
+            }
+        }
+    }
+
 }, true);
-  </script>
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
