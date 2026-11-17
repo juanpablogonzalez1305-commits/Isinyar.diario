@@ -19247,22 +19247,18 @@ document.addEventListener('click', function(e) {
         <!-- Acá se va a inyectar el texto automáticamente -->
     </div>
 </div>
-
 <script>
 // 1. FUNCIÓN PARA ABRIR LA PANTALLA LIMPIA
 function abrirPantallaLimpia(titulo, contenidoHTML) {
     var pantalla = document.getElementById('pantalla-lectura-limpia');
     var cajaTexto = document.getElementById('cuerpo-lectura-limpia');
     
-    // Armamos el título con el mismo estilo limpio
     var htmlFinal = '<h1>' + titulo + '</h1>' + contenidoHTML;
     cajaTexto.innerHTML = htmlFinal;
     
-    // --- ACÁ RECONECTAMOS LA VOZ ---
-    // Buscamos cualquier botón de escuchar que se haya movido
+    // RECONECTAMOS LA VOZ CON EL MISMO SISTEMA QUE YA FUNCIONA
     var btnVoz = cajaTexto.querySelector('button[class^="btn-voz"], .btn-escuchar');
     if (btnVoz) {
-        // Le damos la orden de qué hacer al tocarlo
         btnVoz.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -19270,7 +19266,6 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
             var s = window.speechSynthesis;
             if(!s) return;
             
-            // Si ya está leyendo, lo frena
             if(window._pantallaLeyendo) {
                 s.cancel();
                 window._pantallaLeyendo = false;
@@ -19278,7 +19273,6 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
                 return;
             }
 
-            // Junta todo el texto de la nota
             var textos = cajaTexto.querySelectorAll('p');
             var bloques = [];
             textos.forEach(function(p) {
@@ -19304,14 +19298,17 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
                 var item = bloques[idx];
                 var u = new SpeechSynthesisUtterance(item.txt);
                 
-                // Buscar voz latina
+                // --- SELECCIÓN ESTRICTA DE VOZ LATINA ---
                 var voces = s.getVoices();
                 var vozLatina = null;
+                
+                // Primero buscamos Argentina, México o EE.UU (Latino)
                 for (var i = 0; i < voces.length; i++) {
                     if (voces[i].lang.includes('es-AR') || voces[i].lang.includes('es-MX') || voces[i].lang.includes('es-US')) {
                         vozLatina = voces[i]; break;
                     }
                 }
+                // Si no hay, buscamos cualquier español que NO sea de España (es-ES)
                 if (!vozLatina) {
                     for (var j = 0; j < voces.length; j++) {
                         if (voces[j].lang.includes('es') && !voces[j].lang.includes('es-ES')) {
@@ -19320,8 +19317,11 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
                     }
                 }
                 
-                if (vozLatina) { u.voice = vozLatina; u.lang = vozLatina.lang; } 
-                else { u.lang = 'es-AR'; }
+                // Forzamos la configuración
+                u.lang = 'es-AR';
+                if (vozLatina) { 
+                    u.voice = vozLatina; 
+                }
                 
                 u.rate = .92;
                 u.onend = function(){ idx++; setTimeout(hablar, item.pausa); };
@@ -19331,7 +19331,6 @@ function abrirPantallaLimpia(titulo, contenidoHTML) {
             setTimeout(function(){ s.resume(); hablar(); }, 300);
         };
     }
-    // -------------------------------
 
     pantalla.style.display = 'block';
     pantalla.scrollTop = 0; 
@@ -19342,7 +19341,6 @@ function cerrarPantallaLimpia() {
     var pantalla = document.getElementById('pantalla-lectura-limpia');
     pantalla.style.display = 'none';
     
-    // Si estaba leyendo, que se calle al volver al diario
     if(window.speechSynthesis) {
         window.speechSynthesis.cancel();
         window._pantallaLeyendo = false;
@@ -19352,13 +19350,11 @@ function cerrarPantallaLimpia() {
 // 3. EL VIGILANTE DE CLICS
 document.addEventListener('click', function(e) {
     
-    // --- BOTÓN VOLVER ---
     if (e.target.closest('.btn-volver-diario')) {
         cerrarPantallaLimpia();
         return;
     }
 
-    // --- CARRUSEL ---
     var carrusel = document.getElementById('carrusel-destacadas');
     if (carrusel && carrusel.contains(e.target)) {
         var activeSlide = carrusel.querySelector('.slide-contenedor.active');
@@ -19377,7 +19373,6 @@ document.addEventListener('click', function(e) {
         }
     }
 
-    // --- ALBARRACÍN ---
     var btnAlb = e.target.closest('#btn-albarracin');
     if (btnAlb) {
         e.preventDefault();
@@ -19391,7 +19386,6 @@ document.addEventListener('click', function(e) {
         return;
     }
 
-    // --- NOTA NORMAL DE LA SECCIÓN NOTICIAS ---
     var target = e.target.closest('summary');
     if(target) {
         var detailsPadre = target.parentElement;
