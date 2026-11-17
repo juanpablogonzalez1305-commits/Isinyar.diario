@@ -19471,6 +19471,22 @@ document.addEventListener('click', function(e) {
 
 }, true);
 </script>
+          <script>
+(function(){
+  var intentos = 0;
+  var t = setInterval(function(){
+    intentos++;
+    var c = document.querySelector('#boton-efemerides .cuerpo-in');
+    if (c && c.dataset.dia17) {
+      clearInterval(t);
+      c.querySelectorAll('details').forEach(function(d){
+        if (d.textContent.indexOf('Canal de Suez') > -1) d.remove();
+      });
+    }
+    if (intentos > 40) clearInterval(t);
+  }, 500);
+})();
+          </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
