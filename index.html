@@ -19439,8 +19439,7 @@ document.addEventListener('click', function(e) {
             }
             return;
         }
-
-        if(detailsPadre && detailsPadre.id === 'nota-reclamo-reduccion') {
+if(detailsPadre && (detailsPadre.id === 'nota-reclamo-reduccion' || detailsPadre.classList.contains('lectura-limpia'))) {
             e.preventDefault(); 
             e.stopPropagation();
             var contenidoOriginal = detailsPadre.querySelector('.cuerpo-in');
