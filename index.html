@@ -14351,8 +14351,8 @@ btnCerrar.onclick = function() {
         var notas = document.querySelectorAll('details.pieza');
         
         for(var i=0; i < notas.length; i++) {
-            var textoNota = notas[i].textContent.toLowerCase();
-            
+if (notas[i].classList.contains('lectura-limpia')) { continue; }
+var textoNota = notas[i].textContent.toLowerCase();            
             // Si el título o el texto mencionan a la Intendenta en estas notas específicas, las ocultamos
             if(
                 textoNota.includes('marta albarracín') || 
