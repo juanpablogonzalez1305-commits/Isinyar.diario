@@ -19663,6 +19663,23 @@ document.addEventListener('click', function(e) {
   abrirPantallaLimpia(resumen.textContent.trim(), cuerpo.innerHTML);
 }, true);
   </script>
+        <script>
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.btn-volver-diario')) return;
+  var caja = document.getElementById('cuerpo-lectura-limpia');
+  if (caja) {
+    var btn = caja.querySelector('button');
+    if (btn) {
+      btn.classList.remove('leyendo');
+      btn.innerHTML = '🔊 Escuchar en voz alta';
+    }
+  }
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    setTimeout(function(){ window.speechSynthesis.cancel(); }, 200);
+  }
+}, true);
+        </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
