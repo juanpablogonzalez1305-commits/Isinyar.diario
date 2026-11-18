@@ -19587,11 +19587,12 @@ if(detailsPadre && (detailsPadre.id === 'nota-reclamo-reduccion' || detailsPadre
         var sec = document.getElementById('noticias');
         if(!sec) return;
         
-        if(document.getElementById('nota-bingo-deporte')) { clearInterval(timer); return; }
+        // ID NUEVO PARA SALTAR EL FANTASMA
+        if(document.getElementById('nota-bingo-deporte-v2')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
         d.className = 'pieza';
-        d.id = 'nota-bingo-deporte';
+        d.id = 'nota-bingo-deporte-v2';
 
         var H = '';
         
@@ -19630,13 +19631,10 @@ if(detailsPadre && (detailsPadre.id === 'nota-reclamo-reduccion' || detailsPadre
         
         H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Deportes y comunidad.</p>';
         
-        // Nota: No se incluye el botón de escuchar según lo solicitado.
-        
         H += '</div>';
 
         d.innerHTML = H;
         
-        // Lo inserta PRIMERO en la sección de noticias
         var primeraNota = sec.querySelector('details.pieza');
         if (primeraNota) {
             sec.insertBefore(d, primeraNota);
