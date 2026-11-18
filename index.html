@@ -16800,6 +16800,7 @@ H += '<p class="meta">6 de Noviembre de 2026 · Internacional · Paraguay</p>';
             
             // ACÁ AGREGAMOS LA TERCERA NOTA (Paraguay)
 var noticias = [
+      { img: 'img/Carlos2ausp.png', id: 'nota-bingo-deporte-v2', texto: 'Carlos Gallia comprometido con el deporte luleño' },
     { img: 'img/papa1.webp', id: 'nota-papa-argentina', texto: 'El Papa León XIV llegó a la Argentina' },
     { img: 'img/rene.jpg', id: 'nota-tradicion-rene', texto: '10 de Noviembre: Día de la Tradición' },
     { img: 'img/Paraguay.jpg', id: 'nota-paraguay', texto: 'Terremoto político en Paraguay' },
@@ -19635,6 +19636,23 @@ if(detailsPadre && (detailsPadre.id === 'nota-reclamo-reduccion' || detailsPadre
   }, 500);
 })();
 </script>
+  <script>
+document.addEventListener('click', function(e) {
+  var carrusel = document.getElementById('carrusel-destacadas');
+  if (!carrusel || !carrusel.contains(e.target)) return;
+  var activa = carrusel.querySelector('.slide-contenedor.active');
+  if (!activa) return;
+  var nota = document.getElementById(activa.getAttribute('data-target'));
+  if (!nota || !nota.classList.contains('lectura-limpia')) return;
+  var resumen = nota.querySelector('summary');
+  var cuerpo = nota.querySelector('.cuerpo-in');
+  if (!resumen || !cuerpo) return;
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  abrirPantallaLimpia(resumen.textContent.trim(), cuerpo.innerHTML);
+}, true);
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
