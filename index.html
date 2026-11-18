@@ -19579,7 +19579,60 @@ if(detailsPadre && (detailsPadre.id === 'nota-reclamo-reduccion' || detailsPadre
 })();
 </script>
 <script>
-alert("¡Jefe, el archivo está leyendo los códigos del final!");
+(function(){
+    var intentos = 0;
+    // Este vigilante revisa cada 1 segundo por 60 segundos
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        // Usamos un ID único
+        if(document.getElementById('nota-bingo-carlos-2026')) { 
+            clearInterval(timer); 
+            return; 
+        }
+
+        var htmlNota = `
+        <details class="pieza" id="nota-bingo-carlos-2026">
+            <summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">18 de Noviembre · El Legislador Carlos Gallia impulsa el Gran Bingo del Deporte en Lules</summary>
+            <div class="cuerpo-in">
+                <p class="meta">18 de Noviembre de 2026 · Deportes · Lules</p>
+                <p><strong>Desde la Legislatura de Tucumán, por iniciativa de su presidente, el CPN Miguel Acevedo, se puso en marcha esta gran iniciativa solidaria pensada para fortalecer y acompañar el crecimiento de nuestros clubes de barrio e instituciones deportivas.</strong></p>
+                <p>Gracias al trabajo articulado entre el Legislador Carlos Gallia y la Intendenta Marta Albarracín, a través de la Dirección de Deportes de Lules, realizamos la convocatoria, inscripción y entrega de cartones a las instituciones locales.</p>
+                <p><strong>¿Cómo funciona?</strong></p>
+                <p>Los premios son aportados íntegramente por la Legislatura de Tucumán. La logística del sorteo cuenta con el respaldo y la transparencia de la Caja Popular de Ahorros.</p>
+                <p><strong>¡100% a beneficio!</strong> Todo lo recaudado por la venta de cada cartón queda en su totalidad para el club que lo vende, ayudándolos a financiar sus actividades, indumentaria y mejoras edilicias.</p>
+                <p><strong>Instituciones participantes:</strong></p>
+                <ul style="margin-bottom: 15px; padding-left: 20px; font-size: 1rem; line-height: 1.6;">
+                    <li>Almirante Brown</li>
+                    <li>San Isidro Rugby Club</li>
+                    <li>Club Mercedes</li>
+                    <li>Colectividad Boliviana</li>
+                    <li>Club Sportivo Manantial</li>
+                    <li>Club San Rafael</li>
+                    <li>Fundación Amputados</li>
+                    <li>Club Ingenio Lules</li>
+                    <li>Club Ingenio Viejo Filial</li>
+                    <li>Club Colonia II</li>
+                </ul>
+                <p><strong>¡Sumate y colaborá!</strong> Comprale tu cartón a tu club del barrio, participá por importantes premios y ayudá a que el deporte en Lules siga creciendo.</p>
+                <p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Compromiso con el deporte.</p>
+            </div>
+        </details>
+        `;
+
+        // Lo inserta al principio de la sección
+        sec.insertAdjacentHTML('afterbegin', htmlNota);
+        
+        // Se detiene después de insertarlo con éxito
+        clearInterval(timer);
+        
+        // Si pasan 60 segundos y no lo encontró, se rinde para no gastar batería
+        if(intentos > 60) clearInterval(timer);
+    }, 1000); 
+})();
 </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
