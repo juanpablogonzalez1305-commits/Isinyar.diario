@@ -19681,14 +19681,13 @@ document.addEventListener('click', function(e) {
   }
 }, true);
         </script>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
         intentos++;
         
-        // Buscamos la sección de Fe usando la nota del Papa como referencia
-        var notaPapa = document.getElementById('nota-jp2');
+        var notaPapa = document.getElementById('nota-papa-argentina') || document.getElementById('nota-jp2');
         if(!notaPapa) return;
         
         if(document.getElementById('nota-padre-manolo')) { clearInterval(timer); return; }
@@ -19717,12 +19716,51 @@ document.addEventListener('click', function(e) {
 
         d.innerHTML = H;
         
-        // Lo inserta justo después de la nota del Papa
-        notaPapa.parentNode.insertBefore(d, notaPapa.nextSibling);
-        
+        notaPapa.insertAdjacentElement('afterend', d);
         clearInterval(timer);
     }, 500);
 })();
+</script>
+
+<!-- VIGILANTE PARA EL CARRUSEL -->
+<script>
+document.addEventListener('click', function(e) {
+    var carrusel = document.getElementById('carrusel-destacadas');
+    if (!carrusel || !carrusel.contains(e.target)) return;
+
+    var activeSlide = carrusel.querySelector('.slide-contenedor.active');
+    if (!activeSlide) return;
+
+    var targetId = activeSlide.getAttribute('data-target');
+    
+    // Si tocan la foto del Padre Manolo en el carrusel
+    if (targetId === 'nota-padre-manolo') {
+        e.preventDefault();
+        e.stopPropagation(); 
+        e.stopImmediatePropagation(); // Frenamos la orden original que lo manda a Noticias
+
+        // 1. Forzamos el cambio a la pestaña de "Fe"
+        var radioFe = document.getElementById('s-fe');
+        if(radioFe) {
+            radioFe.checked = true;
+            radioFe.dispatchEvent(new Event('change'));
+        }
+
+        // 2. Esperamos que cargue la sección y abrimos la Pantalla Limpia
+        setTimeout(function() {
+            var notaM = document.getElementById('nota-padre-manolo');
+            if (notaM) {
+                var titulo = notaM.querySelector('summary').innerText;
+                var contenido = notaM.querySelector('.cuerpo-in').innerHTML;
+                
+                // Usamos la función de pantalla limpia que ya tenemos
+                if(typeof abrirPantallaLimpia === 'function') {
+                    abrirPantallaLimpia(titulo, contenido);
+                }
+            }
+        }, 500); // Medio segundo para que el celular cambie de pestaña
+    }
+}, true);
 </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
