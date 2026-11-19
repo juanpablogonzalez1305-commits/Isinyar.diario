@@ -1,7 +1,5 @@
 {
-  "mostrar": [
-    "padrecitomanolo"
-  ],
+  "mostrar": [],
   "inicio": "2026-11-19T00:00:00",
   "duracion_horas": 24,
   "flyers": {
@@ -123,11 +121,6 @@
       "img": "https://files.catbox.moe/fd56la.png",
       "tieneVer": false,
       "segundos": 10
-    },
-    "padrecitomanolo": {
-      "img": "https://files.catbox.moe/5kkitl.jpg",
-      "tieneVer": false,
-      "segundos": 8
     },
     "manolopadre": {
       "img": "https://files.catbox.moe/g4h8wt.jpg",
