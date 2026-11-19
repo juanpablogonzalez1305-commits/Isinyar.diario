@@ -19818,6 +19818,60 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-cumple-arancibia')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        // ACÁ USAMOS LA MAGIA DEL OTRO ASISTENTE
+        d.className = 'pieza lectura-limpia';
+        d.id = 'nota-cumple-arancibia';
+
+        var FOTO = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+
+        var H = '';
+        
+        // TÍTULO CON LA FECHA Y TINTE SOCIAL
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">19 de Noviembre · ¡Feliz Cumpleaños, Concejal Mariano Arancibia!</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">19 de Noviembre de 2026 · Sociales · Lules</p>';
+        
+        H += '<p><strong>Hoy es un día especial para nuestra comunidad, ya que celebramos el cumpleaños de uno de nuestros auspiciantes y concejal de San Isidro de Lules, Mariano Arancibia.</strong></p>';
+        
+        // LA FOTO
+        H += '<img class="marco" src="img/miguelsaludo.png" style="' + FOTO + '" alt="Saludo a Mariano Arancibia">';
+        
+        H += '<p>En esta jornada tan significativa, su gran amigo Miguel Mastoberardino (Miguelito Master) no quiso estar ausente y le envía un afectuoso saludo, celebrando los lazos de amistad que los unen.</p>';
+            H += '<p>Desde el diario digital <strong>Descubrir Lules</strong> queremos hacer extensivo este saludo a Mariano, agradeciendo profundamente su constante acompañamiento y auspicio, que nos permite seguir trabajando día a día por la información y la verdad de nuestra ciudad.</p>';
+        
+        H += '<p>¡Le deseamos un muy feliz cumpleaños, con muchos éxitos, salud y bendiciones en este nuevo año de vida!</p>';
+        
+        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Saludos y comunidad.</p>';
+        
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
