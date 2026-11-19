@@ -1,12 +1,9 @@
 {
   "mostrar": [
-    "tango",
-    "artaza",
     "descubrir",
-    "secciones",
-    "descargapp"
+    "padremanolo"
   ],
-  "inicio": "2026-11-06T00:00:00",
+  "inicio": "2026-11-19T00:00:00",
   "duracion_horas": 24,
   "flyers": {
     "tango": {
