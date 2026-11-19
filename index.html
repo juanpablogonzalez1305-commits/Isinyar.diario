@@ -19942,6 +19942,64 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-emprendedores-aniversario')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        // La clase mágica para que abra en pantalla limpia
+        d.className = 'pieza lectura-limpia';
+        d.id = 'nota-emprendedores-aniversario';
+
+        var H = '';
+        
+        // TÍTULO CON LA FECHA DE MAÑANA
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">20 de Noviembre · Emprendedores y feriantes le dicen presente al aniversario de San Isidro de Lules</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">20 de Noviembre de 2026 · Sociedad · Lules</p>';
+        
+        H += '<p><strong>En el marco de los festejos por un nuevo aniversario de la fundación de San Isidro de Lules, la Plaza principal se vestirá de fiesta para recibir a vecinos y visitantes. Como en cada celebración, el talento y el esfuerzo local serán protagonistas de la mano de los emprendedores de nuestra ciudad.</strong></p>';
+        
+        // FOTO 1: LOGO EMPRENDEDORES
+        H += '<img class="marco" src="img/logoemprendedores (1).jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Emprendedores de Lules">';
+        
+        H += '<p>La Feria de Emprendedores será uno de los grandes atractivos de la jornada. Allí, artesanos, cocineros y creadores luleños expondrán sus productos, demostrando una vez más que el motor de nuestra economía también se construye desde abajo, con trabajo y dedicación.</p>';
+              // FOTO 2: EMPRENDEDORES TRABAJANDO
+        H += '<img class="marco" src="img/emprendedores1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Feria de emprendedores">';
+        
+        H += '<p>Además de la gastronomía y la artesanía, la propuesta suma este año un espacio dedicado a la Feria Holística, ofreciendo un abanico de alternativas para el bienestar y el cuidado personal, integrando nuevas propuestas que despiertan el interés de la comunidad.</p>';
+        
+        // FOTO 3: FERIA HOLISTICA
+        H += '<img class="marco" src="img/fayerholistica.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Feria Holística en Lules">';
+        
+        H += '<p>Desde el diario <strong>Descubrir Lules</strong> invitamos a toda la comunidad a acercarse, recorrer los stands, apoyar a los emprendedores locales y disfrutar de una jornada pensada para compartir en familia, celebrando juntos el orgullo de ser luleños.</p>';
+        
+        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Aniversario y comunidad.</p>';
+        
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
