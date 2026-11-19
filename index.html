@@ -19872,6 +19872,76 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        // Usamos dia20 para que el sistema sepa que ya cargó las de hoy
+        if(cuerpoEfemerides && !cuerpoEfemerides.dataset.dia20) {
+            clearInterval(timer);
+            
+            // 1. BARRIDO AUTOMÁTICO: Limpiamos las de ayer
+            cuerpoEfemerides.innerHTML = '';
+
+            // 2. NOTA 1: FUNDACIÓN DE SAN ISIDRO DE LULES
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d1.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">20 de Noviembre: Aniversario de la Fundación de San Isidro de Lules</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Un día muy especial para nuestra ciudad. Se conmemora un nuevo aniversario de la fundación de San Isidro de Lules, un hito en la historia y la identidad de nuestro pueblo.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d1);
+
+            // 3. NOTA 2: DÍA DE LA SOBERANÍA NACIONAL
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d2.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">20 de Noviembre: Día de la Soberanía Nacional</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Se recuerda la Batalla de la Vuelta de Obligado (1845), un símbolo de la defensa de nuestra soberanía. Es una fecha patria que nos invita a reflexionar sobre la importancia de la independencia y la unidad nacional.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d2);
+                      // 4. NOTA 3: DÍA DE LA BANDERA BONAERENSE
+            var d3 = document.createElement('details');
+            d3.className = 'pieza sub-efemerides';
+            d3.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d3.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">20 de Noviembre: Día de la Bandera Bonaerense</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Una fecha que honra la bandera de la Provincia de Buenos Aires, en conmemoración de la creación de la primera escarapela y bandera provincial en 1810.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d3);
+
+            // 5. NOTA 4: DÍA DE LA FLOR NACIONAL
+            var d4 = document.createElement('details');
+            d4.className = 'pieza sub-efemerides';
+            d4.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d4.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">20 de Noviembre: Día de la Flor Nacional</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Se celebra el Día de la Flor Nacional, el Ceibo, declarado como tal en 1942. Una fecha que resalta la belleza de nuestra flora autóctona y la identidad natural de nuestro país.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d4);
+
+            // Marcamos como listo
+            cuerpoEfemerides.dataset.dia20 = '1';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
