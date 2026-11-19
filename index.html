@@ -19680,6 +19680,49 @@ document.addEventListener('click', function(e) {
   }
 }, true);
         </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la sección de Fe usando la nota del Papa como referencia
+        var notaPapa = document.getElementById('nota-jp2');
+        if(!notaPapa) return;
+        
+        if(document.getElementById('nota-padre-manolo')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        d.className = 'pieza';
+        d.id = 'nota-padre-manolo';
+
+        var H = '';
+        
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Feliz Aniversario: Padre Manolo celebra 21 años de vida sacerdotal en Lules</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">Fe y Comunidad · Lules</p>';
+        
+        H += '<p><strong>En un día de profunda alegría para la comunidad católica de San Isidro de Lules, se celebra el aniversario sacerdotal del Padre Manolo.</strong> Al cumplirse 21 años de su ordenación, los fieles elevan una plegaria de agradecimiento a Dios por el don de su vida y de su vocación.</p>';
+        
+        H += '<img class="marco" src="img/sacerdote2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Padre Manolo 21 años">';
+        
+        H += '<p>A lo largo de estas más de dos décadas, el Padre Manolo se ha destacado por su entrega incondicional, su paciencia y por guiar a su comunidad con un profundo amor y fe. Su labor pastoral ha sido un pilar fundamental para muchas familias luleñas.</p>';
+              H += '<p>"Que el Señor siga bendiciendo su misión, rezamos por usted", expresan desde la comunidad. Con cariño y gratitud, de parte de Acción Católica y de todo el pueblo de Lules, le desean: <strong>¡Felices 21 años de vida sacerdotal!</strong></p>';
+        
+        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Fe y Comunidad.</p>';
+        
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta justo después de la nota del Papa
+        notaPapa.parentNode.insertBefore(d, notaPapa.nextSibling);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
