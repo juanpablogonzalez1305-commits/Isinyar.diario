@@ -20000,6 +20000,44 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+<script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        var nota175 = document.getElementById('nota-175-lules'); // La nota que ya existe
+        
+        // Si no encontramos la sección o la nota, seguimos esperando
+        if(!sec || !nota175) {
+            if(intentos > 40) clearInterval(timer);
+            return;
+        }
+        
+        // Buscamos cuál es la primera nota actual en este momento
+        var primeraNota = sec.querySelector('details.pieza');
+        
+        // Si la nota de los 175 años YA es la primera, no hacemos nada
+        if(primeraNota === nota175) {
+            clearInterval(timer);
+            return; 
+        }
+        
+        // ACÁ ESTÁ LA MAGIA: Movemos la nota a la primera posición
+        sec.insertBefore(nota175, primeraNota);
+        
+        // Le agregamos la clase para que se abra en pantalla limpia
+        if(nota175.classList) {
+            nota175.classList.add('lectura-limpia');
+        } else {
+            nota175.className += ' lectura-limpia';
+        }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
