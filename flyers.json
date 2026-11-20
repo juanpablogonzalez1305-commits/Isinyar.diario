@@ -1,7 +1,6 @@
 {
   "mostrar": [
-    "manolopadre",
-    "175años"
+    "manolopadre"
   ],
   "inicio": "2026-11-20T00:00:00",
   "duracion_horas": 24,
@@ -127,11 +126,6 @@
     },
     "manolopadre": {
       "img": "https://files.catbox.moe/g4h8wt.jpg",
-      "tieneVer": false,
-      "segundos": 8
-    },
-    "175años": {
-      "img": "https://files.catbox.moe/17lorr.jpg",
       "tieneVer": false,
       "segundos": 8
     }
