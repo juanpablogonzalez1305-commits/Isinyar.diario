@@ -23,13 +23,13 @@
       "id": "1793944409726",
       "nombre": "El otro mundo",
       "imagen": "img/elotromundo.jpg",
-      "activo": true
+      "activo": false
     },
     {
       "id": "1793991248734",
       "nombre": "Municipalidad ",
       "imagen": "img/lulesausp.jpg",
-      "activo": true
+      "activo": false
     },
     {
       "id": "1793992046432",
@@ -57,7 +57,7 @@
     },
     {
       "id": "1794432665184",
-      "nombre": "Miguel albarracÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­n ",
+      "nombre": "Miguel albarracÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­n ",
       "imagen": "img/miguelausp.jpg",
       "activo": true
     },
@@ -83,6 +83,12 @@
       "id": "1794954759503",
       "nombre": "Mariano",
       "imagen": "img/marianoconcejalasup.jpg",
+      "activo": true
+    },
+    {
+      "id": "1795200002748",
+      "nombre": "Corralón san isidro",
+      "imagen": "img/tiaelsacomercio.png",
       "activo": true
     }
   ]
