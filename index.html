@@ -20091,6 +20091,65 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
   </script>
+    <script>
+(function(){
+  var intentos = 0;
+  var timer = setInterval(function(){
+    intentos++;
+    var sec = document.getElementById('noticias');
+    if(!sec) { if(intentos > 40) clearInterval(timer); return; }
+    if(document.getElementById('nota-desmalezamiento-gelsi')) { clearInterval(timer); return; }
+
+    // Buscamos las notas del 20 de noviembre que ya estén cargadas
+    var notas = sec.querySelectorAll('details.pieza');
+    var del20 = [];
+    for (var i = 0; i < notas.length; i++) {
+      var s = notas[i].querySelector('summary');
+      var m = notas[i].querySelector('.meta');
+      var txt = ((s ? s.textContent : '') + ' ' + (m ? m.textContent : '')).toLowerCase();
+      if (txt.indexOf('20 de noviembre') > -1) del20.push(notas[i]);
+    }
+    // Esperamos (hasta 12 segundos) a que estén las dos notas del 20 de noviembre
+    if (del20.length < 2 && intentos <= 24) return;
+
+    var d = document.createElement('details');
+    d.className = 'pieza lectura-limpia';
+    d.id = 'nota-desmalezamiento-gelsi';
+
+    var FOTO = 'width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;';
+
+    var H = '';
+    H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">20 de Noviembre: Trabajamos por un barrio más limpio y ordenado</summary>';
+    H += '<div class="cuerpo-in">';
+    H += '<p class="meta">20 de Noviembre de 2026 · Sociedad · Lules</p>';
+    H += '<p><strong>Continúan las tareas de desmalezamiento y mantenimiento, que en esta oportunidad avanzan en los alrededores de la Escuela Celestino Gelsi.</strong></p>';
+
+    H += '<img class="marco" src="img/tarea1.jpg" style="' + FOTO + '" alt="Tareas de desmalezamiento en los alrededores de la Escuela Celestino Gelsi">';
+
+    H += '<p>Estas acciones buscan mantener los espacios limpios, cuidados y en buenas condiciones, contribuyendo al bienestar de los vecinos y de toda la comunidad educativa.</p>';
+
+    H += '<img class="marco" src="img/tarea2.jpg" style="' + FOTO + '" alt="Mantenimiento y limpieza del barrio">';
+
+    H += '<p><strong>Presidente del HCD, Concejal Prof. Miguel Albarracín.</strong></p>';
+    H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lunes | Noticias.</p>';
+
+    H += '<button type="button" class="btn-voz-nota" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🔊 Escuchar en voz alta</button>';
+    H += '</div>';
+    d.innerHTML = H;
+
+    // Tercera ubicación: justo después de las dos notas del 20 de noviembre
+    if (del20.length > 0) {
+      var ref = del20[Math.min(1, del20.length - 1)];
+      ref.parentNode.insertBefore(d, ref.nextSibling);
+    } else if (notas.length >= 2) {
+      notas[1].parentNode.insertBefore(d, notas[1].nextSibling);
+    } else {
+      sec.appendChild(d);
+    }
+    clearInterval(timer);
+  }, 500);
+})();
+    </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
