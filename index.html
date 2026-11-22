@@ -20219,6 +20219,69 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <script>
+(function(){
+  // === VIDEOS DE LAS PARADAS: número de parada : link (o ID) del video de YouTube ===
+  // Ejemplo:   1: 'https://youtu.be/XXXXXXXXXXX',
+  var VIDEOS = {
+    // 0: '',
+    // 1: '',
+    // 2: ''
+  };
+
+  function idDe(valor){
+    if(!valor) return '';
+    var m = String(valor).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : String(valor).trim();
+  }
+  function numeroDe(det){
+    var s = det.querySelector('summary');
+    if(!s) return null;
+    var m = s.textContent.match(/Parada\s*(\d+)/i);
+    return m ? parseInt(m[1], 10) : null;
+  }
+  function armar(det){
+    var n = numeroDe(det);
+    if(n === null) return;
+    var id = idDe(VIDEOS[n]);
+    if(!id) return;
+    var cuerpo = det.querySelector('.cuerpo-in');
+    if(!cuerpo) return;
+    var caja = cuerpo.querySelector('.video-parada');
+
+    if(det.open){
+      if(caja) return;
+      caja = document.createElement('div');
+      caja.className = 'video-parada';
+      caja.style.cssText = 'margin:15px 0; border:1px solid #c9a243; border-radius:6px; padding:2px; background:#fff;';
+      caja.innerHTML = '<div style="position:relative; width:100%; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:4px; background:#000;">' +
+        '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?rel=0" title="Video de la Parada ' + n + '" ' +
+        'style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" ' +
+        'allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>';
+
+      // Lo ubicamos justo arriba del botón de escuchar en voz alta
+      var btn = null;
+      var enlaces = cuerpo.querySelectorAll('a');
+      for(var i = 0; i < enlaces.length; i++){
+        var t = enlaces[i].textContent;
+        if(t.indexOf('Escuchar en voz alta') > -1 || t.indexOf('Detener lectura') > -1){ btn = enlaces[i]; break; }
+      }
+      if(btn && btn.parentNode){ btn.parentNode.insertBefore(caja, btn); }
+      else { cuerpo.appendChild(caja); }
+    } else if(caja){
+      caja.remove(); // al cerrar la parada, el video se corta
+    }
+  }
+
+  // El video se carga recién cuando se abre la parada (no pesa al abrir el diario)
+  document.addEventListener('toggle', function(e){
+    var det = e.target;
+    if(!det || det.tagName !== 'DETAILS') return;
+    if(!det.closest('#historia')) return;
+    try { armar(det); } catch(err) {}
+  }, true);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
