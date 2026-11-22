@@ -20149,6 +20149,76 @@ document.addEventListener('click', function(e) {
   }, 500);
 })();
     </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        
+        // Usamos dia22 para que el sistema sepa que ya cargó las de hoy
+        if(cuerpoEfemerides && !cuerpoEfemerides.dataset.dia22) {
+            clearInterval(timer);
+            
+            // 1. BARRIDO AUTOMÁTICO: Limpiamos las anteriores
+            cuerpoEfemerides.innerHTML = '';
+
+            // 2. NOTA 1: DÍA DE LA MÚSICA
+            var d1 = document.createElement('details');
+            d1.className = 'pieza sub-efemerides';
+            d1.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d1.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">22 de Noviembre: Día de la Música</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Se celebra en homenaje a Santa Cecilia, patrona de los músicos. Una fecha para reivindicar el arte musical y su poder para unir a las comunidades.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d1);
+
+            // 3. NOTA 2: DÍA DE LA FLOR NACIONAL
+            var d2 = document.createElement('details');
+            d2.className = 'pieza sub-efemerides';
+            d2.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d2.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">22 de Noviembre: Día de la Flor Nacional</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">En honor al Ceibo, declarado flor nacional argentina en 1942. Una jornada que resalta la belleza de nuestra flora autóctona.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d2);
+                      // 4. NOTA 3: CECILIA GRIERSON
+            var d3 = document.createElement('details');
+            d3.className = 'pieza sub-efemerides';
+            d3.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d3.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">22 de Noviembre: Nacimiento de Cecilia Grierson (1859)</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Nace la primera médica argentina, un símbolo de la lucha por la igualdad y la educación en nuestro país.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d3);
+
+            // 5. NOTA 4: EVA PERÓN
+            var d4 = document.createElement('details');
+            d4.className = 'pieza sub-efemerides';
+            d4.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+            d4.innerHTML = `
+                <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">22 de Noviembre: Fallecimiento de Eva Perón (1955)</summary>
+                <div style="padding: 15px; background: #15110d;">
+                    <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">Se recuerda a Eva Duarte de Perón, figura fundamental de la historia argentina y del movimiento justicialista.</p>
+                </div>
+            `;
+            cuerpoEfemerides.appendChild(d4);
+
+            // Marcamos como listo
+            cuerpoEfemerides.dataset.dia22 = '1';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
