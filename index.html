@@ -20374,6 +20374,81 @@ document.addEventListener('click', function(e) {
     }, 500);
 })();
 </script>
+  <script>
+// CALENDARIO AUTOMÁTICO DE EFEMÉRIDES
+var calendarioEfemerides = {
+    "11-24": [
+        { titulo: "24 de Noviembre: Día del Vino Argentino", texto: "Se celebra en homenaje a la bebida nacional por excelencia, destacando su historia, su producción y su importancia cultural y económica para el país." },
+        { titulo: "24 de Noviembre: Día del Trabajador de la Educación", texto: "Una jornada para reconocer la labor de docentes, auxiliares y todo el personal que hace posible el funcionamiento diario de las escuelas en Argentina." },
+        { titulo: "24 de Noviembre: Fallecimiento de Freddie Mercury (1991)", texto: "Se recuerda al icónico vocalista de la banda Queen, una de las voces más grandes de la historia del rock y un símbolo de la lucha contra el SIDA." }
+    ],
+    "11-25": [
+        { titulo: "25 de Noviembre: Día Internacional de la Eliminación de la Violencia contra la Mujer", texto: "Establecido por la ONU para denunciar la violencia que se ejerce sobre las mujeres en todo el mundo y reclamar políticas para su erradicación." },
+        { titulo: "25 de Noviembre: Fallecimiento de Diego Maradona (2020)", texto: "Se conmemora el fallecimiento del '10', el astro del fútbol argentino y mundial, ídolo máximo e indiscutido de nuestro país." },
+        { titulo: "25 de Noviembre: Día del Trabajador Previsional", texto: "Se destaca la tarea de los profesionales que trabajan en la administración de los sistemas de jubilaciones y pensiones." }
+    ],
+    "11-26": [
+        { titulo: "26 de Noviembre: Día del Químico", texto: "Se celebra en Argentina en homenaje al doctor Enrique Herrero Ducloux, primer doctor en química del país y pionero en la enseñanza de esta ciencia." },
+        { titulo: "26 de Noviembre: Nacimiento de Charles Schulz (1922)", texto: "Nace el historietista estadounidense creador de la tira cómica 'Peanuts', inmortalizando a personajes como Charlie Brown y Snoopy." },
+        { titulo: "26 de Noviembre: Día Mundial del Olivo", texto: "Declarado por la UNESCO para proteger un árbol emblemático que representa la paz, la sabiduría y la armonía entre los pueblos." }
+    ]
+};
+  </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var cuerpoEfemerides = document.querySelector('#boton-efemerides .cuerpo-in');
+        if(!cuerpoEfemerides) return; 
+        
+        // 1. Averiguamos qué día es hoy
+        var hoy = new Date();
+        var mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        var dia = String(hoy.getDate()).padStart(2, '0');
+        var fechaHoy = mes + '-' + dia; 
+        
+        // Si ya cargamos las de hoy, no hacemos nada
+        if(cuerpoEfemerides.dataset.fechaAuto === fechaHoy) {
+            clearInterval(timer);
+            return;
+        }
+
+        // 2. Buscamos en el calendario
+        var datosHoy = calendarioEfemerides[fechaHoy];
+
+        if (datosHoy && datosHoy.length > 0) {
+            // 3. LIMPIAMOS LAS VIEJAS
+            cuerpoEfemerides.innerHTML = '';
+
+            // 4. DIBUJAMOS LAS NUEVAS
+            datosHoy.forEach(function(item) {
+                var d = document.createElement('details');
+                d.className = 'pieza sub-efemerides';
+                d.style.cssText = 'margin-top:10px; background:#1f1a15; border:1px solid #c9a243; border-radius:8px;';
+                
+                d.innerHTML = `
+                    <summary style="padding: 12px 15px; color: #ffd87a !important; font-family: 'Fraunces', serif; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: block;">${item.titulo}</summary>
+                    <div style="padding: 15px; background: #15110d;">
+                        <p style="color: #f4efe6; font-size: 14px; line-height: 1.5;">${item.texto}</p>
+                    </div>
+                `;
+                cuerpoEfemerides.appendChild(d);
+            });
+
+            // 5. Marcamos que ya se cargaron las de hoy
+            cuerpoEfemerides.dataset.fechaAuto = fechaHoy;
+            clearInterval(timer);
+        } else {
+            // Si no hay datos para hoy, vaciamos la caja (o dejamos un mensaje)
+            // cuerpoEfemerides.innerHTML = '<p style="color:#f4efe6;">No hay efemérides para hoy.</p>';
+        }
+        
+        if(intentos > 40) clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
