@@ -20503,6 +20503,56 @@ var calendarioEfemerides = {
   }, 500);
 })();
   </script>
+  <script>
+(function(){
+  var intentos = 0;
+  var creadaEn = 0;
+  var d = null;
+  var timer = setInterval(function(){
+    intentos++;
+    var sec = document.getElementById('noticias');
+    if(!sec) { if(intentos > 40) clearInterval(timer); return; }
+
+    if(!d){
+      if(document.getElementById('nota-camion-cocaina')) { clearInterval(timer); return; }
+      // Esperamos a que las demás notas estén cargadas para quedar primeros
+      if(!document.getElementById('nota-desmalezamiento-gelsi') && intentos <= 30) return;
+
+      d = document.createElement('details');
+      d.className = 'pieza lectura-limpia';
+      d.id = 'nota-camion-cocaina';
+
+      var H = '';
+      H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">24 de Noviembre: Secuestran más de 25 kilos de cocaína ocultos bajo el colchón de un camión que ingresaba a Tucumán desde Salta</summary>';
+      H += '<div class="cuerpo-in">';
+      H += '<p class="meta">24 de Noviembre de 2026 · Policiales · Tucumán</p>';
+      H += '<p><strong>Efectivos de la Policía de Tucumán secuestraron 25 kilos con 651 gramos de cocaína durante un procedimiento realizado en el Destacamento Fronterizo Cabo Juan Carlos Vallejo, sobre la Ruta Nacional 9, en el límite con Salta, en el marco del Operativo Lapacho.</strong></p>';
+
+      H += '<img class="marco" src="img/camiondrogas.jpeg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0 5px 0; display: block; padding: 2px; background: #fff;" alt="Procedimiento en el Destacamento Fronterizo Cabo Juan Carlos Vallejo">';
+      H += '<p style="font-size: 12px; color: #6b5a33; margin: 0 0 15px 0; font-style: italic;">Foto: Comunicación Tucumán.</p>';
+
+      H += '<p>La droga era transportada en un camión que ingresaba a Tucumán desde Salta. Según informó la Policía, durante un control de personas y vehículos, el conductor manifestó que circulaba sin mercadería; sin embargo, su actitud evasiva motivó que los efectivos profundizaran la inspección del rodado.</p>';
+      H += '<p>En el sector destinado al dormitorio del camión, y en presencia de testigos, los policías hallaron un envoltorio plástico negro oculto debajo del colchón, con 23 paquetes tipo ladrillo que contenían una sustancia blanquecina compactada. Las pruebas de campo realizadas por personal de la Dirección Drogas Peligrosas Norte arrojaron resultado positivo para cocaína, y el pesaje total alcanzó los 25,651 kilogramos.</p>';
+      H += '<p>Tras tomar conocimiento del procedimiento, la Justicia Federal de Tucumán dispuso el secuestro de la droga, del camión con su acoplado y del teléfono celular del conductor, además de ordenar la detención e incomunicación del hombre.</p>';
+      H += '<p>El operativo forma parte de los controles preventivos que lleva adelante la Policía de Tucumán para combatir el narcotráfico y reforzar la seguridad en los accesos a la provincia.</p>';
+      H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Fuente: Policía de Tucumán. Descubrir Lunes | Noticias.</p>';
+
+      H += '<button type="button" class="btn-voz-nota" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🔊 Escuchar en voz alta</button>';
+      H += '</div>';
+      d.innerHTML = H;
+      creadaEn = intentos;
+    }
+
+    // Primera ubicación de Noticias (y la mantiene unos segundos, por si otras notas cargan después)
+    var primera = sec.querySelector('details.pieza');
+    if(primera !== d){
+      if(primera && primera.parentNode){ primera.parentNode.insertBefore(d, primera); }
+      else { sec.appendChild(d); }
+    }
+    if(intentos - creadaEn >= 16) clearInterval(timer);
+  }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
