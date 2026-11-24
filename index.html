@@ -18615,6 +18615,7 @@ panelNuevo.innerHTML = `
             
             notas.forEach(function(nota) {
                 // Buscamos el título de la nota
+                      if (nota.classList.contains('lectura-limpia')) { return; }
                 var tituloNota = nota.querySelector('summary') ? nota.querySelector('summary').innerText.toLowerCase() : "";
                 
                 // Revisamos si el título contiene alguna de las palabras que queremos ocultar
