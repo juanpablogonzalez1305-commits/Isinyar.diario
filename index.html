@@ -20264,6 +20264,7 @@ document.addEventListener('click', function(e) {
     15: 'https://youtube.com/shorts/UHaNhMChro4',
     16: 'https://youtube.com/shorts/Kc556KOPjRo',
     17: 'https://youtube.com/shorts/pHUyS3Nq9RE',
+        '20p1': 'https://youtube.com/shorts/zsB8AwzEBn4',
     // 18: ''
   };
 
@@ -20275,8 +20276,9 @@ document.addEventListener('click', function(e) {
   function numeroDe(det){
     var s = det.querySelector('summary');
     if(!s) return null;
-    var m = s.textContent.match(/Parada\s*(\d+)/i);
-    return m ? parseInt(m[1], 10) : null;
+    var m = s.textContent.match(/Parada\s*(\d+)(?:\s*·\s*Parte\s*(\d+))?/i);
+    if(!m) return null;
+    return m[2] ? (m[1] + 'p' + m[2]) : m[1];
   }
   function armar(det){
     var n = numeroDe(det);
