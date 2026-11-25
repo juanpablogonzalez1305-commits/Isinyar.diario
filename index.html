@@ -16821,7 +16821,8 @@ var noticias = [
     { img: 'img/nota-dique.webp', id: 'nota-dique-medio', texto: 'Entre montañas y túneles: La historia del Dique del Medio en la Quebrada de Lules' },
     { img: 'img/casacultura.jpg', id: 'nota-ver-corazon-bullying', texto: '"Ver con el corazón": Teatro para reflexionar y decirle no al bullying' },
     { img: 'img/reclamo.webp', id: 'nota-reclamo-reduccion', texto: 'Reclamo de vecinos en La Reducción' },
-  { img: 'img/sacerdote1.jpg', id: 'nota-padre-manolo', texto: 'Feliz Aniversario: Padre Manolo celebra 21 años de vida sacerdotal' }
+  { img: 'img/sacerdote1.jpg', id: 'nota-padre-manolo', texto: 'Feliz Aniversario: Padre Manolo celebra 21 años de vida sacerdotal' },
+  { img: 'img/fe1.jpg', id: 'nota-virgen-reduccion', texto: 'Historia y Fe: El milagroso hallazgo de la Virgen de la Reducción' }
 ];
             
             var H = '';
@@ -20609,6 +20610,71 @@ var calendarioEfemerides = {
         } else {
             sec.appendChild(d); 
         }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos la sección de Fe (usando la nota del Papa como referencia)
+        var notaPapa = document.getElementById('nota-papa-argentina') || document.getElementById('nota-jp2');
+        if(!notaPapa) return;
+        
+        if(document.getElementById('nota-virgen-reduccion')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        // Clase mágica para pantalla limpia
+        d.className = 'pieza lectura-limpia';
+        d.id = 'nota-virgen-reduccion';
+
+        var H = '';
+        
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Historia y Fe: El milagroso hallazgo de la Virgen de la Reducción y el origen del Santuario</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">26 de Noviembre de 2026 · Fe y Cultura · Lules</p>';
+        
+        H += '<p><strong>La historia de la Virgen de la Reducción está profundamente arraigada en la fe de los luleños. Según relata la tradición oral, todo comenzó un caluroso 26 de noviembre de 1923, en la finca de la familia Auvieux.</strong></p>';
+        
+        // PRIMERA FOTO (La que va en el acceso directo también)
+        H += '<img class="marco" src="img/fe1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Virgen de la Reducción">';
+        
+        H += '<p>Gregorio del Carmen Herrera, conocido cariñosamente como "Goyo", vecino de Reducción, fue uno de los que transmitió este relato a las nuevas generaciones. Contaba que aquella jornada de noviembre, en plena época de cosecha de verduras, el cielo se cubrió de nubes negras hacia las dos de la tarde y desató una feroz tormenta con piedra y fuertes vientos.</p>';
+        
+        H += '<p>Los obreros recogían los frutos de la tierra mientras Luis Delgado araba para nuevos cultivos. El patrón, don Felipe, ordenó a todos volver a la casa, y los chicos le gritaban al arador que venía la tormenta. Sin embargo, Luis, quien era mudo, hacía señas de que no quería volver todavía.</p>';
+              H += '<p>Días después, el silencioso trabajador comenzó a hacer señas de que había visto dos objetos religiosos mientras araba: uno de ellos voló hacia los cielos, mientras que el otro se hundió en la tierra junto a un algarrobo que crecía en el lugar.</p>';
+        
+        // SEGUNDA FOTO
+        H += '<img class="marco" src="img/fe2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Historia de la Virgen">';
+        
+        H += '<p>Ante este relato, el sacerdote Miguel Reser acudió al lugar con una pala, acompañado de la comunidad. Al llegar, notaron que la tierra parecía intacta, como si nadie la hubiera tocado. Fue entonces cuando Luis Delgado se negó a usar la pala y decidió cavar con sus propias manos y un cuchillo. Fue así como, ante el asombro de todos, apareció una pequeña imagen de la Virgen.</p>';
+        
+        H += '<p>La sagrada figura fue recibida con una emotiva procesión y llevada a una casa en Reducción, donde permaneció hasta su traslado a la antigua iglesia, la cual se inauguró en el año 1925.</p>';
+        
+        // TERCERA FOTO
+        H += '<img class="marco" src="img/fe3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Santuario de la Virgen">';
+        
+        H += '<p>Con el paso del tiempo, la devoción no hizo más que crecer. En el mismo lugar del hallazgo se construyó una gruta durante una misión del padre Manuel Abellá. Más tarde, en 1950, siendo párroco el padre Manuel Ballesteros, se inició la construcción del actual Santuario, que fue inaugurado el 8 de diciembre de 1966, con la presencia del entonces Arzobispo de Tucumán, Monseñor Juan Carlos Aramburu, y el padre misionero Rafael Vargas.</p>';
+        
+        H += '<p>Un siglo después, aquella pequeña imagen encontrada por un hombre de fe sigue congregando a miles de fieles, manteniendo viva una historia que une el trabajo de la tierra con lo divino.</p>';
+        
+        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Fe y Comunidad.</p>';
+        
+        // BOTÓN DE ESCUCHAR
+        H += '<button type="button" class="btn-voz-virgen" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🔊 Escuchar en voz alta</button>';
+        
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta al final de la sección de Fe (buscando el contenedor de la nota del Papa)
+        var contenedorFe = notaPapa.parentNode;
+        contenedorFe.appendChild(d);
         
         clearInterval(timer);
     }, 500);
