@@ -20680,6 +20680,71 @@ var calendarioEfemerides = {
     }, 500);
 })();
 </script>
+      <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // 1. Buscamos la caja donde va el contenido de Albarracín
+        var infoAlb = document.getElementById('info-albarracin');
+        
+        if(!infoAlb) {
+            if(intentos > 40) clearInterval(timer);
+            return;
+        }
+        
+        // Si la nota ya existe, no la duplica
+        if(document.getElementById('nota-roperito-2021')) { clearInterval(timer); return; }
+
+        // 2. Creamos la nueva tarjeta para el 2021
+        var nuevaNota = document.createElement('div');
+        nuevaNota.id = 'nota-roperito-2021';
+        nuevaNota.style.cssText = 'border: 2px solid #c9a243; border-radius: 8px; padding: 15px; margin-bottom: 20px; background: #fffdf8;';
+
+        var H = '';
+        
+        H += '<h4 style="font-family: Fraunces, serif; color: #171310; font-size: 1.15rem; margin: 0 0 15px 0; font-weight: 900; text-align: center;">2021: Gran Roperito Solidario en La Reducción, una Navidad para compartir</h4>';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">En el año 2021, el Grupo de Trabajo del Concejal Prof. Miguel Albarracín llevó adelante una conmovedora iniciativa para recibir la Navidad, entendiendo que esta época es, por sobre todas las cosas, un tiempo de amor y solidaridad.</p>';
+        
+        // FOTO 1
+        H += '<img class="marco" src="img/roperito1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Gran Roperito Solidario">';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">Bajo el lema <strong>"El mejor adorno es pensar en los demás"</strong>, se organizó el Gran Roperito Solidario, un espacio pensado para abrir nuestros corazones y tender una mano a quienes más lo necesitan. La convocatoria fue un éxito, reuniendo prendas para todas las temporadas y para todas las edades.</p>';
+        
+        // FOTO 2
+        H += '<img class="marco" src="img/roperito2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Gran Roperito Solidario">';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">La jornada se llevó a cabo el lunes 20 de diciembre a partir de las 18:00 hs en la Plaza Principal de La Reducción. Con el objetivo de que la ayuda llegue a la mayor cantidad de familias posible, se estableció la modalidad de entregar una prenda por persona.</p>';
+        
+        // FOTO 3 Y 4
+        H += '<img class="marco" src="img/roperito3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Gran Roperito Solidario">';
+        H += '<img class="marco" src="img/roperito4.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Gran Roperito Solidario">';
+        
+        H += '<p style="margin-bottom: 15px; font-size: 1rem; line-height: 1.6;">Esta acción refleja el compromiso social constante del Concejal Miguel Albarracín, quien a lo largo de su trayectoria ha promovido incansablemente la importancia de la empatía, la contención y el trabajo comunitario, especialmente en fechas tan significativas.</p>';
+
+        nuevaNota.innerHTML = H;
+
+        // 3. Buscamos la nota de los Gauchos (2023) para insertarla justo antes
+        var notaGauchos = document.getElementById('nota-gauchos-albarracin');
+        
+        if (notaGauchos && notaGauchos.parentNode) {
+            notaGauchos.parentNode.insertBefore(nuevaNota, notaGauchos);
+        } else {
+            // Si por alguna razón no encuentra la del 2023, lo pone al final antes del botón de audio
+            var btnAudio = infoAlb.querySelector('.btn-escuchar');
+            if (btnAudio) {
+                infoAlb.insertBefore(nuevaNota, btnAudio);
+            } else {
+                infoAlb.appendChild(nuevaNota);
+            }
+        }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
