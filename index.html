@@ -20806,6 +20806,51 @@ var calendarioEfemerides = {
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        // Buscamos el contenedor de la biografía de Miguel
+        var infoAlb = document.getElementById('info-albarracin');
+        
+        if(!infoAlb) {
+            if(intentos > 40) clearInterval(timer);
+            return;
+        }
+        
+        if(document.getElementById('bio-miguel-cabecera')) { clearInterval(timer); return; }
+
+        // Creamos el bloque de la biografía
+        var bio = document.createElement('div');
+        bio.id = 'bio-miguel-cabecera';
+        bio.style.cssText = 'border: 2px solid #c9a243; border-radius: 8px; padding: 15px; margin-bottom: 25px; background: #fffdf8;';
+
+        var H = '';
+        
+        H += '<h3 style="font-family: Fraunces, serif; color: #171310; font-size: 1.2rem; margin: 0 0 15px 0; font-weight: 900; text-align: center;">Biografía: Prof. Miguel Ángel Albarracín</h3>';
+        
+        // LA FOTO DE LA BIOGRAFÍA
+        H += '<img class="marco" src="img/biografiamiguel.jpg" style="width:100%; max-width: 400px; margin: 0 auto 15px auto; border: 1px solid #c9a243; border-radius: 6px; display: block; padding: 2px; background: #fff;" alt="Prof. Miguel Albarracín">';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;"><strong>Miguel Ángel Albarracín nació el 20 de junio de 1969 en el Hospital de Lules.</strong> Con una profunda vocación de servicio, actualmente se desempeña como Concejal y Presidente del Honorable Concejo Deliberante de San Isidro de Lules, siendo un referente de la comunidad.</p>';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">Su formación académica comenzó en la Escuela Primaria Eliseo Canton, continuó en el nivel secundario en el Instituto Padre Manuel Ballesteros y culminó sus estudios superiores en el Instituto de Enseñanza Superior de Famaillá. Con más de 30 años de trayectoria como profesor de nivel medio, es una figura muy querida en el Instituto Ballesteros, donde tiene a su cargo las asignaturas de Taller Contable, Proceso Productivo, Proyecto de Microemprendimiento y Educación Ética y Ciudadana.</p>';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">En el ámbito privado, se ha desempeñado durante más de 25 años como auxiliar contable en una prestigiosa empresa de San Miguel de Tucumán. Su incansable búsqueda de conocimiento lo ha llevado a ser invitado a incontables conferencias en diferentes ciudades y provincias, compartiendo sus vivencias y ricas enseñanzas.</p>';
+        
+        H += '<p style="margin-bottom: 15px; font-size: 1rem; line-height: 1.6;">En el plano personal, está casado con Adriana Bucheri, profesora de enseñanza primaria en la Escuela Nuevo Sol de Mercedes. Es padre del Lic. Miguel Gustavo Albarracín y de corazón de "Gustavito", a quien toda la familia adora.</p>';
+
+        bio.innerHTML = H;
+
+        // Insertar al principio de todo (antes del video de 2013)
+        infoAlb.insertAdjacentElement('afterbegin', bio);
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
