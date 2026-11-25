@@ -20554,6 +20554,66 @@ var calendarioEfemerides = {
   }, 500);
 })();
   </script>
+ <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var sec = document.getElementById('noticias');
+        if(!sec) return;
+        
+        if(document.getElementById('nota-violencia-mercedes')) { clearInterval(timer); return; }
+
+        var d = document.createElement('details');
+        // Clase mágica para que se abra en pantalla limpia
+        d.className = 'pieza lectura-limpia';
+        d.id = 'nota-violencia-mercedes';
+
+        var H = '';
+        
+        // TÍTULO Y FECHA
+        H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">Violencia en el barrio Mercedes: Amenazas a mano armada y un amplio operativo policial en Lules</summary>';
+        H += '<div class="cuerpo-in">';
+        
+        H += '<p class="meta">25 de Noviembre de 2026 · Policiales · Lules</p>';
+        
+        H += '<p><strong>La noche del lunes 23 de noviembre, un grave episodio de violencia conmocionó al barrio Mercedes de San Isidro de Lules. Según la denuncia radicada en la justicia, una mujer fue amenazada de muerte con un arma de fuego por su expareja, desencadenando un inmediato despliegue policial en la zona.</strong></p>';
+        
+        // PRIMERA FOTO
+        H += '<img class="marco" src="img/pelea1.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Operativo policial en barrio Mercedes">';
+        
+        H += '<p>El hecho se registró alrededor de las 22:30. De acuerdo a lo que consta en la denuncia oficial, la víctima se presentó en el domicilio de su expareja con el objetivo de retirar una motocicleta de su propiedad. Ante la negativa del hombre, este la amenazó de muerte y efectuó dos disparos con un revólver que pasaron cerca de la mujer.</p>';
+           H += '<p>Tras el ataque, la víctima se dirigió a radicar la denuncia correspondiente. En paralelo, las autoridades fueron alertadas por disturbios en el vecindario. Según el informe policial, varias personas se congregaron en el lugar con la intención de reducir al agresor, quien, al verse acorralado, logró darse a la fuga.</p>';
+        
+        // SEGUNDA FOTO
+        H += '<img class="marco" src="img/pelea2.png" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Despliegue policial en Lules">';
+        
+        H += '<p>Ante este escenario, se dispuso un amplio operativo de seguridad en el barrio para restablecer el orden público y resguardar la integridad de los vecinos. Las fuerzas de seguridad trabajaron en la zona para contener la situación.</p>';
+        
+        H += '<p>La causa por el momento quedó a cargo de la Unidad Fiscal de Decisión Temprana del Centro Judicial Capital. Desde el Ministerio Público se ordenaron las medidas pertinentes para dar con el paradero del sospechoso y esclarecer la totalidad de los hechos.</p>';
+        
+        H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Información policial.</p>';
+        
+        // BOTÓN DE ESCUCHAR (Opcional, pero queda bien)
+        H += '<button type="button" class="btn-voz-mercedes" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🔊 Escuchar en voz alta</button>';
+        
+        H += '</div>';
+
+        d.innerHTML = H;
+        
+        // Lo inserta PRIMERO en la sección de noticias
+        var primeraNota = sec.querySelector('details.pieza');
+        if (primeraNota) {
+            sec.insertBefore(d, primeraNota);
+        } else {
+            sec.appendChild(d); 
+        }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+</script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
