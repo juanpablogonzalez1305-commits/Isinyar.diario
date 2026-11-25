@@ -20745,6 +20745,67 @@ var calendarioEfemerides = {
     }, 500);
 })();
   </script>
+  <script>
+(function(){
+    var intentos = 0;
+    var timer = setInterval(function(){
+        intentos++;
+        
+        var infoAlb = document.getElementById('info-albarracin');
+        
+        if(!infoAlb) {
+            if(intentos > 40) clearInterval(timer);
+            return;
+        }
+        
+        if(document.getElementById('nota-conferencia-2022')) { clearInterval(timer); return; }
+
+        var nuevaNota = document.createElement('div');
+        nuevaNota.id = 'nota-conferencia-2022';
+        nuevaNota.style.cssText = 'border: 2px solid #c9a243; border-radius: 8px; padding: 15px; margin-bottom: 20px; background: #fffdf8;';
+
+        var H = '';
+        
+        H += '<h4 style="font-family: Fraunces, serif; color: #171310; font-size: 1.15rem; margin: 0 0 15px 0; font-weight: 900; text-align: center;">2022: "No fabriques fantasías, sino realidades objetivas"</h4>';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">En el año 2022, la Casa de la Cultura de San Isidro de Lules fue el escenario de una profunda charla y conferencia brindada por el Concejal Prof. Miguel Albarracín, bajo una consigna tan provocadora como reflexiva: <em>"No fabriques fantasías, sino realidades objetivas"</em>.</p>';
+        
+        // FOTO 1
+        H += '<img class="marco" src="img/conferncia.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Conferencia en Casa de la Cultura">';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">La disertación recorrió el pensamiento de más de 9 autores fundamentales, como Ayn Rand, Ortega y Gasset, el Dr. Massimo Pigliucci y Boris Cyrulnik, entre otros. Cada uno con su perspectiva y línea temática, pero que al ser complementados, estudiados y transmitidos por él, dejaron en los asistentes múltiples cuestiones para replantear.</p>';
+        
+        // FOTO 2
+        H += '<img class="marco" src="img/conferencia1.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Charla de Miguel Albarracín">';
+        
+        H += '<p style="margin-bottom: 12px; font-size: 1rem; line-height: 1.6;">Temas como la psicología positiva, la motivación, la pasión, el talento y el don, la resiliencia, el objetivismo racional, la empatía positiva, negativa y cognitiva, el estoicismo, y el aprender a través del fracaso, fueron los ejes centrales expuestos por este autodidacta y divulgador.</p>';
+        
+        // FOTO 3 Y 4
+        H += '<img class="marco" src="img/conferencia2.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Audiencia en la conferencia">';
+        H += '<img class="marco" src="img/conferencia3.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Conferencia de Miguel Albarracín">';
+        
+        H += '<p style="margin-bottom: 15px; font-size: 1rem; line-height: 1.6;">Leer, aprender y capacitarse para brindar todo ese conocimiento a quien desee escucharlo, es parte de la gratitud y el valor que Miguel le da a la vida. Una filosofía que sintetizó con una frase contundente: <strong>«Cuando entendamos que no es un día más sino un día menos, empezaremos a valorar lo que realmente importa».</strong></p>';
+
+        nuevaNota.innerHTML = H;
+
+        // Insertar ANTES de la nota de los gauchos de 2023
+        var notaGauchos = document.getElementById('nota-gauchos-albarracin');
+        
+        if (notaGauchos && notaGauchos.parentNode) {
+            notaGauchos.parentNode.insertBefore(nuevaNota, notaGauchos);
+        } else {
+            var btnAudio = infoAlb.querySelector('.btn-escuchar');
+            if (btnAudio) {
+                infoAlb.insertBefore(nuevaNota, btnAudio);
+            } else {
+                infoAlb.appendChild(nuevaNota);
+            }
+        }
+        
+        clearInterval(timer);
+    }, 500);
+})();
+  </script>
 <script data-goatcounter="https://descubrir.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
