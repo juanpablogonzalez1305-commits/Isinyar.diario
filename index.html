@@ -21021,7 +21021,7 @@ var calendarioEfemerides = {
     }, 500);
 })();
 </script>
-  <script>
+<script>
 (function(){
     var intentos = 0;
     var timer = setInterval(function(){
@@ -21033,13 +21033,11 @@ var calendarioEfemerides = {
         if(document.getElementById('nota-sanpablo-tirosuizo')) { clearInterval(timer); return; }
 
         var d = document.createElement('details');
-        // Clase mágica para pantalla limpia
         d.className = 'pieza lectura-limpia';
         d.id = 'nota-sanpablo-tirosuizo';
 
         var H = '';
         
-        // TÍTULO CON LA FECHA DEL 27
         H += '<summary class="rel" style="border-bottom: 2px solid #c9a243; padding-bottom: 10px;">27 de Noviembre · Compromiso con San Pablo: Gaby García y Daniel Abregú escucharon a los vecinos de Tiro Suizo</summary>';
         H += '<div class="cuerpo-in">';
         
@@ -21047,7 +21045,6 @@ var calendarioEfemerides = {
         
         H += '<p><strong>En el marco de las recorridas territoriales, el candidato a delegado comunal de San Pablo, Gaby García, junto al referente Daniel Abregú y con el acompañamiento del Legislador Carlos Gallia, mantuvieron un encuentro con los vecinos del Barrio Tiro Suizo, ubicado en Ohuanta.</strong></p>';
         
-        // LA FOTO
         H += '<img class="marco" src="img/carlossanpablo.jpg" style="width:100%; border: 1px solid #c9a243; border-radius: 6px; margin:15px 0; display: block; padding: 2px; background: #fff;" alt="Encuentro en Barrio Tiro Suizo">';
         
         H += '<p>Durante la jornada, los referentes compartieron un diálogo abierto con la comunidad, con el objetivo de conocer de primera mano las realidades del barrio. La charla se centró en las principales necesidades sociales y en las obras de infraestructura que resultan urgentes para mejorar el día a día de las familias de la zona.</p>';
@@ -21057,15 +21054,33 @@ var calendarioEfemerides = {
         
         H += '<p style="font-size: 12px; color: #6b5a33; text-align: right; margin-top: 15px; font-style: italic;">Descubrir Lules | Política y comunidad.</p>';
         
-        // BOTÓN DE ESCUCHAR
         H += '<button type="button" class="btn-voz-sanpablo" style="display:block; width:100%; background:#fdf9ef; color:#171310; border: 1px solid #c9a243; border-radius:8px; padding:12px; font-weight:900; font-style:italic; font-size:16px; margin-top:15px; cursor:pointer; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.15);">🔊 Escuchar en voz alta</button>';
         
         H += '</div>';
 
         d.innerHTML = H;
         
-        // ACÁ ESTÁ LA MAGIA PARA QUE SE CLAVE ARRIBA DE TODO
-        sec.prepend(d);
+        // --- ACÁ ESTÁ LA MAGIA DE LA UBICACIÓN ---
+        // 1. Buscamos el título "Noticias"
+        var titulo = sec.querySelector('h2.tit') || sec.querySelector('.tit');
+        
+        // 2. Buscamos la nota del 24 que está fuera de lugar
+        var nota24 = Array.from(sec.querySelectorAll('details.pieza')).find(n => n.innerText.includes('Secuestran más de 25 kilos'));
+        
+        // 3. Si la nota del 24 está antes del título, la movemos debajo del título
+        if (nota24 && titulo && (nota24.compareDocumentPosition(titulo) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+            titulo.insertAdjacentElement('afterend', nota24);
+        }
+        
+        // 4. Insertamos la nota del 27 justo arriba de la del 24 (y debajo del título)
+        if (nota24) {
+            nota24.insertAdjacentElement('beforebegin', d);
+        } else if (titulo) {
+            titulo.insertAdjacentElement('afterend', d);
+        } else {
+            sec.prepend(d);
+        }
+        // ----------------------------------------
 
         // Lógica de lectura en voz alta (Voz latina)
         setTimeout(function(){
